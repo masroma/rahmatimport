@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
+        'pretty_version' => 'dev-staging',
+        'version' => 'dev-staging',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
+        'reference' => '9f24aef6011ca68f31c75e929b0527dcfe568847',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -379,11 +379,31 @@
                 0 => 'v8.83.13',
             ),
         ),
+        'khadegd/laravel-breeze-bootstrap' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../khadegd/laravel-breeze-bootstrap',
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
+            'reference' => '62e632fe8f6b0afd7405b91f00a9451d86824a0d',
+            'dev_requirement' => true,
+        ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
                 0 => '*',
             ),
+        ),
+        'laravel/breeze' => array(
+            'pretty_version' => 'v1.9.1',
+            'version' => '1.9.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laravel/breeze',
+            'aliases' => array(),
+            'reference' => 'cde98d03954bfcad0c9370c825187b8a579d94e1',
+            'dev_requirement' => true,
         ),
         'laravel/framework' => array(
             'pretty_version' => 'v8.83.13',
@@ -395,12 +415,12 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
+            'pretty_version' => 'dev-staging',
+            'version' => 'dev-staging',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => '9f24aef6011ca68f31c75e929b0527dcfe568847',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
