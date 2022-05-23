@@ -1,0 +1,13 @@
+{
+    "name": "ManagementUser",
+    "alias": "managementuser",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ManagementUser\\Providers\\ManagementUserServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
