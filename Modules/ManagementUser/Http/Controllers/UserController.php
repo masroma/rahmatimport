@@ -10,6 +10,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
@@ -92,7 +93,7 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required}|min:6',
+            'password' => 'required|confirmed|min:6',
             // 'roles' => 'required'
         ]);
 
@@ -151,10 +152,14 @@ class UserController extends Controller
         $user = User::find($id);
         // $roles = Role::all();
         // $userRole = $user->roles->first();
-        $user = Auth::user();
+        // $user = Auth::user();
         // $userRole = $user->roles->pluck('id');
         // $menu = akses_menu::with('menu')->where('role_id', $userRole)->get();
-        return view('user.edit', compact('user'));
+        $name_page = "user";
+        $data = array(
+            'page' => $name_page
+        );
+        return view('managementuser::user.edit', compact('user'))->with($data);
     }
 
 
@@ -177,7 +182,7 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'same:confirm-password',
+            // 'password' => 'same:confirm-password',
             // 'roles' => 'required'
         ]);
         $input = $request->all();
@@ -222,7 +227,7 @@ class UserController extends Controller
     {
 
         User::find($id)->delete();
-        return redirect()->route('users.index')
-            ->with('success', 'User deleted successfully');
+        return redirect()->route('user.index')
+            ->with('success', 'Data berhasil dihapus');
     }
 }

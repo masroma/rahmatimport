@@ -82,6 +82,121 @@ Route::prefix('managementuser')->group(function() {
                 );
             }
         );
+
+          //role
+        Route::prefix('role')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'RoleController@data',
+                        'as' => 'role.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'RoleController@index',
+                        'as' => 'role.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'RoleController@create',
+                        'as' => 'role.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'RoleController@store',
+                        'as' => 'role.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'RoleController@edit',
+                        'as' => 'role.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'RoleController@update',
+                        'as' => 'role.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'RoleController@destroy',
+                        'as' => 'role.destroy'
+                    ]
+                );
+            }
+        );
+
+        // permission
+        Route::prefix('permission')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'PermissionController@data',
+                        'as' => 'permission.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'PermissionController@index',
+                        'as' => 'permission.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'PermissionController@create',
+                        'as' => 'permission.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'PermissionController@store',
+                        'as' => 'permission.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'PermissionController@edit',
+                        'as' => 'permission.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'PermissionController@update',
+                        'as' => 'permission.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'PermissionController@destroy',
+                        'as' => 'permission.destroy'
+                    ]
+                );
+            }
+        );
+
     });
 });
 

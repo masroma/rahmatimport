@@ -8,13 +8,13 @@
       <div class="container">
         <div class="row">
           <div class="col s10 m6 l6">
-            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Edit data {{$page}}</span></h5>
+            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Tambah data {{$page}}</span></h5>
             <ol class="breadcrumbs mb-0">
               <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}">Dashboard</a>
               </li>
                <li class="breadcrumb-item"><a href="{{route($page.'.index')}}">{{$page}}</a>
               </li>
-              <li class="breadcrumb-item active">edit
+              <li class="breadcrumb-item active">create
               </li>
             </ol>
           </div>
@@ -44,41 +44,20 @@
     <div class="card-content">
       {{-- <h4 class="card-title">Page Length Options</h4> --}}
       <div class="row">
-        <form action="{{ route('user.update',[$user->id]) }}" method="POST"
+            <form action="{{ route('permission.store') }}" method="POST"
             enctype="multipart/form-data" class="col s12">
             @csrf
-
                 <div class="row">
                   <div class="input-field col s12">
-                    <input placeholder="Placeholder" name="name" id="name" type="text" class="validate  @error('name') is-invalid @enderror" value="{{ old('name',$user->name) }}">
+                    <input placeholder="Name" name="name" id="name" type="text" class="validate  @error('name') is-invalid @enderror" value="{{ old('name') }}">
                     <label for="first_name">Name</label>
                     @error('name')
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                   </div>
+
                   <div class="input-field col s12">
-                    <input placeholder="Placeholder" name="email" id="email" type="text" class="validate" value="{{ old('email',$user->email) }}">
-                    <label for="first_name">Email</label>
-                    @error('email')
-                    <span class="red-text text-darken-2">{{ $message }}</small>
-                    @enderror
-                  </div>
-                  {{-- <div class="input-field col s12">
-                    <input placeholder="Placeholder" name="password" id="password" type="password" class="validate" value="{{ old('password') }}">
-                    <label for="first_name">Password</label>
-                    @error('password')
-                    <span class="red-text text-darken-2">{{ $message }}</small>
-                    @enderror
-                  </div>
-                  <div class="input-field col s12">
-                    <input id="password-confirm" type="password" class="validate" name="password_confirmation" value="{{ old('password') }}">
-                    <label for="first_name">Password</label>
-                    @error('password')
-                    <span class="red-text text-darken-2">{{ $message }}</small>
-                    @enderror
-                  </div> --}}
-                  <div class="input-field col s12">
-                  <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>update</button>
+                  <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>save</button>
                   <a href={{route($page.'.index')}} class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>
                   </div>
                 </div>

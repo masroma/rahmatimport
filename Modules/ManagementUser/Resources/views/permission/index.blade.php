@@ -19,7 +19,7 @@
             </ol>
           </div>
           <div class="col s2 m6 l6">
-              <a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="{{route('user.create')}}"  id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
+              <a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="{{route($page.'.create')}}"  id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
           </div>
         </div>
       </div>
@@ -47,19 +47,17 @@
         <div class="col s12">
           <table id="page-length-option" class="display">
             <thead>
-              <tr>
-                <th>No</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>#</th>
-              </tr>
+                <tr>
+                    <th>No</th>
+                    <th>Role</th>
+                    <th>#</th>
+                </tr>
             </thead>
             <tfoot>
                 <tr>
-                  <th>No</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>#</th>
+                    <th>No</th>
+                    <th>Role</th>
+                    <th>#</th>
                 </tr>
               </tfoot>
           </table>
@@ -99,7 +97,7 @@
                       processing: true,
                       serverSide: true,
                       ajax: {
-                          url: "{{ route('user.data') }}",
+                          url: "{{ route('permission.data') }}",
                           type: "GET",
                       },
                       columns: [
@@ -107,24 +105,18 @@
                           data:"DT_RowIndex",
                           name:"DT_RowIndex"
                       },
-                          {
-                              data: 'name',
-                              name: 'name'
-                          },
-
-                          {
-                              data: 'email',
-                              name: 'email'
-                          },
+                      {
+                            data: 'name',
+                            name: 'name'
+                        },
 
 
-
-                          {
+                        {
                                       data: 'id',
                                       name: 'id',
                                       render: function(value, param, data) {
                                           return '<div class="btn-group">' +
-                                              '<a class="btn-floating btn-small" href="{{ url("managementuser/user") }}/' + value + '/edit"><i class="material-icons">edit</i></a> ' +
+                                              '<a class="btn-floating btn-small" href="{{ url("managementuser/permission") }}/' + value + '/edit"><i class="material-icons">edit</i></a> ' +
 
                                               '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm(' +
                                               value + ')"><i class="material-icons">delete</i></button>' +
@@ -150,7 +142,7 @@
                   })
                   .then((dt) => {
                       if (dt) {
-                          window.location.href = "{{ url('managementuser/user') }}/" + id + "/delete";
+                          window.location.href = "{{ url('managementuser/permission') }}/" + id + "/delete";
                       }
                   });
           }
