@@ -96,6 +96,7 @@ class PermissionController extends Controller
         foreach($action as $act => $value){
             $save = new Permission();
             $save->name = $request->name.'-'.$value;
+            $save->key = $request->name;
             $save->save();
         }
 
@@ -149,11 +150,6 @@ class PermissionController extends Controller
         $key = explode('-', $name);
         $keyword = $key[0];
 
-        // $roles = Role::all();
-        // $userRole = $user->roles->first();
-        // $user = Auth::user();
-        // $userRole = $user->roles->pluck('id');
-        // $menu = akses_menu::with('menu')->where('role_id', $userRole)->get();
         $name_page = "permission";
         $data = array(
             'page' => $name_page,
@@ -206,7 +202,8 @@ class PermissionController extends Controller
 
                 $update = Permission::where('id',$ids)
                 ->update([
-                    'name' => $request->name.'-'.$keyword2
+                    'name' => $request->name.'-'.$keyword2,
+                    'key' => $request->name
                 ]);
 
             }

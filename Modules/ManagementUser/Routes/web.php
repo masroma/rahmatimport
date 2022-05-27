@@ -197,6 +197,64 @@ Route::prefix('managementuser')->group(function() {
             }
         );
 
+        // menu
+Route::prefix('menu')->group(
+    function () {
+        Route::get(
+            '/data',
+            [
+                'uses' => 'MenuController@data',
+                'as' => 'menu.data'
+            ]
+        );
+        Route::get(
+            '/',
+            [
+                'uses' => 'MenuController@index',
+                'as' => 'menu.index'
+            ]
+        );
+        Route::get(
+            '/create',
+            [
+                'uses' => 'MenuController@create',
+                'as' => 'menu.create'
+            ]
+        );
+        Route::post(
+            '/store',
+            [
+                'uses' => 'MenuController@store',
+                'as' => 'menu.store'
+            ]
+        );
+        Route::get(
+            '/{id}/edit',
+            [
+                'uses' => 'MenuController@edit',
+                'as' => 'menu.edit'
+            ]
+        );
+        Route::post(
+            '/update/{id}',
+            [
+                'uses' => 'MenuController@update',
+                'as' => 'menu.update'
+            ]
+        );
+
+
+        Route::get(
+            '/{id}/delete',
+            [
+                'uses' => 'MenuController@destroy',
+                'as' => 'menu.destroy'
+            ]
+        );
+    }
+);
+
+
     });
 });
 
