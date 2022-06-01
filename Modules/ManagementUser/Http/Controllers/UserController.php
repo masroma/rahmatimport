@@ -64,14 +64,10 @@ class UserController extends Controller
     }
     public function index()
     {
-        $user = Auth::user();
-        $userRole = $user->roles->pluck('id');
-        $menu = AksesMenu::with('menu')->where('role_id', $userRole)->get();
 
         $name_page = "user";
         $data = array(
-            'page' => $name_page,
-            'menu' => $menu
+            'page' => $name_page
 
         );
         return view('managementuser::user.index')->with($data);
@@ -175,12 +171,7 @@ class UserController extends Controller
         $roles = Role::all();
 
         $userRole = $user->roles->first();
-        // $user = Auth::user();
-        // $roles = Role::all();
-        // $userRole = $user->roles->first();
-        // $user = Auth::user();
-        // $userRole = $user->roles->pluck('id');
-        // $menu = akses_menu::with('menu')->where('role_id', $userRole)->get();
+
         $name_page = "user";
         $data = array(
             'page' => $name_page,

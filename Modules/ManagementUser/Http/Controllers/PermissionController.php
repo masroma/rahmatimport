@@ -58,13 +58,10 @@ class PermissionController extends Controller
     }
     public function index()
     {
-        $user = Auth::user();
-        $userRole = $user->roles->pluck('id');
-        $menu = AksesMenu::with('menu')->where('role_id', $userRole)->get();
+
         $name_page = "permission";
         $data = array(
-            'page' => $name_page,
-            'menu' => $menu
+            'page' => $name_page
         );
         return view('managementuser::permission.index')->with($data);
     }
@@ -74,13 +71,10 @@ class PermissionController extends Controller
     public function create()
     {
 
-        $user = Auth::user();
-        $userRole = $user->roles->pluck('id');
-        $menu = AksesMenu::with('menu')->where('role_id', $userRole)->get();
+
         $name_page = "permission";
         $data = array(
-            'page' => $name_page,
-            'menu'=> $menu
+            'page' => $name_page
         );
         return view('managementuser::permission.create')->with($data);
     }

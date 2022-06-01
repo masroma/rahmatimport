@@ -56,13 +56,10 @@ class MenuController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
-        $userRole = $user->roles->pluck('id');
-        $menu = AksesMenu::with('menu')->where('role_id', $userRole)->get();
+
         $name_page = "menu";
         $data = array(
             'page' => $name_page,
-            'menu' => $menu
         );
         return view('managementuser::menu.index')->with($data);
     }

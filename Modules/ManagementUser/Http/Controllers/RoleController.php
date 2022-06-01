@@ -48,13 +48,10 @@ class RoleController extends Controller
     }
     public function index()
     {
-        $user = Auth::user();
-        $userRole = $user->roles->pluck('id');
-        $menu = AksesMenu::with('menu')->where('role_id', $userRole)->get();
+
         $name_page = "role";
         $data = array(
-            'page' => $name_page,
-            'menu' => $menu
+            'page' => $name_page
         );
         return view('managementuser::role.index')->with($data);
     }
@@ -71,9 +68,7 @@ class RoleController extends Controller
 
     public function create()
     {
-        $user = Auth::user();
-        $userRole = $user->roles->pluck('id');
-        $menu = AksesMenu::with('menu')->where('role_id', $userRole)->get();
+
         $name_page = "role";
         $menus = Menu::where('position', 'parent')->orderBy('order', 'asc')->get();
         $data = array(
@@ -82,7 +77,6 @@ class RoleController extends Controller
             'UserRole'      => $this,
 			'roleId'        => '',
 			'role_name'     => '',
-            'menu'          => $menu
         );
         return view('managementuser::role.create')->with($data);
 
@@ -216,9 +210,7 @@ class RoleController extends Controller
                 $dataname[] = $datapermission->name;
             }
 
-            $user = Auth::user();
-            $userRole = $user->roles->pluck('id');
-            $menu = AksesMenu::with('menu')->where('role_id', $userRole)->get();
+
 
             $data = array(
                 'page'          => $name_page,
@@ -227,7 +219,6 @@ class RoleController extends Controller
                 'roleId'        => '',
                 'role_name'     => '',
                 'data_permission' => json_encode($dataname),
-                'menu'          => $menu
             );
 
         return view('managementuser::role.edit',compact('role','rolePermissions'))->with($data);

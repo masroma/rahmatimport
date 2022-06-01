@@ -212,25 +212,34 @@
             <li class="navigation-header"><a class="navigation-header-text">Misc </a><i class="navigation-header-icon material-icons">more_horiz</i>
             </li>
 
-            @foreach($menu as $a)
+           @foreach($menudata as $b => $value)
+                @foreach ($value as $a)
                 @if(($a->menu->parent_id == 0) && ($a->menu->position == 'none'))
-                    <li class="bold"><a class="waves-effect waves-cyan " href="{{route($a->menu->link)}}" target="_blank"><i class="material-icons">{{$a->menu->icon}}</i><span class="menu-title" data-i18n="Documentation">{{$a->menu->name}}</span></a>
-                    </li>
-                @elseif(($a->menu->parent_id == 0) && ($a->menu->position == 'parent'))
-                    <li class="bold"><a class="collapsible-header waves-effect waves-cyan " href="javascript:void(0);"><i class="material-icons">{{$a->menu->icon}}</i><span class="menu-title" data-i18n="Menu levels">{{$a->menu->name}}</span></a>
-                        <div class="collapsible-body">
-                            <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                                @foreach($menu as $child)
-                                @if($child->menu->parent_id == $a->menu->id)
-                                    <li><a href="{{route($child->menu->link)}}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Second level">{{$child->menu->name}}</span></a>
-                                    </li>
-                                @endif
-                                @endforeach
-                            </ul>
-                        </div>
-                    </li>
-                @endif
+                <li class="bold"><a class="waves-effect waves-cyan " href="{{route($a->menu->link)}}" target="_blank"><i class="material-icons">{{$a->menu->icon}}</i><span class="menu-title" data-i18n="Documentation">{{$a->menu->name}}</span></a>
+                </li>
+                    @elseif(($a->menu->parent_id == 0) && ($a->menu->position == 'parent'))
+                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan " href="javascript:void(0);"><i class="material-icons">{{$a->menu->icon}}</i><span class="menu-title" data-i18n="Menu levels">{{$a->menu->name}}</span></a>
+                            <div class="collapsible-body">
+                                <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                                    @foreach($menudata as $children => $childs)
+                                        @foreach($childs as $child)
+                                            @if($child->menu->parent_id == $a->menu->id)
+                                            <li><a href="{{route($child->menu->link)}}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Second level">{{$child->menu->name}}</span></a>
+                                            </li>
+                                        @endif
+                                        @endforeach
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </li>
+                    @endif
                 @endforeach
+           @endforeach
+
+
+
+
+
 
         </ul>
         <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
