@@ -19,7 +19,7 @@
             </ol>
           </div>
           <div class="col s2 m6 l6">
-              <a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="{{route('user.create')}}"  id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
+              <a class="btn waves-effect waves-light breadcrumbs-btn right" href="{{route('user.create')}}"  id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
           </div>
         </div>
       </div>

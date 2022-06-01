@@ -78,6 +78,20 @@
                     @enderror
                   </div> --}}
                   <div class="input-field col s12">
+                    <select name="roles[]" class="form-control  @error('roles') is-invalid @enderror">
+                        <option value="">Pilih Roles</option>
+                        @foreach ($roles as $r)
+                            <?php $user_role = $userRole->id ?? '';?>
+                            <option value="{{$r->id}}" {{$r->id == $user_role ? 'selected':''}}>{{$r->name}}</option>
+                        @endforeach
+                    </select>
+                    <label for="first_name">Roles</label>
+                    @error('roles')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+                  <div class="input-field col s12">
                   <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>update</button>
                   <a href={{route($page.'.index')}} class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>
                   </div>

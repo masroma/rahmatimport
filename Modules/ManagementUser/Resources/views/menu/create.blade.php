@@ -119,7 +119,7 @@
                     <label for="first_name">Action</label>
                        <p>
                         <label>
-                            <input type="checkbox" name="action[]" value="create" value="create"/>
+                            <input type="checkbox" name="action[]"  value="create"/>
                             <span>Create</span>
                           </label>
                        </p>

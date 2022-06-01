@@ -2,7 +2,8 @@
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                {{-- <x-application-logo class="w-20 h-20 fill-current text-gray-500" /> --}}
+                <img src="{{asset('universitas.png')}}" alt="logo" class="img-fluid" width="200px">
             </a>
         </x-slot>
 
@@ -22,7 +23,7 @@
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             </div>
 
-            <!-- Password -->
+            {{-- <!-- Password --> --}}
             <div class="mt-4">
                 <x-label for="password" :value="__('Password')" />
 

@@ -2,6 +2,9 @@
 
 namespace Modules\ManagementUser\Http\Controllers;
 
+use App\Models\AksesMenu;
+use App\Models\Menu;
+use App\Models\RoleHasPermission;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -16,6 +19,16 @@ use Spatie\Permission\Models\Permission;
 class RoleController extends Controller
 {
     use ValidatesRequests;
+    function __construct()
+    {
+         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:role-create', ['only' => ['create','store']]);
+         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+
+
+    }
+
     public function data(){
         try{
             $data = Role::all();
@@ -35,12 +48,13 @@ class RoleController extends Controller
     }
     public function index()
     {
-        // $user = Auth::user();
-        // $userRole = $user->roles->pluck('id');
-        // $menu = akses_menu::with('menu')->where('role_id', $userRole)->get();
+        $user = Auth::user();
+        $userRole = $user->roles->pluck('id');
+        $menu = AksesMenu::with('menu')->where('role_id', $userRole)->get();
         $name_page = "role";
         $data = array(
-            'page' => $name_page
+            'page' => $name_page,
+            'menu' => $menu
         );
         return view('managementuser::role.index')->with($data);
     }
@@ -57,46 +71,82 @@ class RoleController extends Controller
 
     public function create()
     {
-
-        $permission = Permission::get()->chunk(4);
-        // $user = Auth::user();
-        // $userRole = $user->roles->pluck('id');
-        // $menu = akses_menu::with('menu')->where('role_id', $userRole)->get();
+        $user = Auth::user();
+        $userRole = $user->roles->pluck('id');
+        $menu = AksesMenu::with('menu')->where('role_id', $userRole)->get();
         $name_page = "role";
+        $menus = Menu::where('position', 'parent')->orderBy('order', 'asc')->get();
         $data = array(
-            'page' => $name_page
+            'page'          => $name_page,
+            'menus'          => $menus,
+            'UserRole'      => $this,
+			'roleId'        => '',
+			'role_name'     => '',
+            'menu'          => $menu
         );
-        return view('managementuser::role.create',compact('permission'))->with($data);
+        return view('managementuser::role.create')->with($data);
 
     }
 
 
     public function store(Request $request)
-
     {
 
-        $this->validate($request, [
 
-            'name' => 'required|unique:roles,name',
-            'permission' => 'required',
+            $this->validate($request, [
+                'name' => 'required|unique:roles,name',
+                'permission' => 'required',
+            ]);
 
-        ]);
+            $permission = $request->permission;
 
-        $role = Role::create(['name' => $request->input('name')]);
+            $role = Role::create(['name' => $request->input('name')]);
 
-        $role->syncPermissions($request->input('permission'));
+            $idMenu = array();
+            foreach($permission as $a){
+                $keys = explode('-', $a);
+                $idMenu = $keys[0];
 
-        if ($role) {
+                // save menu
+                if($keys[2] == 'view'){
+
+                    $saveMenu = AksesMenu::create(
+                        [
+                            'menu_id' => $idMenu,
+                            'role_id' => $role->id
+                        ]
+                    );
+
+                    $getParent = Menu::where('id',$idMenu)->first();
+                    $cekParent = AksesMenu::where('menu_id',$getParent->parent_id)->where('role_id', $role->id)->first();
+                    if(!$cekParent){
+                        $saveParent = AksesMenu::create([
+                            'menu_id' => $getParent->parent_id,
+                            'role_id' => $role->id
+                        ]);
+                    }
+                }
+
+
+                #save permission
+                $permissionAction = "$keys[1]-$keys[2]";
+                // dd($permissionAction);
+                $cekpermission = Permission::where('name',$permissionAction)->first();
+                if($cekpermission){
+                    $saveHasPermission = new RoleHasPermission();
+                    $saveHasPermission->permission_id = $cekpermission->id;
+                    $saveHasPermission->role_id = $role->id;
+                    $saveHasPermission->save();
+                }
+
+        }
+        if ($cekpermission) {
             //redirect dengan pesan sukses
             return redirect()->route('role.index')->with(['success' => 'Data Berhasil Disimpan!']);
         } else {
             //redirect dengan pesan error
             return redirect()->route('role.index')->with(['error' => 'Data Gagal Disimpan!']);
         }
-
-
-
-
 
     }
 
@@ -150,24 +200,37 @@ class RoleController extends Controller
      */
 
     public function edit($id)
-
     {
 
-        $role = Role::find($id);
-        $permission = Permission::get()->chunk(4);
+            $role = Role::find($id);
 
-        // $user = Auth::user();
-        // $userRole = $user->roles->pluck('id');
-        // $menu = akses_menu::with('menu')->where('role_id', $userRole)->get();
-
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
-            ->all();
             $name_page = "role";
+            $menus = Menu::where('position', 'parent')->orderBy('order', 'asc')->get();
+
+            $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
+            ->leftJoin('permissions','permissions.id','role_has_permissions.permission_id')
+            // ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+            ->get();
+            $dataname = array();
+            foreach($rolePermissions as $datapermission){
+                $dataname[] = $datapermission->name;
+            }
+
+            $user = Auth::user();
+            $userRole = $user->roles->pluck('id');
+            $menu = AksesMenu::with('menu')->where('role_id', $userRole)->get();
+
             $data = array(
-                'page' => $name_page
+                'page'          => $name_page,
+                'menus'          => $menus,
+                'UserRole'      => $this,
+                'roleId'        => '',
+                'role_name'     => '',
+                'data_permission' => json_encode($dataname),
+                'menu'          => $menu
             );
-        return view('managemenetuser::role.edit',compact('role','permission','rolePermissions'))->with($data);
+
+        return view('managementuser::role.edit',compact('role','rolePermissions'))->with($data);
 
     }
 
@@ -198,15 +261,54 @@ class RoleController extends Controller
 
         ]);
 
-
-
         $role = Role::find($id);
-
         $role->name = $request->input('name');
-
         $role->save();
+        $permission = $request->permission;
+        $idMenu = array();
+        $deleteMenu =  AksesMenu::where('role_id', $id)->delete();
+          //delete akses menu old
+        $deletePermissionOld = RoleHasPermission::where('role_id', $id)->delete();
+          // delete permision role old
+        foreach($permission as $a){
+            $keys = explode('-', $a);
+            $idMenu = $keys[0];
 
-        $role->syncPermissions($request->input('permission'));
+
+
+            // save menu
+            if($keys[2] == 'view'){
+                $saveMenu = AksesMenu::create(
+                    [
+                        'menu_id' => $idMenu,
+                        'role_id' => $role->id
+                    ]
+                );
+
+                $getParent = Menu::where('id',$idMenu)->first();
+                $cekParent = AksesMenu::where('menu_id',$getParent->parent_id)->where('role_id', $role->id)->first();
+                if(!$cekParent){
+                    $saveParent = AksesMenu::create([
+                        'menu_id' => $getParent->parent_id,
+                        'role_id' => $role->id
+                    ]);
+                }
+            }
+
+            #save permission
+            $permissionAction = "$keys[1]-$keys[2]";
+            // dd($permissionAction);
+
+            $cekpermission = Permission::where('name',$permissionAction)->first();
+            if($cekpermission){
+                $saveHasPermission = new RoleHasPermission();
+                $saveHasPermission->permission_id = $cekpermission->id;
+                $saveHasPermission->role_id = $role->id;
+                $saveHasPermission->save();
+            }
+
+        }
+
 
         if ($role) {
             //redirect dengan pesan sukses
@@ -247,4 +349,6 @@ class RoleController extends Controller
 
 
     }
+
+
 }

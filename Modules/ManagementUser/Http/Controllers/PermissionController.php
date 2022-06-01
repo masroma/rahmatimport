@@ -2,6 +2,7 @@
 
 namespace Modules\ManagementUser\Http\Controllers;
 
+use App\Models\AksesMenu;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Illuminate\Routing\Controller;
 use Spatie\Permission\Models\Permission;
 use Exception;
 use DataTables;
+use Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
@@ -20,6 +22,17 @@ class PermissionController extends Controller
      */
 
     use ValidatesRequests;
+
+    function __construct()
+    {
+         $this->middleware('permission:permission-list|permission-create|permission-edit|permission-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:permission-create', ['only' => ['create','store']]);
+         $this->middleware('permission:permission-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:permission-delete', ['only' => ['destroy']]);
+
+
+    }
+
     public function data()
     {
         try {
@@ -45,12 +58,13 @@ class PermissionController extends Controller
     }
     public function index()
     {
-        // $user = Auth::user();
-        // $userRole = $user->roles->pluck('id');
-        // $menu = akses_menu::with('menu')->where('role_id', $userRole)->get();
+        $user = Auth::user();
+        $userRole = $user->roles->pluck('id');
+        $menu = AksesMenu::with('menu')->where('role_id', $userRole)->get();
         $name_page = "permission";
         $data = array(
-            'page' => $name_page
+            'page' => $name_page,
+            'menu' => $menu
         );
         return view('managementuser::permission.index')->with($data);
     }
@@ -60,13 +74,13 @@ class PermissionController extends Controller
     public function create()
     {
 
-        // $user = Auth::user();
-        // $roles = Role::all();
-        // $userRole = $user->roles->pluck('id');
-        // $menu = akses_menu::with('menu')->where('role_id', $userRole)->get();
+        $user = Auth::user();
+        $userRole = $user->roles->pluck('id');
+        $menu = AksesMenu::with('menu')->where('role_id', $userRole)->get();
         $name_page = "permission";
         $data = array(
-            'page' => $name_page
+            'page' => $name_page,
+            'menu'=> $menu
         );
         return view('managementuser::permission.create')->with($data);
     }

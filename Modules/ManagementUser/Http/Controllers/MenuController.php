@@ -2,6 +2,7 @@
 
 namespace Modules\ManagementUser\Http\Controllers;
 
+use App\Models\AksesMenu;
 use App\Models\Menu;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -9,8 +10,10 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use DataTables;
 use Exception;
+use Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class MenuController extends Controller
 {
@@ -19,6 +22,17 @@ class MenuController extends Controller
      * @return Renderable
      */
     use ValidatesRequests;
+
+    function __construct()
+    {
+         $this->middleware('permission:menu-list|menu-create|menu-edit|menu-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:menu-create', ['only' => ['create','store']]);
+         $this->middleware('permission:menu-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:menu-delete', ['only' => ['destroy']]);
+
+
+    }
+
     public function data()
     {
         try {
@@ -42,9 +56,13 @@ class MenuController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
+        $userRole = $user->roles->pluck('id');
+        $menu = AksesMenu::with('menu')->where('role_id', $userRole)->get();
         $name_page = "menu";
         $data = array(
-            'page' => $name_page
+            'page' => $name_page,
+            'menu' => $menu
         );
         return view('managementuser::menu.index')->with($data);
     }
@@ -191,4 +209,6 @@ class MenuController extends Controller
         return redirect()->route('menu.index')
             ->with('success', 'Data berhasil dihapus');
     }
+
+
 }

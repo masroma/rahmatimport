@@ -2,10 +2,12 @@
 
 namespace Modules\ManagementUser\Http\Controllers;
 
+use App\Models\AksesMenu;
 use App\Models\User;
 use Exception;
 use Hash;
 use DataTables;
+use Auth;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -22,18 +24,32 @@ class UserController extends Controller
      * @return Renderable
      */
 
+
+
     use ValidatesRequests;
+
+    function __construct()
+    {
+         $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:user-create', ['only' => ['create','store']]);
+         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+
+
+    }
+
+
     public function data()
     {
         try {
             $data = User::all();
             return DataTables::of($data)
-                // ->addColumn('roles', function ($data) {
-                //     //dd($data);
-                //     if (!empty($data->getRoleNames())) {
-                //         return json_decode($data->getRoleNames());
-                //     }
-                // })
+                ->addColumn('roles', function ($data) {
+                    //dd($data);
+                    if (!empty($data->getRoleNames())) {
+                        return json_decode($data->getRoleNames());
+                    }
+                })
                 ->addIndexColumn()
                 ->make(true);
         } catch (Exception $e) {
@@ -48,12 +64,15 @@ class UserController extends Controller
     }
     public function index()
     {
-        // $user = Auth::user();
-        // $userRole = $user->roles->pluck('id');
-        // $menu = akses_menu::with('menu')->where('role_id', $userRole)->get();
+        $user = Auth::user();
+        $userRole = $user->roles->pluck('id');
+        $menu = AksesMenu::with('menu')->where('role_id', $userRole)->get();
+
         $name_page = "user";
         $data = array(
-            'page' => $name_page
+            'page' => $name_page,
+            'menu' => $menu
+
         );
         return view('managementuser::user.index')->with($data);
     }
@@ -63,13 +82,17 @@ class UserController extends Controller
     public function create()
     {
 
-        // $user = Auth::user();
+        $user = Auth::user();
+        $roles = Role::all();
+        $userRole = $user->roles->pluck('id');
         // $roles = Role::all();
         // $userRole = $user->roles->pluck('id');
         // $menu = akses_menu::with('menu')->where('role_id', $userRole)->get();
         $name_page = "user";
         $data = array(
-            'page' => $name_page
+            'page' => $name_page,
+            'roles' => $roles,
+            'userRole' => $userRole
         );
         return view('managementuser::user.create')->with($data);
     }
@@ -100,9 +123,7 @@ class UserController extends Controller
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
-        // $user->assignRole($request->input('roles'));
-        // return redirect()->route('users.index')
-        //                 ->with('success','User created successfully');
+        $user->assignRole($request->input('roles'));
 
         if ($user) {
             //redirect dengan pesan sukses
@@ -149,7 +170,12 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $user = User::find($id);
+        $user = User::findORFail($id);
+
+        $roles = Role::all();
+
+        $userRole = $user->roles->first();
+        // $user = Auth::user();
         // $roles = Role::all();
         // $userRole = $user->roles->first();
         // $user = Auth::user();
@@ -157,7 +183,9 @@ class UserController extends Controller
         // $menu = akses_menu::with('menu')->where('role_id', $userRole)->get();
         $name_page = "user";
         $data = array(
-            'page' => $name_page
+            'page' => $name_page,
+            'roles' => $roles,
+            'userRole' => $userRole
         );
         return view('managementuser::user.edit', compact('user'))->with($data);
     }
@@ -183,7 +211,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
             // 'password' => 'same:confirm-password',
-            // 'roles' => 'required'
+            'roles' => 'required'
         ]);
         $input = $request->all();
         if (!empty($input['password'])) {
@@ -194,11 +222,8 @@ class UserController extends Controller
 
         $user = User::find($id);
         $user->update($input);
-        // DB::table('model_has_roles')->where('model_id', $id)->delete();
-        // $user->assignRole($request->input('roles'));
-        // return redirect()->route('users.index')
-        //                 ->with('success','User updated successfully');
-
+        DB::table('model_has_roles')->where('model_id', $id)->delete();
+        $user->assignRole($request->input('roles'));
         if ($user) {
             //redirect dengan pesan sukses
             return redirect()->route('user.index')->with(['success' => 'Data Berhasil Diubah!']);

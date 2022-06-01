@@ -203,44 +203,35 @@
         <li class="auto-suggestion"><a class="collection-item display-flex align-items-center" href="#"><span class="material-icons">error_outline</span><span class="member-info">No results found.</span></a></li>
     </ul>
 
-
-
     <!-- BEGIN: SideNav-->
     <aside class="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-light sidenav-active-square">
-        <div class="brand-sideba pt-2">
-            <img src="{{asset('logo-putih.png')}}" alt="universitas paramadina"  height="90" style="position: absolute; margin-left:20px; margin-bottom:20px;">
-        </div>
-        <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow mt-3" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
-            <li class="active bold"><a class="collapsible-header waves-effect waves-cyan " href="#"><i class="material-icons">pages</i><span class="menu-title" data-i18n="Pages">Pages</span></a>
-                <div class="collapsible-body">
-                    <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                        <li class="active"><a class="active" href="page-blank.html"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Page Blank">Page Blank</span></a>
-                        </li>
-                    </ul>
-                </div>
+       <img src="{{asset('logo-putih.png')}}" class="img-fluid mt-3" width="250" alt="">
+        <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow mt-4" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
+            <li class="bold"><a class="waves-effect waves-cyan " href="{{route('dashboard.index')}}" ><i class="material-icons">dashboard</i><span class="menu-title" data-i18n="Documentation">Dashboard</span></a>
             </li>
             <li class="navigation-header"><a class="navigation-header-text">Misc </a><i class="navigation-header-icon material-icons">more_horiz</i>
             </li>
-            <li class="bold"><a class="collapsible-header waves-effect waves-cyan " href="#"><i class="material-icons">photo_filter</i><span class="menu-title" data-i18n="Menu levels">Menu levels</span></a>
-                <div class="collapsible-body">
-                    <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                        <li><a href="#"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Second level">Second level</span></a>
-                        </li>
-                        <li><a class="collapsible-header waves-effect waves-cyan" href="#"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Second level child">Second level child</span></a>
-                            <div class="collapsible-body">
-                                <ul class="collapsible" data-collapsible="accordion">
-                                    <li><a href="#"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Third level">Third level</span></a>
+
+            @foreach($menu as $a)
+                @if(($a->menu->parent_id == 0) && ($a->menu->position == 'none'))
+                    <li class="bold"><a class="waves-effect waves-cyan " href="{{route($a->menu->link)}}" target="_blank"><i class="material-icons">{{$a->menu->icon}}</i><span class="menu-title" data-i18n="Documentation">{{$a->menu->name}}</span></a>
+                    </li>
+                @elseif(($a->menu->parent_id == 0) && ($a->menu->position == 'parent'))
+                    <li class="bold"><a class="collapsible-header waves-effect waves-cyan " href="javascript:void(0);"><i class="material-icons">{{$a->menu->icon}}</i><span class="menu-title" data-i18n="Menu levels">{{$a->menu->name}}</span></a>
+                        <div class="collapsible-body">
+                            <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                                @foreach($menu as $child)
+                                @if($child->menu->parent_id == $a->menu->id)
+                                    <li><a href="{{route($child->menu->link)}}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Second level">{{$child->menu->name}}</span></a>
                                     </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="bold"><a class="waves-effect waves-cyan " href="https://pixinvent.com/materialize-material-design-admin-template/documentation/" target="_blank"><i class="material-icons">import_contacts</i><span class="menu-title" data-i18n="Documentation">Documentation</span></a>
-            </li>
-            <li class="bold"><a class="waves-effect waves-cyan " href="https://pixinvent.ticksy.com/" target="_blank"><i class="material-icons">help_outline</i><span class="menu-title" data-i18n="Support">Support</span></a>
-            </li>
+                                @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    </li>
+                @endif
+                @endforeach
+
         </ul>
         <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
     </aside>
@@ -292,8 +283,10 @@
       @endif
     </script>
 
+@yield('script')
 
-     @yield('script')
+
+
 </body>
 
 </html>
