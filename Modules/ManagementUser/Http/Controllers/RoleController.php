@@ -12,6 +12,7 @@ use Illuminate\Routing\Controller;
 use Spatie\Permission\Models\Role;
 use DataTables;
 use Exception;
+use Gate;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
@@ -21,19 +22,34 @@ class RoleController extends Controller
     use ValidatesRequests;
     function __construct()
     {
-         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:role-view|role-create|role-edit|role-delete', ['only' => ['index','store']]);
          $this->middleware('permission:role-create', ['only' => ['create','store']]);
          $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:role-delete', ['only' => ['destroy']]);
-
+         $this->middleware('permission:role-view', ['only' => ['index']]);
 
     }
 
     public function data(){
         try{
             $data = Role::all();
-
+            $canUpdate = Gate::allows('menu-edit');
+            $canDelete = Gate::allows('menu-delete');
             return DataTables::of($data)
+            ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
+
+                $btn = '';
+
+                if ($canUpdate) {
+                    $btn .= '<a class="btn-floating btn-small" href="role/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
+                }
+
+                if ($canDelete) {
+                    $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
+                }
+
+                return $btn;
+            })
             ->addIndexColumn()
             ->make(true);
         } catch (Exception $e) {
@@ -48,10 +64,11 @@ class RoleController extends Controller
     }
     public function index()
     {
-
+        $canCreate = Gate::allows('menu-create');
         $name_page = "role";
         $data = array(
-            'page' => $name_page
+            'page' => $name_page,
+            'canCreate' => $canCreate
         );
         return view('managementuser::role.index')->with($data);
     }

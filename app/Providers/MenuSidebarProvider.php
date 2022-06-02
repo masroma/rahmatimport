@@ -28,11 +28,14 @@ class MenuSidebarProvider extends ServiceProvider
     {
         view()->composer('*', function($view) {
             $user = Auth::user();
-            $userRole = $user->roles->pluck('id');
-            $menua = AksesMenu::with('menu')->where('role_id', $userRole)->get();
+            if($user != null){
+                $userRole = $user->roles->pluck('id');
+                $menua = AksesMenu::with('menu')->where('role_id', $userRole)->get();
 
 
-            \View::share('menudata',[$menua]);
+                \View::share('menudata',[$menua]);
+            }
+
         });
 
     }

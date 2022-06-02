@@ -19,7 +19,9 @@
             </ol>
           </div>
           <div class="col s2 m6 l6">
+              @if($canCreate)
               <a class="btn waves-effect waves-light breadcrumbs-btn right" href="{{route($page.'.create')}}"  id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
+              @endif
           </div>
         </div>
       </div>
@@ -142,8 +144,8 @@
                           },
 
                           {
-                              data: 'action',
-                              name: 'action'
+                              data: 'aksi',
+                              name: 'aksi'
                           },
 
                           {
@@ -151,19 +153,13 @@
                               name: 'order'
                           },
 
-
                           {
-                                      data: 'id',
-                                      name: 'id',
-                                      render: function(value, param, data) {
-                                          return '<div class="btn-group">' +
-                                              '<a class="btn-floating btn-small" href="{{ url("managementuser/menu") }}/' + value + '/edit"><i class="material-icons">edit</i></a> ' +
+                              data: 'action',
+                              name: 'action'
+                          },
 
-                                              '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm(' +
-                                              value + ')"><i class="material-icons">delete</i></button>' +
-                                              '</div> ';
-                                      }
-                          }
+
+
 
                       ],
                       order: [

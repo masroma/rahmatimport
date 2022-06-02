@@ -11,6 +11,7 @@ use Illuminate\Routing\Controller;
 use DataTables;
 use Exception;
 use Auth;
+use Gate;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -25,7 +26,8 @@ class MenuController extends Controller
 
     function __construct()
     {
-         $this->middleware('permission:menu-list|menu-create|menu-edit|menu-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:menu-view|menu-create|menu-edit|menu-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:menu-view', ['only' => ['index']]);
          $this->middleware('permission:menu-create', ['only' => ['create','store']]);
          $this->middleware('permission:menu-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:menu-delete', ['only' => ['destroy']]);
@@ -36,8 +38,27 @@ class MenuController extends Controller
     public function data()
     {
         try {
+            $canUpdate = Gate::allows('menu-edit');
+            $canDelete = Gate::allows('menu-delete');
             $data = Menu::all();
             return DataTables::of($data)
+                    ->addColumn('aksi', function($data){
+                        return $data->action;
+                    })
+                    ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
+
+                        $btn = '';
+
+                        if ($canUpdate) {
+                            $btn .= '<a class="btn-floating btn-small" href="menu/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
+                        }
+
+                        if ($canDelete) {
+                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
+                        }
+
+                        return $btn;
+                    })
                     ->addIndexColumn()
                     ->make(true);
 
@@ -56,10 +77,11 @@ class MenuController extends Controller
 
     public function index()
     {
-
+        $canCreate = Gate::allows('menu-create');
         $name_page = "menu";
         $data = array(
             'page' => $name_page,
+            'canCreate' => $canCreate
         );
         return view('managementuser::menu.index')->with($data);
     }

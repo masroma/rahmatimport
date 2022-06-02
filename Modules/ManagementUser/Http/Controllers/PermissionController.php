@@ -11,6 +11,7 @@ use Spatie\Permission\Models\Permission;
 use Exception;
 use DataTables;
 use Auth;
+use Gate;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
@@ -25,25 +26,35 @@ class PermissionController extends Controller
 
     function __construct()
     {
-         $this->middleware('permission:permission-list|permission-create|permission-edit|permission-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:permission-view|permission-create|permission-edit|permission-delete', ['only' => ['index','store']]);
          $this->middleware('permission:permission-create', ['only' => ['create','store']]);
          $this->middleware('permission:permission-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:permission-delete', ['only' => ['destroy']]);
-
+         $this->middleware('permission:permission-view', ['only' => ['index']]);
 
     }
 
     public function data()
     {
         try {
+            $canUpdate = Gate::allows('menu-edit');
+            $canDelete = Gate::allows('menu-delete');
             $data = Permission::all();
             return DataTables::of($data)
-                // ->addColumn('roles', function ($data) {
-                //     //dd($data);
-                //     if (!empty($data->getRoleNames())) {
-                //         return json_decode($data->getRoleNames());
-                //     }
-                // })
+            ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
+
+                $btn = '';
+
+                if ($canUpdate) {
+                    $btn .= '<a class="btn-floating btn-small" href="permission/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
+                }
+
+                if ($canDelete) {
+                    $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
+                }
+
+                return $btn;
+            })
                 ->addIndexColumn()
                 ->make(true);
         } catch (Exception $e) {
@@ -58,10 +69,11 @@ class PermissionController extends Controller
     }
     public function index()
     {
-
+        $canCreate = Gate::allows('menu-create');
         $name_page = "permission";
         $data = array(
-            'page' => $name_page
+            'page' => $name_page,
+            'canCreate' => $canCreate
         );
         return view('managementuser::permission.index')->with($data);
     }
@@ -74,7 +86,8 @@ class PermissionController extends Controller
 
         $name_page = "permission";
         $data = array(
-            'page' => $name_page
+            'page' => $name_page,
+
         );
         return view('managementuser::permission.create')->with($data);
     }

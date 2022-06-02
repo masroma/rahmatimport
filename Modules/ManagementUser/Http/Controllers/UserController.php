@@ -8,6 +8,7 @@ use Exception;
 use Hash;
 use DataTables;
 use Auth;
+use Gate;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -30,7 +31,8 @@ class UserController extends Controller
 
     function __construct()
     {
-         $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:user-create|user-edit|user-delete|user-view', ['only' => ['index','store']]);
+         $this->middleware('permission:user-view', ['only' => ['index']]);
          $this->middleware('permission:user-create', ['only' => ['create','store']]);
          $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:user-delete', ['only' => ['destroy']]);
@@ -42,14 +44,31 @@ class UserController extends Controller
     public function data()
     {
         try {
+
+            $canUpdate = Gate::allows('user-edit');
+            $canDelete = Gate::allows('user-delete');
             $data = User::all();
             return DataTables::of($data)
                 ->addColumn('roles', function ($data) {
-                    //dd($data);
                     if (!empty($data->getRoleNames())) {
                         return json_decode($data->getRoleNames());
                     }
                 })
+                ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
+
+                    $btn = '';
+
+                    if ($canUpdate) {
+                        $btn .= '<a class="btn-floating btn-small" href="user/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
+                    }
+
+                    if ($canDelete) {
+                        $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
+                    }
+
+                    return $btn;
+                })
+
                 ->addIndexColumn()
                 ->make(true);
         } catch (Exception $e) {
@@ -64,10 +83,12 @@ class UserController extends Controller
     }
     public function index()
     {
-
+        $canCreate = Gate::allows('user-create');
         $name_page = "user";
         $data = array(
-            'page' => $name_page
+            'page' => $name_page,
+            'canCreate' => $canCreate
+
 
         );
         return view('managementuser::user.index')->with($data);
