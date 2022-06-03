@@ -52,11 +52,25 @@ Route::prefix('managementuser')->group(function() {
                         'as' => 'user.edit'
                     ]
                 );
+                Route::get(
+                    '/{id}/editprofile',
+                    [
+                        'uses' => 'UserController@editprofile',
+                        'as' => 'user.editprofile'
+                    ]
+                );
                 Route::post(
                     '/update/{id}',
                     [
                         'uses' => 'UserController@update',
                         'as' => 'user.update'
+                    ]
+                );
+                Route::post(
+                    '/updateprofile/{id}',
+                    [
+                        'uses' => 'UserController@updateprofile',
+                        'as' => 'user.updateprofile'
                     ]
                 );
                 Route::get(

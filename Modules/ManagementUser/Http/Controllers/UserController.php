@@ -267,4 +267,49 @@ class UserController extends Controller
         return redirect()->route('user.index')
             ->with('success', 'Data berhasil dihapus');
     }
+
+    public function editprofile(){
+        $id = Auth::user()->id;
+        $user = User::findOrFail($id);
+        $name_page = "profile user";
+        $data = array(
+            'page' => $name_page
+        );
+        return view('managementuser::user.editprofile',compact('user'))->with($data);
+    }
+
+    public function proseseditprofile(Request $request, $id)
+    {
+
+        $user = User::findOrFail($id);
+        $messages = [
+            'required' => 'Kolom Wajib diisi!',
+            'unique' => 'Kode sudah digunakan',
+            'email' => 'Kolom harus format email'
+        ];
+
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$user->id,
+
+        ], $messages);
+
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->save();
+
+        if($request->password != null){
+            $user->password = bcrypt($request->password);
+            $user->save();
+        }
+
+
+        if ($user) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with(['success' => 'Data Berhasil Diupdate!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()>with(['error' => 'Data Gagal Diupdate!']);
+        }
+    }
 }
