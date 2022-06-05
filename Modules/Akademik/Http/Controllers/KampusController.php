@@ -6,6 +6,10 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\Kampus;
+use App\Models\Province;
+use App\Models\City;
+use App\Models\District;
+use App\Models\Village;
 use DataTables;
 use Exception;
 use Auth;
@@ -24,11 +28,11 @@ class KampusController extends Controller
 
     function __construct()
     {
-         $this->middleware('permission:kampus-view|menu-create|menu-edit|menu-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:kampus-view|kampus-create|kampus-edit|kampus-show|kampus-delete', ['only' => ['index','store']]);
          $this->middleware('permission:kampus-view', ['only' => ['index']]);
          $this->middleware('permission:kampus-create', ['only' => ['create','store']]);
          $this->middleware('permission:kampus-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:kampus-detail', ['only' => ['show']]);
+         $this->middleware('permission:kampus-show', ['only' => ['show']]);
          $this->middleware('permission:kampus-delete', ['only' => ['destroy']]);
 
     }
@@ -36,13 +40,13 @@ class KampusController extends Controller
     public function data()
     {
         try {
-            $canShow = Gate::allows('kampus-detail');
+            $canShow = Gate::allows('kampus-show');
             $canUpdate = Gate::allows('kampus-edit');
             $canDelete = Gate::allows('kampus-delete');
             $data = Kampus::all();
             return DataTables::of($data)
 
-                    ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
+                    ->addColumn('action', function ($data) use ($canUpdate, $canDelete, $canShow) {
 
                         $btn = '';
 
@@ -54,9 +58,9 @@ class KampusController extends Controller
                             $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
                         }
 
-                        // if ($canShow) {
-                        //     $btn .= '<a class="btn-floating green darken-1 btn-small" href="kampus/' .$data->id. '/edit"><i class="material-icons">remove_red_eye</i></a>';
-                        // }
+                        if ($canShow) {
+                            $btn .= '<a class="btn-floating green darken-1 btn-small" href="kampus/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+                        }
 
                         return $btn;
                     })
@@ -95,12 +99,18 @@ class KampusController extends Controller
     public function create()
     {
         $name_page = "kampus";
+        $province = Province::all();
+
         $data = array(
-            'page' => $name_page
+            'page' => $name_page,
+            'province' => $province,
+
         );
 
         return view('akademik::kampus.create')->with($data);
     }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -144,7 +154,8 @@ class KampusController extends Controller
     public function show($id)
     {
 
-        $kampus = Kampus::find($id);
+        $kampus = Kampus::with('address')->find($id);
+
         $name_page = "kampus";
         $data = array(
             'page' => $name_page,

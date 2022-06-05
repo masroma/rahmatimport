@@ -142,6 +142,12 @@
                             <span>Delete</span>
                           </label>
                        </p>
+                       <p>
+                        <label>
+                            <input type="checkbox" name="action[]" value="show"/>
+                            <span>Detail</span>
+                          </label>
+                       </p>
                    </div>
 
                     @error('action')

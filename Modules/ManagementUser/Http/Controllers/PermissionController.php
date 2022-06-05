@@ -26,11 +26,11 @@ class PermissionController extends Controller
 
     function __construct()
     {
-         $this->middleware('permission:permission-view|permission-create|permission-edit|permission-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:permission-create', ['only' => ['create','store']]);
-         $this->middleware('permission:permission-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:permission-delete', ['only' => ['destroy']]);
-         $this->middleware('permission:permission-view', ['only' => ['index']]);
+        //  $this->middleware('permission:permission-view|permission-create|permission-edit|permission-delete', ['only' => ['index','store']]);
+        //  $this->middleware('permission:permission-create', ['only' => ['create','store']]);
+        //  $this->middleware('permission:permission-edit', ['only' => ['edit','update']]);
+        //  $this->middleware('permission:permission-delete', ['only' => ['destroy']]);
+        //  $this->middleware('permission:permission-view', ['only' => ['index']]);
 
     }
 
@@ -112,7 +112,7 @@ class PermissionController extends Controller
             'name' => 'required',
         ]);
 
-        $action = ['view','create','edit','delete'];
+        $action = ['view','create','edit','delete','show'];
 
         foreach($action as $act => $value){
             $save = new Permission();
@@ -212,7 +212,7 @@ class PermissionController extends Controller
 
             $getDataPermission = Permission::where('name', 'like', '%' . $keyword . '%')->pluck('id');
 
-            $action = ['view','create','edit','delete'];
+            $action = ['view','create','edit','delete','show'];
 
             foreach($getDataPermission as $ids){
                 $permission = Permission::find($ids);

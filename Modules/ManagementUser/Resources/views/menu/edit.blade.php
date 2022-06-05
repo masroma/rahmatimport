@@ -141,6 +141,12 @@
                             <span>Delete</span>
                           </label>
                        </p>
+                       <p>
+                        <label>
+                            <input type="checkbox" name="action[]" value="show" {{in_array("show", json_decode($menu->action)) ? "checked" : ""}}  />
+                            <span>Detail</span>
+                          </label>
+                       </p>
                    </div>
 
                     @error('action')

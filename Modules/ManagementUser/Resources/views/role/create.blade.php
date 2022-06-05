@@ -69,10 +69,7 @@ use App\Models\Menu;
                                     <th colspan="4"  class="text-center">Permission</th>
                                 </tr>
                                 <tr>
-                                    <th width="70" class="text-center">Create</th>
-                                    <th width="70" class="text-center">Edit</th>
-                                    <th width="70" class="text-center">View</th>
-                                    <th width="70" class="text-center">Delete</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -112,7 +109,7 @@ use App\Models\Menu;
                                                             <label>
                                                             <input type="checkbox" name="permission[]"  value="{{$menuAdminChild->id}}-{{$menuAdminChild->name}}-{{$act}}" />
 
-                                                            <span></span>
+                                                            <span>{{$act}}</span>
                                                           </label></td>
                                                     @endforeach
                                                     {{-- <td class="text-center">@if(in_array("create", json_decode($menuAdminChild->action))) <input type="checkbox" name="action[]" value="create" /> @endif </td> --}}

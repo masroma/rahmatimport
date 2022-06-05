@@ -9,4 +9,14 @@ class Kampus extends Model
 {
     use HasFactory;
     protected $table = "kampus";
+
+    /**
+     * Get the  that owns the Kampus
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Address()
+    {
+        return $this->belongsTo(kampus_address::class, 'kampus_id');
+    }
 }

@@ -33,6 +33,30 @@ Route::group(['middleware' => 'auth'], function () {
     );
 });
 
+Route::get(
+    '/city/{id}',
+    [
+        'uses' => 'GlobalController@getCity',
+        'as' => 'getcity'
+    ]
+);
+
+Route::get(
+    '/district/{id}',
+    [
+        'uses' => 'GlobalController@getDistrict',
+        'as' => 'getdistrict'
+    ]
+);
+
+Route::get(
+    '/village/{id}',
+    [
+        'uses' => 'GlobalController@getVillage',
+        'as' => 'getvillage'
+    ]
+);
+
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');

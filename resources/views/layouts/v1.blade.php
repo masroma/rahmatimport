@@ -35,7 +35,8 @@
     <!-- END: Custom CSS-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
-</head>
+
+   </head>
 <!-- END: Head-->
 
 <body class="vertical-layout vertical-menu-collapsible page-header-dark vertical-modern-menu preload-transitions 2-columns   " data-open="click" data-menu="vertical-modern-menu" data-col="2-columns">
@@ -258,12 +259,16 @@
     <!-- END: Footer-->
     <!-- BEGIN VENDOR JS-->
     <script src="{{asset('v1/app-assets/js/vendors.min.js')}}"></script>
+    <script src="{{asset('v1/app-assets/vendors/select2/select2.full.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('v1/app-assets/vendors/select2/select2.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('v1/app-assets/vendors/select2/select2-materialize.css')}}" type="text/css">
     <!-- BEGIN VENDOR JS-->
     <!-- BEGIN PAGE VENDOR JS-->
     <script src="{{asset('v1/app-assets/vendors/data-tables/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('v1/app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('v1/app-assets/vendors/data-tables/js/dataTables.select.min.js')}}"></script>
     <!-- END PAGE VENDOR JS-->
+    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/css/pages/form-select2.css')}}">
     <!-- BEGIN THEME  JS-->
     <script src="{{asset('v1/app-assets/js/plugins.js')}}"></script>
     <script src="{{asset('v1/app-assets/js/search.js')}}"></script>
@@ -273,6 +278,7 @@
     <!-- BEGIN PAGE LEVEL JS-->
     {{-- <script src="{{asset('v1/app-assets/js/scripts/data-tables.js')}}"></script> --}}
     <!-- END PAGE LEVEL JS-->
+    <script src="{{asset('v1/app-assets/js/scripts/form-select2.js')}}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script>
@@ -286,9 +292,9 @@
       @endif
     </script>
 
+
+
 @yield('script')
-
-
 
 </body>
 
