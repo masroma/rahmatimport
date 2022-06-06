@@ -54,7 +54,7 @@
                     </div>
                   <div class="input-field col s4">
                     <input placeholder="kode_kampus" name="kode_kampus" id="kode_kampus" type="text" class="validate  @error('kode_kampus') is-invalid @enderror" value="{{ old('kode_kampus') }}">
-                    <label for="first_name">Kode Kampus</label>
+                    <label for="first_name">Kode Kampus <span style="color:red">*</span></label>
 
                     @error('kode_kampus')
                     <span class="red-text text-darken-2">{{ $message }}</small>
@@ -62,7 +62,7 @@
                   </div>
                   <div class="input-field col s4">
                     <input placeholder="cabang_kampus" name="cabang_kampus" id="cabang_kampus" type="text" class="validate  @error('cabang_kampus') is-invalid @enderror" value="{{ old('cabang_kampus') }}">
-                    <label for="first_name">Cabang Kampus</label>
+                    <label for="first_name">Cabang Kampus <span style="color:red">*</span></label>
 
                     @error('cabang_kampus')
                     <span class="red-text text-darken-2">{{ $message }}</small>
@@ -70,7 +70,7 @@
                   </div>
                   <div class="input-field col s4">
                     <input placeholder="telephone" name="telephone" id="telephone" type="number" class="validate  @error('telephone') is-invalid @enderror" value="{{ old('telephone') }}">
-                    <label for="first_name">Telephone</label>
+                    <label for="first_name">Telephone <span style="color:red">*</span></label>
                     @error('telephone')
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
@@ -86,7 +86,7 @@
 
                   <div class="input-field col s4">
                     <input placeholder="email" name="email" id="email" type="text" class="validate  @error('email') is-invalid @enderror" value="{{ old('email') }}">
-                    <label for="first_name">email</label>
+                    <label for="first_name">email <span style="color:red">*</span></label>
                     @error('email')
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
@@ -99,8 +99,6 @@
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                   </div>
-
-
 
                   {{-- jalan --}}
                   <div class="input-field col s12">
@@ -185,6 +183,31 @@
                   </div>
 
                   <div class="input-field col s12">
+                    <label for="first_name">Google Map</label>
+                    <textarea  name="google_map" id="textarea2" class="materialize-textarea  @error('google_map') is-invalid @enderror">{{ old('google_map') }}</textarea>
+                    @error('google_map')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="input-field col s6">
+                    <input placeholder="Longitude" name="longitude" id="longitude" type="text" class="validate  @error('longitude') is-invalid @enderror" value="{{ old('longitude') }}">
+                    <label for="first_name">Longitude</label>
+                    @error('rw')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+                  <div class="input-field col s6">
+                    <input placeholder="Longitude" name="latitude" id="latitude" type="text" class="validate  @error('latitude') is-invalid @enderror" value="{{ old('latitude') }}">
+                    <label for="first_name">Latitude</label>
+                    @error('latitude')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+                  {{-- informasi kampus --}}
+                  <div class="input-field col s12">
                     <label for=""><b>Informasi Kampus</b></label>
                     <br>
                   </div>
@@ -198,11 +221,120 @@
                     @enderror
                   </div>
 
+                  <div class="input-field col s4">
+                    <input placeholder="bank" name="unit_cabang" id="unit_cabang" type="text" class="validate  @error('unit_cabang') is-invalid @enderror" value="{{ old('unit_cabang') }}">
+                    <label for="first_name">Unit Cabang</label>
 
+                    @error('unit_cabang')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
 
+                  <div class="input-field col s4">
+                    <input placeholder="bank" name="unit_cabang" id="unit_cabang" type="text" class="validate  @error('unit_cabang') is-invalid @enderror" value="{{ old('unit_cabang') }}">
+                    <label for="first_name">Unit Cabang</label>
 
+                    @error('unit_cabang')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
 
+                  <div class="input-field col s3">
+                    <input placeholder="bank" name="no_rekening" id="no_rekening" type="text" class="validate  @error('no_rekening') is-invalid @enderror" value="{{ old('no_rekening') }}">
+                    <label for="first_name">No Rekening</label>
 
+                    @error('no_rekening')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+                  <div class="input-field col s3">
+                    <input placeholder="MBS" name="mbs" id="mbs" type="text" class="validate  @error('mbs') is-invalid @enderror" value="{{ old('mbs') }}">
+                    <label for="first_name">MBS</label>
+
+                    @error('mbs')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+                  <div class="input-field col s3">
+                    <input placeholder="Luas tanah milik" name="luas_tanah_milik" id="luas_tanah_milik" type="text" class="validate  @error('luas_tanah_milik') is-invalid @enderror" value="{{ old('luas_tanah_milik') }}">
+                    <label for="first_name">Luas Tanah Milik</label>
+
+                    @error('luas_tanah_milik')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+                  <div class="input-field col s3">
+                    <input placeholder="Luas tanah_bukan milik" name="luas_tanah_bukan_milik" id="luas_tanah_bukan_milik" type="text" class="validate  @error('luas_tanah_bukan_milik') is-invalid @enderror" value="{{ old('luas_tanah_bukan_milik') }}">
+                    <label for="first_name">Luas Tanah Bukan Milik</label>
+
+                    @error('luas_tanah_bukan_milik')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+                  {{-- akta kampus --}}
+
+                  <div class="input-field col s12">
+                    <label for=""><b>Akta pendirian</b></label>
+                    <br>
+                  </div>
+
+                  <div class="input-field col s4">
+                    <input placeholder="No SK Pendirian" name="no_sk_pendirian" id="no_sk_pendirian" type="text" class="validate  @error('no_sk_pendirian') is-invalid @enderror" value="{{ old('no_sk_pendirian') }}">
+                    <label for="first_name">No SK Pendirian</label>
+
+                    @error('no_sk_pendirian')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+                  <div class="input-field col s4">
+                    <input placeholder="Tanggal SK Pendirian" name="tanggal_sk_pendirian" id="tanggal_sk_pendirian" type="date" class="validate  @error('tanggal_sk_pendirian') is-invalid @enderror" value="{{ old('tanggal_sk_pendirian') }}">
+                    <label for="first_name">Tanggal SK Pendirian</label>
+
+                    @error('tanggal_sk_pendirian')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+                  <div class="input-field col s4">
+                    <input placeholder="Status Kepemilikan" name="status_kepemilikan" id="status_kepemilikan" type="text" class="validate  @error('status_kepemilikan') is-invalid @enderror" value="{{ old('status_kepemilikan') }}">
+                    <label for="first_name">Status Kepemilikan</label>
+
+                    @error('status_kepemilikan')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+                  <div class="input-field col s4">
+                    <input placeholder="Status Perguruan Tinggi" name="status_perguruan_tinggi" id="status_perguruan_tinggi" type="text" class="validate  @error('status_perguruan_tinggi') is-invalid @enderror" value="{{ old('status_perguruan_tinggi') }}">
+                    <label for="first_name">Status Perguruan Tinggi</label>
+
+                    @error('status_perguruan_tinggi')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+                  <div class="input-field col s4">
+                    <input placeholder="SK Izin Operasional" name="sk_izin_operasional" id="sk_izin_operasional" type="text" class="validate  @error('sk_izin_operasional') is-invalid @enderror" value="{{ old('sk_izin_operasional') }}">
+                    <label for="first_name">SK Izin Operasional</label>
+
+                    @error('sk_izin_operasional')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+                  <div class="input-field col s4">
+                    <input placeholder="Tanggal Izin Operasional" name="tanggal_izin_operasional" id="tanggal_izin_operasional" type="date" class="validate  @error('tanggal_izin_operasional') is-invalid @enderror" value="{{ old('tanggal_izin_operasional') }}">
+                    <label for="first_name">Tanggal Izin Operasional</label>
+
+                    @error('tanggal_izin_operasional')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
 
                 <div class="input-field col s12">
                     <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>save</button>
@@ -248,14 +380,14 @@
                     dataType:'json',
                     success:function(data){
                         // console.log(data);
-                        $('select[name="city_id"]').append('<option value="" disabled selected>Kota</option>');
+                        $('select[name="city_id"]').empty();
                         $.each(data, function(key, value){
                             $('select[name="city_id"]').append('<option value="'+value.id+'">'+value.name+'</option>')
                         });
                     }
                 });
             }else{
-                $('select[name="city_id"]').append('<option value="" disabled selected>Kota</option>');
+                $('select[name="city_id"]').empty();
             }
         });
 
@@ -269,14 +401,14 @@
                     type:"GET",
                     dataType:'json',
                     success:function(data){
-                        $('select[name="district_id"]').append('<option value="" disabled selected>Kecamatan </option>');
+                        $('select[name="district_id"]').empty();
                         $.each(data, function(key, value){
                             $('select[name="district_id"]').append('<option value="'+value.id+'">'+value.name+'</option>')
                         });
                     }
                 });
             }else{
-                $('select[name="district_id"]').append('<option value="" disabled selected>Kecamatan </option>');
+                $('select[name="district_id"]').empty();
             }
         });
 
@@ -289,15 +421,15 @@
                     type:"GET",
                     dataType:'json',
                     success:function(data){
-                        console.log(data)
-                        $('select[name="village_id"]').append('<option value="" disabled selected>Kelurahan </option>');
+                        // console.log(data)
+                        $('select[name="village_id"]').empty();
                         $.each(data, function(key, value){
                             $('select[name="village_id"]').append('<option value="'+value.id+'">'+value.name+'</option>')
                         });
                     }
                 });
             }else{
-                $('select[name="village_id"]').append('<option value="" disabled selected>Kelurahan </option>');
+                $('select[name="village_id"]').empty();
             }
         });
 

@@ -6,6 +6,9 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\Kampus;
+use App\Models\kampus_address;
+use App\Models\kampus_akta_pendirian;
+use App\Models\kampus_detail;
 use App\Models\Province;
 use App\Models\City;
 use App\Models\District;
@@ -119,23 +122,37 @@ class KampusController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'kode_kampus' => 'required',
-            'cabang_kampus' => 'required',
-            'email' => 'email',
-            'telephone' => 'numeric'
-        ]);
+        DB::beginTransaction();
+        try {
+            $this->validate($request, [
+                'kode_kampus' => 'required',
+                'cabang_kampus' => 'required',
+                'email' => 'email',
+                'telephone' => 'numeric'
+            ]);
 
-        $save = new Kampus();
-        $save->nama_kampus = $request->nama_kampus ?? 'universitas paramadina';
-        $save->kode_kampus = $request->kode_kampus;
-        $save->cabang_kampus = $request->cabang_kampus;
-        $save->telephone = $request->telephone ?? null;
-        $save->faximile = $request->faximile ?? null;
-        $save->email = $request->email ?? null;
-        $save->website = $request->website ?? null;
-        $save->save();
-        // DB::commit();
+            $save = new Kampus();
+            $save->nama_kampus = $request->nama_kampus ?? 'universitas paramadina';
+            $save->kode_kampus = $request->kode_kampus;
+            $save->cabang_kampus = $request->cabang_kampus;
+            $save->telephone = $request->telephone ?? null;
+            $save->faximile = $request->faximile ?? null;
+            $save->email = $request->email ?? null;
+            $save->website = $request->website ?? null;
+            $save->save();
+
+
+            $idKampus = $save->id;
+
+            $this->storeAddressKampus($request, $idKampus);
+            $this->storeDetailsKampus($request, $idKampus);
+            $this->storeAktaKampus($request, $idKampus);
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
 
         if ($save) {
             //redirect dengan pesan sukses
@@ -145,6 +162,77 @@ class KampusController extends Controller
             return redirect()->route('kampus.index')->with(['error' => 'Data Gagal Disimpan!']);
         }
     }
+
+    public function storeAddressKampus(Request $request, $idKampus)
+    {
+        DB::beginTransaction();
+        try {
+            $save = new kampus_address();
+            $save->kampus_id = $idKampus;
+            $save->jalan = $request->jalan ?? null;
+            $save->province_id = $request->province_id ?? null;
+            $save->city_id = $request->city_id ?? null;
+            $save->district_id = $request->district_id ?? null;
+            $save->village_id = $request->village_id ?? null;
+            $save->kode_pos = $request->kode_pos ??  null;
+            $save->rt = $request->rt ??  null;
+            $save->rw = $request->rw ??  null;
+            $save->google_map = $request->google_map ??  null;
+            $save->longitude = $request->longitude ??  null;
+            $save->latitude = $request->latitude ??  null;
+            $save->save();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+    }
+
+    public function storeDetailsKampus(Request $request, $idKampus)
+    {
+        DB::beginTransaction();
+        try {
+            $save = new kampus_detail();
+            $save->kampus_id = $idKampus;
+            $save->bank = $request->bank ?? null;
+            $save->unit_cabang = $request->unit_cabang ?? null;
+            $save->no_rekening = $request->no_rekening ?? null;
+            $save->mbs = $request->mbs ?? null;
+            $save->luas_tanah_milik = $request->luas_tanah_milik ?? null;
+            $save->luas_tanah_bukan_milik = $request->luas_tanah_bukan_milik ??  null;
+            $save->save();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+    }
+
+    public function storeAktaKampus(Request $request, $idKampus)
+    {
+        DB::beginTransaction();
+        try {
+            $save = new kampus_akta_pendirian();
+            $save->kampus_id = $idKampus;
+            $save->no_sk_pendirian = $request->no_sk_pendirian ?? null;
+            $save->tanggal_sk_pendirian = $request->tanggal_sk_pendirian ?? null;
+            $save->status_kepemilikan = $request->status_kepemilikan ?? null;
+            $save->status_perguruan_tinggi = $request->status_perguruan_tinggi ?? null;
+            $save->sk_izin_operasional = $request->sk_izin_operasional ?? null;
+            $save->tanggal_izin_operasional = $request->tanggal_izin_operasional ??  null;
+            $save->save();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+    }
+
+
+
 
     /**
      * Show the specified resource.
@@ -172,10 +260,12 @@ class KampusController extends Controller
     public function edit($id)
     {
         $kampus = Kampus::find($id);
+        $province = Province::all();
         $name_page = "kampus";
         $data = array(
             'page' => $name_page,
-            'kampus' => $kampus
+            'kampus' => $kampus,
+            'province' => $province
         );
         return view('akademik::kampus.edit')->with($data);
     }
