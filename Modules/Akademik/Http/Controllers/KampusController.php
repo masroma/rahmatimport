@@ -165,6 +165,7 @@ class KampusController extends Controller
 
     public function storeAddressKampus(Request $request, $idKampus)
     {
+
         DB::beginTransaction();
         try {
             $save = new kampus_address();
@@ -198,9 +199,9 @@ class KampusController extends Controller
             $save->bank = $request->bank ?? null;
             $save->unit_cabang = $request->unit_cabang ?? null;
             $save->no_rekening = $request->no_rekening ?? null;
-            $save->mbs = $request->mbs ?? null;
-            $save->luas_tanah_milik = $request->luas_tanah_milik ?? null;
-            $save->luas_tanah_bukan_milik = $request->luas_tanah_bukan_milik ??  null;
+            $save->mbs = $request->mbs ?? 0;
+            $save->luas_tanah_milik = $request->luas_tanah_milik ?? 0;
+            $save->luas_tanah_bukan_milik = $request->luas_tanah_bukan_milik ?? 0;
             $save->save();
             DB::commit();
         } catch (ModelNotFoundException $exception) {
@@ -231,9 +232,6 @@ class KampusController extends Controller
 
     }
 
-
-
-
     /**
      * Show the specified resource.
      * @param int $id
@@ -242,7 +240,7 @@ class KampusController extends Controller
     public function show($id)
     {
 
-        $kampus = Kampus::with('address')->find($id);
+        $kampus = Kampus::find($id);
 
         $name_page = "kampus";
         $data = array(
@@ -259,13 +257,20 @@ class KampusController extends Controller
      */
     public function edit($id)
     {
-        $kampus = Kampus::find($id);
+        $kampus = Kampus::with('Address')->findOrFail($id);
         $province = Province::all();
+        $city = City::all();
+        $district = District::all();
+        $village = Village::all();
+
         $name_page = "kampus";
         $data = array(
             'page' => $name_page,
             'kampus' => $kampus,
-            'province' => $province
+            'province' => $province,
+            'city' => $city,
+            'village'=> $village,
+            'district' => $district
         );
         return view('akademik::kampus.edit')->with($data);
     }
@@ -278,30 +283,111 @@ class KampusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'kode_kampus' => 'required',
-            'cabang_kampus' => 'required',
-            'email' => 'email',
-            'telephone' => 'numeric'
-        ]);
 
-        $update = Kampus::find($id);
-        $update->kode_kampus = $request->kode_kampus;
-        $update->cabang_kampus = $request->cabang_kampus;
-        $update->telephone = $request->telephone ?? null;
-        $update->faximile = $request->faximile ?? null;
-        $update->email = $request->email ?? null;
-        $update->website = $request->website ?? null;
-        $update->save();
+        DB::beginTransaction();
+        try {
+            $this->validate($request, [
+                'kode_kampus' => 'required',
+                'cabang_kampus' => 'required',
+                'email' => 'email',
+                'telephone' => 'numeric'
+            ]);
 
-
-        if ($update) {
-            //redirect dengan pesan sukses
-            return redirect()->route('kampus.index')->with(['success' => 'Data Berhasil Diubah!']);
-        } else {
-            //redirect dengan pesan error
-            return redirect()->route('kampus.index')->with(['error' => 'Data Gagal Diubah!']);
+            $update = Kampus::find($id);
+            $update->kode_kampus = $request->kode_kampus;
+            $update->cabang_kampus = $request->cabang_kampus;
+            $update->telephone = $request->telephone ?? null;
+            $update->faximile = $request->faximile ?? null;
+            $update->email = $request->email ?? null;
+            $update->website = $request->website ?? null;
+            $update->save();
+            $idKampus = $id;
+            $this->updateAddressKampus($request, $idKampus);
+            $this->updateDetailsKampus($request, $idKampus);
+            $this->updateAktaKampus($request, $idKampus);
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
         }
+
+
+            if ($update) {
+                //redirect dengan pesan sukses
+                return redirect()->route('kampus.index')->with(['success' => 'Data Berhasil Diubah!']);
+            } else {
+                //redirect dengan pesan error
+                return redirect()->route('kampus.index')->with(['error' => 'Data Gagal Diubah!']);
+            }
+    }
+
+    public function updateAddressKampus(Request $request, $idKampus)
+    {
+
+        DB::beginTransaction();
+        try {
+            $save = kampus_address::where('kampus_id',$idKampus)->first();
+            $save->kampus_id = $idKampus;
+            $save->jalan = $request->jalan ?? null;
+            $save->province_id = $request->province_id ?? null;
+            $save->city_id = $request->city_id ?? null;
+            $save->district_id = $request->district_id ?? null;
+            $save->village_id = $request->village_id ?? null;
+            $save->kode_pos = $request->kode_pos ??  null;
+            $save->rt = $request->rt ??  null;
+            $save->rw = $request->rw ??  null;
+            $save->google_map = $request->google_map ??  null;
+            $save->longitude = $request->longitude ??  null;
+            $save->latitude = $request->latitude ??  null;
+            $save->save();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+    }
+
+    public function updateDetailsKampus(Request $request, $idKampus)
+    {
+        DB::beginTransaction();
+        try {
+            $save = kampus_detail::where('kampus_id',$idKampus)->first();
+            $save->kampus_id = $idKampus;
+            $save->bank = $request->bank ?? null;
+            $save->unit_cabang = $request->unit_cabang ?? null;
+            $save->no_rekening = $request->no_rekening ?? null;
+            $save->mbs = $request->mbs ?? 0;
+            $save->luas_tanah_milik = $request->luas_tanah_milik ?? 0;
+            $save->luas_tanah_bukan_milik = $request->luas_tanah_bukan_milik ?? 0;
+            $save->save();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+    }
+
+    public function updateAktaKampus(Request $request, $idKampus)
+    {
+        DB::beginTransaction();
+        try {
+            $save = kampus_akta_pendirian::where('kampus_id',$idKampus)->first();
+            $save->kampus_id = $idKampus;
+            $save->no_sk_pendirian = $request->no_sk_pendirian ?? null;
+            $save->tanggal_sk_pendirian = $request->tanggal_sk_pendirian ?? null;
+            $save->status_kepemilikan = $request->status_kepemilikan ?? null;
+            $save->status_perguruan_tinggi = $request->status_perguruan_tinggi ?? null;
+            $save->sk_izin_operasional = $request->sk_izin_operasional ?? null;
+            $save->tanggal_izin_operasional = $request->tanggal_izin_operasional ??  null;
+            $save->save();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
     }
 
     /**
@@ -312,6 +398,9 @@ class KampusController extends Controller
     public function destroy($id)
     {
         Kampus::find($id)->delete();
+        kampus_detail::where('kampus_id', $id)->delete();
+        kampus_address::where('kampus_id', $id)->delete();
+        kampus_akta_pendirian::where('kampus_id', $id)->delete();
         return redirect()->route('kampus.index')
             ->with('success', 'Data berhasil dihapus');
     }

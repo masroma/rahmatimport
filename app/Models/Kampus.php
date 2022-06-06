@@ -17,6 +17,8 @@ class Kampus extends Model
      */
     public function Address()
     {
-        return $this->belongsTo(kampus_address::class, 'kampus_id');
+        return $this->hasOne(kampus_address::class, 'kampus_id','id');
     }
+
+
 }

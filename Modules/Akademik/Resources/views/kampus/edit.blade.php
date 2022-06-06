@@ -102,9 +102,7 @@
                       </div>
                     <div class="input-field col s12">
                         <label for="first_name">Jalan</label>
-                        <textarea  name="jalan" id="textarea2" class="materialize-textarea  @error('jalan') is-invalid @enderror">{{ old('jalan') }}</textarea>
-
-
+                        <textarea  name="jalan" id="textarea2" class="materialize-textarea  @error('jalan') is-invalid @enderror" value="{{ old('jalan', $kampus->Address ? $kampus->Address->jalan : '' ) }}">{{ old('jalan', $kampus->Address->jalan ?? '') }}</textarea>
                       @error('jalan')
                       <span class="red-text text-darken-2">{{ $message }}</small>
                       @enderror
@@ -114,7 +112,7 @@
                         <select name="province_id" class="select2 browser-default">
                             <option value="" disabled selected>Provinsi</option>
                             @foreach($province as $row)
-                                <option  {{ old('province_id') == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->name}}</option>
+                                <option  {{ $kampus->Address->province_id  == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->name}}</option>
                             @endforeach
                           </select>
                             <label for="first_name">Provinsi</label>
@@ -125,7 +123,10 @@
 
                       <div class="input-field col s6">
                         <select name="city_id" id="city_id" class="select2 browser-default">
-                            {{-- <option value="" disabled selected>Kota</option> --}}
+                            <option value="" disabled selected>Kota</option>
+                            @foreach($city as $row)
+                            <option  {{ $kampus->Address->city_id  == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->name}}</option>
+                        @endforeach
                         </select>
                         <label for="first_name">Kota</label>
                         @error('city_id')
@@ -135,7 +136,10 @@
 
                       <div class="input-field col s6">
                         <select name="district_id" id="district_id" class="select2 browser-default">
-                            {{-- <option value="" disabled selected>Kecamatan</option> --}}
+                            <option value="" disabled selected>Kecamatan</option>
+                            @foreach($district as $row)
+                            <option  {{  $kampus->Address->district_id  == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->name}}</option>
+                        @endforeach
                         </select>
                         <label for="first_name">Kecamatan</label>
                         @error('district_id')
@@ -145,13 +149,18 @@
 
                       <div class="input-field col s6">
                         <select name="village_id" id="village_id" class="select2 browser-default">
-                            {{-- <option value="" disabled selected>Kecamatan</option> --}}
+                            <option value="" disabled selected>Kelurahan</option>
+                            @foreach($village as $row)
+                            <option  {{ $kampus->Address->village_id  == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->name}}</option>
+                        @endforeach
                         </select>
                         <label for="first_name">Kelurahan</label>
                         @error('village_id')
                         <span class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
                       </div>
+
+
 
                       <div class="input-field col s4">
                         <input placeholder="kode_pos" name="kode_pos" id="kode_pos" type="number" class="validate  @error('kode_pos') is-invalid @enderror" value="{{ old('kode_pos') }}">
@@ -192,14 +201,7 @@
                         @enderror
                       </div>
 
-                      <div class="input-field col s4">
-                        <input placeholder="bank" name="unit_cabang" id="unit_cabang" type="text" class="validate  @error('unit_cabang') is-invalid @enderror" value="{{ old('unit_cabang') }}">
-                        <label for="first_name">Unit Cabang</label>
 
-                        @error('unit_cabang')
-                        <span class="red-text text-darken-2">{{ $message }}</small>
-                        @enderror
-                      </div>
 
                       <div class="input-field col s4">
                         <input placeholder="bank" name="unit_cabang" id="unit_cabang" type="text" class="validate  @error('unit_cabang') is-invalid @enderror" value="{{ old('unit_cabang') }}">
@@ -349,14 +351,14 @@
                     dataType:'json',
                     success:function(data){
                         // console.log(data);
-                        $('select[name="city_id"]').append('<option value="" disabled selected>Kota</option>');
+                        $('select[name="city_id"]').empty();
                         $.each(data, function(key, value){
                             $('select[name="city_id"]').append('<option value="'+value.id+'">'+value.name+'</option>')
                         });
                     }
                 });
             }else{
-                $('select[name="city_id"]').append('<option value="" disabled selected>Kota</option>');
+                $('select[name="city_id"]').empty();
             }
         });
 
@@ -370,14 +372,15 @@
                     type:"GET",
                     dataType:'json',
                     success:function(data){
-                        $('select[name="district_id"]').append('<option value="" disabled selected>Kecamatan </option>');
+                        console.log('kecamatan',cityid);
+                        $('select[name="district_id"]').empty();
                         $.each(data, function(key, value){
                             $('select[name="district_id"]').append('<option value="'+value.id+'">'+value.name+'</option>')
                         });
                     }
                 });
             }else{
-                $('select[name="district_id"]').append('<option value="" disabled selected>Kecamatan </option>');
+                $('select[name="district_id"]').empty();
             }
         });
 
@@ -390,15 +393,14 @@
                     type:"GET",
                     dataType:'json',
                     success:function(data){
-                        console.log(data)
-                        $('select[name="village_id"]').append('<option value="" disabled selected>Kelurahan </option>');
+                        $('select[name="village_id"]').empty();
                         $.each(data, function(key, value){
                             $('select[name="village_id"]').append('<option value="'+value.id+'">'+value.name+'</option>')
                         });
                     }
                 });
             }else{
-                $('select[name="village_id"]').append('<option value="" disabled selected>Kelurahan </option>');
+                $('select[name="village_id"]').empty();
             }
         });
 

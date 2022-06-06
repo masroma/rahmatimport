@@ -230,14 +230,7 @@
                     @enderror
                   </div>
 
-                  <div class="input-field col s4">
-                    <input placeholder="bank" name="unit_cabang" id="unit_cabang" type="text" class="validate  @error('unit_cabang') is-invalid @enderror" value="{{ old('unit_cabang') }}">
-                    <label for="first_name">Unit Cabang</label>
 
-                    @error('unit_cabang')
-                    <span class="red-text text-darken-2">{{ $message }}</small>
-                    @enderror
-                  </div>
 
                   <div class="input-field col s3">
                     <input placeholder="bank" name="no_rekening" id="no_rekening" type="text" class="validate  @error('no_rekening') is-invalid @enderror" value="{{ old('no_rekening') }}">
@@ -424,6 +417,7 @@
                         // console.log(data)
                         $('select[name="village_id"]').empty();
                         $.each(data, function(key, value){
+                            console.log('od',value.id)
                             $('select[name="village_id"]').append('<option value="'+value.id+'">'+value.name+'</option>')
                         });
                     }
