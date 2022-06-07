@@ -5,7 +5,7 @@ namespace Modules\Akademik\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use App\Models\Fakultas;
+use App\Models\JenjangPendidikan;
 use DataTables;
 use Exception;
 use Auth;
@@ -13,9 +13,9 @@ use Gate;
 use DB;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
-class FakultasController extends Controller
+class JenjangPendidikanController extends Controller
 {
-    /**
+   /**
      * Display a listing of the resource.
      * @return Renderable
      */
@@ -24,22 +24,22 @@ class FakultasController extends Controller
 
     function __construct()
     {
-         $this->middleware('permission:fakultas-view|fakultas-create|fakultas-edit|fakultas-show|fakultas-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:fakultas-view', ['only' => ['index']]);
-         $this->middleware('permission:fakultas-create', ['only' => ['create','store']]);
-         $this->middleware('permission:fakultas-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:fakultas-show', ['only' => ['show']]);
-         $this->middleware('permission:fakultas-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:jenjangpendidikan-view|jenjangpendidikan-create|jenjangpendidikan-edit|jenjangpendidikan-show|jenjangpendidikan-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:jenjangpendidikan-view', ['only' => ['index']]);
+         $this->middleware('permission:jenjangpendidikan-create', ['only' => ['create','store']]);
+         $this->middleware('permission:jenjangpendidikan-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:jenjangpendidikan-show', ['only' => ['show']]);
+         $this->middleware('permission:jenjangpendidikan-delete', ['only' => ['destroy']]);
 
     }
 
     public function data()
     {
         try {
-            // $canShow = Gate::allows('fakultas-show');
-            $canUpdate = Gate::allows('fakultas-edit');
-            $canDelete = Gate::allows('fakultas-delete');
-            $data = Fakultas::all();
+            // $canShow = Gate::allows('jenjangpendidikan-show');
+            $canUpdate = Gate::allows('jenjangpendidikan-edit');
+            $canDelete = Gate::allows('jenjangpendidikan-delete');
+            $data = JenjangPendidikan::all();
             return DataTables::of($data)
 
                     ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
@@ -47,7 +47,7 @@ class FakultasController extends Controller
                         $btn = '';
 
                         if ($canUpdate) {
-                            $btn .= '<a class="btn-floating btn-small" href="fakultas/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
+                            $btn .= '<a class="btn-floating btn-small" href="jenjangpendidikan/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
                         }
 
                         if ($canDelete) {
@@ -55,7 +55,7 @@ class FakultasController extends Controller
                         }
 
                         // if ($canShow) {
-                        //     $btn .= '<a class="btn-floating green darken-1 btn-small" href="fakultas/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+                        //     $btn .= '<a class="btn-floating green darken-1 btn-small" href="jenjangpendidikan/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
                         // }
 
                         return $btn;
@@ -78,13 +78,13 @@ class FakultasController extends Controller
 
     public function index()
     {
-        $canCreate = Gate::allows('fakultas-create');
-        $name_page = "fakultas";
+        $canCreate = Gate::allows('jenjangpendidikan-create');
+        $name_page = "jenjangpendidikan";
         $data = array(
             'page' => $name_page,
             'canCreate' => $canCreate
         );
-        return view('akademik::fakultas.index')->with($data);
+        return view('akademik::jenjangpendidikan.index')->with($data);
     }
 
 
@@ -94,14 +94,16 @@ class FakultasController extends Controller
      */
     public function create()
     {
-        $name_page = "fakultas";
+        $name_page = "jenjangpendidikan";
+        $title = "jenjang pendidikan";
 
         $data = array(
             'page' => $name_page,
+            'title' => $title
 
         );
 
-        return view('akademik::fakultas.create')->with($data);
+        return view('akademik::jenjangpendidikan.create')->with($data);
     }
 
     /**
@@ -114,27 +116,25 @@ class FakultasController extends Controller
         DB::beginTransaction();
         try {
             $this->validate($request, [
-                'nama_fakultas' => 'required',
-                'kode_fakultas' => 'required|unique:fakultas,kode_fakultas'
+                'nama_jenjang' => 'required'
             ]);
 
-            $save = new Fakultas();
-            $save->kode_fakultas = $request->kode_fakultas;
-            $save->nama_fakultas = $request->nama_fakultas;
+            $save = new jenjangpendidikan();
+            $save->nama_jenjang = $request->nama_jenjang;
             $save->save();
 
             DB::commit();
         } catch (ModelNotFoundException $exception) {
             DB::rollback();
-            return back()->with('error', $exception->getMessage());
+            return back()->with('success', $exception->getMessage());
         }
 
         if ($save) {
             //redirect dengan pesan sukses
-            return redirect()->route('fakultas.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            return redirect()->route('jenjangpendidikan.index')->with(['success' => 'Data Berhasil Disimpan!']);
         } else {
             //redirect dengan pesan error
-            return redirect()->route('fakultas.index')->with(['error' => 'Data Gagal Disimpan!']);
+            return redirect()->route('jenjangpendidikan.index')->with(['error' => 'Data Gagal Disimpan!']);
         }
     }
 
@@ -156,14 +156,14 @@ class FakultasController extends Controller
      */
     public function edit($id)
     {
-        $fakultas = Fakultas::findOrFail($id);
 
-        $name_page = "fakultas";
+        $jenjangpendidikan = JenjangPendidikan::findOrFail($id);
+        $name_page = "jenjangpendidikan";
         $data = array(
             'page' => $name_page,
-            'fakultas' => $fakultas,
+            'jenjangpendidikan' => $jenjangpendidikan,
         );
-        return view('akademik::fakultas.edit')->with($data);
+        return view('akademik::jenjangpendidikan.edit')->with($data);
     }
     /**
      * Update the specified resource in storage.
@@ -177,15 +177,11 @@ class FakultasController extends Controller
         DB::beginTransaction();
         try {
             $this->validate($request, [
-                'kode_fakultas' => 'required',
-                'nama_fakultas' => 'required',
-
+                'nama_jenjang' => 'required',
             ]);
 
-            $update = Fakultas::find($id);
-            $update->kode_fakultas = $request->kode_fakultas;
-            $update->nama_fakultas = $request->nama_fakultas;
-
+            $update = JenjangPendidikan::find($id);
+            $update->nama_jenjang = $request->nama_jenjang;
             $update->save();
 
             DB::commit();
@@ -197,10 +193,10 @@ class FakultasController extends Controller
 
             if ($update) {
                 //redirect dengan pesan sukses
-                return redirect()->route('fakultas.index')->with(['success' => 'Data Berhasil Diubah!']);
+                return redirect()->route('jenjangpendidikan.index')->with(['success' => 'Data Berhasil Diubah!']);
             } else {
                 //redirect dengan pesan error
-                return redirect()->route('fakultas.index')->with(['error' => 'Data Gagal Diubah!']);
+                return redirect()->route('jenjangpendidikan.index')->with(['error' => 'Data Gagal Diubah!']);
             }
     }
 
@@ -211,9 +207,8 @@ class FakultasController extends Controller
      */
     public function destroy($id)
     {
-        Fakultas::find($id)->delete();
-        return redirect()->route('fakultas.index')
+        JenjangPendidikan::find($id)->delete();
+        return redirect()->route('jenjangpendidikan.index')
             ->with('success', 'Data berhasil dihapus');
     }
-
 }

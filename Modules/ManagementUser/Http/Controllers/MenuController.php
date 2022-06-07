@@ -191,7 +191,7 @@ class MenuController extends Controller
                 'position' => 'required',
                 'parent_id' => 'required',
                 'key_permission' => 'required',
-                'action' => 'required',
+
                 'order' => 'required'
             ]);
 

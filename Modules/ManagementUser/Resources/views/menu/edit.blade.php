@@ -88,6 +88,7 @@
                   <div class="input-field col s12">
                     <select name="parent_id">
                         <option value="" disabled selected>Parent</option>
+                        <option value="0">none</option>
                         @foreach($parentmenu as $menuparent)
                             <option {{ $menu->parent_id == $menuparent->id ? 'selected' : '' }}   value="{{$menuparent->id}}">{{$menuparent->name}}</option>
                         @endforeach
@@ -113,12 +114,12 @@
                   </div>
 
                   <div class="input-field col s12 my-5">
-
+                    @if($menu->position == 'children')
                    <div class="d-flex">
                     <label for="first_name">Action</label>
                        <p>
                         <label>
-                            <input type="checkbox" name="action[]" value="create" {{in_array("create", json_decode($menu->action)) ? "checked" : ""}} />
+                            <input type="checkbox" name="action[]" value="create" {{in_array("create", json_decode($menu->action ?? '')) ? "checked" : ""}} />
                             <span>Create</span>
                           </label>
                        </p>
@@ -148,6 +149,8 @@
                           </label>
                        </p>
                    </div>
+
+                   @endif
 
                     @error('action')
                     <span class="red-text text-darken-2">{{ $message }}</small>

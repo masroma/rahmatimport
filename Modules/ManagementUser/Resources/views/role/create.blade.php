@@ -107,7 +107,7 @@ use App\Models\Menu;
 
                                                         <td class="text-center">
                                                             <label>
-                                                            <input type="checkbox" name="permission[]"  value="{{$menuAdminChild->id}}-{{$menuAdminChild->name}}-{{$act}}" />
+                                                            <input type="checkbox" name="permission[]"  value="{{$menuAdminChild->id}}-{{str_replace(" ","",$menuAdminChild->name)}}-{{$act}}" />
 
                                                             <span>{{$act}}</span>
                                                           </label></td>

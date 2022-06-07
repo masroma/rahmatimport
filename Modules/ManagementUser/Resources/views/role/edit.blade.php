@@ -107,7 +107,7 @@ use App\Models\Menu;
 
                                                         <td class="text-center">
                                                             <label>
-                                                            <input type="checkbox" name="permission[]"  value="{{$menuAdminChild->id}}-{{$menuAdminChild->name}}-{{$act}}" <?php $namemenu = $menuAdminChild->name.'-'.$act; ?>  @if(in_array($namemenu, json_decode($data_permission))) checked @endif/>
+                                                            <input type="checkbox" name="permission[]"  value="{{$menuAdminChild->id}}-{{str_replace(" ","",$menuAdminChild->name)}}-{{$act}}" <?php $namemenu = str_replace(" ","",$menuAdminChild->name).'-'.$act; ?>  @if(in_array($namemenu, json_decode($data_permission))) checked @endif/>
 
                                                             <span>{{$act}}</span>
                                                           </label></td>

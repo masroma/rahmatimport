@@ -26,11 +26,11 @@ class PermissionController extends Controller
 
     function __construct()
     {
-        //  $this->middleware('permission:permission-view|permission-create|permission-edit|permission-delete', ['only' => ['index','store']]);
-        //  $this->middleware('permission:permission-create', ['only' => ['create','store']]);
-        //  $this->middleware('permission:permission-edit', ['only' => ['edit','update']]);
-        //  $this->middleware('permission:permission-delete', ['only' => ['destroy']]);
-        //  $this->middleware('permission:permission-view', ['only' => ['index']]);
+         $this->middleware('permission:permission-view|permission-create|permission-edit|permission-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:permission-create', ['only' => ['create','store']]);
+         $this->middleware('permission:permission-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:permission-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:permission-view', ['only' => ['index']]);
 
     }
 
@@ -207,7 +207,6 @@ class PermissionController extends Controller
             $name = $permission->name;
             $key = explode('-', $name);
             $keyword = $key[0];
-
 
 
             $getDataPermission = Permission::where('name', 'like', '%' . $keyword . '%')->pluck('id');

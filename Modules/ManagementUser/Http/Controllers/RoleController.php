@@ -280,10 +280,9 @@ class RoleController extends Controller
           // delete permision role old
         foreach($permission as $a){
             $keys = explode('-', $a);
+            $nameMenu = str_replace(" ","",$keys[1]);
+
             $idMenu = $keys[0];
-
-
-
             // save menu
             if($keys[2] == 'view'){
                 $saveMenu = AksesMenu::create(
@@ -304,10 +303,11 @@ class RoleController extends Controller
             }
 
             #save permission
-            $permissionAction = "$keys[1]-$keys[2]";
-            // dd($permissionAction);
+            $permissionAction = "$nameMenu-$keys[2]";
+
 
             $cekpermission = Permission::where('name',$permissionAction)->first();
+
             if($cekpermission){
                 $saveHasPermission = new RoleHasPermission();
                 $saveHasPermission->permission_id = $cekpermission->id;

@@ -192,5 +192,62 @@ Route::prefix('akademik')->group(function() {
                 );
             }
         );
+
+        // Jenjangpendidikan
+Route::prefix('jenjangpendidikan')->group(
+    function () {
+        Route::get(
+            '/data',
+            [
+                'uses' => 'JenjangPendidikanController@data',
+                'as' => 'jenjangpendidikan.data'
+            ]
+        );
+        Route::get(
+            '/',
+            [
+                'uses' => 'JenjangPendidikanController@index',
+                'as' => 'jenjangpendidikan.index'
+            ]
+        );
+        Route::get(
+            '/create',
+            [
+                'uses' => 'JenjangPendidikanController@create',
+                'as' => 'jenjangpendidikan.create'
+            ]
+        );
+        Route::post(
+            '/store',
+            [
+                'uses' => 'JenjangPendidikanController@store',
+                'as' => 'jenjangpendidikan.store'
+            ]
+        );
+        Route::get(
+            '/{id}/edit',
+            [
+                'uses' => 'JenjangPendidikanController@edit',
+                'as' => 'jenjangpendidikan.edit'
+            ]
+        );
+        Route::post(
+            '/update/{id}',
+            [
+                'uses' => 'JenjangPendidikanController@update',
+                'as' => 'jenjangpendidikan.update'
+            ]
+        );
+
+
+        Route::get(
+            '/{id}/delete',
+            [
+                'uses' => 'JenjangPendidikanController@destroy',
+                'as' => 'jenjangpendidikan.destroy'
+            ]
+        );
+    }
+);
     });
 });
