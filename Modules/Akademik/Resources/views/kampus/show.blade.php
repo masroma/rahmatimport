@@ -45,7 +45,7 @@
       {{-- <h4 class="card-title">Page Length Options</h4> --}}
       <div class="row">
         <div class="col s12 m6 l10">
-            <h4 class="card-title">{{$kampus->nama_kampus}}</h4>
+            <h4 class="card-title">{{$kampus->nama_kampus}} - {{$kampus->cabang_kampus}}</h4>
 
          </div>
         </div>

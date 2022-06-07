@@ -78,5 +78,119 @@ Route::prefix('akademik')->group(function() {
                 );
             }
         );
+
+        // fakultas
+        Route::prefix('fakultas')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'FakultasController@data',
+                        'as' => 'fakultas.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'FakultasController@index',
+                        'as' => 'fakultas.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'FakultasController@create',
+                        'as' => 'fakultas.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'FakultasController@store',
+                        'as' => 'fakultas.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'FakultasController@edit',
+                        'as' => 'fakultas.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'FakultasController@update',
+                        'as' => 'fakultas.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'FakultasController@destroy',
+                        'as' => 'fakultas.destroy'
+                    ]
+                );
+            }
+        );
+
+        // jurusan
+        Route::prefix('jurusan')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'JurusanController@data',
+                        'as' => 'jurusan.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'JurusanController@index',
+                        'as' => 'jurusan.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'JurusanController@create',
+                        'as' => 'jurusan.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'JurusanController@store',
+                        'as' => 'jurusan.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'JurusanController@edit',
+                        'as' => 'jurusan.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'JurusanController@update',
+                        'as' => 'jurusan.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'JurusanController@destroy',
+                        'as' => 'jurusan.destroy'
+                    ]
+                );
+            }
+        );
     });
 });
