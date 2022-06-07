@@ -193,61 +193,118 @@ Route::prefix('akademik')->group(function() {
             }
         );
 
-        // Jenjangpendidikan
-Route::prefix('jenjangpendidikan')->group(
-    function () {
-        Route::get(
-            '/data',
-            [
-                'uses' => 'JenjangPendidikanController@data',
-                'as' => 'jenjangpendidikan.data'
-            ]
-        );
-        Route::get(
-            '/',
-            [
-                'uses' => 'JenjangPendidikanController@index',
-                'as' => 'jenjangpendidikan.index'
-            ]
-        );
-        Route::get(
-            '/create',
-            [
-                'uses' => 'JenjangPendidikanController@create',
-                'as' => 'jenjangpendidikan.create'
-            ]
-        );
-        Route::post(
-            '/store',
-            [
-                'uses' => 'JenjangPendidikanController@store',
-                'as' => 'jenjangpendidikan.store'
-            ]
-        );
-        Route::get(
-            '/{id}/edit',
-            [
-                'uses' => 'JenjangPendidikanController@edit',
-                'as' => 'jenjangpendidikan.edit'
-            ]
-        );
-        Route::post(
-            '/update/{id}',
-            [
-                'uses' => 'JenjangPendidikanController@update',
-                'as' => 'jenjangpendidikan.update'
-            ]
-        );
+                // Jenjangpendidikan
+        Route::prefix('jenjangpendidikan')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'JenjangPendidikanController@data',
+                        'as' => 'jenjangpendidikan.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'JenjangPendidikanController@index',
+                        'as' => 'jenjangpendidikan.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'JenjangPendidikanController@create',
+                        'as' => 'jenjangpendidikan.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'JenjangPendidikanController@store',
+                        'as' => 'jenjangpendidikan.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'JenjangPendidikanController@edit',
+                        'as' => 'jenjangpendidikan.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'JenjangPendidikanController@update',
+                        'as' => 'jenjangpendidikan.update'
+                    ]
+                );
 
 
-        Route::get(
-            '/{id}/delete',
-            [
-                'uses' => 'JenjangPendidikanController@destroy',
-                'as' => 'jenjangpendidikan.destroy'
-            ]
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'JenjangPendidikanController@destroy',
+                        'as' => 'jenjangpendidikan.destroy'
+                    ]
+                );
+            }
         );
-    }
-);
+
+        // program study
+        Route::prefix('programstudy')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'ProgramStudyController@data',
+                        'as' => 'programstudy.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'ProgramStudyController@index',
+                        'as' => 'programstudy.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'ProgramStudyController@create',
+                        'as' => 'programstudy.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'ProgramStudyController@store',
+                        'as' => 'programstudy.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'ProgramStudyController@edit',
+                        'as' => 'programstudy.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'ProgramStudyController@update',
+                        'as' => 'programstudy.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'ProgramStudyController@destroy',
+                        'as' => 'programstudy.destroy'
+                    ]
+                );
+            }
+        );
     });
 });

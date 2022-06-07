@@ -5,6 +5,14 @@ namespace Modules\Akademik\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Models\Jurusan;
+use DataTables;
+use Exception;
+use Auth;
+use Gate;
+use DB;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+
 
 class JurusanController extends Controller
 {
