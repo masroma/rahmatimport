@@ -240,7 +240,7 @@ class KampusController extends Controller
     public function show($id)
     {
 
-        $kampus = Kampus::find($id);
+        $kampus = Kampus::with('Address','Detail','Akta', 'Address.Provinsi','Address.Kota','Address.Kecamatan','Address.Kelurahan')->findOrFail($id);
 
         $name_page = "kampus";
         $data = array(
@@ -257,7 +257,7 @@ class KampusController extends Controller
      */
     public function edit($id)
     {
-        $kampus = Kampus::with('Address')->findOrFail($id);
+        $kampus = Kampus::with('Address','Detail','Akta')->findOrFail($id);
         $province = Province::all();
         $city = City::all();
         $district = District::all();

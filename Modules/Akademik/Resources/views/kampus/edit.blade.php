@@ -163,7 +163,7 @@
 
 
                       <div class="input-field col s4">
-                        <input placeholder="kode_pos" name="kode_pos" id="kode_pos" type="number" class="validate  @error('kode_pos') is-invalid @enderror" value="{{ old('kode_pos') }}">
+                        <input placeholder="kode_pos" name="kode_pos" id="kode_pos" type="number" class="validate  @error('kode_pos') is-invalid @enderror" value="{{ old('kode_pos', $kampus->Address->kode_pos) }}">
                         <label for="first_name">Kode Pos</label>
                         @error('kode_pos')
                         <span class="red-text text-darken-2">{{ $message }}</small>
@@ -171,7 +171,7 @@
                       </div>
 
                       <div class="input-field col s4">
-                        <input placeholder="RT" name="rt" id="RT" type="number" class="validate  @error('rt') is-invalid @enderror" value="{{ old('rt') }}">
+                        <input placeholder="RT" name="rt" id="RT" type="number" class="validate  @error('rt') is-invalid @enderror" value="{{ old('rt', $kampus->rt) }}">
                         <label for="first_name">RT</label>
                         @error('rt')
                         <span class="red-text text-darken-2">{{ $message }}</small>
@@ -179,7 +179,7 @@
                       </div>
 
                       <div class="input-field col s4">
-                        <input placeholder="RW" name="rw" id="RW" type="number" class="validate  @error('rw') is-invalid @enderror" value="{{ old('rw') }}">
+                        <input placeholder="RW" name="rw" id="RW" type="number" class="validate  @error('rw') is-invalid @enderror" value="{{ old('rw', $kampus->rw) }}">
                         <label for="first_name">RW</label>
                         @error('rw')
                         <span class="red-text text-darken-2">{{ $message }}</small>
@@ -204,7 +204,7 @@
 
 
                       <div class="input-field col s4">
-                        <input placeholder="bank" name="unit_cabang" id="unit_cabang" type="text" class="validate  @error('unit_cabang') is-invalid @enderror" value="{{ old('unit_cabang') }}">
+                        <input placeholder="bank" name="unit_cabang" id="unit_cabang" type="text" class="validate  @error('unit_cabang') is-invalid @enderror" value="{{ old('unit_cabang',$kampus->Detail->unit_cabang) }}">
                         <label for="first_name">Unit Cabang</label>
 
                         @error('unit_cabang')
@@ -213,7 +213,7 @@
                       </div>
 
                       <div class="input-field col s3">
-                        <input placeholder="bank" name="no_rekening" id="no_rekening" type="text" class="validate  @error('no_rekening') is-invalid @enderror" value="{{ old('no_rekening') }}">
+                        <input placeholder="bank" name="no_rekening" id="no_rekening" type="text" class="validate  @error('no_rekening') is-invalid @enderror" value="{{ old('no_rekening', $kampus->Detail->no_rekening) }}">
                         <label for="first_name">No Rekening</label>
 
                         @error('no_rekening')
@@ -222,7 +222,7 @@
                       </div>
 
                       <div class="input-field col s3">
-                        <input placeholder="MBS" name="mbs" id="mbs" type="text" class="validate  @error('mbs') is-invalid @enderror" value="{{ old('mbs') }}">
+                        <input placeholder="MBS" name="mbs" id="mbs" type="text" class="validate  @error('mbs') is-invalid @enderror" value="{{ old('mbs',$kampus->Detail->mbs) }}">
                         <label for="first_name">MBS</label>
 
                         @error('mbs')
@@ -231,7 +231,7 @@
                       </div>
 
                       <div class="input-field col s3">
-                        <input placeholder="Luas tanah milik" name="luas_tanah_milik" id="luas_tanah_milik" type="text" class="validate  @error('luas_tanah_milik') is-invalid @enderror" value="{{ old('luas_tanah_milik') }}">
+                        <input placeholder="Luas tanah milik" name="luas_tanah_milik" id="luas_tanah_milik" type="text" class="validate  @error('luas_tanah_milik') is-invalid @enderror" value="{{ old('luas_tanah_milik',$kampus->Detail->luas_tanah_milik) }}">
                         <label for="first_name">Luas Tanah Milik</label>
 
                         @error('luas_tanah_milik')
@@ -240,7 +240,7 @@
                       </div>
 
                       <div class="input-field col s3">
-                        <input placeholder="Luas tanah_bukan milik" name="luas_tanah_bukan_milik" id="luas_tanah_bukan_milik" type="text" class="validate  @error('luas_tanah_bukan_milik') is-invalid @enderror" value="{{ old('luas_tanah_bukan_milik') }}">
+                        <input placeholder="Luas tanah_bukan milik" name="luas_tanah_bukan_milik" id="luas_tanah_bukan_milik" type="text" class="validate  @error('luas_tanah_bukan_milik') is-invalid @enderror" value="{{ old('luas_tanah_bukan_milik',$kampus->Detail->luas_tanah_bukan_milik) }}">
                         <label for="first_name">Luas Tanah Bukan Milik</label>
 
                         @error('luas_tanah_bukan_milik')
@@ -256,7 +256,7 @@
                       </div>
 
                       <div class="input-field col s4">
-                        <input placeholder="No SK Pendirian" name="no_sk_pendirian" id="no_sk_pendirian" type="text" class="validate  @error('no_sk_pendirian') is-invalid @enderror" value="{{ old('no_sk_pendirian') }}">
+                        <input placeholder="No SK Pendirian" name="no_sk_pendirian" id="no_sk_pendirian" type="text" class="validate  @error('no_sk_pendirian') is-invalid @enderror" value="{{ old('no_sk_pendirian', $kampus->Akta->no_sk_poendirian) }}">
                         <label for="first_name">No SK Pendirian</label>
 
                         @error('no_sk_pendirian')
@@ -265,7 +265,7 @@
                       </div>
 
                       <div class="input-field col s4">
-                        <input placeholder="Tanggal SK Pendirian" name="tanggal_sk_pendirian" id="tanggal_sk_pendirian" type="date" class="validate  @error('tanggal_sk_pendirian') is-invalid @enderror" value="{{ old('tanggal_sk_pendirian') }}">
+                        <input placeholder="Tanggal SK Pendirian" name="tanggal_sk_pendirian" id="tanggal_sk_pendirian" type="date" class="validate  @error('tanggal_sk_pendirian') is-invalid @enderror" value="{{ old('tanggal_sk_pendirian',$kampus->Akta->tanggal_sk_pendirian) }}">
                         <label for="first_name">Tanggal SK Pendirian</label>
 
                         @error('tanggal_sk_pendirian')
@@ -274,7 +274,7 @@
                       </div>
 
                       <div class="input-field col s4">
-                        <input placeholder="Status Kepemilikan" name="status_kepemilikan" id="status_kepemilikan" type="text" class="validate  @error('status_kepemilikan') is-invalid @enderror" value="{{ old('status_kepemilikan') }}">
+                        <input placeholder="Status Kepemilikan" name="status_kepemilikan" id="status_kepemilikan" type="text" class="validate  @error('status_kepemilikan') is-invalid @enderror" value="{{ old('status_kepemilikan',$kampus->Akta->status_kepemilikan) }}">
                         <label for="first_name">Status Kepemilikan</label>
 
                         @error('status_kepemilikan')
@@ -283,7 +283,7 @@
                       </div>
 
                       <div class="input-field col s4">
-                        <input placeholder="Status Perguruan Tinggi" name="status_perguruan_tinggi" id="status_perguruan_tinggi" type="text" class="validate  @error('status_perguruan_tinggi') is-invalid @enderror" value="{{ old('status_perguruan_tinggi') }}">
+                        <input placeholder="Status Perguruan Tinggi" name="status_perguruan_tinggi" id="status_perguruan_tinggi" type="text" class="validate  @error('status_perguruan_tinggi') is-invalid @enderror" value="{{ old('status_perguruan_tinggi', $kampus->Akta->status_perguruan_tinggi) }}">
                         <label for="first_name">Status Perguruan Tinggi</label>
 
                         @error('status_perguruan_tinggi')
@@ -292,7 +292,7 @@
                       </div>
 
                       <div class="input-field col s4">
-                        <input placeholder="SK Izin Operasional" name="sk_izin_operasional" id="sk_izin_operasional" type="text" class="validate  @error('sk_izin_operasional') is-invalid @enderror" value="{{ old('sk_izin_operasional') }}">
+                        <input placeholder="SK Izin Operasional" name="sk_izin_operasional" id="sk_izin_operasional" type="text" class="validate  @error('sk_izin_operasional') is-invalid @enderror" value="{{ old('sk_izin_operasional',$kampus->Akta->sk_izin_operasional) }}">
                         <label for="first_name">SK Izin Operasional</label>
 
                         @error('sk_izin_operasional')
@@ -301,7 +301,7 @@
                       </div>
 
                       <div class="input-field col s4">
-                        <input placeholder="Tanggal Izin Operasional" name="tanggal_izin_operasional" id="tanggal_izin_operasional" type="date" class="validate  @error('tanggal_izin_operasional') is-invalid @enderror" value="{{ old('tanggal_izin_operasional') }}">
+                        <input placeholder="Tanggal Izin Operasional" name="tanggal_izin_operasional" id="tanggal_izin_operasional" type="date" class="validate  @error('tanggal_izin_operasional') is-invalid @enderror" value="{{ old('tanggal_izin_operasional',$kampus->Akta->tanggal_izin_operasional) }}">
                         <label for="first_name">Tanggal Izin Operasional</label>
 
                         @error('tanggal_izin_operasional')

@@ -20,5 +20,15 @@ class Kampus extends Model
         return $this->hasOne(kampus_address::class, 'kampus_id','id');
     }
 
+    public function Detail()
+    {
+        return $this->hasOne(kampus_detail::class, 'kampus_id','id');
+    }
+
+    public function Akta()
+    {
+        return $this->hasOne(kampus_akta_pendirian::class, 'kampus_id','id');
+    }
+
 
 }
