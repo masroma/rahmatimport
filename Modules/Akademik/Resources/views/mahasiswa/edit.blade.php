@@ -190,7 +190,7 @@
                         <select name="city_id" id="city_id" class="select2 browser-default">
                             <option value="" disabled selected>Kota</option>
                             @foreach($city as $row)
-                            <option  {{ $kampus->Detail->city_id  == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->name}}</option>
+                            <option  {{ $mahasiswa->Detail->city_id  == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->name}}</option>
                         @endforeach
                         </select>
                         <label for="first_name">Kota</label>
@@ -203,7 +203,7 @@
                         <select name="district_id" id="district_id" class="select2 browser-default">
                             <option value="" disabled selected>Kecamatan</option>
                             @foreach($district as $row)
-                            <option  {{  $kampus->Detail->district_id  == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->name}}</option>
+                            <option  {{  $mahasiswa->Detail->district_id  == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->name}}</option>
                         @endforeach
                         </select>
                         <label for="first_name">Kecamatan</label>
@@ -216,7 +216,7 @@
                         <select name="village_id" id="village_id" class="select2 browser-default">
                             <option value="" disabled selected>Kelurahan</option>
                             @foreach($village as $row)
-                            <option  {{ $kampus->Detail->village_id  == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->name}}</option>
+                            <option  {{ $mahasiswa->Detail->village_id  == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->name}}</option>
                         @endforeach
                         </select>
                         <label for="first_name">Kelurahan</label>
@@ -226,7 +226,7 @@
                       </div>
 
                       <div class="input-field col s4 mt-2 mb-2">
-                        <input placeholder="RT" name="rt" id="RT" type="number" class="validate  @error('rt') is-invalid @enderror" value="{{ old('rt',$kampus->Detail->rt) }}">
+                        <input placeholder="RT" name="rt" id="RT" type="number" class="validate  @error('rt') is-invalid @enderror" value="{{ old('rt',$mahasiswa->Detail->rt) }}">
                         <label for="first_name">RT</label>
                         @error('rt')
                         <span class="red-text text-darken-2">{{ $message }}</small>
@@ -234,7 +234,7 @@
                       </div>
 
                       <div class="input-field col s4 mt-2 mb-2">
-                        <input placeholder="RW" name="rw" id="RW" type="number" class="validate  @error('rw') is-invalid @enderror" value="{{ old('rw',$kampus->Detail->rw) }}">
+                        <input placeholder="RW" name="rw" id="RW" type="number" class="validate  @error('rw') is-invalid @enderror" value="{{ old('rw',$mahasiswa->Detail->rw) }}">
                         <label for="first_name">RW</label>
                         @error('rw')
                         <span class="red-text text-darken-2">{{ $message }}</small>
@@ -242,7 +242,7 @@
                       </div>
 
                       <div class="input-field col s4  mt-2 mb-2">
-                        <input placeholder="dusun" name="dusun" id="dusun" type="text" class="validate  @error('dusun') is-invalid @enderror" value="{{ old('dusun',$kampus->Detail->dusun) }}">
+                        <input placeholder="dusun" name="dusun" id="dusun" type="text" class="validate  @error('dusun') is-invalid @enderror" value="{{ old('dusun',$mahasiswa->Detail->dusun) }}">
                         <label for="first_name">Dusun<span style="color:red">*</span></label>
 
                         @error('dusun')
@@ -251,7 +251,7 @@
                       </div>
 
                       <div class="input-field col s4  mt-2 mb-2">
-                        <input placeholder="telephone" name="telephone" id="telephone" type="text" class="validate  @error('telephone') is-invalid @enderror" value="{{ old('telephone',$kampus->Detail->telephone) }}">
+                        <input placeholder="telephone" name="telephone" id="telephone" type="text" class="validate  @error('telephone') is-invalid @enderror" value="{{ old('telephone',$mahasiswa->Detail->telephone) }}">
                         <label for="first_name">Telephone<span style="color:red">*</span></label>
 
                         @error('telephone')
@@ -260,7 +260,7 @@
                       </div>
 
                       <div class="input-field col s4  mt-2 mb-2">
-                        <input placeholder="handphone" name="handphone" id="handphone" type="text" class="validate  @error('handphone') is-invalid @enderror" value="{{ old('handphone',$kampus->Detail->handphone) }}">
+                        <input placeholder="handphone" name="handphone" id="handphone" type="text" class="validate  @error('handphone') is-invalid @enderror" value="{{ old('handphone',$mahasiswa->Detail->handphone) }}">
                         <label for="first_name">Handphone<span style="color:red">*</span></label>
 
                         @error('handphone')
@@ -323,7 +323,7 @@
                 <div id="test3" class="col s12">
                     <p class="mt-2 mb-2">Data Ayah</p>
                     <div class="input-field col s4 mt-2 mb-2">
-                        <input placeholder="nama ayah" name="nama_ayah" id="nama_ayah" type="text" class="validate  @error('nama_ayah') is-invalid @enderror" value="{{ old('nama_ayah', $mahasiswa->OrangTua->nama_ayah) }}">
+                        <input placeholder="nama ayah" name="nama_ayah" id="nama_ayah" type="text" class="validate  @error('nama_ayah') is-invalid @enderror" value="{{ old('nama_ayah', $mahasiswa->OrangTua ?? $mahasiswa->OrangTua->nama_ayah) }}">
                         <label for="first_name">Nama</label>
                         @error('nama_ayah')
                         <span class="red-text text-darken-2">{{ $message }}</small>

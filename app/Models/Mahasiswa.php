@@ -17,7 +17,7 @@ class Mahasiswa extends Model
      */
     public function Detail()
     {
-        return $this->hasOne(MahasiswaDetail::class, 'mahasiswa_id', 'id');
+        return $this->hasOne(MahasiswaDetail::class, 'mahasiswa_id');
     }
 
     /**
@@ -27,7 +27,7 @@ class Mahasiswa extends Model
      */
     public function OrangTua()
     {
-        return $this->hasOne(MahasiswaDetailOrangTua::class, 'mahasiswa_id', 'id');
+        return $this->hasOne(MahasiswaDetailOrangTua::class, 'mahasiswa_id');
     }
 
     /**
@@ -37,7 +37,7 @@ class Mahasiswa extends Model
      */
     public function Wali()
     {
-        return $this->hasOne(MahasiswaDetailWali::class, 'mahasiswa_id', 'id');
+        return $this->hasOne(MahasiswaDetailWali::class, 'mahasiswa_id');
     }
 
     /**
@@ -47,6 +47,6 @@ class Mahasiswa extends Model
      */
     public function KebutuhanKhusus()
     {
-        return $this->hasOne(MahasiswaDetailKebutuhanKhusus::class, 'mahasiswa_id', 'id');
+        return $this->hasOne(MahasiswaDetailKebutuhanKhusus::class, 'mahasiswa_id');
     }
 }

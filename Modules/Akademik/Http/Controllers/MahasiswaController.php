@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\Mahasiswa;
 use App\Models\MahasiswaDetail;
+use App\Models\MahasiswaDetailOrangTua;
+use App\Models\MahasiswaDetailKebutuhanKhusus;
 use App\Models\Province;
 use App\Models\City;
 use App\Models\District;
@@ -304,6 +306,7 @@ class MahasiswaController extends Controller
 
         $name_page = "mahasiswa";
         $title = "Mahasiswa";
+        $kewarganegaraan = Kewarganegaraan::all();
         $province = Province::all();
         $city = City::all();
         $district = District::all();
@@ -315,9 +318,10 @@ class MahasiswaController extends Controller
             'province' => $province,
             'city' => $city,
             'village'=> $village,
-            'district' => $district
+            'district' => $district,
+            'kewarganegaraan' => $kewarganegaraan
         );
-        return view('akademik::mahasiswa.edit');
+        return view('akademik::mahasiswa.edit')->with($data);
     }
 
     /**
