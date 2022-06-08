@@ -127,7 +127,7 @@
                         <select name="kewarganegaraan_id" class="select2 browser-default">
                             <option value="">Kewarganegaraan</option>
                             @foreach($kewarganegaraan as $row)
-                                <option @if(old('kewarganegaraan_id', $mahasiswa->kewarganegaraan_id) == $row->id_country) selected @endif value="{{$row->id_country}}">{{$row->country_name}}</option>
+                                <option @if(old('kewarganegaraan_id', $mahasiswa->Detail->kewarganegaraan_id) == $row->id_country) selected @endif value="{{$row->id_country}}">{{$row->country_name}}</option>
                             @endforeach
                           </select>
                             <label for="first_name">Kewarganegaraan<span style="color:red">*</span></label>
@@ -136,7 +136,7 @@
                         @enderror
                     </div>
                     <div class="input-field col s6  mt-3 mb-3">
-                        <input placeholder="nik" name="nik" id="nik" type="text" class="validate  @error('nik') is-invalid @enderror" value="{{ old('nik',$mahasiswa->nik) }}">
+                        <input placeholder="nik" name="nik" id="nik" type="text" class="validate  @error('nik') is-invalid @enderror" value="{{ old('nik',$mahasiswa->Detail->ktp) }}">
                         <label for="first_name">NIK<span style="color:red">*</span></label>
 
                         @error('nik')
@@ -144,7 +144,7 @@
                         @enderror
                       </div>
                       <div class="input-field col s6  mt-2 mb-2">
-                        <input placeholder="nisn" name="nisn" id="nisn" type="text" class="validate  @error('nisn') is-invalid @enderror" value="{{ old('nisn',$mahasiswa->nisn) }}">
+                        <input placeholder="nisn" name="nisn" id="nisn" type="text" class="validate  @error('nisn') is-invalid @enderror" value="{{ old('nisn',$mahasiswa->Detail->nisn) }}">
                         <label for="first_name">NISN<span style="color:red">*</span></label>
 
                         @error('nisn')
@@ -153,7 +153,7 @@
                       </div>
 
                       <div class="input-field col s6  mt-2 mb-2">
-                        <input placeholder="npwp" name="npwp" id="npwp" type="text" class="validate  @error('npwp') is-invalid @enderror" value="{{ old('npwp',$mahasiswa->npwp) }}">
+                        <input placeholder="npwp" name="npwp" id="npwp" type="text" class="validate  @error('npwp') is-invalid @enderror" value="{{ old('npwp',$mahasiswa->Detail->npwp) }}">
                         <label for="first_name">NPWP<span style="color:red">*</span></label>
 
                         @error('nisn')
@@ -173,11 +173,11 @@
                       @enderror
                     </div>
 
-                        <div class="input-field col s6 mt-2 mb-2">
+                        <div class="input-field col s6 ">
                         <select name="province_id" class="select2 browser-default">
                             <option value="" disabled selected>Provinsi</option>
                             @foreach($province as $row)
-                                <option  {{ old('province_id',$mahasiswa->province_id) == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->name}}</option>
+                                <option  {{ old('province_id',$mahasiswa->Detail->province_id) == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->name}}</option>
                             @endforeach
                           </select>
                             <label for="first_name">Provinsi</label>
@@ -323,7 +323,7 @@
                 <div id="test3" class="col s12">
                     <p class="mt-2 mb-2">Data Ayah</p>
                     <div class="input-field col s4 mt-2 mb-2">
-                        <input placeholder="nama ayah" name="nama_ayah" id="nama_ayah" type="text" class="validate  @error('nama_ayah') is-invalid @enderror" value="{{ old('nama_ayah', $mahasiswa->OrangTua ?? $mahasiswa->OrangTua->nama_ayah) }}">
+                        <input placeholder="nama ayah" name="nama_ayah" id="nama_ayah" type="text" class="validate  @error('nama_ayah') is-invalid @enderror" value="{{ old('nama_ayah', $mahasiswa->OrangTua->nama_ayah) }}">
                         <label for="first_name">Nama</label>
                         @error('nama_ayah')
                         <span class="red-text text-darken-2">{{ $message }}</small>

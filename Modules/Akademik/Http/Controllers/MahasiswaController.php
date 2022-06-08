@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use App\Models\Mahasiswa;
 use App\Models\MahasiswaDetail;
 use App\Models\MahasiswaDetailOrangTua;
+use App\Models\MahasiswaDetailWali;
 use App\Models\MahasiswaDetailKebutuhanKhusus;
 use App\Models\Province;
 use App\Models\City;
@@ -427,7 +428,7 @@ class MahasiswaController extends Controller
             $save->pekerjaan_ayah = $request->pekerjaan_ayah ?? null;
             $save->penghasilan_ayah = $request->penghasilan_ayah ??  null;
             $save->nik_ibu = $request->nik_ayah ?? null;
-            $save->nama_ibu = $request->nama_ayah ?? null;
+            $save->nama_ibu = $request->nama_ibu ?? null;
             $save->tanggal_lahir_ibu = $request->tanggal_lahir_ibu ?? null;
             $save->pendidikan_ibu = $request->pendidikan_ibu ?? null;
             $save->pekerjaan_ibu = $request->pekerjaan_ibu ?? null;

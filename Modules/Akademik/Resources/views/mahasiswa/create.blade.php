@@ -154,7 +154,7 @@
 
                       <div class="input-field col s6  mt-2 mb-2">
                         <input placeholder="npwp" name="npwp" id="npwp" type="text" class="validate  @error('npwp') is-invalid @enderror" value="{{ old('npwp') }}">
-                        <label for="first_name">NPWP<span style="color:red">*</span></label>
+                        <label for="first_name">NPWP</label>
 
                         @error('nisn')
                         <span class="red-text text-darken-2">{{ $message }}</small>
@@ -265,7 +265,7 @@
                             <option value="n">Tidak</option>
 
                         </select>
-                         <label for="first_name">Penerima KPS<span style="color:red">*</span></label>
+                         <label for="first_name">Penerima KPS</label>
 
                          @error('penerima_kps')
                          <span class="red-text text-darken-2">{{ $message }}</small>
@@ -285,7 +285,7 @@
                             <option value="jalan kaki">Jalan Kaki</option>
                             <option value="mobil pribadi">Mobil Pribadi</option>
                         </select>
-                         <label for="first_name">Alat Transportasi<span style="color:red">*</span></label>
+                         <label for="first_name">Alat Transportasi</label>
 
                          @error('alat_transportasi')
                          <span class="red-text text-darken-2">{{ $message }}</small>
@@ -302,7 +302,7 @@
                             <option value="orang tua">Bersama Orang Tua</option>
 
                         </select>
-                         <label for="first_name">Alat Transportasi<span style="color:red">*</span></label>
+                         <label for="first_name">Jenis Tinggal</label>
 
                          @error('jenis_tinggal')
                          <span class="red-text text-darken-2">{{ $message }}</small>
@@ -496,14 +496,14 @@
                         @enderror
                       </div>
 
-                      <div class="input-field col s4 mt-2 mb-2">
+                      <div class="input-field col s4 mt-3 mb-2">
                         <input placeholder="tanggal lahir" name="tanggal_lahir_wali" id="tanggal_lahir_wali" type="date" class="validate  @error('tanggal_lahir_wali') is-invalid @enderror" value="{{ old('tanggal_lahir_wali') }}">
                         <label for="first_name">Tanggal Lahir</label>
                         @error('tanggal_lahir_wali')
                         <span class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
                       </div>
-                      <div class="input-field col s4 mt-2 mb-2">
+                      <div class="input-field col s4 mt-3 mb-2">
                        <select name="pendidikan_wali" id="pendidikan">
                            <option value="">pendidikan</option>
                            <option value="sd">SD</option>
