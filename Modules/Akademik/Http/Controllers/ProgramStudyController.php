@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\ProgramStudy;
+use App\Models\JenjangPendidikan;
 use DataTables;
 use Exception;
 use Auth;
@@ -39,7 +40,7 @@ class ProgramStudyController extends Controller
             // $canShow = Gate::allows('programstudy-show');
             $canUpdate = Gate::allows('programstudy-edit');
             $canDelete = Gate::allows('programstudy-delete');
-            $data = ProgramStudy::with('jenjang')->all();
+            $data = ProgramStudy::with('jenjang')->get();
             return DataTables::of($data)
 
                     ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
@@ -116,6 +117,7 @@ class ProgramStudyController extends Controller
      */
     public function store(Request $request)
     {
+
         DB::beginTransaction();
         try {
             $this->validate($request, [

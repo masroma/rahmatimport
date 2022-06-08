@@ -44,7 +44,7 @@
     <div class="card-content">
       {{-- <h4 class="card-title">Page Length Options</h4> --}}
       <div class="row">
-            <form action="{{ route('jurusan.store') }}" method="POST"
+            <form action="{{ route('programstudy.store') }}" method="POST"
             enctype="multipart/form-data" class="col s12">
             @csrf
                 <div class="row">
@@ -59,9 +59,9 @@
 
 
                   <div class="input-field col s12">
-                    <select name="fakultas_id" id="jenjang_id" class="validate @error('jenjang_id') is-invalid @enderror">
+                    <select name="jenjang_id" id="jenjang_id" class="validate @error('jenjang_id') is-invalid @enderror">
                         <option value="" disabled selected>Jenjang Pendidikan</option>
-                        <option value="none">none</option>
+                        {{-- <option value="none">none</option> --}}
                         @foreach($jenjang as $key)
                             <option  {{ old('jenjang_id') == $key->id ? 'selected' : '' }}  value="{{$key->id}}">{{$key->nama_jenjang}}</option>
                         @endforeach

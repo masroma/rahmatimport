@@ -16,6 +16,7 @@
    <!-- BEGIN: VENDOR CSS-->
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/vendors.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/flag-icon/css/flag-icon.min.css')}}">
+   <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/materialize-stepper/materialize-stepper.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/data-tables/css/jquery.dataTables.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/data-tables/css/select.dataTables.min.css')}}">
@@ -24,6 +25,7 @@
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/css/themes/vertical-modern-menu-template/materialize.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/css/themes/vertical-modern-menu-template/style.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/css/pages/data-tables.css')}}">
+   <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/css/pages/form-wizard.css')}}">
    <!-- END: Page Level CSS-->
    <!-- BEGIN: Custom CSS-->
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/css/custom/custom.css')}}">
@@ -262,6 +264,7 @@
     <script src="{{asset('v1/app-assets/vendors/select2/select2.full.min.js')}}"></script>
     <link rel="stylesheet" href="{{asset('v1/app-assets/vendors/select2/select2.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('v1/app-assets/vendors/select2/select2-materialize.css')}}" type="text/css">
+    <script src="{{asset('v1/app-assets/vendors/materialize-stepper/materialize-stepper.min.js')}}"></script>
     <!-- BEGIN VENDOR JS-->
     <!-- BEGIN PAGE VENDOR JS-->
     <script src="{{asset('v1/app-assets/vendors/data-tables/js/jquery.dataTables.min.js')}}"></script>
@@ -280,6 +283,7 @@
     <!-- END PAGE LEVEL JS-->
     <script src="{{asset('v1/app-assets/js/scripts/form-select2.js')}}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="{{asset('v1/app-assets/js/scripts/form-wizard.js')}}"></script>
 
     <script>
       //message with toastr

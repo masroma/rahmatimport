@@ -306,5 +306,72 @@ Route::prefix('akademik')->group(function() {
                 );
             }
         );
+
+        // mahasiswa
+        Route::prefix('mahasiswa')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'MahasiswaController@data',
+                        'as' => 'mahasiswa.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'MahasiswaController@index',
+                        'as' => 'mahasiswa.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'MahasiswaController@create',
+                        'as' => 'mahasiswa.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'MahasiswaController@store',
+                        'as' => 'mahasiswa.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'MahasiswaController@edit',
+                        'as' => 'mahasiswa.edit'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/show',
+                    [
+                        'uses' => 'MahasiswaController@show',
+                        'as' => 'mahasiswa.show'
+                    ]
+                );
+
+
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'MahasiswaController@update',
+                        'as' => 'mahasiswa.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'MahasiswaController@destroy',
+                        'as' => 'mahasiswa.destroy'
+                    ]
+                );
+            }
+        );
     });
 });

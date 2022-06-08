@@ -115,7 +115,7 @@
                   @enderror
                 </div>
 
-                <div class="input-field col s6">
+                    <div class="input-field col s6">
                     <select name="province_id" class="select2 browser-default">
                         <option value="" disabled selected>Provinsi</option>
                         @foreach($province as $row)

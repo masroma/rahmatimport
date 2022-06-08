@@ -62,7 +62,7 @@
                         <option value="" disabled selected>jenjang</option>
                         <option value="none">none</option>
                         @foreach($jenjang as $key)
-                            <option  {{ old('jenjang_id', $jurusan->jenjang_id) == $key->id ? 'selected' : '' }}  value="{{$key->id}}">{{$key->nama_jenjang}}</option>
+                            <option  {{ old('jenjang_id', $programstudy->jenjang_id) == $key->id ? 'selected' : '' }}  value="{{$key->id}}">{{$key->nama_jenjang}}</option>
                         @endforeach
                     </select>
                     <label for="first_name">jenjang</label>
