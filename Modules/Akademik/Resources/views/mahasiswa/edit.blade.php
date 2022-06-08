@@ -154,7 +154,7 @@
 
                       <div class="input-field col s6  mt-2 mb-2">
                         <input placeholder="npwp" name="npwp" id="npwp" type="text" class="validate  @error('npwp') is-invalid @enderror" value="{{ old('npwp',$mahasiswa->Detail->npwp) }}">
-                        <label for="first_name">NPWP<span style="color:red">*</span></label>
+                        <label for="first_name">NPWP</label>
 
                         @error('nisn')
                         <span class="red-text text-darken-2">{{ $message }}</small>
@@ -243,7 +243,7 @@
 
                       <div class="input-field col s4  mt-2 mb-2">
                         <input placeholder="dusun" name="dusun" id="dusun" type="text" class="validate  @error('dusun') is-invalid @enderror" value="{{ old('dusun',$mahasiswa->Detail->dusun) }}">
-                        <label for="first_name">Dusun<span style="color:red">*</span></label>
+                        <label for="first_name">Dusun</label>
 
                         @error('dusun')
                         <span class="red-text text-darken-2">{{ $message }}</small>
@@ -252,7 +252,7 @@
 
                       <div class="input-field col s4  mt-2 mb-2">
                         <input placeholder="telephone" name="telephone" id="telephone" type="text" class="validate  @error('telephone') is-invalid @enderror" value="{{ old('telephone',$mahasiswa->Detail->telephone) }}">
-                        <label for="first_name">Telephone<span style="color:red">*</span></label>
+                        <label for="first_name">Telephone</label>
 
                         @error('telephone')
                         <span class="red-text text-darken-2">{{ $message }}</small>
@@ -261,7 +261,7 @@
 
                       <div class="input-field col s4  mt-2 mb-2">
                         <input placeholder="handphone" name="handphone" id="handphone" type="text" class="validate  @error('handphone') is-invalid @enderror" value="{{ old('handphone',$mahasiswa->Detail->handphone) }}">
-                        <label for="first_name">Handphone<span style="color:red">*</span></label>
+                        <label for="first_name">Handphone</label>
 
                         @error('handphone')
                         <span class="red-text text-darken-2">{{ $message }}</small>
@@ -294,7 +294,7 @@
                             <option value="jalan kaki"@if(old('agama',$mahasiswa->Detail->alat_transportasi) == 'jalan kaki') selected @endif>Jalan Kaki</option>
                             <option value="mobil pribadi"@if(old('agama',$mahasiswa->Detail->alat_transportasi) == 'mobil pribadi') selected @endif>Mobil Pribadi</option>
                         </select>
-                         <label for="first_name">Alat Transportasi<span style="color:red">*</span></label>
+                         <label for="first_name">Alat Transportasi</label>
 
                          @error('alat_transportasi')
                          <span class="red-text text-darken-2">{{ $message }}</small>
@@ -311,7 +311,7 @@
                             <option value="orang tua"  @if(old('jenis_tinggal',$mahasiswa->Detail->jenis_tinggal) == 'orang tua') selected @endif>Bersama Orang Tua</option>
 
                         </select>
-                         <label for="first_name">Alat Transportasi<span style="color:red">*</span></label>
+                         <label for="first_name">Jenis Tinggal</label>
 
                          @error('jenis_tinggal')
                          <span class="red-text text-darken-2">{{ $message }}</small>
@@ -583,7 +583,7 @@
                             <option value="y"  @if(old('kebutuhan_khusus',$mahasiswa->KebutuhanKhusus->kebutuhan_khusus) == 'y') selected @endif>Ya</option>
                             <option value="n"  @if(old('kebutuhan_khusus',$mahasiswa->KebutuhanKhusus->kebutuhan_khusus) == 'n') selected @endif>Tidak</option>
                         </select>
-                         <label for="first_name">Kebutuhan Khusus<span style="color:red">*</span></label>
+                         <label for="first_name">Kebutuhan Khusus</label>
 
                          @error('kebutuhan_khusus')
                          <span class="red-text text-darken-2">{{ $message }}</small>

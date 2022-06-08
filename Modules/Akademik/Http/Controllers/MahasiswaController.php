@@ -189,6 +189,7 @@ class MahasiswaController extends Controller
             $save->dusun = $request->dusun ??  null;
             $save->rt = $request->rt ??  null;
             $save->rw = $request->rw ??  null;
+            $save->kode_pos = $request->kode_pos ??  null;
             $save->handphone = $request->handphone ??  null;
             $save->penerima_kps = $request->penerima_kps ??  null;
             $save->province_id = $request->province_id ??  null;
@@ -284,7 +285,7 @@ class MahasiswaController extends Controller
     public function show($id)
     {
 
-        $mahasiswa = Mahasiswa::with('Detail','OrangTua', 'Wali','KebutuhanKhusus')->findOrFail($id);
+        $mahasiswa = Mahasiswa::with('Detail','Detail.Provinsi','Detail.Kota','Detail.Kecamatan','Detail.Kelurahan','OrangTua', 'Wali','KebutuhanKhusus')->findOrFail($id);
 
         $name_page = "mahasiswa";
         $title = "Mahasiswa";
@@ -397,6 +398,7 @@ class MahasiswaController extends Controller
             $save->dusun = $request->dusun ??  null;
             $save->rt = $request->rt ??  null;
             $save->rw = $request->rw ??  null;
+            $save->kode_pos = $request->kode_pos ??  null;
             $save->handphone = $request->handphone ??  null;
             $save->penerima_kps = $request->penerima_kps ??  null;
             $save->province_id = $request->province_id ??  null;
@@ -489,12 +491,93 @@ class MahasiswaController extends Controller
      */
     public function destroy($id)
     {
-        Mahasiswa::find($id)->delete();
-        MahasiswaDetail::where('mahasiswa_id', $id)->delete();
-        MahasiswaDetailOrangTua::where('mahasiswa_id', $id)->delete();
-        MahasiswaDetailWali::where('mahasiswa_id', $id)->delete();
-        MahasiswaDetailKebutuhanKhusus::where('mahasiswa_id', $id)->delete();
-        return redirect()->route('mahasiswa.index')
-            ->with('success', 'Data berhasil dihapus');
+        DB::beginTransaction();
+        try {
+            Mahasiswa::find($id)->delete();
+            MahasiswaDetail::where('mahasiswa_id', $id)->delete();
+            MahasiswaDetailOrangTua::where('mahasiswa_id', $id)->delete();
+            MahasiswaDetailWali::where('mahasiswa_id', $id)->delete();
+            MahasiswaDetailKebutuhanKhusus::where('mahasiswa_id', $id)->delete();
+
+                DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+        return redirect()->route('mahasiswa.index')->with('success', 'Data berhasil dihapus');
     }
+
+    public function dataTrash()
+    {
+        try {
+
+            $data = Mahasiswa::onlyTrashed()->get();
+            return DataTables::of($data)
+            ->addColumn('action', function ($data)  {
+
+                $btn = '';
+                    $btn .= '<a class="btn-floating btn-small" href=" '.$data->id. '/restore"><i class="material-icons">autorenew</i></a>';
+
+                return $btn;
+            })
+                    ->addIndexColumn()
+                    ->make(true);
+
+        } catch (Exception $e) {
+            DB::commit();
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => $e->getMessage()
+                ]
+            );
+        }
+    }
+
+    public function trash()
+    {
+
+        $name_page = "mahasiswa";
+        $title = "Mahasiswa";
+        $data = array(
+            'page' => $name_page,
+            'title' => $title
+        );
+        return view('akademik::mahasiswa.trash')->with($data);
+    }
+
+    public function restore($id)
+    {
+        try {
+            $data = Mahasiswa::onlyTrashed()->where('id',$id);
+            $data->restore();
+            $data = MahasiswaDetail::onlyTrashed()->where('mahasiswa_id',$id);
+            $data->restore();
+            $data = MahasiswaDetailKebutuhanKhusus::onlyTrashed()->where('mahasiswa_id',$id);
+            $data->restore();
+            $data = MahasiswaDetailOrangTua::onlyTrashed()->where('mahasiswa_id',$id);
+            $data->restore();
+            $data = MahasiswaDetailWali::onlyTrashed()->where('mahasiswa_id',$id);
+            $data->restore();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+        if ($data) {
+            //redirect dengan pesan sukses
+            return redirect()->route('mahasiswa.index')->with(['success' => 'Data Berhasil Dikembalikan!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route('mahasiswa.index')->with(['error' => 'Data Gagal Dikembalikan!']);
+        }
+    }
+
+
+
+
+
+
 }

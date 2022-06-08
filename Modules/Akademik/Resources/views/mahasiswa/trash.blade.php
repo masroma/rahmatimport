@@ -14,16 +14,12 @@
               </li>
               {{-- <li class="breadcrumb-item"><a href="#">Table</a>
               </li> --}}
-              <li class="breadcrumb-item active">{{$title}}
+              <li class="breadcrumb-item"><a href="{{ route('mahasiswa.index') }}">{{$title}}</a>
               </li>
+              <li class="breadcrumb-item active">Data Trash</li>
             </ol>
           </div>
           <div class="col s2 m6 l6">
-            <a class="btn waves-effect waves-light green  breadcrumbs-btn right me-3" style="margin-top:-3px; margin-left:10px" href="{{route($page.'.trash')}}"  id="tombol-tambah" ><i class="material-icons left">delete</i>Trash</a>
-              @if($canCreate)
-              <a class="btn waves-effect waves-light breadcrumbs-btn right" href="{{route($page.'.create')}}"  id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
-
-              @endif
 
           </div>
         </div>
@@ -53,23 +49,24 @@
           <table id="page-length-option" class="display">
             <thead>
               <tr>
+                <th>#</th>
                 <th>No</th>
                 <th>NIM</th>
                 <th>Nama</th>
                 <th>Jenis Kelamin</th>
                 <th>Agama</th>
                 <th>Nama Ibu</th>
-                <th>#</th>
+
               </tr>
             </thead>
             <tfoot>
+                <th>#</th>
                 <th>No</th>
                 <th>NIM</th>
                 <th>Nama</th>
                 <th>Jenis Kelamin</th>
                 <th>Agama</th>
                 <th>Nama Ibu</th>
-                <th>#</th>
               </tr>
               </tfoot>
           </table>
@@ -109,10 +106,15 @@
                       processing: true,
                       serverSide: true,
                       ajax: {
-                          url: "{{ route('mahasiswa.data') }}",
+                          url: "{{ route('mahasiswa.datatrash') }}",
                           type: "GET",
                       },
                       columns: [
+                        {
+                              data: 'action',
+                              name: 'action'
+                          },
+
                       {
                           data:"DT_RowIndex",
                           name:"DT_RowIndex"
@@ -145,10 +147,6 @@
                           },
 
 
-                          {
-                              data: 'action',
-                              name: 'action'
-                          },
 
 
 

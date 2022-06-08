@@ -371,6 +371,28 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'mahasiswa.destroy'
                     ]
                 );
+                Route::get(
+                    '/datatrash',
+                    [
+                        'uses' => 'MahasiswaController@dataTrash',
+                        'as' => 'mahasiswa.datatrash'
+                    ]
+                );
+                Route::get(
+                    '/trash',
+                    [
+                        'uses' => 'MahasiswaController@trash',
+                        'as' => 'mahasiswa.trash'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/restore',
+                    [
+                        'uses' => 'MahasiswaController@restore',
+                        'as' => 'mahasiswa.restore'
+                    ]
+                );
             }
         );
     });
