@@ -36,6 +36,7 @@ return array(
     'App\\Models\\DosenAddress' => $baseDir . '/app/Models/DosenAddress.php',
     'App\\Models\\DosenDetail' => $baseDir . '/app/Models/DosenDetail.php',
     'App\\Models\\DosenKebutuhanKhusus' => $baseDir . '/app/Models/DosenKebutuhanKhusus.php',
+    'App\\Models\\DosenPembimbingAktifitasMahasiswa' => $baseDir . '/app/Models/DosenPembimbingAktifitasMahasiswa.php',
     'App\\Models\\DosenRiwayatFungsional' => $baseDir . '/app/Models/DosenRiwayatFungsional.php',
     'App\\Models\\DosenRiwayatPangkat' => $baseDir . '/app/Models/DosenRiwayatPangkat.php',
     'App\\Models\\DosenRiwayatPendidikan' => $baseDir . '/app/Models/DosenRiwayatPendidikan.php',

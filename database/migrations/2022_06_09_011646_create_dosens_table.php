@@ -16,7 +16,7 @@ class CreateDosensTable extends Migration
         Schema::create('dosens', function (Blueprint $table) {
             $table->id();
             $table->string('nama_dosen');
-            $table->string('nidn')->unique();
+            $table->string('nidn')->unique()->nullable();
             $table->enum('jenis_kelamin',['laki-laki','perempuan']);
             $table->enum('agama',['islam','kristen','katolik','hindu','budha','konghucu']);
             $table->date('tanggal_lahir');

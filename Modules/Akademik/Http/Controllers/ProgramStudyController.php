@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\ProgramStudy;
+use App\Models\Jurusan;
 use App\Models\JenjangPendidikan;
 use DataTables;
 use Exception;
@@ -40,7 +41,7 @@ class ProgramStudyController extends Controller
             // $canShow = Gate::allows('programstudy-show');
             $canUpdate = Gate::allows('programstudy-edit');
             $canDelete = Gate::allows('programstudy-delete');
-            $data = ProgramStudy::with('jenjang')->get();
+            $data = ProgramStudy::with('jenjang','jurusan')->get();
             return DataTables::of($data)
 
                     ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
@@ -99,11 +100,14 @@ class ProgramStudyController extends Controller
     {
         $name_page = "programstudy";
         $jenjang = JenjangPendidikan::all();
+        $jurusan = Jurusan::all();
+
         $title = "Program Study";
         $data = array(
             'page' => $name_page,
             'jenjang' => $jenjang,
-            'title' => $title
+            'title' => $title,
+            'jurusan' => $jurusan
 
         );
 
@@ -165,7 +169,7 @@ class ProgramStudyController extends Controller
     {
         $programstudy = ProgramStudy::findOrFail($id);
 
-
+        $jurusan = Jurusan::all();
         $name_page = "programstudy";
         $jenjang = JenjangPendidikan::all();
         $title = "Program study";
@@ -173,7 +177,8 @@ class ProgramStudyController extends Controller
             'page' => $name_page,
             'programstudy' => $programstudy,
             'jenjang' => $jenjang,
-            'title' => $title
+            'title' => $title,
+            'jurusan' => $jurusan
         );
         return view('akademik::programstudy.edit')->with($data);
     }

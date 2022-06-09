@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Dosen extends Model
+class DosenAktifitasMahasiswa extends Model
 {
-    use HasFactory, softDeletes;
-
-
+    use HasFactory,  softDeletes;
 }

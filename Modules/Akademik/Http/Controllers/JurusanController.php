@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\Jurusan;
+use App\Models\Fakultas;
 use DataTables;
 use Exception;
 use Auth;
@@ -40,7 +41,7 @@ class JurusanController extends Controller
             // $canShow = Gate::allows('jurusan-show');
             $canUpdate = Gate::allows('jurusan-edit');
             $canDelete = Gate::allows('jurusan-delete');
-            $data = Jurusan::with('fakultas')->all();
+            $data = Jurusan::with('fakultas')->get();
             return DataTables::of($data)
 
                     ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {

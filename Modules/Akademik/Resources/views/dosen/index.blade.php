@@ -1,5 +1,5 @@
 @extends('layouts.v1')
-@section('title') {{$title}} @endsection
+@section('title') {{$page}} @endsection
 @section('content')
 <div class="row">
     <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
@@ -19,9 +19,12 @@
             </ol>
           </div>
           <div class="col s2 m6 l6">
+            <a class="btn waves-effect waves-light green  breadcrumbs-btn right me-3" style="margin-top:-3px; margin-left:10px" href="{{route($page.'.trash')}}"  id="tombol-tambah" ><i class="material-icons left">delete</i>Trash</a>
               @if($canCreate)
-              <a class="btn  waves-effect waves-light breadcrumbs-btn right" href="{{route($page.'.create')}}"  id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
+              <a class="btn waves-effect waves-light breadcrumbs-btn right" href="{{route($page.'.create')}}"  id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
+
               @endif
+
           </div>
         </div>
       </div>
@@ -49,20 +52,25 @@
         <div class="col s12">
           <table id="page-length-option" class="display">
             <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Program Study</th>
-                    <th>Jenjang</th>
-                    <th>#</th>
-                </tr>
+              <tr>
+                <th>No</th>
+                <th>NIDN</th>
+                <th>Nama</th>
+                <th>Jenis Kelamin</th>
+                <th>Agama</th>
+                <th>Tanggal Lahir</th>
+                <th>#</th>
+              </tr>
             </thead>
             <tfoot>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Program Study</th>
-                    <th>Jenjang</th>
-                    <th>#</th>
-                </tr>
+                <th>No</th>
+                <th>NIDN</th>
+                <th>Nama</th>
+                <th>Jenis Kelamin</th>
+                <th>Agama</th>
+                <th>Tanggal Lahir</th>
+                <th>#</th>
+              </tr>
               </tfoot>
           </table>
         </div>
@@ -101,7 +109,7 @@
                       processing: true,
                       serverSide: true,
                       ajax: {
-                          url: "{{ route('programstudy.data') }}",
+                          url: "{{ route('dosen.data') }}",
                           type: "GET",
                       },
                       columns: [
@@ -109,20 +117,40 @@
                           data:"DT_RowIndex",
                           name:"DT_RowIndex"
                       },
-                      {
-                            data: 'jurusan.nama_jurusan',
-                            name: 'jurusan.nama_jurusan'
-                        },
+                          {
+                              data: 'nidn',
+                              name: 'nidn'
+                          },
 
-                        {
-                            data: 'jenjang.nama_jenjang',
-                            name: 'jenjang.nama_jenjang'
-                        },
+                          {
+                              data: 'nama_dosen',
+                              name: 'nama_dosen'
+                          },
 
-                        {
-                            data: 'action',
-                            name: 'action'
-                        },
+                          {
+                              data: 'jenis_kelamin',
+                              name: 'jenis_kelamin'
+                          },
+
+
+                          {
+                              data: 'agama',
+                              name: 'agama'
+                          },
+
+                          {
+                              data: 'tanggallahir',
+                              name: 'tanggallahir'
+                          },
+
+
+                          {
+                              data: 'action',
+                              name: 'action'
+                          },
+
+
+
 
                       ],
                       order: [
@@ -142,7 +170,7 @@
                   })
                   .then((dt) => {
                       if (dt) {
-                          window.location.href = "{{ url('akademik/programstudy') }}/" + id + "/delete";
+                          window.location.href = "{{ url('akademik/dosen') }}/" + id + "/delete";
                       }
                   });
           }

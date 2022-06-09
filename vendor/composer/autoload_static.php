@@ -659,6 +659,7 @@ class ComposerStaticInit3da5cb96e764b81e4b282324393f2f84
         'App\\Models\\DosenAddress' => __DIR__ . '/../..' . '/app/Models/DosenAddress.php',
         'App\\Models\\DosenDetail' => __DIR__ . '/../..' . '/app/Models/DosenDetail.php',
         'App\\Models\\DosenKebutuhanKhusus' => __DIR__ . '/../..' . '/app/Models/DosenKebutuhanKhusus.php',
+        'App\\Models\\DosenPembimbingAktifitasMahasiswa' => __DIR__ . '/../..' . '/app/Models/DosenPembimbingAktifitasMahasiswa.php',
         'App\\Models\\DosenRiwayatFungsional' => __DIR__ . '/../..' . '/app/Models/DosenRiwayatFungsional.php',
         'App\\Models\\DosenRiwayatPangkat' => __DIR__ . '/../..' . '/app/Models/DosenRiwayatPangkat.php',
         'App\\Models\\DosenRiwayatPendidikan' => __DIR__ . '/../..' . '/app/Models/DosenRiwayatPendidikan.php',

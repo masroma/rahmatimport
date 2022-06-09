@@ -395,5 +395,94 @@ Route::prefix('akademik')->group(function() {
                 );
             }
         );
+
+        // dosen
+        Route::prefix('dosen')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'DosenController@data',
+                        'as' => 'dosen.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'DosenController@index',
+                        'as' => 'dosen.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'DosenController@create',
+                        'as' => 'dosen.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'DosenController@store',
+                        'as' => 'dosen.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'DosenController@edit',
+                        'as' => 'dosen.edit'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/show',
+                    [
+                        'uses' => 'DosenController@show',
+                        'as' => 'dosen.show'
+                    ]
+                );
+
+
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'DosenController@update',
+                        'as' => 'dosen.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'DosenController@destroy',
+                        'as' => 'dosen.destroy'
+                    ]
+                );
+                Route::get(
+                    '/datatrash',
+                    [
+                        'uses' => 'DosenController@dataTrash',
+                        'as' => 'dosen.datatrash'
+                    ]
+                );
+                Route::get(
+                    '/trash',
+                    [
+                        'uses' => 'DosenController@trash',
+                        'as' => 'dosen.trash'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/restore',
+                    [
+                        'uses' => 'DosenController@restore',
+                        'as' => 'dosen.restore'
+                    ]
+                );
+            }
+        );
     });
 });

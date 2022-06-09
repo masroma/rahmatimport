@@ -19,4 +19,9 @@ class ProgramStudy extends Model
     {
         return $this->belongsTo(JenjangPendidikan::class, 'jenjang_id', 'id');
     }
+
+    public function jurusan()
+    {
+        return $this->belongsTo(Jurusan::class, 'nama_program_study', 'id');
+    }
 }
