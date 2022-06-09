@@ -232,6 +232,14 @@
                         @enderror
                       </div>
 
+                      <div class="input-field col s4 mt-2 mb-2">
+                        <input placeholder="Kode Pos" name="kode_pos" id="kode_pos" type="number" class="validate  @error('kode_pos') is-invalid @enderror" value="{{ old('kode_pos') }}">
+                        <label for="first_name">Kode Pos</label>
+                        @error('kode_pos')
+                        <span class="red-text text-darken-2">{{ $message }}</small>
+                        @enderror
+                      </div>
+
                       <div class="input-field col s4  mt-2 mb-2">
                         <input placeholder="dusun" name="dusun" id="dusun" type="text" class="validate  @error('dusun') is-invalid @enderror" value="{{ old('dusun') }}">
                         <label for="first_name">Dusun<span style="color:red">*</span></label>

@@ -56,7 +56,7 @@
                  <div class="col s12 mt-3">
                     <div id="test1" class="col s12 ">
                         <div class="input-field col s4  mt-2 mb-2">
-                            <input placeholder="nama" name="NIDN" id="nidn" type="text" class="validate  @error('nidn') is-invalid @enderror" value="{{ old('nidn', $dosen->nidn) }}">
+                            <input placeholder="nama" name="nidn" id="nidn" type="text" class="validate  @error('nidn') is-invalid @enderror" value="{{ old('nidn', $dosen->nidn) }}">
                             <label for="first_name">NIDN</label>
 
                             @error('nidn')

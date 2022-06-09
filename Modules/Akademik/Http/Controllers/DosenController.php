@@ -158,6 +158,43 @@ class DosenController extends Controller
         }
     }
 
+    public function storeDosenDetail(Request $request, $idMahasiswa)
+    {
+
+        DB::beginTransaction();
+        try {
+            $save = new MahasiswaDetail();
+            $save->mahasiswa_id = $idMahasiswa;
+            $save->kewarganegaraan_id = $request->kewarganegaraan_id ?? null;
+            $save->nisn = $request->nisn ?? null;
+            $save->email = $request->email ?? null;
+            $save->ktp = $request->nik ?? null;
+            $save->npwp = $request->npwp ?? null;
+            $save->jalan = $request->jalan ??  null;
+            $save->telephone = $request->telephone ??  null;
+            $save->dusun = $request->dusun ??  null;
+            $save->rt = $request->rt ??  null;
+            $save->rw = $request->rw ??  null;
+            $save->kode_pos = $request->kode_pos ??  null;
+            $save->handphone = $request->handphone ??  null;
+            $save->penerima_kps = $request->penerima_kps ??  null;
+            $save->province_id = $request->province_id ??  null;
+            $save->city_id = $request->city_id ??  null;
+            $save->district_id = $request->district_id ??  null;
+            $save->village_id = $request->village_id ??  null;
+            $save->jenis_tinggal = $request->jenis_tinggal ??  null;
+            $save->alat_transportasi = $request->alat_transportasi ??  null;
+            $save->save();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+    }
+
+
+
     /**
      * Show the specified resource.
      * @param int $id
