@@ -310,9 +310,9 @@ class MahasiswaController extends Controller
         $title = "Mahasiswa";
         $kewarganegaraan = Kewarganegaraan::all();
         $province = Province::all();
-        $city = City::all();
-        $district = District::all();
-        $village = Village::all();
+        $city = City::where('province_id',$mahasiswa->Detail->province_id)->get();
+        $district = District::where('regency_id',$mahasiswa->Detail->city_id)->get();
+        $village = Village::where('district_id',$mahasiswa->Detail->district_id)->get();
         $data = array(
             'page' => $name_page,
             'mahasiswa' => $mahasiswa,

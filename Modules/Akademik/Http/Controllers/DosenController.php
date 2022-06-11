@@ -10,6 +10,10 @@ use App\Models\City;
 use App\Models\District;
 use App\Models\Village;
 use App\Models\Dosen;
+use App\Models\DosenDetail;
+use App\Models\DosenAddress;
+use App\Models\DosenKeluarga;
+use App\Models\DosenKebutuhanKhusus;
 use DataTables;
 use Exception;
 use Auth;
@@ -131,17 +135,23 @@ class DosenController extends Controller
                 'tanggal_lahir' => 'required',
                 'tempat_lahir' => 'required',
                 'agama'=>'required',
+                'nik' => 'required|min:16|max:16'
             ]);
 
             $save = new Dosen();
-            $save->nidn = $request->nidn ?? null;
+            $save->nidn = $request->nidn ?? NULL;
             $save->nama_dosen = $request->nama;
             $save->tempat_lahir = $request->tempat_lahir;
             $save->jenis_kelamin = $request->jenis_kelamin;
-            $save->tanggal_lahir = $request->tanggal_lahir ?? null;
-            $save->agama = $request->agama ?? null;
+            $save->tanggal_lahir = $request->tanggal_lahir ?? NULL;
+            $save->agama = $request->agama ?? NULL;
             $save->save();
 
+            $idDosen = $save->id;
+            $this->storeDosenDetail($request, $idDosen);
+            $this->storeDosenAddress($request, $idDosen);
+            $this->storeDosenKebutuhanKhusus($request, $idDosen);
+            $this->storeDosenKeluarga($request, $idDosen);
 
             DB::commit();
         } catch (ModelNotFoundException $exception) {
@@ -158,32 +168,31 @@ class DosenController extends Controller
         }
     }
 
-    public function storeDosenDetail(Request $request, $idMahasiswa)
+    public function storeDosenDetail(Request $request, $idDosen)
     {
 
         DB::beginTransaction();
         try {
-            $save = new MahasiswaDetail();
-            $save->mahasiswa_id = $idMahasiswa;
-            $save->kewarganegaraan_id = $request->kewarganegaraan_id ?? null;
-            $save->nisn = $request->nisn ?? null;
-            $save->email = $request->email ?? null;
-            $save->ktp = $request->nik ?? null;
-            $save->npwp = $request->npwp ?? null;
-            $save->jalan = $request->jalan ??  null;
-            $save->telephone = $request->telephone ??  null;
-            $save->dusun = $request->dusun ??  null;
-            $save->rt = $request->rt ??  null;
-            $save->rw = $request->rw ??  null;
-            $save->kode_pos = $request->kode_pos ??  null;
-            $save->handphone = $request->handphone ??  null;
-            $save->penerima_kps = $request->penerima_kps ??  null;
-            $save->province_id = $request->province_id ??  null;
-            $save->city_id = $request->city_id ??  null;
-            $save->district_id = $request->district_id ??  null;
-            $save->village_id = $request->village_id ??  null;
-            $save->jenis_tinggal = $request->jenis_tinggal ??  null;
-            $save->alat_transportasi = $request->alat_transportasi ??  null;
+            $save = new DosenDetail();
+            $save->dosen_id = $idDosen;
+            $save->nik = $request->nik;
+            $save->nip = $request->nip ?? NULL;
+            $save->npwp = $request->npwp ?? NULL;
+            $save->telephone = $request->telephone ?? NULL;
+            $save->handphone = $request->handphone ?? NULL;
+            $save->email = $request->email ?? NULL;
+            $save->ikatan_kerja = $request->ikatan_kerja ?? NULL;
+            $save->status_pegawai = $request->status_pegawai ?? NULL;
+            $save->jenis_pegawai = $request->jenis_pegawai ?? NULL;
+            $save->no_sk_cpns = $request->no_sk_cpns ?? NULL;
+            $save->tanggal_sk_cpns = $request->tanggal_sk_cpns ?? NULL;
+            $save->no_sk_pengangkatan = $request->no_sk_pengangkatan ?? NULL;
+            $save->tanggal_sk_pengangkatan = $request->tanggal_sk_pengangkatan ?? NULL;
+            $save->lembaga_pengangkatan = $request->embaga_pengangkatan ?? NULL;
+            $save->lembaga_pengangkatan = $request->lembaga_pengangkatan ?? NULL;
+            $save->pangkat_golongan = $request->pangkat_golongan ?? NULL;
+            $save->sumber_lainya = $Request->sumber_lainya ?? NULL;
+
             $save->save();
             DB::commit();
         } catch (ModelNotFoundException $exception) {
@@ -193,6 +202,70 @@ class DosenController extends Controller
 
     }
 
+
+    public function storeDosenAddress(Request $request, $idDosen)
+    {
+
+        DB::beginTransaction();
+        try {
+            $save = new DosenAddress();
+            $save->dosen_id = $idDosen;
+            $save->jalan = $request->jalan ?? NULL;
+            $save->province_id = $request->province_id ?? NULL;
+            $save->city_id = $request->city_id ?? NULL;
+            $save->district_id = $request->district_id ?? NULL;
+            $save->village_id = $request->village_id ?? NULL;
+            $save->kode_pos = $request->kode_pos ?? NULL;
+            $save->rt = $request->rt ?? NULL;
+            $save->rw = $request->rw ?? NULL;
+            $save->save();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+    }
+
+    public function storeDosenKeluarga(Request $request, $idDosen)
+    {
+
+        DB::beginTransaction();
+        try {
+            $save = new DosenKeluarga();
+            $save->dosen_id = $idDosen;
+            $save->status_pernikahan = $request->status_pernikahan ?? NULL;
+            $save->nama_pasangan = $request->nama_pasangan ?? NULL;
+            $save->nip_pasangan = $request->nip_pasangan ?? NULL;
+            $save->tmt_pasangan = $request->tmt_pasangan ?? NULL;
+            $save->pekerjaan = $request->pekerjaan ?? NULL;
+            $save->save();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+    }
+
+    public function storeDosenKebutuhanKhusus(Request $request, $idDosen)
+    {
+
+        DB::beginTransaction();
+        try {
+            $save = new DosenKebutuhanKhusus();
+            $save->dosen_id = $idDosen;
+            $save->jenis_kebutuhan_khusus = json_encode($request->get('jenis_kebutuhan_khusus')) ?? NULL;
+            $save->handle_kebutuhan_khusus = $request->handle_kebutuhan_khusus ?? NULL;
+            $save->handle_bahasa_isyarat = $request->handle_bahasa_isyarat ?? NULL;
+            $save->save();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+    }
 
 
     /**
@@ -212,15 +285,22 @@ class DosenController extends Controller
      */
     public function edit($id)
     {
-        $dosen = Dosen::findOrFail($id);
+        $dosen = Dosen::with('Detail','Keluarga','KebutuhanKhusus','Address')->findOrFail($id);
 
         $name_page = "dosen";
         $title = "Dosen";
-
+        $province = Province::all();
+        $city = City::where('province_id',$dosen->Address->province_id)->get();
+        $district = District::where('regency_id',$dosen->Address->city_id)->get();
+        $village = Village::where('district_id',$dosen->Address->district_id)->get();
         $data = array(
             'page' => $name_page,
             'dosen' => $dosen,
             'title' => $title,
+            'province' => $province,
+            'city' => $city,
+            'district' => $district,
+            'village' => $village
 
         );
         return view('akademik::dosen.edit')->with($data);
@@ -248,15 +328,19 @@ class DosenController extends Controller
             ]);
 
             $update = Dosen::find($id);
-            $update->nidn = $request->nidn ?? null;
+            $update->nidn = $request->nidn ?? NULL;
             $update->nama_dosen = $request->nama;
             $update->tempat_lahir = $request->tempat_lahir;
             $update->jenis_kelamin = $request->jenis_kelamin;
-            $update->tanggal_lahir = $request->tanggal_lahir ?? null;
-            $update->agama = $request->agama ?? null;
+            $update->tanggal_lahir = $request->tanggal_lahir ?? NULL;
+            $update->agama = $request->agama ?? NULL;
             $update->save();
 
-
+            $idDosen = $update->id;
+            $this->updateDosenDetail($request, $idDosen);
+            $this->updateDosenAddress($request, $idDosen);
+            $this->updateDosenKebutuhanKhusus($request, $idDosen);
+            $this->updateDosenKeluarga($request, $idDosen);
 
             DB::commit();
         } catch (ModelNotFoundException $exception) {
@@ -272,6 +356,106 @@ class DosenController extends Controller
                 //redirect dengan pesan error
                 return redirect()->route('dosen.index')->with(['error' => 'Data Gagal Diubah!']);
             }
+    }
+
+
+    public function updateDosenDetail(Request $request, $idDosen)
+    {
+
+        DB::beginTransaction();
+        try {
+            $save = DosenDetail::where('dosen_id',$idDosen)->first();;
+            $save->dosen_id = $idDosen;
+            $save->nik = $request->nik;
+            $save->nip = $request->nip ?? NULL;
+            $save->npwp = $request->npwp ?? NULL;
+            $save->telephone = $request->telephone ?? NULL;
+            $save->handphone = $request->handphone ?? NULL;
+            $save->email = $request->email ?? NULL;
+            $save->ikatan_kerja = $request->ikatan_kerja ?? NULL;
+            $save->status_pegawai = $request->status_pegawai ?? NULL;
+            $save->jenis_pegawai = $request->jenis_pegawai ?? NULL;
+            $save->no_sk_cpns = $request->no_sk_cpns ?? NULL;
+            $save->tanggal_sk_cpns = $request->tanggal_sk_cpns ?? NULL;
+            $save->no_sk_pengangkatan = $request->no_sk_pengangkatan ?? NULL;
+            $save->tanggal_sk_pengangkatan = $request->tanggal_sk_pengangkatan ?? NULL;
+            $save->lembaga_pengangkatan = $request->embaga_pengangkatan ?? NULL;
+            $save->lembaga_pengangkatan = $request->lembaga_pengangkatan ?? NULL;
+            $save->pangkat_golongan = $request->pangkat_golongan ?? NULL;
+            $save->sumber_lainya = $Request->sumber_lainya ?? NULL;
+
+            $save->save();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+    }
+
+
+    public function updateDosenAddress(Request $request, $idDosen)
+    {
+
+        DB::beginTransaction();
+        try {
+            $save = DosenAddress::where('dosen_id',$idDosen)->first();;
+            $save->dosen_id = $idDosen;
+            $save->jalan = $request->jalan ?? NULL;
+            $save->province_id = $request->province_id ?? NULL;
+            $save->city_id = $request->city_id ?? NULL;
+            $save->district_id = $request->district_id ?? NULL;
+            $save->village_id = $request->village_id ?? NULL;
+            $save->kode_pos = $request->kode_pos ?? NULL;
+            $save->rt = $request->rt ?? NULL;
+            $save->rw = $request->rw ?? NULL;
+            $save->save();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+    }
+
+    public function updateDosenKeluarga(Request $request, $idDosen)
+    {
+
+        DB::beginTransaction();
+        try {
+            $save = DosenKeluarga::where('dosen_id',$idDosen)->first();;
+            $save->dosen_id = $idDosen;
+            $save->status_pernikahan = $request->status_pernikahan ?? NULL;
+            $save->nama_pasangan = $request->nama_pasangan ?? NULL;
+            $save->nip_pasangan = $request->nip_pasangan ?? NULL;
+            $save->tmt_pasangan = $request->tmt_pasangan ?? NULL;
+            $save->pekerjaan = $request->pekerjaan ?? NULL;
+            $save->save();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+    }
+
+    public function updateDosenKebutuhanKhusus(Request $request, $idDosen)
+    {
+
+        DB::beginTransaction();
+        try {
+            $save = DosenKebutuhanKhusus::where('dosen_id',$idDosen)->first();
+            $save->dosen_id = $idDosen;
+            $save->jenis_kebutuhan_khusus = json_encode($request->get('jenis_kebutuhan_khusus')) ?? NULL;
+            $save->handle_kebutuhan_khusus = $request->handle_kebutuhan_khusus ?? NULL;
+            $save->handle_bahasa_isyarat = $request->handle_bahasa_isyarat ?? NULL;
+            $save->save();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
     }
 
     /**

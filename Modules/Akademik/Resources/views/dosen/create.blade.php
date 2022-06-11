@@ -371,7 +371,7 @@
                       </div>
 
 
-                 <div class="input-field col s4  mt-2 mb-2">
+                    <div class="input-field col s4  mt-2 mb-2">
                     <input placeholder="nama pasangan " name="nama_pasangan" id="nama_pasangan" type="text" class="validate  @error('nama_pasangan') is-invalid @enderror" value="{{ old('nama_pasangan') }}">
                     <label for="first_name">Nama Pasangan </label>
 
@@ -406,6 +406,41 @@
                     @enderror
                   </div>
 
+                 </div>
+                 <div id="test5" class="col s12 ">
+
+                        <div class="input-field col s6  mt-2 mb-2">
+
+                            <select name="handle_kebutuhan_khusus" id="handle_kebutuhan_khusus">
+                                <option value=""></option>
+                                <option value="y" @if(old('handle_kebutuhan_khusus') == 'y') selected @endif>Ya</option>
+                                <option value="n" @if(old('handle_kebutuhan_khusus') == 'n') selected @endif>Tidak</option>
+
+                            </select>
+                            <label for="first_name">Handle Kebutuhan Khusus</label>
+
+                            @error('handle_kebutuhan_khusus')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                          </div>
+
+
+                          <div class="input-field col s6  mt-2 mb-2">
+
+                            <select name="handle_bahasa_isyarat" id="handle_bahasa_isyarat">
+                                <option value=""></option>
+                                <option value="y" @if(old('handle_bahasa_isyarat') == 'y') selected @endif>Ya</option>
+                                <option value="n" @if(old('handle_bahasa_isyarat') == 'n') selected @endif>Tidak</option>
+
+                            </select>
+                            <label for="first_name">Handle Bahasa Isyarat</label>
+
+                            @error('handle_bahasa_isyarat')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                          </div>
+
+                 </div>
 
 
                  <div class="input-field col s12">
@@ -430,6 +465,84 @@
     </div>
   </div>
 
+
+
+
+  @stop
+  @section('script')
+  {{-- script untuk dropdow change --}}
+
+
+  <script>
+      $(document).ready(function(){
+        //   city
+        $('select[name="province_id"]').on('change', function(){
+            let provinceid = $(this).val();
+            if(provinceid){
+                jQuery.ajax({
+                    url:"{{ url('city') }}/" + provinceid,
+                    type:"GET",
+                    dataType:'json',
+                    success:function(data){
+                        // console.log(data);
+                        $('select[name="city_id"]').empty();
+                        $.each(data, function(key, value){
+                            $('select[name="city_id"]').append('<option value="'+value.id+'">'+value.name+'</option>')
+                        });
+                    }
+                });
+            }else{
+                $('select[name="city_id"]').empty();
+            }
+        });
+
+        // kecsmatan
+        $('select[name="city_id"]').on('change', function(){
+            let cityid = $(this).val();
+
+            if(cityid){
+                jQuery.ajax({
+                    url:"{{ url('district') }}/" + cityid,
+                    type:"GET",
+                    dataType:'json',
+                    success:function(data){
+                        $('select[name="district_id"]').empty();
+                        $.each(data, function(key, value){
+                            $('select[name="district_id"]').append('<option value="'+value.id+'">'+value.name+'</option>')
+                        });
+                    }
+                });
+            }else{
+                $('select[name="district_id"]').empty();
+            }
+        });
+
+        // kelurahan
+        $('select[name="district_id"]').on('change', function(){
+            let districtid = $(this).val();
+            if(districtid){
+                jQuery.ajax({
+                    url:"{{ url('village') }}/" + districtid,
+                    type:"GET",
+                    dataType:'json',
+                    success:function(data){
+                        // console.log(data)
+                        $('select[name="village_id"]').empty();
+                        $.each(data, function(key, value){
+                            console.log('od',value.id)
+                            $('select[name="village_id"]').append('<option value="'+value.id+'">'+value.name+'</option>')
+                        });
+                    }
+                });
+            }else{
+                $('select[name="village_id"]').empty();
+            }
+        });
+
+
+
+      });
+    </script>
 
 
 

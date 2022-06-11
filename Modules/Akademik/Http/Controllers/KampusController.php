@@ -259,10 +259,9 @@ class KampusController extends Controller
     {
         $kampus = Kampus::with('Address','Detail','Akta')->findOrFail($id);
         $province = Province::all();
-        $city = City::all();
-        $district = District::all();
-        $village = Village::all();
-
+        $city = City::where('province_id',$kampus->Address->province_id)->get();
+        $district = District::where('regency_id',$kampus->Address->city_id)->get();
+        $village = Village::where('district_id',$kampus->Address->district_id)->get();
         $name_page = "kampus";
         $data = array(
             'page' => $name_page,
