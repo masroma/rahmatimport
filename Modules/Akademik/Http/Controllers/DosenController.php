@@ -14,6 +14,7 @@ use App\Models\DosenDetail;
 use App\Models\DosenAddress;
 use App\Models\DosenKeluarga;
 use App\Models\DosenKebutuhanKhusus;
+use App\Models\DosenRiwayatFungsional;
 use DataTables;
 use Exception;
 use Auth;
@@ -85,6 +86,8 @@ class DosenController extends Controller
 
 
     }
+
+
 
     public function index()
     {
@@ -183,7 +186,7 @@ class DosenController extends Controller
             $save->email = $request->email ?? NULL;
             $save->ikatan_kerja = $request->ikatan_kerja ?? NULL;
             $save->status_pegawai = $request->status_pegawai ?? NULL;
-            $save->jenis_pegawai = $request->jenis_pegawai ?? NULL;
+            $save->jenis_pegawai = $request->jenis_pegawai ?? 'dosen';
             $save->no_sk_cpns = $request->no_sk_cpns ?? NULL;
             $save->tanggal_sk_cpns = $request->tanggal_sk_cpns ?? NULL;
             $save->no_sk_pengangkatan = $request->no_sk_pengangkatan ?? NULL;
@@ -275,7 +278,16 @@ class DosenController extends Controller
      */
     public function show($id)
     {
-        return view('akademik::show');
+        $dosen = Dosen::with('Detail','Keluarga','KebutuhanKhusus','Address','Address.Provinsi','Address.Kota','Address.Kecamatan','Address.Kelurahan')->findOrFail($id);
+        $name_page = "dosen";
+        $title = "Dosen";
+        $data = array(
+            'page' => $name_page,
+            'dosen' => $dosen,
+            'title' => $title,
+
+        );
+        return view('akademik::dosen.show')->with($data);
     }
 
     /**
@@ -286,6 +298,7 @@ class DosenController extends Controller
     public function edit($id)
     {
         $dosen = Dosen::with('Detail','Keluarga','KebutuhanKhusus','Address')->findOrFail($id);
+
 
         $name_page = "dosen";
         $title = "Dosen";
@@ -323,7 +336,7 @@ class DosenController extends Controller
                 'jenis_kelamin' => 'required',
                 'tanggal_lahir' => 'required',
                 'agama'=>'required',
-                //
+                'nik' => 'required|min:16|max:16'
 
             ]);
 
@@ -374,7 +387,7 @@ class DosenController extends Controller
             $save->email = $request->email ?? NULL;
             $save->ikatan_kerja = $request->ikatan_kerja ?? NULL;
             $save->status_pegawai = $request->status_pegawai ?? NULL;
-            $save->jenis_pegawai = $request->jenis_pegawai ?? NULL;
+            $save->jenis_pegawai = $request->jenis_pegawai ?? 'dosen';
             $save->no_sk_cpns = $request->no_sk_cpns ?? NULL;
             $save->tanggal_sk_cpns = $request->tanggal_sk_cpns ?? NULL;
             $save->no_sk_pengangkatan = $request->no_sk_pengangkatan ?? NULL;
@@ -467,7 +480,11 @@ class DosenController extends Controller
     {
         DB::beginTransaction();
         try {
-            Dosen::find($id)->delete();
+                Dosen::find($id)->delete();
+                DosenAddress::where('dosen_id',$id)->delete();
+                DosenDetail::where('dosen_id',$id)->delete();
+                DosenKeluarga::where('dosen_id',$id)->delete();
+                DosenKebutuhanKhusus::where('dosen_id',$id)->delete();
 
 
                 DB::commit();
@@ -478,4 +495,171 @@ class DosenController extends Controller
 
         return redirect()->route('dosen.index')->with('success', 'Data berhasil dihapus');
     }
+
+    // riwayat fungsional
+    public function dataFungsional($id)
+    {
+        try {
+
+            $canUpdate = Gate::allows('dosen-edit');
+            $canDelete = Gate::allows('dosen-delete');
+            $data = DosenRiwayatFungsional::where('dosen_id',$id)->get();
+            return DataTables::of($data)
+
+                    ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
+
+                        $btn = '';
+
+                        $url = route('dosen.editfungsional',$data->id);
+
+                        if ($canUpdate) {
+                            $btn .= '<a class="btn-floating btn-small" href="'.$url.'"><i class="material-icons">edit</i></a>';
+                        }
+
+                        if ($canDelete) {
+                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirmFungsional('.$data->id.')"><i class="material-icons">delete</i></button>';
+                        }
+
+
+
+                        return $btn;
+                    })
+                    ->addIndexColumn()
+                    ->make(true);
+
+        } catch (Exception $e) {
+            DB::commit();
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => $e->getMessage()
+                ]
+            );
+        }
+
+
+    }
+
+    public function createFungsional($id)
+    {
+        $name_page = "riwayat fungsional ";
+        $title = "Riwayat Fungsional";
+        $data = array(
+            'page' => $name_page,
+            'title' => $title,
+            'id' => $id
+        );
+        return view('akademik::dosen.createfungsional')->with($data);
+    }
+
+    public function storeRiwayatFungsional(Request $request)
+    {
+
+        // dd($request->all());
+        DB::beginTransaction();
+        try {
+            $this->validate($request, [
+                'jabatan' => 'required',
+                'sk_jabatan' => 'required',
+                'tmt_jabatan' => 'required',
+            ]);
+
+            $save = new DosenRiwayatFungsional();
+            $save->dosen_id = $request->dosen_id ?? NULL;
+            $save->jabatan = $request->jabatan;
+            $save->sk_jabatan = $request->sk_jabatan;
+            $save->tmt_jabatan = $request->tmt_jabatan;
+            $save->save();
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+
+        if ($save) {
+            //redirect dengan pesan sukses
+            return redirect()->route('dosen.show',$request->dosen_id)->with(['success' => 'Data Berhasil Disimpan!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route('dosen.show',$request->dosen_id)->with(['error' => 'Data Gagal Disimpan!']);
+        }
+    }
+
+    public function editFungsional($id)
+    {
+        $fungsional = DosenRiwayatFungsional::findOrFail($id);
+
+
+        $name_page = "riwayat fungsional ";
+        $title = "Riwayat Fungsional";
+
+        $data = array(
+            'page' => $name_page,
+            'fungsional' => $fungsional,
+            'title' => $title,
+
+        );
+        return view('akademik::dosen.editfungsional')->with($data);
+    }
+
+    public function updateFungsional(Request $request, $id)
+    {
+
+        DB::beginTransaction();
+        try {
+            $this->validate($request, [
+                'jabatan' => 'required',
+                'sk_jabatan' => 'required',
+                'tmt_jabatan' => 'required'
+            ]);
+
+            $update = DosenRiwayatFungsional::find($id);
+            $update->dosen_id = $request->dosen_id ?? $update->dosen_id;
+            $update->jabatan = $request->jabatan;
+            $update->sk_jabatan = $request->sk_jabatan;
+            $update->tmt_jabatan = $request->tmt_jabatan;
+            $update->save();
+
+
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+
+
+        if ($update) {
+            //redirect dengan pesan sukses
+            return redirect()->route('dosen.show',$request->dosen_id)->with(['success' => 'Data Berhasil Disimpan!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route('dosen.show',$request->dosen_id)->with(['error' => 'Data Gagal Disimpan!']);
+        }
+    }
+
+    public function destroyFungsional($id)
+    {
+        DB::beginTransaction();
+        try {
+            $delete = DosenRiwayatFungsional::find($id)->delete();
+                DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+        if ($delete) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with(['success' => 'Data Berhasil Dihapus!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(['error' => 'Data Gagal Dihapus!']);
+        }
+    }
+
+
+
+
 }

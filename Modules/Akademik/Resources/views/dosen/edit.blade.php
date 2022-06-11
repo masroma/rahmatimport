@@ -116,6 +116,55 @@
                              <span class="red-text text-darken-2">{{ $message }}</small>
                              @enderror
                            </div>
+                           {{-- detail --}}
+                           <div class="input-field col s4  mt-2 mb-2">
+                            <input placeholder="NIP" name="nip" id="nip" type="text" class="validate  @error('nip') is-invalid @enderror" value="{{ old('nip',$dosen->Detail->nip) }}">
+                            <label for="first_name">NIP</label>
+
+                            @error('nip')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                          </div>
+                          <div class="input-field col s4  mt-2 mb-2">
+                            <input placeholder="NIK" name="nik" id="nik" type="text" class="validate  @error('nik') is-invalid @enderror" value="{{ old('nik',$dosen->Detail->nik) }}">
+                            <label for="first_name">NIK<span style="color:red">*</span></label>
+
+                            @error('nik')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                          </div>
+                          <div class="input-field col s4  mt-2 mb-2">
+                            <input placeholder="NPWP" name="npwp" id="npwp" type="text" class="validate  @error('npwp') is-invalid @enderror" value="{{ old('npwp',$dosen->Detail->npwp) }}">
+                            <label for="first_name">NPWP</label>
+
+                            @error('npwp')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                          </div>
+                          <div class="input-field col s4  mt-2 mb-2">
+                            <input placeholder="Telephone" name="telephone" id="telephone" type="text" class="validate  @error('telephone') is-invalid @enderror" value="{{ old('telephone',$dosen->Detail->telephone) }}">
+                            <label for="first_name">Telephone</label>
+
+                            @error('telephone')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                          </div>
+                          <div class="input-field col s4  mt-2 mb-2">
+                            <input placeholder="Handphone" name="telephone" id="handphone" type="text" class="validate  @error('handphone') is-invalid @enderror" value="{{ old('handphone',$dosen->Detail->handphone) }}">
+                            <label for="first_name">Handphone</label>
+
+                            @error('handphone')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                          </div>
+                          <div class="input-field col s4  mt-2 mb-2">
+                            <input placeholder="Handphone" name="email" id="email" type="text" class="validate  @error('email') is-invalid @enderror" value="{{ old('email',$dosen->Detail->email) }}">
+                            <label for="first_name">Email</label>
+
+                            @error('email')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                          </div>
                     </div>
                     <div id="test2" class="col s12 ">
                         <div class="input-field col s4  mt-2 mb-2">
@@ -317,7 +366,7 @@
                                 <option value=""></option>
                                 <option value="belum menikah" @if(old('status_pernikahan',$dosen->Keluarga->status_pernikahan) == 'belum menikah') selected @endif>Belum Menikah</option>
                                 <option value="sudah menikah" @if(old('status_pernikahan',$dosen->Keluarga->status_pernikahan) == 'sudah menikah') selected @endif>Sudah Menikah</option>
-                                <option value="bercerai" @if(old('bercerai') == 'bercerai') selected @endif>Bercerai</option>
+                                <option value="bercerai" @if(old('bercerai',$dosen->Keluarga->status_pernikahan) == 'bercerai')  selected @endif>Bercerai</option>
 
                             </select>
                             <label for="first_name">Status Pernikahan</label>

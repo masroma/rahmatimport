@@ -406,6 +406,7 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'dosen.data'
                     ]
                 );
+
                 Route::get(
                     '/',
                     [
@@ -420,6 +421,7 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'dosen.create'
                     ]
                 );
+
                 Route::post(
                     '/store',
                     [
@@ -427,6 +429,7 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'dosen.store'
                     ]
                 );
+
                 Route::get(
                     '/{id}/edit',
                     [
@@ -480,6 +483,55 @@ Route::prefix('akademik')->group(function() {
                     [
                         'uses' => 'DosenController@restore',
                         'as' => 'dosen.restore'
+                    ]
+                );
+
+                // riwayat fungsional
+                Route::get(
+                    '/createfungsional/{id}',
+                    [
+                        'uses' => 'DosenController@createFungsional',
+                        'as' => 'dosen.createfungsional'
+                    ]
+                );
+
+                Route::get(
+                    '/datafungsional/{id}',
+                    [
+                        'uses' => 'DosenController@dataFungsional',
+                        'as' => 'dosen.datafungsional'
+                    ]
+                );
+
+                Route::post(
+                    '/storefungsional',
+                    [
+                        'uses' => 'DosenController@storeRiwayatFungsional',
+                        'as' => 'dosen.storeriwayatfungsional'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/editfungsional',
+                    [
+                        'uses' => 'DosenController@editFungsional',
+                        'as' => 'dosen.editfungsional'
+                    ]
+                );
+
+                Route::post(
+                    '/updatefungsional/{id}',
+                    [
+                        'uses' => 'DosenController@updateFungsional',
+                        'as' => 'dosen.updatefungsional'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deletefungsional',
+                    [
+                        'uses' => 'DosenController@destroyFungsional',
+                        'as' => 'dosen.destroyfungsional'
                     ]
                 );
             }

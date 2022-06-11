@@ -284,7 +284,7 @@
     <script src="{{asset('v1/app-assets/js/scripts/form-select2.js')}}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="{{asset('v1/app-assets/js/scripts/form-wizard.js')}}"></script>
-
+    <script src="{{asset('v1/app-assets/js/scripts/advance-ui-modals.js')}}"></script>
     <script>
       //message with toastr
       @if(session()->has('success'))
