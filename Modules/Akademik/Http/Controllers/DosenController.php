@@ -659,6 +659,174 @@ class DosenController extends Controller
         }
     }
 
+    // riwayat pangkat
+    public function dataPangkat($id)
+    {
+        try {
+
+            $canUpdate = Gate::allows('dosen-edit');
+            $canDelete = Gate::allows('dosen-delete');
+            $data = DosenRiwayatPangkat::where('dosen_id',$id)->get();
+            return DataTables::of($data)
+
+                    ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
+
+                        $btn = '';
+
+                        $url = route('dosen.editpangkat',$data->id);
+
+                        if ($canUpdate) {
+                            $btn .= '<a class="btn-floating btn-small" href="'.$url.'"><i class="material-icons">edit</i></a>';
+                        }
+
+                        if ($canDelete) {
+                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirmPangkat('.$data->id.')"><i class="material-icons">delete</i></button>';
+                        }
+
+
+
+                        return $btn;
+                    })
+                    ->addIndexColumn()
+                    ->make(true);
+
+        } catch (Exception $e) {
+            DB::commit();
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => $e->getMessage()
+                ]
+            );
+        }
+
+
+    }
+
+    public function createPangkat($id)
+    {
+        $name_page = "riwayat pangkat ";
+        $title = "Riwayat Pangkat";
+        $data = array(
+            'page' => $name_page,
+            'title' => $title,
+            'id' => $id
+        );
+        return view('akademik::dosen.createpangkat')->with($data);
+    }
+
+    public function storeRiwayatPangkat(Request $request)
+    {
+
+        // dd($request->all());
+        DB::beginTransaction();
+        try {
+            $this->validate($request, [
+                'pangkat' => 'required',
+                'sk_pangkat' => 'required',
+                'tmt_pangkat' => 'required',
+                'tanggal_sk_pangkat' => 'required',
+                'masa_kerja'=> 'required'
+            ]);
+
+            $save = new DosenRiwayatFungsional();
+            $save->dosen_id = $request->dosen_id ?? NULL;
+            $save->pangkat = $request->pangkat;
+            $save->sk_pangkat = $request->sk_pangkat;
+            $save->tmt_pangkat = $request->tmt_pangkat;
+            $save->tanggal_sk_pangkat = $request->tanggal_sk_pangkat;
+            $save->save();
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+
+        if ($save) {
+            //redirect dengan pesan sukses
+            return redirect()->route('dosen.show',$request->dosen_id)->with(['success' => 'Data Berhasil Disimpan!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route('dosen.show',$request->dosen_id)->with(['error' => 'Data Gagal Disimpan!']);
+        }
+    }
+
+    public function editPangkat($id)
+    {
+        $pangkat = DosenRiwayatPangkat::findOrFail($id);
+
+
+        $name_page = "riwayat pangkat ";
+        $title = "Riwayat pangkat";
+
+        $data = array(
+            'page' => $name_page,
+            'pangkat' => $pangkat,
+            'title' => $title,
+
+        );
+        return view('akademik::dosen.editpangkat')->with($data);
+    }
+
+    public function updatePangkat(Request $request, $id)
+    {
+
+        DB::beginTransaction();
+        try {
+            $this->validate($request, [
+                'pangkat' => 'required',
+                'sk_pangkat' => 'required',
+                'tmt_pangkat' => 'required',
+                'tanggal_sk_pangkat' => 'required'
+            ]);
+
+            $update = DosenRiwayatPangkat::find($id);
+            $update->dosen_id = $request->dosen_id ?? $update->dosen_id;
+            $update->pangkat = $request->pangkat;
+            $update->sk_pangkat = $request->sk_pangkat;
+            $update->tmt_pangkat = $request->tmt_pangkat;
+            $update->tanggal_sk_pangkat = $request->tanggal_sk_pangkat;
+            $update->save();
+
+
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+
+
+        if ($update) {
+            //redirect dengan pesan sukses
+            return redirect()->route('dosen.show',$request->dosen_id)->with(['success' => 'Data Berhasil Disimpan!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route('dosen.show',$request->dosen_id)->with(['error' => 'Data Gagal Disimpan!']);
+        }
+    }
+
+    public function destroyPangkat($id)
+    {
+        DB::beginTransaction();
+        try {
+            $delete = DosenRiwayatPangkat::find($id)->delete();
+                DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+        if ($delete) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with(['success' => 'Data Berhasil Dihapus!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(['error' => 'Data Gagal Dihapus!']);
+        }
+    }
+
 
 
 
