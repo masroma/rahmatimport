@@ -262,6 +262,98 @@
             </div>
         </div>
     </div>
+
+    <div class="card">
+        <div class="card-content">
+            <div class="row mb-5">
+                <div class="col s10 m6 l6">
+                  <h5>Riwayat Pangkat</h5>
+                </div>
+                <div class="col s10 m6 l6 ">
+                    <a class="btn waves-effect waves-light breadcrumbs-btn  right" href="{{ route('dosen.createpangkat',$dosen->id) }}" id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
+                </div>
+            </div>
+          <div class="row">
+              <div class="col s12">
+                <table id="page-length-options" class="display">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Pangkat</th>
+                      <th>SK Pangkat</th>
+                      <th>Tanggal SK Pangkat</th>
+                      <th>TMT Pangkat</th>
+                      <th>Masa Kerja</th>
+                      <th>#</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <div class="row mb-5">
+                <div class="col s10 m6 l6">
+                  <h5>Riwayat Pendidikan</h5>
+                </div>
+                <div class="col s10 m6 l6 ">
+                    <a class="btn waves-effect waves-light breadcrumbs-btn  right" href="{{ route('dosen.creatependidikan',$dosen->id) }}" id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
+                </div>
+            </div>
+          <div class="row">
+              <div class="col s12">
+                <table id="page-length-option-pendidikan" class="display">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Bidang Study</th>
+                      <th>Jenjang</th>
+                      <th>Gelar</th>
+                      <th>Perguruan Tinggi</th>
+                      <th>Fakultas</th>
+                      <th>Tahun Lulus</th>
+                      <th>SKS</th>
+                      <th>IPK</th>
+                      <th>#</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <div class="row mb-5">
+                <div class="col s10 m6 l6">
+                  <h5>Riwayat Penelitian</h5>
+                </div>
+                <div class="col s10 m6 l6 ">
+                    <a class="btn waves-effect waves-light breadcrumbs-btn  right" href="{{ route('dosen.createpenelitian',$dosen->id) }}" id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
+                </div>
+            </div>
+          <div class="row">
+              <div class="col s12">
+                <table id="page-length-option-penelitian" class="display">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Judul Penelitian</th>
+                      <th>Bidang Ilmu</th>
+                      <th>Lembaga</th>
+                      <th>Tahun</th>
+                      <th>#</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
 </div>
 
       </div>
@@ -282,7 +374,6 @@
           })();
 
           function loadDataTable() {
-
               $(document).ready(function () {
                 let iddosen = {{ $dosen->id }};
                   $('#page-length-option').DataTable({
@@ -329,6 +420,181 @@
                           [0, 'asc']
                       ]
                   });
+
+                  $('#page-length-options').DataTable({
+                      "scrollX": true,
+                      "autoWidth": true,
+                      processing: true,
+                      serverSide: true,
+                      ajax: {
+                          url: "{{ url('akademik/dosen/datapangkat') }}/" + iddosen,
+                          type: "GET",
+                      },
+                      columns: [
+                            {
+                                data:"DT_RowIndex",
+                                name:"DT_RowIndex"
+                            },
+                          {
+                              data: 'pangkat',
+                              name: 'pangkat'
+                          },
+
+                          {
+                              data: 'sk_pangkat',
+                              name: 'sk_pangkat'
+                          },
+
+                          {
+                              data: 'tanggal_sk_pangkat',
+                              name: 'tanggal_sk_pangkat'
+                          },
+
+                          {
+                              data: 'TMT_pangkat',
+                              name: 'TMT_pangkat'
+                          },
+
+                          {
+                              data: 'masa_kerja',
+                              name: 'masa_kerja'
+                          },
+
+
+
+                          {
+                              data: 'action',
+                              name: 'action'
+                          },
+
+
+
+
+                      ],
+                      order: [
+                          [0, 'asc']
+                      ]
+                  });
+
+                  $('#page-length-option-pendidikan').DataTable({
+                      "scrollX": true,
+                      "autoWidth": true,
+                      processing: true,
+                      serverSide: true,
+                      ajax: {
+                          url: "{{ url('akademik/dosen/datapendidikan') }}/" + iddosen,
+                          type: "GET",
+                      },
+                      columns: [
+                            {
+                                data:"DT_RowIndex",
+                                name:"DT_RowIndex"
+                            },
+                          {
+                              data: 'bidang_study',
+                              name: 'bidang_study'
+                          },
+
+                          {
+                              data: 'jenjang',
+                              name: 'jenjang'
+                          },
+
+                          {
+                              data: 'gelar',
+                              name: 'gelar'
+                          },
+
+                          {
+                              data: 'perguruan_tinggi',
+                              name: 'perguruan_tinggi'
+                          },
+
+                          {
+                              data: 'fakultas',
+                              name: 'fakultas'
+                          },
+
+                          {
+                              data: 'tahun_lulus',
+                              name: 'tahun_lulus'
+                          },
+
+                          {
+                              data: 'sks',
+                              name: 'sks'
+                          },
+
+                          {
+                              data: 'ipk',
+                              name: 'ipk'
+                          },
+
+
+
+                          {
+                              data: 'action',
+                              name: 'action'
+                          },
+
+
+
+
+                      ],
+                      order: [
+                          [0, 'asc']
+                      ]
+                  });
+
+                  $('#page-length-option-penelitian').DataTable({
+                      "scrollX": true,
+                      "autoWidth": true,
+                      processing: true,
+                      serverSide: true,
+                      ajax: {
+                          url: "{{ url('akademik/dosen/datapenelitian') }}/" + iddosen,
+                          type: "GET",
+                      },
+                      columns: [
+                            {
+                                data:"DT_RowIndex",
+                                name:"DT_RowIndex"
+                            },
+                          {
+                              data: 'judul_penelitian',
+                              name: 'judul_penelitian'
+                          },
+
+                          {
+                              data: 'bidang_ilmu',
+                              name: 'bidang_ilmu'
+                          },
+
+                          {
+                              data: 'lembaga',
+                              name: 'lembaga'
+                          },
+
+                          {
+                              data: 'tahun',
+                              name: 'tahun'
+                          },
+
+
+
+                          {
+                              data: 'action',
+                              name: 'action'
+                          },
+
+
+
+
+                      ],
+                      order: [
+                          [0, 'asc']
+                      ]
+                  });
               });
           }
 
@@ -344,6 +610,51 @@
                   .then((dt) => {
                       if (dt) {
                           window.location.href = "{{ url('akademik/dosen') }}/" + id + "/deletefungsional";
+                      }
+                  });
+          }
+
+          function deleteConfirmPangkat(id) {
+              swal({
+                      title: "Kamu Yakin ?",
+                      text: "akan menghapus data ini !",
+                      icon: "warning",
+                      buttons: true,
+                      dangerMode: true,
+                  })
+                  .then((dt) => {
+                      if (dt) {
+                          window.location.href = "{{ url('akademik/dosen') }}/" + id + "/deletepangkat";
+                      }
+                  });
+          }
+
+          function deleteConfirmPendidikan(id) {
+              swal({
+                      title: "Kamu Yakin ?",
+                      text: "akan menghapus data ini !",
+                      icon: "warning",
+                      buttons: true,
+                      dangerMode: true,
+                  })
+                  .then((dt) => {
+                      if (dt) {
+                          window.location.href = "{{ url('akademik/dosen') }}/" + id + "/deletependidikan";
+                      }
+                  });
+          }
+
+          function deleteConfirmPenelitian(id) {
+              swal({
+                      title: "Kamu Yakin ?",
+                      text: "akan menghapus data ini !",
+                      icon: "warning",
+                      buttons: true,
+                      dangerMode: true,
+                  })
+                  .then((dt) => {
+                      if (dt) {
+                          window.location.href = "{{ url('akademik/dosen') }}/" + id + "/deletepenelitian";
                       }
                   });
           }

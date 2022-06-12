@@ -534,6 +534,154 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'dosen.destroyfungsional'
                     ]
                 );
+
+                // pangkat
+                Route::get(
+                    '/createpangkat/{id}',
+                    [
+                        'uses' => 'DosenController@createPangkat',
+                        'as' => 'dosen.createpangkat'
+                    ]
+                );
+
+                Route::get(
+                    '/datapangkat/{id}',
+                    [
+                        'uses' => 'DosenController@dataPangkat',
+                        'as' => 'dosen.datapangkat'
+                    ]
+                );
+
+                Route::post(
+                    '/storepangkat',
+                    [
+                        'uses' => 'DosenController@storeRiwayatPangkat',
+                        'as' => 'dosen.storeriwayatpangkat'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/editpangkat',
+                    [
+                        'uses' => 'DosenController@editPangkat',
+                        'as' => 'dosen.editpangkat'
+                    ]
+                );
+
+                Route::post(
+                    '/updatepangkat/{id}',
+                    [
+                        'uses' => 'DosenController@updatePangkat',
+                        'as' => 'dosen.updatepangkat'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deletepangkat',
+                    [
+                        'uses' => 'DosenController@destroyPangkat',
+                        'as' => 'dosen.destroypangkat'
+                    ]
+                );
+
+                // PENDIDIKAN
+                Route::get(
+                    '/creatependidikan/{id}',
+                    [
+                        'uses' => 'DosenController@creatependidikan',
+                        'as' => 'dosen.creatependidikan'
+                    ]
+                );
+
+                Route::get(
+                    '/datapendidikan/{id}',
+                    [
+                        'uses' => 'DosenController@datapendidikan',
+                        'as' => 'dosen.datapendidikan'
+                    ]
+                );
+
+                Route::post(
+                    '/storependidikan',
+                    [
+                        'uses' => 'DosenController@storeRiwayatPendidikan',
+                        'as' => 'dosen.storeriwayatpendidikan'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/editpendidikan',
+                    [
+                        'uses' => 'DosenController@editPendidikan',
+                        'as' => 'dosen.editpendidikan'
+                    ]
+                );
+
+                Route::post(
+                    '/updatependidikan/{id}',
+                    [
+                        'uses' => 'DosenController@updatePendidikan',
+                        'as' => 'dosen.updatependidikan'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deletependidikan',
+                    [
+                        'uses' => 'DosenController@destroyPendidikan',
+                        'as' => 'dosen.destroypendidikan'
+                    ]
+                );
+
+                // penelitian
+                Route::get(
+                    '/createpenelitian/{id}',
+                    [
+                        'uses' => 'DosenController@createPenelitian',
+                        'as' => 'dosen.createpenelitian'
+                    ]
+                );
+
+                Route::get(
+                    '/datapenelitian/{id}',
+                    [
+                        'uses' => 'DosenController@dataPenelitian',
+                        'as' => 'dosen.datapenelitian'
+                    ]
+                );
+
+                Route::post(
+                    '/storepenelitian',
+                    [
+                        'uses' => 'DosenController@storeRiwayatPenelitian',
+                        'as' => 'dosen.storeriwayatpenelitian'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/editpenelitian',
+                    [
+                        'uses' => 'DosenController@editPenelitian',
+                        'as' => 'dosen.editpenelitian'
+                    ]
+                );
+
+                Route::post(
+                    '/updatepenelitian/{id}',
+                    [
+                        'uses' => 'DosenController@updatePenelitian',
+                        'as' => 'dosen.updatepenelitian'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deletepenelitian',
+                    [
+                        'uses' => 'DosenController@destroyPenelitian',
+                        'as' => 'dosen.destroypenelitian'
+                    ]
+                );
+
             }
         );
     });
