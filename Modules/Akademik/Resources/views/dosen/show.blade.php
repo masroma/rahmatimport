@@ -354,6 +354,36 @@
             </div>
         </div>
     </div>
+
+    <div class="card">
+        <div class="card-content">
+            <div class="row mb-5">
+                <div class="col s10 m6 l6">
+                  <h5>Riwayat Sertifikasi</h5>
+                </div>
+                <div class="col s10 m6 l6 ">
+                    <a class="btn waves-effect waves-light breadcrumbs-btn  right" href="{{ route('dosen.createsertifikasi',$dosen->id) }}" id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
+                </div>
+            </div>
+          <div class="row">
+              <div class="col s12">
+                <table id="page-length-option-sertifikasi" class="display">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>No Peserta</th>
+                      <th>Bidang Study</th>
+                      <th>Jenis Sertifikasi</th>
+                      <th>Tahun Sertifikasi</th>
+                      <th>No SK Sertifikasi</th>
+                      <th>#</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
 </div>
 
       </div>
@@ -595,6 +625,61 @@
                           [0, 'asc']
                       ]
                   });
+
+                  $('#page-length-option-sertifikasi').DataTable({
+                      "scrollX": true,
+                      "autoWidth": true,
+                      processing: true,
+                      serverSide: true,
+                      ajax: {
+                          url: "{{ url('akademik/dosen/datasertifikasi') }}/" + iddosen,
+                          type: "GET",
+                      },
+                      columns: [
+                            {
+                                data:"DT_RowIndex",
+                                name:"DT_RowIndex"
+                            },
+                          {
+                              data: 'no_peserta',
+                              name: 'no_peserta'
+                          },
+
+                          {
+                              data: 'bidang_study',
+                              name: 'bidang_study'
+                          },
+
+                          {
+                              data: 'jenis_sertifikasi',
+                              name: 'jenis_sertifikasi'
+                          },
+
+                          {
+                              data: 'tahun_sertifikasi',
+                              name: 'tahun_sertifikasi'
+                          },
+
+                          {
+                              data: 'no_sk_sertifikasi',
+                              name: 'no_sk_sertifikasi'
+                          },
+
+
+
+                          {
+                              data: 'action',
+                              name: 'action'
+                          },
+
+
+
+
+                      ],
+                      order: [
+                          [0, 'asc']
+                      ]
+                  });
               });
           }
 
@@ -655,6 +740,21 @@
                   .then((dt) => {
                       if (dt) {
                           window.location.href = "{{ url('akademik/dosen') }}/" + id + "/deletepenelitian";
+                      }
+                  });
+          }
+
+          function deleteConfirmSertifikasi(id) {
+              swal({
+                      title: "Kamu Yakin ?",
+                      text: "akan menghapus data ini !",
+                      icon: "warning",
+                      buttons: true,
+                      dangerMode: true,
+                  })
+                  .then((dt) => {
+                      if (dt) {
+                          window.location.href = "{{ url('akademik/dosen') }}/" + id + "/deletesertifikasi";
                       }
                   });
           }

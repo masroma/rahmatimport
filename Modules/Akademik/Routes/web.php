@@ -682,6 +682,113 @@ Route::prefix('akademik')->group(function() {
                     ]
                 );
 
+                // sertifikasi
+                Route::get(
+                    '/createsertifikasi/{id}',
+                    [
+                        'uses' => 'DosenController@createSertifikasi',
+                        'as' => 'dosen.createsertifikasi'
+                    ]
+                );
+
+                Route::get(
+                    '/datasertifikasi/{id}',
+                    [
+                        'uses' => 'DosenController@dataSertifikasi',
+                        'as' => 'dosen.datasertifikasi'
+                    ]
+                );
+
+                Route::post(
+                    '/storesertifikasi',
+                    [
+                        'uses' => 'DosenController@storeRiwayatSertifikasi',
+                        'as' => 'dosen.storeriwayatsertifikasi'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/editsertifikasi',
+                    [
+                        'uses' => 'DosenController@editSertifikasi',
+                        'as' => 'dosen.editsertifikasi'
+                    ]
+                );
+
+                Route::post(
+                    '/updatesertifikasi/{id}',
+                    [
+                        'uses' => 'DosenController@updateSertifikasi',
+                        'as' => 'dosen.updatesertifikasi'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deletesertifikasi',
+                    [
+                        'uses' => 'DosenController@destroySertifikasi',
+                        'as' => 'dosen.destroysertifikasi'
+                    ]
+                );
+
+
+            }
+        );
+
+         // tahun ajaran
+         Route::prefix('tahunajaran')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'TahunAjaranController@data',
+                        'as' => 'tahunajaran.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'TahunAjaranController@index',
+                        'as' => 'tahunajaran.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'TahunAjaranController@create',
+                        'as' => 'tahunajaran.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'TahunAjaranController@store',
+                        'as' => 'tahunajaran.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'TahunAjaranController@edit',
+                        'as' => 'tahunajaran.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'TahunAjaranController@update',
+                        'as' => 'tahunajaran.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'TahunAjaranController@destroy',
+                        'as' => 'tahunajaran.destroy'
+                    ]
+                );
             }
         );
     });

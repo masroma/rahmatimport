@@ -26,11 +26,11 @@ class MenuController extends Controller
 
     function __construct()
     {
-        //  $this->middleware('permission:menu-view|menu-create|menu-edit|menu-delete', ['only' => ['index','store']]);
-        //  $this->middleware('permission:menu-view', ['only' => ['index']]);
-        //  $this->middleware('permission:menu-create', ['only' => ['create','store']]);
-        //  $this->middleware('permission:menu-edit', ['only' => ['edit','update']]);
-        //  $this->middleware('permission:menu-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:menu-view|menu-create|menu-edit|menu-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:menu-view', ['only' => ['index']]);
+         $this->middleware('permission:menu-create', ['only' => ['create','store']]);
+         $this->middleware('permission:menu-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:menu-delete', ['only' => ['destroy']]);
 
 
     }
@@ -120,13 +120,15 @@ class MenuController extends Controller
             'parent_id' => 'required',
             'key_permission' => 'required',
             // 'action' => 'required',
-            'order' => 'required'
+            'order' => 'required',
+            'type' => 'required',
         ]);
 
         $save = new Menu();
         $save->name = $request->name;
         $save->link = $request->link;
         $save->icon = $request->icon;
+        $save->type = $request->type;
         $save->position = $request->position ?? 'none';
         $save->parent_id = $request->parent_id ?? 0;
         $save->key_permission = $request->key_permission ?? 'none';
@@ -191,7 +193,7 @@ class MenuController extends Controller
                 'position' => 'required',
                 'parent_id' => 'required',
                 'key_permission' => 'required',
-
+                'menu' => 'required',
                 'order' => 'required'
             ]);
 
@@ -199,6 +201,7 @@ class MenuController extends Controller
             $update->name = $request->name;
             $update->link = $request->link;
             $update->icon = $request->icon;
+            $update->type = $request->type;
             $update->position = $request->position ?? 'none';
             $update->parent_id = $request->parent_id ?? 0;
             $update->key_permission = $request->key_permission ?? 'none';

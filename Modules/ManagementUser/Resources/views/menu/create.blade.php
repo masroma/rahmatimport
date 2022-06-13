@@ -72,7 +72,19 @@
                     @enderror
                   </div>
                   <div class="input-field col s12">
-                    <select name="position">
+                    <select name="type">
+                        <option value="" disabled selected>Type</option>
+                        <option  {{ old('type') == 'menu' ? 'selected' : '' }}  value="menu">menu</option>
+                        <option  {{ old('type') == 'module' ? 'selected' : '' }}  value="module">module</option>
+                      </select>
+
+                    <label for="first_name">Type</label>
+                    @error('type')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+                  <div class="input-field col s12">
+                    <select name="position" onchange="displayDivPosition('parent_id', this)">
                         <option value="" disabled selected>Position</option>
                         <option {{ old('position') == 'none' ? 'selected' : '' }} value="none">single menu</option>
                         <option  {{ old('position') == 'parent' ? 'selected' : '' }}  value="parent">parent menu</option>
@@ -85,8 +97,14 @@
                     @enderror
                   </div>
 
+                  <style>
+                    #parent_id {
+                         display: none;
+                     }
+               </style>
+
                   <div class="input-field col s12">
-                    <select name="parent_id">
+                    <select name="parent_id" id="parent_id">
                         <option value="" disabled selected>Parent</option>
                         <option value="0">none</option>
                         @foreach($parentmenu as $menuparent)

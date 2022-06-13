@@ -18,6 +18,7 @@ use App\Models\DosenRiwayatFungsional;
 use App\Models\DosenRiwayatPangkat;
 use App\Models\DosenRiwayatPendidikan;
 use App\Models\DosenRiwayatPenelitian;
+use App\Models\DosenRiwayatSertifikasi;
 use DataTables;
 use Exception;
 use Auth;
@@ -1123,7 +1124,7 @@ class DosenController extends Controller
         return view('akademik::dosen.editpenelitian')->with($data);
     }
 
-    public function updatepenelitian(Request $request, $id)
+    public function updatePenelitian(Request $request, $id)
     {
 
         DB::beginTransaction();
@@ -1179,5 +1180,173 @@ class DosenController extends Controller
         }
     }
 
+    // sertifikasi
+    public function dataSertifikasi($id)
+    {
+        try {
+
+            $canUpdate = Gate::allows('dosen-edit');
+            $canDelete = Gate::allows('dosen-delete');
+            $data = DosenRiwayatSertifikasi::where('dosen_id',$id)->get();
+            return DataTables::of($data)
+
+                    ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
+
+                        $btn = '';
+
+                        $url = route('dosen.editsertifikasi',$data->id);
+
+                        if ($canUpdate) {
+                            $btn .= '<a class="btn-floating btn-small" href="'.$url.'"><i class="material-icons">edit</i></a>';
+                        }
+
+                        if ($canDelete) {
+                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirmSertifikasi('.$data->id.')"><i class="material-icons">delete</i></button>';
+                        }
+
+
+
+                        return $btn;
+                    })
+                    ->addIndexColumn()
+                    ->make(true);
+
+        } catch (Exception $e) {
+            DB::commit();
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => $e->getMessage()
+                ]
+            );
+        }
+
+
+    }
+
+    public function createSertifikasi($id)
+    {
+        $name_page = "riwayat sertifikasi ";
+        $title = "Riwayat sertifikasi";
+        $data = array(
+            'page' => $name_page,
+            'title' => $title,
+            'id' => $id
+        );
+        return view('akademik::dosen.createsertifikasi')->with($data);
+    }
+
+    public function storeRiwayatsertifikasi(Request $request)
+    {
+
+        // dd($request->all());
+        DB::beginTransaction();
+        try {
+            $this->validate($request, [
+                'no_peserta' => 'required',
+                'bidang_study' => 'required',
+                'jenis_sertifikasi' => 'required',
+                'tahun_sertifikasi' => 'required',
+                'no_sk_sertifikasi' => 'required'
+            ]);
+
+            $save = new DosenRiwayatsertifikasi();
+            $save->dosen_id = $request->dosen_id ?? NULL;
+            $save->no_peserta = $request->no_peserta;
+            $save->bidang_study = $request->bidang_study;
+            $save->jenis_sertifikasi = $request->jenis_sertifikasi;
+            $save->tahun_sertifikasi = $request->tahun_sertifikasi;
+            $save->no_sk_sertifikasi = $request->no_sk_sertifikasi;
+            $save->save();
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+
+        if ($save) {
+            //redirect dengan pesan sukses
+            return redirect()->route('dosen.show',$request->dosen_id)->with(['success' => 'Data Berhasil Disimpan!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route('dosen.show',$request->dosen_id)->with(['error' => 'Data Gagal Disimpan!']);
+        }
+    }
+
+    public function editSertifikasi($id)
+    {
+        $sertifikasi = DosenRiwayatsertifikasi::findOrFail($id);
+
+
+        $name_page = "riwayat sertifikasi ";
+        $title = "Riwayat sertifikasi";
+
+        $data = array(
+            'page' => $name_page,
+            'sertifikasi' => $sertifikasi,
+            'title' => $title,
+
+        );
+        return view('akademik::dosen.editsertifikasi')->with($data);
+    }
+
+    public function updateSertifikasi(Request $request, $id)
+    {
+
+        DB::beginTransaction();
+        try {
+            $this->validate($request, [
+                'no_peserta' => 'required',
+                'bidang_study' => 'required',
+                'jenis_sertifikasi' => 'required',
+                'tahun_sertifikasi' => 'required',
+                'no_sk_sertifikasi' => 'required'
+            ]);
+
+            $update = DosenRiwayatsertifikasi::find($id);
+            $udpate->dosen_id = $request->dosen_id ?? NULL;
+            $udpate->no_peserta = $request->no_peserta;
+            $udpate->bidang_study = $request->bidang_study;
+            $udpate->jenis_sertifikasi = $request->jenis_sertifikasi;
+            $udpate->tahun_sertifikasi = $request->tahun_sertifikasi;
+            $udpate->no_sk_sertifikasi = $request->no_sk_sertifikasi;
+            $update->save();
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+
+
+        if ($update) {
+            //redirect dengan pesan sukses
+            return redirect()->route('dosen.show',$request->dosen_id)->with(['success' => 'Data Berhasil Disimpan!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route('dosen.show',$request->dosen_id)->with(['error' => 'Data Gagal Disimpan!']);
+        }
+    }
+
+    public function destroySertifikasi($id)
+    {
+        DB::beginTransaction();
+        try {
+            $delete = DosenRiwayatSertifikasi::find($id)->delete();
+                DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+        if ($delete) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with(['success' => 'Data Berhasil Dihapus!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(['error' => 'Data Gagal Dihapus!']);
+        }
+    }
 
 }
