@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 
 class PenugasanDosenController extends Controller
 {
+    // lagi ngantuk bos
     /**
      * Display a listing of the resource.
      * @return Renderable
