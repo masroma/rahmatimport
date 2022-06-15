@@ -791,5 +791,62 @@ Route::prefix('akademik')->group(function() {
                 );
             }
         );
+
+        // penugasan dosen
+        Route::prefix('penugasandosen')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'PenugasanDosenController@data',
+                        'as' => 'penugasandosen.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'PenugasanDosenController@index',
+                        'as' => 'penugasandosen.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'PenugasanDosenController@create',
+                        'as' => 'penugasandosen.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'PenugasanDosenController@store',
+                        'as' => 'penugasandosen.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'PenugasanDosenController@edit',
+                        'as' => 'penugasandosen.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'PenugasanDosenController@update',
+                        'as' => 'penugasandosen.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'PenugasanDosenController@destroy',
+                        'as' => 'penugasandosen.destroy'
+                    ]
+                );
+            }
+        );
     });
 });
