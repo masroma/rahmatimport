@@ -21,16 +21,16 @@ class SubstansiKuliahController extends Controller
 
     use ValidatesRequests;
 
-    //  function __construct()
-    // {
-    //      $this->middleware("permission:substansikuliah-view|substansikuliah-create|substansikuliah-edit|substansikuliah-show|substansikuliah-delete", ["only" => ["index","store"]]);
-    //      $this->middleware("permission:substansikuliah-view", ["only" => ["index"]]);
-    //      $this->middleware("permission:substansikuliah-create", ["only" => ["create","store"]]);
-    //      $this->middleware("permission:substansikuliah-edit", ["only" => ["edit","update"]]);
-    //      $this->middleware("permission:substansikuliah-show", ["only" => ["show"]]);
-    //      $this->middleware("permission:substansikuliah-delete", ["only" => ["destroy"]]);
+     function __construct()
+    {
+         $this->middleware("permission:substansikuliah-view|substansikuliah-create|substansikuliah-edit|substansikuliah-show|substansikuliah-delete", ["only" => ["index","store"]]);
+         $this->middleware("permission:substansikuliah-view", ["only" => ["index"]]);
+         $this->middleware("permission:substansikuliah-create", ["only" => ["create","store"]]);
+         $this->middleware("permission:substansikuliah-edit", ["only" => ["edit","update"]]);
+         $this->middleware("permission:substansikuliah-show", ["only" => ["show"]]);
+         $this->middleware("permission:substansikuliah-delete", ["only" => ["destroy"]]);
 
-    // }
+    }
 
     public function data()
     {
