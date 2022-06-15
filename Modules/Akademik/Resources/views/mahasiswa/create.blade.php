@@ -122,19 +122,19 @@
                          @enderror
                        </div>
                 </div>
-                <div id="test2" class="col s12">
-                    <div class="input-field col s6  mt-3 mb-3">
-                        <select name="kewarganegaraan_id" class="select2 browser-default">
-                            <option value="">Kewarganegaraan</option>
-                            @foreach($kewarganegaraan as $row)
-                                <option @if(old('kewarganegaraan_id') == $row->id_country) selected @endif value="{{$row->id_country}}">{{$row->country_name}}</option>
-                            @endforeach
-                          </select>
-                            <label for="first_name">Kewarganegaraan<span style="color:red">*</span></label>
-                        @error('kewarganegaraan_id')
-                        <span class="red-text text-darken-2">{{ $message }}</small>
-                        @enderror
-                    </div>
+                    <div id="test2" class="col s12">
+                        <div class="input-field col s6  mt-3 mb-3">
+                            <select name="kewarganegaraan_id" class="select2 browser-default">
+                                <option value="">Kewarganegaraan</option>
+                                @foreach($kewarganegaraan as $row)
+                                    <option @if(old('kewarganegaraan_id') == $row->id_country) selected @endif value="{{$row->id_country}}">{{$row->country_name}}</option>
+                                @endforeach
+                            </select>
+                                <label for="first_name">Kewarganegaraan<span style="color:red">*</span></label>
+                            @error('kewarganegaraan_id')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                        </div>
                     <div class="input-field col s6  mt-3 mb-3">
                         <input placeholder="nik" name="nik" id="nik" type="text" class="validate  @error('nik') is-invalid @enderror" value="{{ old('nik') }}">
                         <label for="first_name">NIK<span style="color:red">*</span></label>

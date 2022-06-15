@@ -6,11 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MataKuliah extends Model
+
+
+class SubstansiKuliah extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $guarded = ['id'];
 
-
+    public function ProgramStudy()
+    {
+        return $this->belongsTo(ProgramStudy::class, 'programstudy_id');
+    }
 }

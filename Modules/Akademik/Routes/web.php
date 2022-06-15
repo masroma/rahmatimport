@@ -393,6 +393,55 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'mahasiswa.restore'
                     ]
                 );
+
+                // pendidikan mahasiswa
+                Route::get(
+                    '/creatependidikan/{id}',
+                    [
+                        'uses' => 'MahasiswaHistoryPendidikanController@creatependidikan',
+                        'as' => 'mahasiswa.creatependidikan'
+                    ]
+                );
+
+                Route::get(
+                    '/datapendidikan/{id}',
+                    [
+                        'uses' => 'MahasiswaHistoryPendidikanController@datapendidikan',
+                        'as' => 'mahasiswa.datapendidikan'
+                    ]
+                );
+
+                Route::post(
+                    '/storependidikan',
+                    [
+                        'uses' => 'MahasiswaHistoryPendidikanController@storeRiwayatPendidikan',
+                        'as' => 'mahasiswa.storeriwayatpendidikan'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/editpendidikan',
+                    [
+                        'uses' => 'MahasiswaHistoryPendidikanController@editPendidikan',
+                        'as' => 'mahasiswa.editpendidikan'
+                    ]
+                );
+
+                Route::post(
+                    '/updatependidikan/{id}',
+                    [
+                        'uses' => 'MahasiswaHistoryPendidikanController@updatePendidikan',
+                        'as' => 'mahasiswa.updatependidikan'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deletependidikan',
+                    [
+                        'uses' => 'MahasiswaHistoryPendidikanController@destroyPendidikan',
+                        'as' => 'mahasiswa.destroypendidikan'
+                    ]
+                );
             }
         );
 
@@ -844,6 +893,119 @@ Route::prefix('akademik')->group(function() {
                     [
                         'uses' => 'PenugasanDosenController@destroy',
                         'as' => 'penugasandosen.destroy'
+                    ]
+                );
+            }
+        );
+
+        // penugasan matakuliah
+        Route::prefix('matakuliah')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'MataKuliahController@data',
+                        'as' => 'matakuliah.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'MataKuliahController@index',
+                        'as' => 'matakuliah.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'MataKuliahController@create',
+                        'as' => 'matakuliah.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'MataKuliahController@store',
+                        'as' => 'matakuliah.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'MataKuliahController@edit',
+                        'as' => 'matakuliah.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'MataKuliahController@update',
+                        'as' => 'matakuliah.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'MataKuliahController@destroy',
+                        'as' => 'matakuliah.destroy'
+                    ]
+                );
+            }
+        );
+
+        Route::prefix('substansikuliah')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'SubstansiKuliahController@data',
+                        'as' => 'substansikuliah.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'SubstansiKuliahController@index',
+                        'as' => 'substansikuliah.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'SubstansiKuliahController@create',
+                        'as' => 'substansikuliah.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'SubstansiKuliahController@store',
+                        'as' => 'substansikuliah.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'SubstansiKuliahController@edit',
+                        'as' => 'substansikuliah.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'SubstansiKuliahController@update',
+                        'as' => 'substansikuliah.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'SubstansiKuliahController@destroy',
+                        'as' => 'substansikuliah.destroy'
                     ]
                 );
             }

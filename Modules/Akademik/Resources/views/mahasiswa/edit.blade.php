@@ -601,21 +601,50 @@
       </div>
     </div>
   </div>
+
+
+    <div class="card">
+        <div class="card-content">
+            <div class="row mb-5">
+                <div class="col s10 m6 l6">
+                <h5>Riwayat Pendidikan</h5>
+                </div>
+                <div class="col s10 m6 l6 ">
+                    <a class="btn waves-effect waves-light breadcrumbs-btn  right" href="{{ route('mahasiswa.creatependidikan',$mahasiswa->id) }}" id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <table id="page-length-option-pendidikan" class="display">
+                        <thead>
+                            <tr>
+                            <th>No</th>
+                            <th>NIM</th>
+                            <th>Jenis Pendaftaran</th>
+                            <th>Jalur Pendaftaran</th>
+                            <th>Periode Pendaftaran</th>
+                            <th>Tanggal Masuk</th>
+                            <th>Pembiayaan Awal</th>
+                            <th>Biaya Masuk</th>
+                            <th>Kampus</th>
+                            <th>Program Study</th>
+                            {{-- <th>Perminatan</th> --}}
+                            <th>#</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+
+
 </div>
-</div>
-
-
-
-</div><!-- START RIGHT SIDEBAR NAV -->
-
-</div>
-      </div>
       <div class="content-overlay"></div>
     </div>
   </div>
-
-
-
 
 
   @stop
@@ -689,9 +718,109 @@
             }
         });
 
+        // pendidikan datatable
+        (function() {
+              loadDataTable();
+          })();
 
+          function loadDataTable() {
+              $(document).ready(function () {
+                let idmahasiswa = {{ $mahasiswa->id }};
+                  $('#page-length-option-pendidikan').DataTable({
+                      "scrollX": true,
+                      "autoWidth": true,
+                      processing: true,
+                      serverSide: true,
+                      ajax: {
+                          url: "{{ url('akademik/mahasiswa/datapendidikan') }}/" + idmahasiswa,
+                          type: "GET",
+                      },
+                      columns: [
+                            {
+                                data:"DT_RowIndex",
+                                name:"DT_RowIndex"
+                            },
+                          {
+                              data: 'nim',
+                              name: 'nim'
+                          },
+
+                          {
+                              data: 'jenispendaftaran',
+                              name: 'jenispendaftaran'
+                          },
+
+                          {
+                              data: 'jalurpendaftaran',
+                              name: 'jalurpendaftaran'
+                          },
+
+                          {
+                              data: 'periodependaftaran',
+                              name: 'periodependaftaran'
+                          },
+
+                          {
+                              data: 'tanggalmasuk',
+                              name: 'tanggalmasuk'
+                          },
+
+                          {
+                              data: 'pembiayaanawal',
+                              name: 'pembiayaanawal'
+                          },
+
+                          {
+                              data: 'biayamasuk',
+                              name: 'biayamasuk'
+                          },
+
+                          {
+                              data: 'kampus',
+                              name: 'kampus'
+                          },
+
+                          {
+                              data: 'programstudy',
+                              name: 'programstudy'
+                          },
+
+                        //   {
+                        //       data: 'perminatan_id',
+                        //       name: 'perminatan_id'
+                        //   },
+
+
+                          {
+                              data: 'action',
+                              name: 'action'
+                          },
+
+                      ],
+                      order: [
+                          [0, 'asc']
+                      ]
+                  });
+
+                });
+          }
 
       });
+
+      function deleteConfirmPendidikan(id) {
+              swal({
+                      title: "Kamu Yakin ?",
+                      text: "akan menghapus data ini !",
+                      icon: "warning",
+                      buttons: true,
+                      dangerMode: true,
+                  })
+                  .then((dt) => {
+                      if (dt) {
+                          window.location.href = "{{ url('akademik/mahasiswa') }}/" + id + "/deletependidikan";
+                      }
+                  });
+          }
     </script>
 
 

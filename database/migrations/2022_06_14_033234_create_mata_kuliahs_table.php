@@ -18,9 +18,17 @@ class CreateMataKuliahsTable extends Migration
             $table->string('kode_matakuliah')->unique()->nullable();
             $table->string('nama_matakuliah');
             $table->integer('programstudy_id');
-
-
+            $table->string('jenis_mata_kuliah');
+            $table->BigInteger('bobot_mata_kuliah');
+            $table->BigInteger('bobot_tatap_muka');
+            $table->BigInteger('bobot_pratikum');
+            $table->BigInteger('bobot_praktek_lapanagn');
+            $table->BigInteger('bobot_simulasi');
+            $table->string('metode_pembelajaran');
+            $table->date('tanggal_mulai_efektif');
+            $table->date('tanggal_akhir_efektif');
             $table->timestamps();
+            $table->softdeletes();
         });
     }
 

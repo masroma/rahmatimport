@@ -498,6 +498,7 @@ class MahasiswaController extends Controller
             MahasiswaDetailOrangTua::where('mahasiswa_id', $id)->delete();
             MahasiswaDetailWali::where('mahasiswa_id', $id)->delete();
             MahasiswaDetailKebutuhanKhusus::where('mahasiswa_id', $id)->delete();
+            MahasiswaHistoryPendidikan::where('mahasiswa_id',$id)->delete();
 
                 DB::commit();
         } catch (ModelNotFoundException $exception) {
