@@ -201,7 +201,7 @@
 
     <!-- BEGIN: SideNav-->
     <aside class="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-light sidenav-active-square">
-       <img src="{{asset('logo-putih.png')}}" class="img-fluid mt-5" width="200" alt="">
+       <img src="{{asset('logo-upm-putih.png')}}" class="img-fluid mt-5 " style="margin-left:20px" width="200" alt="">
         <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow mt-4" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
             <li class="bold"><a class="waves-effect waves-cyan " href="{{route('dashboard.index')}}" ><i class="material-icons">dashboard</i><span class="menu-title" data-i18n="Documentation">Dashboard</span></a>
             </li>

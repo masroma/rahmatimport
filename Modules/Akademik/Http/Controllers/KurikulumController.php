@@ -5,55 +5,56 @@ namespace Modules\Akademik\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Models\Kurikulum;
 use App\Models\ProgramStudy;
-use App\Models\SubstansiKuliah;
+use App\Models\JenisSemester;
 use DataTables;
 use Exception;
 use Auth;
 use Gate;
 use DB;
-use Validator;
-use Carbon\Carbon;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
-class SubstansiKuliahController extends Controller
+class KurikulumController extends Controller
 {
 
     use ValidatesRequests;
 
      function __construct()
     {
-         $this->middleware("permission:substansikuliah-view|substansikuliah-create|substansikuliah-edit|substansikuliah-show|substansikuliah-delete", ["only" => ["index","store"]]);
-         $this->middleware("permission:substansikuliah-view", ["only" => ["index"]]);
-         $this->middleware("permission:substansikuliah-create", ["only" => ["create","store"]]);
-         $this->middleware("permission:substansikuliah-edit", ["only" => ["edit","update"]]);
-         $this->middleware("permission:substansikuliah-show", ["only" => ["show"]]);
-         $this->middleware("permission:substansikuliah-delete", ["only" => ["destroy"]]);
+         $this->middleware("permission:kurikulum-view|kurikulum-create|kurikulum-edit|kurikulum-show|kurikulum-delete", ["only" => ["index","store"]]);
+         $this->middleware("permission:kurikulum-view", ["only" => ["index"]]);
+         $this->middleware("permission:kurikulum-create", ["only" => ["create","store"]]);
+         $this->middleware("permission:kurikulum-edit", ["only" => ["edit","update"]]);
+         $this->middleware("permission:kurikulum-show", ["only" => ["show"]]);
+         $this->middleware("permission:kurikulum-delete", ["only" => ["destroy"]]);
 
     }
 
     public function data()
     {
         try {
-            $canShow = Gate::allows("substansikuliah-show");
-            $canUpdate = Gate::allows("substansikuliah-edit");
-            $canDelete = Gate::allows("substansikuliah-delete");
-            $data = SubstansiKuliah::with("ProgramStudy")->get();
+            $canShow = Gate::allows("kurikulum-show");
+            $canUpdate = Gate::allows("kurikulum-edit");
+            $canDelete = Gate::allows("kurikulum-delete");
+            $data = Kurikulum::with("Programstudy","Jenissemester")->get();
             return DataTables::of($data)
-                    ->addColumn("tanggalmulai", function($data){
-                        return Carbon::parse($data->tanggal_mulai_efektif)->isoFormat("D MMMM Y");
+
+                    ->addColumn('programstudy', function($data){
+                        return $data->Programstudy->jurusan->nama_jurusan .'-'. $data->Programstudy->jenjang->nama_jenjang;
                     })
 
-                    ->addColumn("tangalakhir", function($data){
-                        return Carbon::parse($data->tanggal_akhir_efektif)->isoFormat("D MMMM Y");
+                    ->addColumn('masaberlaku', function($data){
+                        return $data->Jenissemester->Tahunajaran->tahun_ajaran .'-'. $data->Jenissemester->jenis_semester;
                     })
+
 
                     ->addColumn("action", function ($data) use ($canUpdate, $canDelete, $canShow) {
 
                         $btn = "";
 
                         if ($canUpdate) {
-                            $btn .= '<a class="btn-floating btn-small" href="substansikuliah/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
+                            $btn .= '<a class="btn-floating btn-small" href="kurikulum/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
                         }
 
                         if ($canDelete) {
@@ -61,7 +62,7 @@ class SubstansiKuliahController extends Controller
                         }
 
                         if ($canShow) {
-                            $btn .= '<a class="btn-floating green darken-1 btn-small" href="substansikuliah/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+                            $btn .= '<a class="btn-floating green darken-1 btn-small" href="kurikulum/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
                         }
 
                         return $btn;
@@ -84,15 +85,15 @@ class SubstansiKuliahController extends Controller
 
     public function index()
     {
-        $canCreate = Gate::allows("substansikuliah-create");
-        $name_page = "substansikuliah";
-        $title = "Substansi Kuliah";
+        $canCreate = Gate::allows("kurikulum-create");
+        $name_page = "kurikulum";
+        $title = "Kurikulum";
         $data = array(
             "page" => $name_page,
             "canCreate" => $canCreate,
             "title" => $title
         );
-        return view("akademik::substansikuliah.index")->with($data);
+        return view("akademik::kurikulum.index")->with($data);
     }
 
 
@@ -102,17 +103,17 @@ class SubstansiKuliahController extends Controller
      */
     public function create()
     {
-        $name_page = "substansikuliah";
+        $name_page = "kurikulum";
         $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
+        $jenissemester = JenisSemester::all();
         $title = "Substansi Kuliah";
         $data = array(
             "page" => $name_page,
             "title" => $title,
             "programstudy" => $programstudy,
-
+            "jenissemester" => $jenissemester
         );
-
-        return view("akademik::substansikuliah.create")->with($data);
+        return view("akademik::kurikulum.create")->with($data);
     }
 
     /**
@@ -127,24 +128,21 @@ class SubstansiKuliahController extends Controller
         try {
 
             $this->validate($request, [
-                "nama_substansi" => "required",
+                "nama_kurikulum" => "required",
                 "programstudy_id" => "required",
-                "bobot_mata_kuliah" => 'required',
-                "bobot_tatap_muka" => 'required',
-                "bobot_pratikum" => 'required',
-                "bobot_praktek_lapangan" => 'required',
-                "bobot_simulasi" => 'required'
+                "jumlah_bobot_mata_kuliah_pilihan" => 'required',
+                "masa_berlaku" => 'required',
+                "jumlah_bobot_mata_kuliah_wajib" => 'required'
             ]);
 
 
-            $save = new SubstansiKuliah();
-            $save->nama_substansi = $request->nama_substansi;
+            $save = new Kurikulum();
+            $save->nama_kurikulum = $request->nama_kurikulum;
             $save->programstudy_id = $request->programstudy_id;
-            $save->bobot_mata_kuliah = $request->bobot_mata_kuliah;
-            $save->bobot_tatap_muka = $request->bobot_tatap_muka;
-            $save->bobot_pratikum = $request->bobot_pratikum;
-            $save->bobot_praktek_lapangan = $request->bobot_praktek_lapangan;
-            $save->bobot_simulasi = $request->bobot_simulasi;
+            $save->jumlah_bobot_mata_kuliah_pilihan = $request->jumlah_bobot_mata_kuliah_pilihan;
+            $save->masa_berlaku = $request->masa_berlaku;
+            $save->jumlah_sks = $request->jumlah_bobot_mata_kuliah_pilihan + $request->jumlah_bobot_mata_kuliah_wajib;
+            $save->jumlah_bobot_mata_kuliah_wajib = $request->jumlah_bobot_mata_kuliah_wajib;
             $save->save();
 
 
@@ -156,10 +154,10 @@ class SubstansiKuliahController extends Controller
 
         if ($save) {
             //redirect dengan pesan sukses
-            return redirect()->route("substansikuliah.index")->with(["success" => "Data Berhasil Disimpan!"]);
+            return redirect()->route("kurikulum.index")->with(["success" => "Data Berhasil Disimpan!"]);
         } else {
             //redirect dengan pesan error
-            return redirect()->route("substansikuliah.index")->with(["error" => "Data Gagal Disimpan!"]);
+            return redirect()->route("kurikulum.index")->with(["error" => "Data Gagal Disimpan!"]);
         }
     }
 
@@ -181,16 +179,20 @@ class SubstansiKuliahController extends Controller
      */
     public function edit($id)
     {
-        $substansikuliah = SubstansiKuliah::findOrFail($id);
-        $name_page = "substansikuliah";
-        $title = "Substansi Kuliah";
+        $kurikulum = Kurikulum::findOrFail($id);
+        $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
+        $jenissemester = JenisSemester::all();
+        $name_page = "kurikulum";
+        $title = "Kurikulum";
         $data = array(
             "page" => $name_page,
-            "substansikuliah" => $substansikuliah,
+            "kurikulum" => $kurikulum,
             "title" => $title,
+            "programstudy" => $programstudy,
+            "jenissemester" => $jenissemester
 
         );
-        return view("akademik::substansikuliah.edit")->with($data);
+        return view("akademik::kurikulum.edit")->with($data);
     }
     /**
      * Update the specified resource in storage.
@@ -205,24 +207,24 @@ class SubstansiKuliahController extends Controller
         DB::beginTransaction();
         try {
             $this->validate($request, [
-                "nama_substansi" => "required",
+                "nama_kurikulum" => "required",
                 "programstudy_id" => "required",
-                "bobot_mata_kuliah" => 'required',
-                "bobot_tatap_muka" => 'required',
-                "bobot_pratikum" => 'required',
-                "bobot_praktek_lapangan" => 'required',
-                "bobot_simulasi" => 'required'
+                "jumlah_bobot_mata_kuliah_pilihan" => 'required',
+                "masa_berlaku" => 'required',
+
+                "jumlah_bobot_mata_kuliah_wajib" => 'required'
             ]);
 
-            $save = SubstansiKuliah::findORFail($id);
-            $save->nama_substansi = $request->nama_substansi;
+
+            $save = Kurikulum::findOrFail($id);
+            $save->nama_kurikulum = $request->nama_kurikulum;
             $save->programstudy_id = $request->programstudy_id;
-            $save->bobot_mata_kuliah = $request->bobot_mata_kuliah;
-            $save->bobot_tatap_muka = $request->bobot_tatap_muka;
-            $save->bobot_pratikum = $request->bobot_pratikum;
-            $save->bobot_praktek_lapangan = $request->bobot_praktek_lapangan;
-            $save->bobot_simulasi = $request->bobot_simulasi;
+            $save->jumlah_bobot_mata_kuliah_pilihan = $request->jumlah_bobot_mata_kuliah_pilihan;
+            $save->masa_berlaku = $request->masa_berlaku;
+            $save->jumlah_sks = $request->jumlah_bobot_mata_kuliah_pilihan + $request->jumlah_bobot_mata_kuliah_wajib;
+            $save->jumlah_bobot_mata_kuliah_wajib = $request->jumlah_bobot_mata_kuliah_wajib;
             $save->save();
+
 
             DB::commit();
         } catch (ModelNotFoundException $exception) {
@@ -231,12 +233,12 @@ class SubstansiKuliahController extends Controller
         }
 
 
-            if ($update) {
+            if ($save) {
                 //redirect dengan pesan sukses
-                return redirect()->route("substansikuliah.index")->with(["success" => "Data Berhasil Diubah!"]);
+                return redirect()->route("kurikulum.index")->with(["success" => "Data Berhasil Diubah!"]);
             } else {
                 //redirect dengan pesan error
-                return redirect()->route("substansikuliah.index")->with(["error" => "Data Gagal Diubah!"]);
+                return redirect()->route("kurikulum.index")->with(["error" => "Data Gagal Diubah!"]);
             }
     }
 
@@ -249,7 +251,7 @@ class SubstansiKuliahController extends Controller
     {
         DB::beginTransaction();
         try {
-           $delete =  SubstansiKuliah::find($id)->delete();
+           $delete =  Kurikulum::find($id)->delete();
             DB::commit();
         } catch (ModelNotFoundException $exception) {
             DB::rollback();
@@ -257,10 +259,10 @@ class SubstansiKuliahController extends Controller
         }
         if ($update) {
             //redirect dengan pesan sukses
-            return redirect()->route("substansikuliah.index")->with("success", "Data berhasil dihapus");
+            return redirect()->route("kurikulum.index")->with("success", "Data berhasil dihapus");
         } else {
             //redirect dengan pesan error
-            return redirect()->route("substansikuliah.index")->with(["error" => "Data Gagal Dihapus!"]);
+            return redirect()->route("kurikulum.index")->with(["error" => "Data Gagal Dihapus!"]);
         }
 
     }

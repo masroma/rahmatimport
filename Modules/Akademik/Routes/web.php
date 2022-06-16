@@ -955,6 +955,7 @@ Route::prefix('akademik')->group(function() {
             }
         );
 
+        // substansi
         Route::prefix('substansikuliah')->group(
             function () {
                 Route::get(
@@ -1010,5 +1011,63 @@ Route::prefix('akademik')->group(function() {
                 );
             }
         );
+
+        //kurikulum
+        Route::prefix('kurikulum')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'KurikulumController@data',
+                        'as' => 'kurikulum.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'KurikulumController@index',
+                        'as' => 'kurikulum.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'KurikulumController@create',
+                        'as' => 'kurikulum.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'KurikulumController@store',
+                        'as' => 'kurikulum.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'KurikulumController@edit',
+                        'as' => 'kurikulum.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'KurikulumController@update',
+                        'as' => 'kurikulum.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'KurikulumController@destroy',
+                        'as' => 'kurikulum.destroy'
+                    ]
+                );
+            }
+        );
+
     });
 });
