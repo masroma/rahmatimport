@@ -137,7 +137,7 @@ class MataKuliahController extends Controller
                 "nama_matakuliah" => "required",
                 "programstudy_id" => "required",
                 "jenis_mata_kuliah" => "required",
-                "bobot_mata_kuliah" => "required",
+                // "bobot_mata_kuliah" => "required",
                 "bobot_tatap_muka" => "required",
                 "bobot_pratikum" => "required",
                 "bobot_praktek_lapanagn" => "required",
@@ -147,7 +147,20 @@ class MataKuliahController extends Controller
                 "tanggal_akhir_efektif" => "reqiured"
             ]);
 
-
+            $save = new MataKuliah();
+            $save->kode_matakuliah = $request->kode_matakuliah;
+            $save->nama_matakuliah = $request->nama_matakuliah;
+            $save->programstudy_id = $request->programstudy_id;
+            $save->jenis_mata_kuliah = $request->jenis_mata_kuliah;
+            $save->bobot_mata_kuliah = $request->bobot_tatap_muka + $request->bobot_pratikum + $request->bobot_praktek_lapanagn + $request->bobot_simulasi;
+            $save->bobot_tatap_muka = $request->bobot_tatap_muka;
+            $save->bobot_pratikum = $request->bobot_pratikum;
+            $save->bobot_praktek_lapanagn = $request->bobot_praktek_lapanagn;
+            $save->bobot_simulasi = $request->bobot_simulasil;
+            $save->metode_pembelajaran = $request->metode_pembelajaran;
+            $save->tanggal_mulai_efektif = $request->tanggal_mulai_efektif;
+            $save->tanggal_akhir_efektif = $Request->tanggal_akhir_efektif;
+            $save->save();
 
             DB::commit();
         } catch (ModelNotFoundException $exception) {
@@ -205,22 +218,35 @@ class MataKuliahController extends Controller
 
         DB::beginTransaction();
         try {
-            // $validated = $this->validate($request, [
-            //     "kode_matakuliah" => "required",
-            //     "nama_matakuliah" => "required",
-            //     "programstudy_id" => "required",
-            //     "jenis_mata_kuliah" => "required",
-            //     "bobot_mata_kuliah" => "required",
-            //     "bobot_tatap_muka" => "required",
-            //     "bobot_pratikum" => "required",
-            //     "bobot_praktek_lapanagn" => "required",
-            //     "bobot_simulasi" => "required",
-            //     "metode_pembelajaran" => "required",
-            //     "tanggal_mulai_efektif" => "required",
-            //     "tanggal_akhir_efektif" => "reqiured"
-            // ]);
+            $this->validate($request, [
+                "kode_matakuliah" => "required",
+                "nama_matakuliah" => "required",
+                "programstudy_id" => "required",
+                "jenis_mata_kuliah" => "required",
+                // "bobot_mata_kuliah" => "required",
+                "bobot_tatap_muka" => "required",
+                "bobot_pratikum" => "required",
+                "bobot_praktek_lapanagn" => "required",
+                "bobot_simulasi" => "required",
+                "metode_pembelajaran" => "required",
+                "tanggal_mulai_efektif" => "required",
+                "tanggal_akhir_efektif" => "reqiured"
+            ]);
 
-            // $update = MataKuliah::find($id)->update($validated);
+            $save = MataKuliah::findOrFail($id);
+            $save->kode_matakuliah = $request->kode_matakuliah;
+            $save->nama_matakuliah = $request->nama_matakuliah;
+            $save->programstudy_id = $request->programstudy_id;
+            $save->jenis_mata_kuliah = $request->jenis_mata_kuliah;
+            $save->bobot_mata_kuliah = $request->bobot_tatap_muka + $request->bobot_pratikum + $request->bobot_praktek_lapanagn + $request->bobot_simulasi;
+            $save->bobot_tatap_muka = $request->bobot_tatap_muka;
+            $save->bobot_pratikum = $request->bobot_pratikum;
+            $save->bobot_praktek_lapanagn = $request->bobot_praktek_lapanagn;
+            $save->bobot_simulasi = $request->bobot_simulasil;
+            $save->metode_pembelajaran = $request->metode_pembelajaran;
+            $save->tanggal_mulai_efektif = $request->tanggal_mulai_efektif;
+            $save->tanggal_akhir_efektif = $Request->tanggal_akhir_efektif;
+            $save->save();
             DB::commit();
         } catch (ModelNotFoundException $exception) {
             DB::rollback();
