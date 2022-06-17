@@ -125,6 +125,48 @@
 </div>
 </div>
 
+<div class="col s12">
+    <div class="card">
+        <div class="card-content">
+            <div class="row">
+                <div class="col s12">
+                    <ul class="tabs tab-demo z-depth-1">
+                        <li class="tab col "><a class="active" href="#test1">List Matakuliah Terdaftar</a></li>
+                    <li class="tab col "><a href="#test2">List Matakuliah Belum Terdaftar</a></li>
+                    </ul>
+                </div>
+                <div class="col s12 mt-3">
+                    <div id="test1" class="col s12 ">
+                        <table id="page-length-option" class="display">
+                            <thead>
+                            <tr>
+                                <th rowspan="2">#</th>
+                                <th rowspan="2">no</th>
+                                <th rowspan="2">Kode Matakuliah</th>
+                                <th rowspan="2">Nama Matakuliah</th>
+                                <th></th>
+                                <th colspan="5" class="center">Bobot Matakuliah</th>
+                            </tr>
+                              <tr>
+
+                                <th>Matakuliah</th>
+                                <th>Tatap Muka</th>
+                                <th>Pratikum</th>
+                                <th>Praktek Lapangan</th>
+                                <th>Simulasi</th>
+                              </tr>
+                            </thead>
+                          </table>
+                    </div>
+                    <div id="test2" class="col s12 ">
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi dolorem beatae possimus delectus, tempora suscipit modi nihil quaerat totam, itaque officia culpa illo illum et cupiditate ipsam aliquam! Voluptatibus, est.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 </div><!-- START RIGHT SIDEBAR NAV -->

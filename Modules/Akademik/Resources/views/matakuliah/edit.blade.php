@@ -67,7 +67,7 @@
                         @enderror
                       </div>
 
-                  <div class="input-field col s12  mt-3 mb-3">
+                  <div class="input-field col s4  mt-2 mb-2">
                     <select name="programstudy_id" class="select2 browser-default">
                         <option value="">Program Study</option>
                         @foreach($programstudy as $row)
@@ -83,13 +83,13 @@
                 <div class="input-field col s12  mt-3 mb-3">
                     <select name="jenis_mata_kuliah" class="select2 browser-default">
                         <option value="">Jenis Mata Kuliah</option>
-                        <option value="1" @if(old('jenis_mata_kuliah'$matakuliah->jenis_mata_kuliah) == 1) selected @endif>Wajib Nasional</option>
-                        <option value="2" @if(old('jenis_mata_kuliah'$matakuliah->jenis_mata_kuliah) == 2) selected @endif>Wajib Program Study</option>
-                        <option value="3" @if(old('jenis_mata_kuliah'$matakuliah->jenis_mata_kuliah) == 3) selected @endif>Pilihan</option>
-                        <option value="4" @if(old('jenis_mata_kuliah'$matakuliah->jenis_mata_kuliah) == 4) selected @endif>Peminatan</option>
-                        <option value="5" @if(old('jenis_mata_kuliah'$matakuliah->jenis_mata_kuliah) == 5) selected @endif>Tugas Akhir/Skripsi/Tesis/Disertasi</option>
+                        <option value="1" @if(old('jenis_mata_kuliah',$matakuliah->jenis_mata_kuliah) == 1) selected @endif>Wajib Nasional</option>
+                        <option value="2" @if(old('jenis_mata_kuliah',$matakuliah->jenis_mata_kuliah) == 2) selected @endif>Wajib Program Study</option>
+                        <option value="3" @if(old('jenis_mata_kuliah',$matakuliah->jenis_mata_kuliah) == 3) selected @endif>Pilihan</option>
+                        <option value="4" @if(old('jenis_mata_kuliah',$matakuliah->jenis_mata_kuliah) == 4) selected @endif>Peminatan</option>
+                        <option value="5" @if(old('jenis_mata_kuliah',$matakuliah->jenis_mata_kuliah) == 5) selected @endif>Tugas Akhir/Skripsi/Tesis/Disertasi</option>
                       </select>
-                        <label for="first_name">Jenis Mata Kuliah<span style="color:red">*</span></label>
+                        <label for="first_name">Jenis Mata Kuliah</label>
                     @error('jenis_matakuliah')
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
@@ -98,7 +98,7 @@
 
                 <div class="input-field col s4  mt-2 mb-2">
                     <input placeholder="bobot mata kuliah" name="bobot_mata_kuliah" id="bobot_mata_kuliah" type="text" class="validate  @error('bobot_matakuliah') is-invalid @enderror" value="{{ old('bobot_mata_kuliah', $matakuliah->bobot_mata_kuliah) }}">
-                    <label for="first_name">Bobot Mata kuliah<span style="color:red">*</span></label>
+                    <label for="first_name">Bobot Mata kuliah</label>
 
                     @error('bobot_mata_kuliah')
                     <span class="red-text text-darken-2">{{ $message }}</small>
@@ -107,7 +107,7 @@
 
                   <div class="input-field col s4  mt-2 mb-2">
                     <input placeholder="bobot tatap muka" name="bobot_tatap_muka" id="bobot_tatap_muka" type="text" class="validate  @error('bobot_tatap_muka') is-invalid @enderror" value="{{ old('bobot_tatap_muka',$matakuliah->bobot_tatap_muka) }}">
-                    <label for="first_name">Bobot Tatap Muka<span style="color:red">*</span></label>
+                    <label for="first_name">Bobot Tatap Muka</label>
 
                     @error('bobot_tatap_muka')
                     <span class="red-text text-darken-2">{{ $message }}</small>
@@ -115,8 +115,8 @@
                   </div>
 
                   <div class="input-field col s4  mt-2 mb-2">
-                    <input placeholder="bobot pratikum" name="bobot_pratikum" id="bobot_pratikum" type="text" class="validate  @error('bobot_pratikum') is-invalid @enderror" value="{{ old('bobot_pratikum',$matakuliah->bobot_pretikum) }}">
-                    <label for="first_name">Bobot Pratikum<span style="color:red">*</span></label>
+                    <input placeholder="bobot pratikum" name="bobot_pratikum" id="bobot_pratikum" type="text" class="validate  @error('bobot_pratikum') is-invalid @enderror" value="{{ old('bobot_pratikum',$matakuliah->bobot_pratikum) }}">
+                    <label for="first_name">Bobot Pratikum</label>
 
                     @error('bobot_pratikum')
                     <span class="red-text text-darken-2">{{ $message }}</small>
@@ -124,8 +124,8 @@
                   </div>
 
                   <div class="input-field col s4  mt-2 mb-2">
-                    <input placeholder="bobot praktek lapangan" name="bobot_praktek_lapanagn" id="bobot_praktek_lapanagn" type="text" class="validate  @error('bobot_praktek_lapanagn') is-invalid @enderror" value="{{ old('bobot_praktek_lapanagn',$matakuliah->bobot_praktek_lapangan) }}">
-                    <label for="first_name">Bobot Praktek Lapangan<span style="color:red">*</span></label>
+                    <input placeholder="bobot praktek lapangan" name="bobot_praktek_lapanagn" id="bobot_praktek_lapanagn" type="text" class="validate  @error('bobot_praktek_lapanagn') is-invalid @enderror" value="{{ old('bobot_praktek_lapanagn',$matakuliah->bobot_praktek_lapanagn) }}">
+                    <label for="first_name">Bobot Praktek Lapangan</label>
 
                     @error('bobot_praktek_lapanagn')
                     <span class="red-text text-darken-2">{{ $message }}</small>
@@ -134,7 +134,7 @@
 
                   <div class="input-field col s4  mt-2 mb-2">
                     <input placeholder="bobot simulasi" name="bobot_simulasi" id="bobot_simulasi" type="text" class="validate  @error('bobot_simulasi') is-invalid @enderror" value="{{ old('bobot_simulasi',$matakuliah->bobot_simulasi) }}">
-                    <label for="first_name">Bobot Simulasi<span style="color:red">*</span></label>
+                    <label for="first_name">Bobot Simulasi</label>
 
                     @error('bobot_simulasi')
                     <span class="red-text text-darken-2">{{ $message }}</small>
@@ -144,7 +144,7 @@
 
                   <div class="input-field col s4  mt-2 mb-2">
                     <input placeholder="tanggal mulai efektif " name="tanggal_mulai_efektif" id="tanggal_mulai_efektif" type="date" class="validate  @error('tanggal_mulai_efektif') is-invalid @enderror" value="{{ old('tanggal_mulai_efektif',$matakuliah->tanggal_mulai_efektif) }}">
-                    <label for="first_name">Tanggal Mulai Efektif<span style="color:red">*</span></label>
+                    <label for="first_name">Tanggal Mulai Efektif</label>
 
                     @error('tanggal_mulai_efektif')
                     <span class="red-text text-darken-2">{{ $message }}</small>
@@ -154,9 +154,18 @@
 
                   <div class="input-field col s4  mt-2 mb-2">
                     <input placeholder="tanggal akhir efektif " name="tanggal_akhir_efektif" id="tanggal_akhir_efektif" type="date" class="validate  @error('tanggal_akhir_efektif') is-invalid @enderror" value="{{ old('tanggal_akhir_efektif',$matakuliah->tanggal_akhir_efektif) }}">
-                    <label for="first_name">Tanggal Akhir Efektif<span style="color:red">*</span></label>
+                    <label for="first_name">Tanggal Akhir Efektif</label>
 
                     @error('tanggal_akhir_efektif')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+                  <div class="input-field col s8  mt-2 mb-2">
+                    <input placeholder="metode pembelajaran" name="metode_pembelajaran" id="metode_pembelajaran" type="text" class="validate  @error('metode_pembelajaran') is-invalid @enderror" value="{{ old('metode_pembelajaran',$matakuliah->metode_pembelajaran) }}">
+                    <label for="first_name">Metode Pembelajaran</label>
+
+                    @error('metode_pembelajaran')
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                   </div>

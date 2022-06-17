@@ -49,18 +49,18 @@
             @csrf
                 <div class="row">
 
-                    <div class="input-field col s4  mt-2 mb-2">
-                        <input placeholder="Nama S=ubstansi" name="nama_sunstansi" id="nama_sunstansi" type="text" class="validate  @error('kode_matakuliah') is-invalid @enderror" value="{{ old('nama_sunstansi') }}">
+                    <div class="input-field col s4 ">
+                        <input placeholder="Nama Substansi" name="nama_substansi" id="nama_sunstansi" type="text" class="validate m-0" value="{{ old('nama_substansi') }}">
                         <label for="first_name">Nama Substansi<span style="color:red">*</span></label>
 
-                        @error('nama_sunstansi')
-                        <span class="red-text text-darken-2">{{ $message }}</small>
+                        @error('nama_substansi')
+                        <small class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
                       </div>
 
 
 
-                  <div class="input-field col s12  mt-3 mb-3">
+                  <div class="input-field col s4 ">
                     <select name="programstudy_id" class="select2 browser-default">
                         <option value="">Program Study</option>
                         @foreach($programstudy as $row)
@@ -69,51 +69,51 @@
                       </select>
                         <label for="first_name">Program Study<span style="color:red">*</span></label>
                     @error('programstudy_id')
-                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    <small class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                 </div>
 
 
 
-                <div class="input-field col s4  mt-2 mb-2">
+                <div class="input-field col s4 ">
                     <input placeholder="bobot mata kuliah" name="bobot_mata_kuliah" id="bobot_mata_kuliah" type="text" class="validate  @error('bobot_matakuliah') is-invalid @enderror" value="{{ old('bobot_mata_kuliah') }}">
-                    <label for="first_name">Bobot Mata kuliah<span style="color:red">*</span></label>
+                    <label for="first_name">Bobot Mata kuliah</label>
 
                     @error('bobot_mata_kuliah')
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                   </div>
 
-                  <div class="input-field col s4  mt-2 mb-2">
+                  <div class="input-field col s6 ">
                     <input placeholder="bobot tatap muka" name="bobot_tatap_muka" id="bobot_tatap_muka" type="text" class="validate  @error('bobot_tatap_muka') is-invalid @enderror" value="{{ old('bobot_tatap_muka') }}">
-                    <label for="first_name">Bobot Tatap Muka<span style="color:red">*</span></label>
+                    <label for="first_name">Bobot Tatap Muka</label>
 
                     @error('bobot_tatap_muka')
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                   </div>
 
-                  <div class="input-field col s4  mt-2 mb-2">
+                  <div class="input-field col s6  ">
                     <input placeholder="bobot pratikum" name="bobot_pratikum" id="bobot_pratikum" type="text" class="validate  @error('bobot_pratikum') is-invalid @enderror" value="{{ old('bobot_pratikum') }}">
-                    <label for="first_name">Bobot Pratikum<span style="color:red">*</span></label>
+                    <label for="first_name">Bobot Pratikum</label>
 
                     @error('bobot_pratikum')
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                   </div>
 
-                  <div class="input-field col s4  mt-2 mb-2">
+                  <div class="input-field col s6  ">
                     <input placeholder="bobot praktek lapangan" name="bobot_praktek_lapanagn" id="bobot_praktek_lapanagn" type="text" class="validate  @error('bobot_praktek_lapanagn') is-invalid @enderror" value="{{ old('bobot_praktek_lapanagn') }}">
-                    <label for="first_name">Bobot Praktek Lapangan<span style="color:red">*</span></label>
+                    <label for="first_name">Bobot Praktek Lapangan</label>
 
                     @error('bobot_praktek_lapanagn')
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                   </div>
 
-                  <div class="input-field col s4  mt-2 mb-2">
+                  <div class="input-field col s6  ">
                     <input placeholder="bobot simulasi" name="bobot_simulasi" id="bobot_simulasi" type="text" class="validate  @error('bobot_simulasi') is-invalid @enderror" value="{{ old('bobot_simulasi') }}">
-                    <label for="first_name">Bobot Simulasi<span style="color:red">*</span></label>
+                    <label for="first_name">Bobot Simulasi</label>
 
                     @error('bobot_simulasi')
                     <span class="red-text text-darken-2">{{ $message }}</small>

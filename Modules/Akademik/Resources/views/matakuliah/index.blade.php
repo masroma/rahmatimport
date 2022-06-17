@@ -115,13 +115,13 @@
                         },
 
                         {
-                            data: 'programstudy_id',
-                            name: 'programstudy_id'
+                            data: 'programstudy',
+                            name: 'programstudy'
                         },
 
                         {
-                            data: 'jenis_mata_kuliah',
-                            name: 'jenis_mata_kuliah'
+                            data: 'jenismatakuliah',
+                            name: 'jenismatakuliah'
                         },
 
 

@@ -1,12 +1,12 @@
 <?php
 
 namespace Modules\Akademik\Http\Controllers;
-
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\MataKuliah;
 use App\Models\ProgramStudy;
+use App\Models\JenisMataKuliah;
 use DataTables;
 use Exception;
 use Auth;
@@ -23,19 +23,20 @@ class MataKuliahController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-   use ValidatesRequests;
+
+    use ValidatesRequests;
 
 
-    // function __construct()
-    // {
-    //      $this->middleware("permission:matakuliah-view|matakuliah-create|matakuliah-edit|matakuliah-show|matakuliah-delete", ["only" => ["index","store"]]);
-    //      $this->middleware("permission:matakuliah-view", ["only" => ["index"]]);
-    //      $this->middleware("permission:matakuliah-create", ["only" => ["create","store"]]);
-    //      $this->middleware("permission:matakuliah-edit", ["only" => ["edit","update"]]);
-    //      $this->middleware("permission:matakuliah-show", ["only" => ["show"]]);
-    //      $this->middleware("permission:matakuliah-delete", ["only" => ["destroy"]]);
+    function __construct()
+    {
+         $this->middleware("permission:matakuliah-view|matakuliah-create|matakuliah-edit|matakuliah-show|matakuliah-delete", ["only" => ["index","store"]]);
+         $this->middleware("permission:matakuliah-view", ["only" => ["index"]]);
+         $this->middleware("permission:matakuliah-create", ["only" => ["create","store"]]);
+         $this->middleware("permission:matakuliah-edit", ["only" => ["edit","update"]]);
+         $this->middleware("permission:matakuliah-show", ["only" => ["show"]]);
+         $this->middleware("permission:matakuliah-delete", ["only" => ["destroy"]]);
 
-    // }
+    }
 
     public function data()
     {
@@ -43,30 +44,35 @@ class MataKuliahController extends Controller
             $canShow = Gate::allows("matakuliah-show");
             $canUpdate = Gate::allows("matakuliah-edit");
             $canDelete = Gate::allows("matakuliah-delete");
-            $data = MataKuliah::with("ProgramStudy")->get();
+            $data = MataKuliah::with("Programstudy","Jenismatakuliah")->get();
             return DataTables::of($data)
-                    ->addColumn("tanggalmulai", function($data){
-                        return Carbon::parse($data->tanggal_mulai_efektif)->isoFormat("D MMMM Y");
+                    ->addColumn("programstudy", function($data){
+                        return $data->Programstudy->jurusan->nama_jurusan.'-'.$data->Programstudy->jenjang->nama_jenjang;
                     })
 
-                    ->addColumn("tangalakhir", function($data){
-                        return Carbon::parse($data->tanggal_akhir_efektif)->isoFormat("D MMMM Y");
+                    ->addColumn("jenismatakuliah", function($data){
+
+                            return $data->Jenismatakuliah->jenis_matrakuliah ?? "";
+
+
                     })
+
+
 
                     ->addColumn("action", function ($data) use ($canUpdate, $canDelete, $canShow) {
 
                         $btn = "";
 
                         if ($canUpdate) {
-                            $btn .= '<a class="btn-floating btn-small" href="matakuliah/" .$data->id. "/edit"><i class="material-icons">edit</i></a>';
+                            $btn .= '<a class="btn-floating btn-small" href="matakuliah/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
                         }
 
                         if ($canDelete) {
-                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm(".$data->id.")"><i class="material-icons">delete</i></button>';
+                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
                         }
 
                         if ($canShow) {
-                            $btn .= '<a class="btn-floating green darken-1 btn-small" href="matakuliah/" .$data->id. "/show"><i class="material-icons">remove_red_eye</i></a>';
+                            $btn .= '<a class="btn-floating green darken-1 btn-small" href="matakuliah/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
                         }
 
                         return $btn;
@@ -109,12 +115,14 @@ class MataKuliahController extends Controller
     {
         $name_page = "matakuliah";
         $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
+        $jenismatakuliah = JenisMataKuliah::all();
         $form =
         $title = "Mata Kuliah";
         $data = array(
             "page" => $name_page,
             "title" => $title,
             "programstudy" => $programstudy,
+            "jenismatakuliah"=>$jenismatakuliah
 
         );
 
@@ -133,33 +141,25 @@ class MataKuliahController extends Controller
         try {
 
             $this->validate($request, [
-                "kode_matakuliah" => "required",
-                "nama_matakuliah" => "required",
-                "programstudy_id" => "required",
-                "jenis_mata_kuliah" => "required",
-                // "bobot_mata_kuliah" => "required",
-                "bobot_tatap_muka" => "required",
-                "bobot_pratikum" => "required",
-                "bobot_praktek_lapanagn" => "required",
-                "bobot_simulasi" => "required",
-                "metode_pembelajaran" => "required",
-                "tanggal_mulai_efektif" => "required",
-                "tanggal_akhir_efektif" => "reqiured"
+                "kode_matakuliah" => 'required',
+                "nama_matakuliah" => 'required',
+                "programstudy_id" => 'required',
+
             ]);
 
             $save = new MataKuliah();
             $save->kode_matakuliah = $request->kode_matakuliah;
             $save->nama_matakuliah = $request->nama_matakuliah;
             $save->programstudy_id = $request->programstudy_id;
-            $save->jenis_mata_kuliah = $request->jenis_mata_kuliah;
+            $save->jenis_mata_kuliah = $request->jenis_mata_kuliah ?? 0;
             $save->bobot_mata_kuliah = $request->bobot_tatap_muka + $request->bobot_pratikum + $request->bobot_praktek_lapanagn + $request->bobot_simulasi;
-            $save->bobot_tatap_muka = $request->bobot_tatap_muka;
-            $save->bobot_pratikum = $request->bobot_pratikum;
-            $save->bobot_praktek_lapanagn = $request->bobot_praktek_lapanagn;
-            $save->bobot_simulasi = $request->bobot_simulasil;
-            $save->metode_pembelajaran = $request->metode_pembelajaran;
-            $save->tanggal_mulai_efektif = $request->tanggal_mulai_efektif;
-            $save->tanggal_akhir_efektif = $Request->tanggal_akhir_efektif;
+            $save->bobot_tatap_muka = $request->bobot_tatap_muka ?? 0;
+            $save->bobot_pratikum = $request->bobot_pratikum ?? 0;
+            $save->bobot_praktek_lapanagn = $request->bobot_praktek_lapanagn ?? 0;
+            $save->bobot_simulasi = $request->bobot_simulasil ?? 0;
+            $save->metode_pembelajaran = $request->metode_pembelajaran ?? NULL;
+            $save->tanggal_mulai_efektif = $request->tanggal_mulai_efektif ?? NULL;
+            $save->tanggal_akhir_efektif = $request->tanggal_akhir_efektif ?? NULL;
             $save->save();
 
             DB::commit();
@@ -196,12 +196,16 @@ class MataKuliahController extends Controller
     public function edit($id)
     {
         $matakuliah = MataKuliah::findOrFail($id);
+        $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
+        $jenismatakuliah = JenisMataKuliah::all();
         $name_page = "matakuliah";
         $title = "Program study";
         $data = array(
             "page" => $name_page,
             "matakuliah" => $matakuliah,
             "title" => $title,
+            "programstudy" => $programstudy,
+            "jenismatakuliah" => $jenismatakuliah
 
         );
         return view("akademik::matakuliah.edit")->with($data);
@@ -219,33 +223,25 @@ class MataKuliahController extends Controller
         DB::beginTransaction();
         try {
             $this->validate($request, [
-                "kode_matakuliah" => "required",
-                "nama_matakuliah" => "required",
-                "programstudy_id" => "required",
-                "jenis_mata_kuliah" => "required",
-                // "bobot_mata_kuliah" => "required",
-                "bobot_tatap_muka" => "required",
-                "bobot_pratikum" => "required",
-                "bobot_praktek_lapanagn" => "required",
-                "bobot_simulasi" => "required",
-                "metode_pembelajaran" => "required",
-                "tanggal_mulai_efektif" => "required",
-                "tanggal_akhir_efektif" => "reqiured"
+                "kode_matakuliah" => 'required',
+                "nama_matakuliah" => 'required',
+                "programstudy_id" => 'required',
+
             ]);
 
             $save = MataKuliah::findOrFail($id);
             $save->kode_matakuliah = $request->kode_matakuliah;
             $save->nama_matakuliah = $request->nama_matakuliah;
             $save->programstudy_id = $request->programstudy_id;
-            $save->jenis_mata_kuliah = $request->jenis_mata_kuliah;
+            $save->jenis_mata_kuliah = $request->jenis_mata_kuliah ?? 0;
             $save->bobot_mata_kuliah = $request->bobot_tatap_muka + $request->bobot_pratikum + $request->bobot_praktek_lapanagn + $request->bobot_simulasi;
-            $save->bobot_tatap_muka = $request->bobot_tatap_muka;
-            $save->bobot_pratikum = $request->bobot_pratikum;
-            $save->bobot_praktek_lapanagn = $request->bobot_praktek_lapanagn;
-            $save->bobot_simulasi = $request->bobot_simulasil;
-            $save->metode_pembelajaran = $request->metode_pembelajaran;
-            $save->tanggal_mulai_efektif = $request->tanggal_mulai_efektif;
-            $save->tanggal_akhir_efektif = $Request->tanggal_akhir_efektif;
+            $save->bobot_tatap_muka = $request->bobot_tatap_muka ?? 0;
+            $save->bobot_pratikum = $request->bobot_pratikum ?? 0;
+            $save->bobot_praktek_lapanagn = $request->bobot_praktek_lapanagn ?? 0;
+            $save->bobot_simulasi = $request->bobot_simulasil ?? 0;
+            $save->metode_pembelajaran = $request->metode_pembelajaran ?? NULL;
+            $save->tanggal_mulai_efektif = $request->tanggal_mulai_efektif ?? NULL;
+            $save->tanggal_akhir_efektif = $request->tanggal_akhir_efektif ?? NULL;
             $save->save();
             DB::commit();
         } catch (ModelNotFoundException $exception) {
@@ -254,7 +250,7 @@ class MataKuliahController extends Controller
         }
 
 
-            if ($update) {
+            if ($save) {
                 //redirect dengan pesan sukses
                 return redirect()->route("matakuliah.index")->with(["success" => "Data Berhasil Diubah!"]);
             } else {

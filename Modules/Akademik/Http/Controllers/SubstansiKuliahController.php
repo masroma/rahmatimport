@@ -61,7 +61,7 @@ class SubstansiKuliahController extends Controller
                         }
 
                         if ($canShow) {
-                            $btn .= '<a class="btn-floating green darken-1 btn-small" href="substansikuliah/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+                            $btn .= '<a class="btn-floating green darken-1 btn-small" href="substansikuliah/' .$data->id. '"/show"><i class="material-icons">remove_red_eye</i></a>';
                         }
 
                         return $btn;
@@ -129,22 +129,22 @@ class SubstansiKuliahController extends Controller
             $this->validate($request, [
                 "nama_substansi" => "required",
                 "programstudy_id" => "required",
-                "bobot_mata_kuliah" => 'required',
-                "bobot_tatap_muka" => 'required',
-                "bobot_pratikum" => 'required',
-                "bobot_praktek_lapangan" => 'required',
-                "bobot_simulasi" => 'required'
+                // "bobot_mata_kuliah" => 'required',
+                // "bobot_tatap_muka" => 'required',
+                // "bobot_pratikum" => 'required',
+                // "bobot_praktek_lapangan" => 'required',
+                // "bobot_simulasi" => 'required'
             ]);
 
 
             $save = new SubstansiKuliah();
-            $save->nama_substansi = $request->nama_substansi;
+            $save->nama_sunstansi = $request->nama_substansi;
             $save->programstudy_id = $request->programstudy_id;
-            $save->bobot_mata_kuliah = $request->bobot_mata_kuliah;
-            $save->bobot_tatap_muka = $request->bobot_tatap_muka;
-            $save->bobot_pratikum = $request->bobot_pratikum;
-            $save->bobot_praktek_lapangan = $request->bobot_praktek_lapangan;
-            $save->bobot_simulasi = $request->bobot_simulasi;
+            $save->bobot_mata_kuliah = $request->bobot_mata_kuliah ?? 0;
+            $save->bobot_tatap_muka = $request->bobot_tatap_muka ?? 0;
+            $save->bobot_pratikum = $request->bobot_pratikum ?? 0;
+            $save->bobot_praktek_lapangan = $request->bobot_praktek_lapangan ?? 0;
+            $save->bobot_simulasi = $request->bobot_simulasi ?? 0;
             $save->save();
 
 
@@ -215,13 +215,13 @@ class SubstansiKuliahController extends Controller
             ]);
 
             $save = SubstansiKuliah::findORFail($id);
-            $save->nama_substansi = $request->nama_substansi;
+            $save->nama_sunstansi = $request->nama_substansi;
             $save->programstudy_id = $request->programstudy_id;
-            $save->bobot_mata_kuliah = $request->bobot_mata_kuliah;
-            $save->bobot_tatap_muka = $request->bobot_tatap_muka;
-            $save->bobot_pratikum = $request->bobot_pratikum;
-            $save->bobot_praktek_lapangan = $request->bobot_praktek_lapangan;
-            $save->bobot_simulasi = $request->bobot_simulasi;
+            $save->bobot_mata_kuliah = $request->bobot_mata_kuliah ?? 0;
+            $save->bobot_tatap_muka = $request->bobot_tatap_muka ?? 0;
+            $save->bobot_pratikum = $request->bobot_pratikum ?? 0;
+            $save->bobot_praktek_lapangan = $request->bobot_praktek_lapangan ?? 0;
+            $save->bobot_simulasi = $request->bobot_simulasi ?? 0;
             $save->save();
 
             DB::commit();
@@ -231,7 +231,7 @@ class SubstansiKuliahController extends Controller
         }
 
 
-            if ($update) {
+            if ($save) {
                 //redirect dengan pesan sukses
                 return redirect()->route("substansikuliah.index")->with(["success" => "Data Berhasil Diubah!"]);
             } else {

@@ -10,7 +10,14 @@ class MataKuliah extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $guarded = ['id'];
+    public function Programstudy()
+    {
+        return $this->belongsTo(ProgramStudy::class, 'programstudy_id');
+    }
 
+    public function Jenismatakuliah()
+    {
+        return $this->belongsTo(JenisMataKuliah::class, 'jenis_mata_kuliah');
+    }
 
 }

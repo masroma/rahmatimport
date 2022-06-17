@@ -52,14 +52,22 @@
         <div class="col s12">
           <table id="page-length-option" class="display">
             <thead>
+                <tr>
+                    <th colspan="4" class="center">Data kurikulum</th>
+                    <th colspan="3" class="center">Atur Jumlah SKS</th>
+                    <th></th>
+                </tr>
               <tr>
                 <th>No</th>
                 <th>Nama Kurikulum</th>
-                <th>Jumlah Bobot Matakuliah Pilihan</th>
+
                 <th>Program Study</th>
+
                 <th>Mulai Berlaku</th>
-                <th>Jumlah SKS</th>
-                <th>Jumlah Bobot Matakuliah Wajib</th>
+                <th>Lulus</th>
+                <th>Wajib</th>
+                <th>Pilihan</th>
+
                 <th>#</th>
               </tr>
             </thead>
@@ -113,10 +121,7 @@
                               name: 'nama_kurikulum'
                           },
 
-                          {
-                              data: 'jumlah_bobot_mata_kuliah_pilihan',
-                              name: 'jumlah_bobot_mata_kuliah_pilihan'
-                          },
+
 
                           {
                               data: 'programstudy',
@@ -132,6 +137,14 @@
                               data: 'jumlah_sks',
                               name: 'jumlah_sks'
                           },
+
+
+                          {
+                              data: 'jumlah_bobot_mata_kuliah_pilihan',
+                              name: 'jumlah_bobot_mata_kuliah_pilihan'
+                          },
+
+
 
 
                           {

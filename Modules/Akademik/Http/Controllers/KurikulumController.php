@@ -266,4 +266,47 @@ class KurikulumController extends Controller
         }
 
     }
+
+    // kurikulum matakuliah
+    public function dataKurikulumMatakuliah()
+    {
+        try {
+            $canShow = Gate::allows("kurikulum-show");
+            $canUpdate = Gate::allows("kurikulum-edit");
+            $canDelete = Gate::allows("kurikulum-delete");
+            $data = KurikulumMatakuliah::with('matakuliah')->get();
+            return DataTables::of($data)
+
+
+                    ->addColumn("action", function ($data) use ($canUpdate, $canDelete, $canShow) {
+
+                        $btn = "";
+
+                        if ($canUpdate) {
+                            $btn .= '<a class="btn-floating btn-small" href="kurikulum/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
+                        }
+
+                        if ($canDelete) {
+                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
+                        }
+
+                        if ($canShow) {
+                            $btn .= '<a class="btn-floating green darken-1 btn-small" href="kurikulum/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+                        }
+
+                        return $btn;
+                    })
+                    ->addIndexColumn()
+                    ->make(true);
+
+        } catch (Exception $e) {
+            DB::commit();
+            return response()->json(
+                [
+                    "status" => false,
+                    "message" => $e->getMessage()
+                ]
+            );
+        }
+    }
 }
