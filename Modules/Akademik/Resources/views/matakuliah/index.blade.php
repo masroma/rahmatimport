@@ -148,7 +148,7 @@
                   })
                   .then((dt) => {
                       if (dt) {
-                          window.location.href = "{{ url('akademik/penugasandosen') }}/" + id + "/delete";
+                          window.location.href = "{{ url('akademik/matakuliah') }}/" + id + "/delete";
                       }
                   });
           }

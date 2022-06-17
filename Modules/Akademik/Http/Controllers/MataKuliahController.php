@@ -274,7 +274,7 @@ class MataKuliahController extends Controller
             DB::rollback();
             return back()->withError($exception->getMessage())->withInput();
         }
-        if ($update) {
+        if ($delete) {
             //redirect dengan pesan sukses
             return redirect()->route("matakuliah.index")->with("success", "Data berhasil dihapus");
         } else {
