@@ -128,8 +128,8 @@
                           },
 
                           {
-                              data: 'programstudy_id',
-                              name: 'programstudy_id'
+                              data: 'programstudy',
+                              name: 'programstudy'
                           },
 
                           {
@@ -186,7 +186,7 @@
                   })
                   .then((dt) => {
                       if (dt) {
-                          window.location.href = "{{ url('akademik/mahasiswa') }}/" + id + "/delete";
+                          window.location.href = "{{ url('akademik/substansikuliah') }}/" + id + "/delete";
                       }
                   });
           }

@@ -54,7 +54,7 @@ return array(
     'App\\Models\\Kampus' => $baseDir . '/app/Models/Kampus.php',
     'App\\Models\\Kewarganegaraan' => $baseDir . '/app/Models/Kewarganegaraan.php',
     'App\\Models\\Kurikulum' => $baseDir . '/app/Models/Kurikulum.php',
-    'App\\Models\\KurikulumMatakulian' => $baseDir . '/app/Models/KurikulumMatakulian.php',
+    'App\\Models\\KurikulumMatakuliah' => $baseDir . '/app/Models/KurikulumMatakuliah.php',
     'App\\Models\\Mahasiswa' => $baseDir . '/app/Models/Mahasiswa.php',
     'App\\Models\\MahasiswaDetail' => $baseDir . '/app/Models/MahasiswaDetail.php',
     'App\\Models\\MahasiswaDetailKebutuhanKhusus' => $baseDir . '/app/Models/MahasiswaDetailKebutuhanKhusus.php',

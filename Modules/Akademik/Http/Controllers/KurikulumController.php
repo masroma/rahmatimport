@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\Kurikulum;
 use App\Models\ProgramStudy;
+use App\Models\MataKuliah;
 use App\Models\JenisSemester;
+use App\Models\KurikulumMatakuliah;
 use DataTables;
 use Exception;
 use Auth;
@@ -53,8 +55,9 @@ class KurikulumController extends Controller
 
                         $btn = "";
 
+                        $url = route('kurikulum.edit',$data->id);
                         if ($canUpdate) {
-                            $btn .= '<a class="btn-floating btn-small" href="kurikulum/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
+                            $btn .= '<a class="btn-floating btn-small" href="'.$url.'"><i class="material-icons">edit</i></a>';
                         }
 
                         if ($canDelete) {
@@ -271,31 +274,46 @@ class KurikulumController extends Controller
     public function dataKurikulumMatakuliah()
     {
         try {
-            $canShow = Gate::allows("kurikulum-show");
-            $canUpdate = Gate::allows("kurikulum-edit");
+            // $canShow = Gate::allows("kurikulum-show");
+            // $canUpdate = Gate::allows("kurikulum-edit");
             $canDelete = Gate::allows("kurikulum-delete");
             $data = KurikulumMatakuliah::with('matakuliah')->get();
             return DataTables::of($data)
+                    ->addColumn("pilihan", function($data){
+                       return '<input type="hidden" class="center id" value="'.$data->id.'"><input type="number" class ="center  semester" max="8" min="1" value="'.$data->semester.'" onchange="myFunction(this.value)">';
+                    })
+
+                    ->addColumn('checkbox', function($data){
+
+                        if($data->wajib == 'y'){
+                            return ' <label>
+                            <input type="checkbox" class="wajib"  value="'.$data->wajib.'" onchange="myChecked(this.value)" checked/>
+                            <span></span>
+                          </label>';
+                        }else{
+                            return '  <label>
+                            <input type="checkbox" class="wajib" value="'.$data->wajib.'" onchange="myChecked(this.value)"/>
+                            <span></span>
+                          </label>';
+                        }
+                    })
 
 
-                    ->addColumn("action", function ($data) use ($canUpdate, $canDelete, $canShow) {
+                    ->addColumn("action", function ($data) use ( $canDelete) {
 
                         $btn = "";
 
-                        if ($canUpdate) {
-                            $btn .= '<a class="btn-floating btn-small" href="kurikulum/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
-                        }
+
 
                         if ($canDelete) {
                             $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
                         }
 
-                        if ($canShow) {
-                            $btn .= '<a class="btn-floating green darken-1 btn-small" href="kurikulum/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
-                        }
+
 
                         return $btn;
                     })
+                    ->rawColumns(['action', 'pilihan','checkbox'])
                     ->addIndexColumn()
                     ->make(true);
 
@@ -308,5 +326,108 @@ class KurikulumController extends Controller
                 ]
             );
         }
+    }
+
+    public function dataKurikulumMatakuliahBelumTerdaftar()
+    {
+        try {
+            // $canShow = Gate::allows("kurikulum-show");
+            // $canUpdate = Gate::allows("kurikulum-edit");
+            $canDelete = Gate::allows("kurikulum-delete");
+            $data = Matakuliah::with('KurikulumMatakuliah')->doesntHave('KurikulumMatakuliah')->get();
+            return DataTables::of($data)
+                    ->addColumn("pilihan", function($data){
+                       return '<input type="hidden" class="center id" value="'.$data->id.'"><input type="number" class ="center  semester" max="8" min="1" value="'.$data->semester.'" onchange="myFunction(this.value)">';
+                    })
+
+                    ->addColumn('checkbox', function($data){
+
+                        if($data->wajib == 'y'){
+                            return ' <label>
+                            <input type="checkbox" class="wajib"  value="'.$data->wajib.'" onchange="myChecked(this.value)" checked/>
+                            <span></span>
+                          </label>';
+                        }else{
+                            return '  <label>
+                            <input type="checkbox" class="wajib" value="'.$data->wajib.'" onchange="myChecked(this.value)"/>
+                            <span></span>
+                          </label>';
+                        }
+                    })
+
+
+                    ->addColumn("action", function ($data)  {
+
+
+
+
+                            return'<button class="btn-floating green darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">add</i></button>';
+
+
+
+                    })
+                    ->rawColumns(['action', 'pilihan','checkbox'])
+                    ->addIndexColumn()
+                    ->make(true);
+
+        } catch (Exception $e) {
+            DB::commit();
+            return response()->json(
+                [
+                    "status" => false,
+                    "message" => $e->getMessage()
+                ]
+            );
+        }
+    }
+
+    public function updateSemester(Request $request)
+    {
+
+        DB::beginTransaction();
+        try {
+            $update = KurikulumMatakuliah::where('id',$request->id)->update(['semester'=>$request->semester]);
+        DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+    }
+
+    public function updateWajib(Request $request)
+    {
+
+        DB::beginTransaction();
+        try {
+            if($request->wajib == "y"){
+                $value = "n";
+            }else{
+                $value = "y";
+            }
+            $update = KurikulumMatakuliah::where('id',$request->id)->update(['wajib'=>$value]);
+        DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+    }
+
+    public function  deleteMatakuliahKurikulum($id){
+        DB::beginTransaction();
+        try {
+           $delete =  KurikulumMatakuliah::find($id)->delete();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+        if ($delete) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with("success", "Data berhasil dihapus");
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(["error" => "Data Gagal Dihapus!"]);
+        }
+
     }
 }

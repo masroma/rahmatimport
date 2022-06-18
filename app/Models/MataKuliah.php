@@ -20,4 +20,8 @@ class MataKuliah extends Model
         return $this->belongsTo(JenisMataKuliah::class, 'jenis_mata_kuliah');
     }
 
+    public function KurikulumMatakuliah()
+    {
+        return $this->hasMany(KurikulumMatakuliah::class, 'matakuliah_id');
+    }
 }

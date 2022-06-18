@@ -139,16 +139,14 @@
                     <div id="test1" class="col s12 ">
                         <table id="page-length-option" class="display">
                             <thead>
-                            <tr>
-                                <th rowspan="2">#</th>
-                                <th rowspan="2">no</th>
-                                <th rowspan="2">Kode Matakuliah</th>
-                                <th rowspan="2">Nama Matakuliah</th>
-                                <th></th>
-                                <th colspan="5" class="center">Bobot Matakuliah</th>
-                            </tr>
-                              <tr>
 
+                              <tr>
+                                <th>#</th>
+                                <th>no</th>
+                                <th>Wajib</th>
+                                <th>semester</th>
+                                <th>Kode Matakuliah</th>
+                                <th>Nama Matakuliah</th>
                                 <th>Matakuliah</th>
                                 <th>Tatap Muka</th>
                                 <th>Pratikum</th>
@@ -159,7 +157,25 @@
                           </table>
                     </div>
                     <div id="test2" class="col s12 ">
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi dolorem beatae possimus delectus, tempora suscipit modi nihil quaerat totam, itaque officia culpa illo illum et cupiditate ipsam aliquam! Voluptatibus, est.</p>
+                        <div id="test1" class="col s12 ">
+                            <table id="page-length-options" class="display">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>no</th>
+                                    <th>Wajib</th>
+                                    <th>semester</th>
+                                    <th>Kode Matakuliah</th>
+                                    <th>Nama Matakuliah</th>
+                                    <th>Matakuliah</th>
+                                    <th>Tatap Muka</th>
+                                    <th>Pratikum</th>
+                                    <th>Praktek Lapangan</th>
+                                    <th>Simulasi</th>
+                                  </tr>
+                                </thead>
+                              </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -182,7 +198,232 @@
   @stop
   @section('script')
   <script>
+ (function() {
+              loadDataTable();
+          })();
 
+          function loadDataTable() {
+              $(document).ready(function () {
+                  $('#page-length-option').DataTable({
+                      "scrollX": true,
+                      "autoWidth": true,
+                      processing: true,
+                      serverSide: true,
+                      ajax: {
+                          url: "{{ route('kurikulummatakuliah.data') }}",
+                          type: "GET",
+                      },
+                      columns: [
+                        {
+                              data: 'action',
+                              name: 'action'
+                          },
+                      {
+                          data:"DT_RowIndex",
+                          name:"DT_RowIndex"
+                      },
+
+                      {
+                          data:"checkbox",
+                          name:"checkbox"
+                      },
+
+                      {
+                          data:"pilihan",
+                          name:"pilihan"
+                      },
+
+
+                          {
+                              data: 'matakuliah.kode_matakuliah',
+                              name: 'matakuliah.kode_matakuliah'
+                          },
+
+
+
+                          {
+                              data: 'matakuliah.nama_matakuliah',
+                              name: 'matakuliah.nama_matakuliah'
+                          },
+
+                          {
+                              data: 'matakuliah.bobot_mata_kuliah',
+                              name: 'matakuliah.bobot_mata_kuliah'
+                          },
+
+                          {
+                              data: 'matakuliah.bobot_tatap_muka',
+                              name: 'matakuliah.bobot_tatap_muka'
+                          },
+
+
+                          {
+                              data: 'matakuliah.bobot_pratikum',
+                              name: 'matakuliah.bobot_pratikum'
+                          },
+
+                          {
+                              data: 'matakuliah.bobot_praktek_lapanagn',
+                              name: 'matakuliah.bobot_praktek_lapanagn'
+                          },
+
+                          {
+                              data: 'matakuliah.bobot_simulasi',
+                              name: 'matakuliah.bobot_simulasi'
+                          },
+
+
+
+
+                      ],
+                      order: [
+                          [0, 'asc']
+                      ]
+                  });
+
+                  $('#page-length-options').DataTable({
+                      "scrollX": true,
+                      "autoWidth": true,
+                      processing: true,
+                      serverSide: true,
+                      ajax: {
+                          url: "{{ route('kurikulummatakuliahbelumterdaftar.data') }}",
+                          type: "GET",
+                      },
+                      columns: [
+                        {
+                              data: 'action',
+                              name: 'action'
+                          },
+                      {
+                          data:"DT_RowIndex",
+                          name:"DT_RowIndex"
+                      },
+
+                      {
+                          data:"checkbox",
+                          name:"checkbox"
+                      },
+
+                      {
+                          data:"pilihan",
+                          name:"pilihan"
+                      },
+
+
+                          {
+                              data: 'kode_matakuliah',
+                              name: 'kode_matakuliah'
+                          },
+
+
+
+                          {
+                              data: 'nama_matakuliah',
+                              name: 'nama_matakuliah'
+                          },
+
+                          {
+                              data: 'bobot_mata_kuliah',
+                              name: 'bobot_mata_kuliah'
+                          },
+
+                          {
+                              data: 'bobot_tatap_muka',
+                              name: 'bobot_tatap_muka'
+                          },
+
+
+                          {
+                              data: 'bobot_pratikum',
+                              name: 'bobot_pratikum'
+                          },
+
+                          {
+                              data: 'bobot_praktek_lapanagn',
+                              name: 'bobot_praktek_lapanagn'
+                          },
+
+                          {
+                              data: 'bobot_simulasi',
+                              name: 'bobot_simulasi'
+                          },
+
+
+
+
+                      ],
+                      order: [
+                          [0, 'asc']
+                      ]
+                  });
+              });
+          }
+
+        //   ini update semester
+          function myFunction(val) {
+            var semester = $('.semester').val();
+            var id = $('.id').val();
+            console.log(id);
+            jQuery.ajax({
+                url:"{{ url('akademik/kurikulum/updatekurikulumsemester') }}?id=" + id +"&semester=" + semester,
+                type:"GET",
+                dataType:'json',
+                success:function(data){
+                    var oTable = $('#page-length-option').dataTable(); //inialisasi datatable
+                            oTable.fnDraw(false); //reset datatable
+                            iziToast.success({ //tampilkan iziToast dengan notif data berhasil disimpan pada posisi kanan bawah
+                                title: 'Data Berhasil Disimpan',
+                                message: '{{ Session('
+                                success ')}}',
+                                position: 'bottomRight'
+                            });
+                }
+            });
+
+          }
+
+
+        //   ini update wajib
+          function myChecked(val) {
+            var wajib = $('.wajib').val();
+            var id = $('.id').val();
+            console.log(id);
+            jQuery.ajax({
+                url:"{{ url('akademik/kurikulum/updatekurikulumwajib') }}?id=" + id +"&wajib=" + wajib,
+                type:"GET",
+                dataType:'json',
+                success:function(data){
+                    var oTable = $('#page-length-option').dataTable(); //inialisasi datatable
+                            oTable.fnDraw(false); //reset datatable
+                            iziToast.success({ //tampilkan iziToast dengan notif data berhasil disimpan pada posisi kanan bawah
+                                title: 'Data Berhasil Disimpan',
+                                message: '{{ Session('
+                                success ')}}',
+                                position: 'bottomRight'
+                            });
+                }
+            });
+
+          }
+
+
+
+        //   ini delete
+          function deleteConfirm(id) {
+              swal({
+                      title: "Kamu Yakin ?",
+                      text: "akan menghapus data ini !",
+                      icon: "warning",
+                      buttons: true,
+                      dangerMode: true,
+                  })
+                  .then((dt) => {
+                      if (dt) {
+                          window.location.href = "{{ url('akademik/kurikulum') }}/" + id + "/deletematakuliah";
+                      }
+                  });
+          }
 
     </script>
 

@@ -40,13 +40,9 @@ class SubstansiKuliahController extends Controller
             $canDelete = Gate::allows("substansikuliah-delete");
             $data = SubstansiKuliah::with("ProgramStudy")->get();
             return DataTables::of($data)
-                    ->addColumn("tanggalmulai", function($data){
-                        return Carbon::parse($data->tanggal_mulai_efektif)->isoFormat("D MMMM Y");
-                    })
-
-                    ->addColumn("tangalakhir", function($data){
-                        return Carbon::parse($data->tanggal_akhir_efektif)->isoFormat("D MMMM Y");
-                    })
+            ->addColumn("programstudy", function($data){
+                return $data->ProgramStudy->jurusan->nama_jurusan.'-'.$data->Programstudy->jenjang->nama_jenjang;
+            })
 
                     ->addColumn("action", function ($data) use ($canUpdate, $canDelete, $canShow) {
 
@@ -255,7 +251,7 @@ class SubstansiKuliahController extends Controller
             DB::rollback();
             return back()->withError($exception->getMessage())->withInput();
         }
-        if ($update) {
+        if ($delete) {
             //redirect dengan pesan sukses
             return redirect()->route("substansikuliah.index")->with("success", "Data berhasil dihapus");
         } else {

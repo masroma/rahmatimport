@@ -682,7 +682,7 @@ class ComposerStaticInit3da5cb96e764b81e4b282324393f2f84
         'App\\Models\\Kampus' => __DIR__ . '/../..' . '/app/Models/Kampus.php',
         'App\\Models\\Kewarganegaraan' => __DIR__ . '/../..' . '/app/Models/Kewarganegaraan.php',
         'App\\Models\\Kurikulum' => __DIR__ . '/../..' . '/app/Models/Kurikulum.php',
-        'App\\Models\\KurikulumMatakulian' => __DIR__ . '/../..' . '/app/Models/KurikulumMatakulian.php',
+        'App\\Models\\KurikulumMatakuliah' => __DIR__ . '/../..' . '/app/Models/KurikulumMatakuliah.php',
         'App\\Models\\Mahasiswa' => __DIR__ . '/../..' . '/app/Models/Mahasiswa.php',
         'App\\Models\\MahasiswaDetail' => __DIR__ . '/../..' . '/app/Models/MahasiswaDetail.php',
         'App\\Models\\MahasiswaDetailKebutuhanKhusus' => __DIR__ . '/../..' . '/app/Models/MahasiswaDetailKebutuhanKhusus.php',

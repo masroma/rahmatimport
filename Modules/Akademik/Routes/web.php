@@ -1066,6 +1066,47 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'kurikulum.destroy'
                     ]
                 );
+
+                // matakuliah kurikulum
+                Route::get(
+                    '/datakurikulummatakuliah',
+                    [
+                        'uses' => 'KurikulumController@dataKurikulumMatakuliah',
+                        'as' => 'kurikulummatakuliah.data'
+                    ]
+                );
+
+                Route::get(
+                    '/datakurikulummatakuliahbelumterdaftar',
+                    [
+                        'uses' => 'KurikulumController@dataKurikulumMatakuliahBelumTerdaftar',
+                        'as' => 'kurikulummatakuliahbelumterdaftar.data'
+                    ]
+                );
+
+                Route::get(
+                    '/updatekurikulumsemester',
+                    [
+                        'uses' => 'KurikulumController@updateSemester',
+                        'as' => 'kurikulum.updatekurikulumsemester'
+                    ]
+                );
+
+                Route::get(
+                    '/updatekurikulumwajib',
+                    [
+                        'uses' => 'KurikulumController@updateWajib',
+                        'as' => 'kurikulum.updatekurikulumwajib'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deletematakuliah',
+                    [
+                        'uses' => 'KurikulumController@deleteMatakuliahKurikulum',
+                        'as' => 'kurikulum.destroymatakuliah'
+                    ]
+                );
             }
         );
 
