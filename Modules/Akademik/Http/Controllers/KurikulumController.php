@@ -333,37 +333,23 @@ class KurikulumController extends Controller
         try {
             // $canShow = Gate::allows("kurikulum-show");
             // $canUpdate = Gate::allows("kurikulum-edit");
-            $canDelete = Gate::allows("kurikulum-delete");
+            // $canDelete = Gate::allows("kurikulum-delete");
             $data = Matakuliah::with('KurikulumMatakuliah')->doesntHave('KurikulumMatakuliah')->get();
             return DataTables::of($data)
                     ->addColumn("pilihan", function($data){
-                       return '<input type="hidden" class="center id" value="'.$data->id.'"><input type="number" class ="center  semester" max="8" min="1" value="'.$data->semester.'" onchange="myFunction(this.value)">';
+                       return '<input type="number" name="semesters" class="center semesters" max="8" min="1" >';
                     })
 
                     ->addColumn('checkbox', function($data){
-
-                        if($data->wajib == 'y'){
-                            return ' <label>
-                            <input type="checkbox" class="wajib"  value="'.$data->wajib.'" onchange="myChecked(this.value)" checked/>
-                            <span></span>
-                          </label>';
-                        }else{
-                            return '  <label>
-                            <input type="checkbox" class="wajib" value="'.$data->wajib.'" onchange="myChecked(this.value)"/>
-                            <span></span>
-                          </label>';
-                        }
+                        return '  <label>
+                        <input type="checkbox" value="y" name="wajibs" class="wajibs" />
+                        <span></span>
+                      </label>';
                     })
-
 
                     ->addColumn("action", function ($data)  {
 
-
-
-
-                            return'<button class="btn-floating green darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">add</i></button>';
-
-
+                            return'<button class="btn-floating green darken-1 btn-small btn-add " onClick="add()"  id="add" type="button"><i class="material-icons">add</i></button>';
 
                     })
                     ->rawColumns(['action', 'pilihan','checkbox'])

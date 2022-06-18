@@ -161,7 +161,7 @@
                             <table id="page-length-options" class="display">
                                 <thead>
                                   <tr>
-                                    <th>#</th>
+                                    <th># <input type="hidden" id="idkurikulum" value="{{ $kurikulum->id }}"></th>
                                     <th>no</th>
                                     <th>Wajib</th>
                                     <th>semester</th>
@@ -192,6 +192,7 @@
       <div class="content-overlay"></div>
     </div>
   </div>
+
 
 
 
@@ -364,6 +365,7 @@
           function myFunction(val) {
             var semester = $('.semester').val();
             var id = $('.id').val();
+
             console.log(id);
             jQuery.ajax({
                 url:"{{ url('akademik/kurikulum/updatekurikulumsemester') }}?id=" + id +"&semester=" + semester,
@@ -424,6 +426,14 @@
                       }
                   });
           }
+
+          function add() {
+
+            var semester = $("input[name=semesters]").val();
+            var idkurikulum = $('#idkurikulum').val();
+            var wajib = document.querySelector('.wajibs:checked').value;
+
+          };
 
     </script>
 
