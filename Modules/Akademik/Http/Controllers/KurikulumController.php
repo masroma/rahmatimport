@@ -36,7 +36,7 @@ class KurikulumController extends Controller
     public function data()
     {
         try {
-            $canShow = Gate::allows("kurikulum-show");
+            // $canShow = Gate::allows("kurikulum-show");
             $canUpdate = Gate::allows("kurikulum-edit");
             $canDelete = Gate::allows("kurikulum-delete");
             $data = Kurikulum::with("Programstudy","Jenissemester")->get();
@@ -51,7 +51,7 @@ class KurikulumController extends Controller
                     })
 
 
-                    ->addColumn("action", function ($data) use ($canUpdate, $canDelete, $canShow) {
+                    ->addColumn("action", function ($data) use ($canUpdate, $canDelete) {
 
                         $btn = "";
 
@@ -64,9 +64,9 @@ class KurikulumController extends Controller
                             $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
                         }
 
-                        if ($canShow) {
-                            $btn .= '<a class="btn-floating green darken-1 btn-small" href="kurikulum/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
-                        }
+                        // if ($canShow) {
+                        //     $btn .= '<a class="btn-floating green darken-1 btn-small" href="kurikulum/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+                        // }
 
                         return $btn;
                     })

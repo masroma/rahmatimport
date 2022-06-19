@@ -1118,5 +1118,62 @@ Route::prefix('akademik')->group(function() {
             }
         );
 
+        // penugasan kelasperkuliahan
+        Route::prefix('kelasperkuliahan')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'KelasKuliahController@data',
+                        'as' => 'kelasperkuliahan.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'KelasKuliahController@index',
+                        'as' => 'kelasperkuliahan.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'KelasKuliahController@create',
+                        'as' => 'kelasperkuliahan.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'KelasKuliahController@store',
+                        'as' => 'kelasperkuliahan.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'KelasKuliahController@edit',
+                        'as' => 'kelasperkuliahan.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'KelasKuliahController@update',
+                        'as' => 'kelasperkuliahan.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'KelasKuliahController@destroy',
+                        'as' => 'kelasperkuliahan.destroy'
+                    ]
+                );
+            }
+        );
+
     });
 });
