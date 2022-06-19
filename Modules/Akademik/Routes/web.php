@@ -1172,6 +1172,54 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'kelasperkuliahan.destroy'
                     ]
                 );
+
+                Route::get(
+                    '/datadosen/{id}',
+                    [
+                        'uses' => 'KelasKuliahController@dataDosenPerkuliahan',
+                        'as' => 'kelasperkuliahan.datadosenperkuliahan'
+                    ]
+                );
+
+                Route::get(
+                    '/createdosenpengajar/{id}',
+                    [
+                        'uses' => 'KelasKuliahController@createDosenPerkuliahan',
+                        'as' => 'kelasperkuliahan.createdosenperkuliahan'
+                    ]
+                );
+
+                Route::post(
+                    '/storedosenperngajar',
+                    [
+                        'uses' => 'KelasKuliahController@storeDosenPerkuliahan',
+                        'as' => 'kelasperkuliahan.storeDosenPerkuliahan'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/editdosenpengajar',
+                    [
+                        'uses' => 'KelasKuliahController@editDosenPerkuliahan',
+                        'as' => 'kelasperkuliahan.editdosenperkuliahan'
+                    ]
+                );
+
+                Route::post(
+                    '/updatedosenpengajar/{id}',
+                    [
+                        'uses' => 'KelasKuliahController@updateDosenPerkuliahan',
+                        'as' => 'kelasperkuliahan.updatedosenpengajar'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deletedosenpengajar',
+                    [
+                        'uses' => 'KelasKuliahController@destroyDosenPerkuliahan',
+                        'as' => 'kelasperkuliahan.destroydosenpengajar'
+                    ]
+                );
             }
         );
 

@@ -7,8 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\ProgramStudy;
 use App\Models\MataKuliah;
+use App\Models\Dosen;
 use App\Models\JenisSemester;
+use App\Models\SubstansiKuliah;
 use App\Models\KelasPerkuliahan;
+use App\Models\DosenPerkuliahan;
 use DataTables;
 use Exception;
 use Auth;
@@ -283,4 +286,198 @@ class KelasKuliahController extends Controller
         }
 
     }
+
+    // dosen perkuliahan
+
+    public function dataDosenPerkuliahan($id)
+    {
+        try {
+
+            $data = DosenPerkuliahan::with("Dosen","Substansi")->where('kelasperkuliahan_id',$id)->get();
+            return DataTables::of($data)
+
+                    ->addColumn("action", function ($data) {
+
+                        $btn = "";
+                        $url = route('kelasperkuliahan.editdosenperkuliahan',$data->id);
+
+
+                            $btn .= '<a class="btn-floating btn-small" href="'.$url.'"><i class="material-icons">edit</i></a>';
+
+
+
+                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
+
+
+
+                        return $btn;
+                    })
+                    ->addIndexColumn()
+                    ->make(true);
+
+        } catch (Exception $e) {
+            DB::commit();
+            return response()->json(
+                [
+                    "status" => false,
+                    "message" => $e->getMessage()
+                ]
+            );
+        }
+
+
+    }
+
+    // create dosen
+    public function createDosenPerkuliahan($id)
+    {
+        $name_page = "kelasperkuliahan";
+        $title = "Dosen Kelas Perkuliahan";
+        $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
+        $matakuliah = MataKuliah::all();
+        $jenissemester = JenisSemester::all();
+        $dosen = Dosen::all();
+        $substansi = SubstansiKuliah::all();
+        $data = array(
+            "page" => $name_page,
+            "title" => $title,
+            "programstudy" => $programstudy,
+            "matakuliah"=>$matakuliah,
+            "jenissemester" => $jenissemester,
+            "dosen" => $dosen,
+            "substansi" => $substansi,
+            'id' => $id
+
+        );
+
+        return view("akademik::kelasperkuliahan.createdosen")->with($data);
+    }
+
+    public function storeDosenPerkuliahan(Request $request)
+    {
+
+        DB::beginTransaction();
+        try {
+
+            $this->validate($request, [
+                "dosen_id" => 'required',
+                "bobot_sks" => 'required',
+                "jumlah_rencana_pertemuan" => 'required',
+                "jenis_evaluasi" => 'required'
+
+            ]);
+
+            $save = new DosenPerkuliahan();
+            $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
+            $save->dosen_id = $request->dosen_id;
+            $save->bobot_sks = $request->bobot_sks;
+            $save->jumlah_rencana_pertemuan = $request->jumlah_rencana_pertemuan;
+            $save->jumlah_realisasi_pertemuan = $request->jumlah_realisasi_pertemuan;
+            $save->jenis_evaluasi = $request->jenis_evaluasi;
+            $save->save();
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with("success", $exception->getMessage());
+        }
+
+        if ($save) {
+            //redirect dengan pesan sukses
+            return redirect()->route("kelasperkuliahan.edit",$save->kelasperkuliahan_id)->with(["success" => "Data Berhasil Disimpan!"]);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route("kelasperkuliahan.edit",$save->kelasperkuliahan_id)->with(["error" => "Data Gagal Disimpan!"]);
+        }
+    }
+
+    public function editDosenPerkuliahan($id)
+    {
+        $dosenperkuliahan = DosenPerkuliahan::findOrFail($id);
+        $name_page = "kelasperkuliahan";
+        $title = "Kelas Perkuliahan";
+        $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
+        $matakuliah = MataKuliah::all();
+        $jenissemester = JenisSemester::all();
+        $dosen = Dosen::all();
+        $substansi = SubstansiKuliah::all();
+        $data = array(
+            "page" => $name_page,
+            "title" => $title,
+            "programstudy" => $programstudy,
+            "matakuliah"=>$matakuliah,
+            "jenissemester" => $jenissemester,
+            "dosen" => $dosen,
+            "substansi" => $substansi,
+            'id' => $id,
+            "dosenperkuliahan" => $dosenperkuliahan
+
+        );
+        return view("akademik::kelasperkuliahan.editdosen")->with($data);
+    }
+
+    public function updateDosenPerkuliahan(Request $request, $id)
+    {
+
+        DB::beginTransaction();
+        try {
+
+            $this->validate($request, [
+                "dosen_id" => 'required',
+                "bobot_sks" => 'required',
+                "jumlah_rencana_pertemuan" => 'required',
+                "jenis_evaluasi" => 'required'
+
+            ]);
+
+            $save = DosenPerkuliahan::findORFail($id);
+            $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
+            $save->dosen_id = $request->dosen_id;
+            $save->bobot_sks = $request->bobot_sks;
+            $save->jumlah_rencana_pertemuan = $request->jumlah_rencana_pertemuan;
+            $save->jumlah_realisasi_pertemuan = $request->jumlah_realisasi_pertemuan;
+            $save->jenis_evaluasi = $request->jenis_evaluasi;
+            $save->save();
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with("success", $exception->getMessage());
+        }
+
+        if ($save) {
+            //redirect dengan pesan sukses
+            return redirect()->route("kelasperkuliahan.edit",$save->kelasperkuliahan_id)->with(["success" => "Data Berhasil Disimpan!"]);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route("kelasperkuliahan.edit",$save->kelasperkuliahan_id)->with(["error" => "Data Gagal Disimpan!"]);
+        }
+    }
+
+    public function destroyDosenPerkuliahan($id)
+    {
+        DB::beginTransaction();
+        try {
+           $delete =  DosenPerkuliahan::find($id)->delete();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+        if ($delete) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with("success", "Data berhasil dihapus");
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(["error" => "Data Gagal Dihapus!"]);
+        }
+
+    }
+
+
+
+
+
+
+
 }

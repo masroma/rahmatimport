@@ -39,134 +39,160 @@
 
 <!-- Page Length Options -->
 <div class="row">
-<div class="col s12">
-  <div class="card">
-    <div class="card-content">
-      {{-- <h4 class="card-title">Page Length Options</h4> --}}
-      <div class="row">
-            <form action="{{ route('kelasperkuliahan.update',$kelasperkuliahan->id) }}" method="POST"
-            enctype="multipart/form-data" class="col s12">
-            @csrf
-            <div class="row">
+    <div class="col s12">
+      <div class="card">
+        <div class="card-content">
+          {{-- <h4 class="card-title">Page Length Options</h4> --}}
+          <div class="row">
+                <form action="{{ route('kelasperkuliahan.update',$kelasperkuliahan->id) }}" method="POST"
+                enctype="multipart/form-data" class="col s12">
+                @csrf
                 <div class="row">
-                    <div class="input-field col s6 ">
-                        <select name="programstudy_id" class="select2 browser-default">
-                            <option value="">Program Study</option>
-                            @foreach($programstudy as $row)
-                                <option @if(old('programstudy_id',$kelasperkuliahan->programstudy_id) == $row->id) selected @endif value="{{$row->id}}">{{ $row->jenjang->nama_jenjang }}-{{$row->jurusan->nama_jurusan}}</option>
-                            @endforeach
-                          </select>
-                            <label for="first_name">Program Study<span style="color:red">*</span></label>
-                        @error('programstudy_id')
-                        <span class="red-text text-darken-2">{{ $message }}</small>
-                        @enderror
+                    <div class="row">
+                        <div class="input-field col s6 ">
+                            <select name="programstudy_id" class="select2 browser-default">
+                                <option value="">Program Study</option>
+                                @foreach($programstudy as $row)
+                                    <option @if(old('programstudy_id',$kelasperkuliahan->programstudy_id) == $row->id) selected @endif value="{{$row->id}}">{{ $row->jenjang->nama_jenjang }}-{{$row->jurusan->nama_jurusan}}</option>
+                                @endforeach
+                              </select>
+                                <label for="first_name">Program Study<span style="color:red">*</span></label>
+                            @error('programstudy_id')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="input-field col s6">
+                            <select name="semester_id" class="select2 browser-default">
+                                <option value="">Semester</option>
+                                @foreach($jenissemester as $row)
+                                    <option @if(old('semester_id',$kelasperkuliahan->semester_id) == $row->id) selected @endif value="{{$row->id}}">{{ $row->Tahunajaran->tahun_ajaran }}-{{$row->jenis_semester}}</option>
+                                @endforeach
+                              </select>
+                                <label for="first_name">Semester<span style="color:red">*</span></label>
+                            @error('semester_id')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                        </div>
                     </div>
 
-                    <div class="input-field col s6">
-                        <select name="semester_id" class="select2 browser-default">
-                            <option value="">Semester</option>
-                            @foreach($jenissemester as $row)
-                                <option @if(old('semester_id',$kelasperkuliahan->semester_id) == $row->id) selected @endif value="{{$row->id}}">{{ $row->Tahunajaran->tahun_ajaran }}-{{$row->jenis_semester}}</option>
-                            @endforeach
-                          </select>
-                            <label for="first_name">Semester<span style="color:red">*</span></label>
-                        @error('semester_id')
-                        <span class="red-text text-darken-2">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <select name="matakuliah_id" class="select2 browser-default">
+                                <option value="">Mata Kuliah</option>
+                                @foreach($matakuliah as $row)
+                                    <option @if(old('matakuliah_id',$kelasperkuliahan->matakuliah_id) == $row->id) selected @endif value="{{$row->id}}">{{ $row->kode_matakuliah }}-{{$row->nama_matakuliah}}</option>
+                                @endforeach
+                              </select>
+                                <label for="first_name">Matakuliah<span style="color:red">*</span></label>
+                            @error('matakuliah_id')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                        </div>
 
-                <div class="row">
-                    <div class="input-field col s6">
-                        <select name="matakuliah_id" class="select2 browser-default">
-                            <option value="">Mata Kuliah</option>
-                            @foreach($matakuliah as $row)
-                                <option @if(old('matakuliah_id',$kelasperkuliahan->matakuliah_id) == $row->id) selected @endif value="{{$row->id}}">{{ $row->kode_matakuliah }}-{{$row->nama_matakuliah}}</option>
-                            @endforeach
-                          </select>
-                            <label for="first_name">Matakuliah<span style="color:red">*</span></label>
-                        @error('matakuliah_id')
-                        <span class="red-text text-darken-2">{{ $message }}</small>
-                        @enderror
+                        <div class="input-field col s6">
+                            <input placeholder="nama kelas " name="nama_kelas" id="nama_kelas" type="text" class="validate  @error('nama_kelas') is-invalid @enderror" value="{{ old('nama_kelas',$kelasperkuliahan->nama_kelas) }}">
+                            <label for="first_name">Nama Kelas</label>
+
+                            @error('nama_kelas')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                          </div>
                     </div>
 
-                    <div class="input-field col s6">
-                        <input placeholder="nama kelas " name="nama_kelas" id="nama_kelas" type="text" class="validate  @error('nama_kelas') is-invalid @enderror" value="{{ old('nama_kelas',$kelasperkuliahan->nama_kelas) }}">
-                        <label for="first_name">Nama Kelas</label>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <select name="lingkup" class="select2 browser-default">
+                                <option value="">lingkup</option>
+                                <option value="internal" @if(old('lingkup',$kelasperkuliahan->lingkup) == 'internal') selected @endif>Internal</option>
+                                <option value="external"  @if(old('lingkup',$kelasperkuliahan->lingkup) == 'external') selected @endif>External</option>
+                                <option value="campuran"  @if(old('lingkup',$kelasperkuliahan->lingkup) == 'campuran') selected @endif>Campuran</option>
+                              </select>
+                                <label for="first_name">Lingkup</label>
+                            @error('lingkup')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                        </div>
 
-                        @error('nama_kelas')
+                        <div class="input-field col s6">
+                            <select name="mode_kuliah" class="select2 browser-default">
+                                <option value="">lingkup</option>
+                                <option value="online" @if(old('mode_kuliah',$kelasperkuliahan->mode_kuliah) == 'online') selected @endif>Online</option>
+                                <option value="offline"  @if(old('mode_kuliah',$kelasperkuliahan->mode_kuliah) == 'offline') selected @endif>Offline</option>
+                                <option value="campuran"  @if(old('mode_kuliah',$kelasperkuliahan->mode_kuliah) == 'campuran') selected @endif>Campuran</option>
+                              </select>
+                                <label for="first_name">Mode Kuliah</label>
+                            @error('mode_kuliah')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                      <div class="input-field col s6">
+                        <input placeholder="tanggal mulai efektif " name="tanggal_mulai_kuliah" id="tanggal_mulai_kuliah" type="date" class="validate  @error('tanggal_mulai_kuliah') is-invalid @enderror" value="{{ old('tanggal_mulai_kuliah',$kelasperkuliahan->tanggal_mulai_kuliah) }}">
+                        <label for="first_name">Tanggal Mulai kuliah</label>
+
+                        @error('tanggal_mulai_efektif')
                         <span class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
                       </div>
-                </div>
+                      <div class="input-field col s6 ">
+                        <input placeholder="tanggal akhir kuliah " name="tanggal_akhir_kuliah" id="tanggal_akhir_kuliah" type="date" class="validate  @error('tanggal_akhir_efektif') is-invalid @enderror" value="{{ old('tanggal_akhir_kuliah',$kelasperkuliahan->tanggal_akhir_kuliah) }}">
+                        <label for="first_name">Tanggal Akhir kuliah</label>
 
-                <div class="row">
-                    <div class="input-field col s6">
-                        <select name="lingkup" class="select2 browser-default">
-                            <option value="">lingkup</option>
-                            <option value="internal" @if(old('lingkup',$kelasperkuliahan->lingkup) == 'internal') selected @endif>Internal</option>
-                            <option value="external"  @if(old('lingkup',$kelasperkuliahan->lingkup) == 'external') selected @endif>External</option>
-                            <option value="campuran"  @if(old('lingkup',$kelasperkuliahan->lingkup) == 'campuran') selected @endif>Campuran</option>
-                          </select>
-                            <label for="first_name">Lingkup</label>
-                        @error('lingkup')
+                        @error('tanggal_akhir_kuliah')
                         <span class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
+                      </div>
+
                     </div>
-
-                    <div class="input-field col s6">
-                        <select name="mode_kuliah" class="select2 browser-default">
-                            <option value="">lingkup</option>
-                            <option value="online" @if(old('mode_kuliah',$kelasperkuliahan->mode_kuliah) == 'online') selected @endif>Online</option>
-                            <option value="offline"  @if(old('mode_kuliah',$kelasperkuliahan->mode_kuliah) == 'offline') selected @endif>Offline</option>
-                            <option value="campuran"  @if(old('mode_kuliah',$kelasperkuliahan->mode_kuliah) == 'campuran') selected @endif>Campuran</option>
-                          </select>
-                            <label for="first_name">Mode Kuliah</label>
-                        @error('mode_kuliah')
-                        <span class="red-text text-darken-2">{{ $message }}</small>
-                        @enderror
+                      <div class="input-field col s12">
+                      <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>save</button>
+                      <a href={{route($page.'.index')}} class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>
+                      </div>
                     </div>
-
-                </div>
-
-                <div class="row">
-                  <div class="input-field col s6">
-                    <input placeholder="tanggal mulai efektif " name="tanggal_mulai_kuliah" id="tanggal_mulai_kuliah" type="date" class="validate  @error('tanggal_mulai_kuliah') is-invalid @enderror" value="{{ old('tanggal_mulai_kuliah',$kelasperkuliahan->tanggal_mulai_kuliah) }}">
-                    <label for="first_name">Tanggal Mulai kuliah</label>
-
-                    @error('tanggal_mulai_efektif')
-                    <span class="red-text text-darken-2">{{ $message }}</small>
-                    @enderror
-                  </div>
-                  <div class="input-field col s6 ">
-                    <input placeholder="tanggal akhir kuliah " name="tanggal_akhir_kuliah" id="tanggal_akhir_kuliah" type="date" class="validate  @error('tanggal_akhir_efektif') is-invalid @enderror" value="{{ old('tanggal_akhir_kuliah',$kelasperkuliahan->tanggal_akhir_kuliah) }}">
-                    <label for="first_name">Tanggal Akhir kuliah</label>
-
-                    @error('tanggal_akhir_kuliah')
-                    <span class="red-text text-darken-2">{{ $message }}</small>
-                    @enderror
-                  </div>
-
-                </div>
-
-
-
-                  <div class="input-field col s12">
-                  <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>save</button>
-                  <a href={{route($page.'.index')}} class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>
-                  </div>
-                </div>
-            </form>
+                </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-</div>
 
-
-
-</div><!-- START RIGHT SIDEBAR NAV -->
+<div class="row">
+    <div class="col s12">
+      <div class="card">
+        <div class="card-content">
+        <div class="row mb-3">
+            <div class="col s6">
+                <h5 class="cart-title">Data Dosen Pengajar</h5>
+            </div>
+            <div class="col s6">
+                <a class="btn  waves-effect waves-light breadcrumbs-btn right" href="{{route('kelasperkuliahan.createdosenperkuliahan',$kelasperkuliahan->id)}}"  id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
+            </div>
+        </div>
+          <div class="row">
+            <div class="col s12">
+              <table id="page-length-option" class="display">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>NIDN</th>
+                        <th>Nama</th>
+                        <th>Bobot SKS</th>
+                        <th>Rencana Pertemuan</th>
+                        <th>Realisasi Pertemuan</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>-
 
 </div>
       </div>
@@ -180,7 +206,83 @@
   @section('script')
   <script>
 
+    // ini vendor data
+    (function() {
+            loadDataTable();
+        })();
 
-    </script>
+        function loadDataTable() {
+            $(document).ready(function () {
+                let idkelasperkuliahan = {{ $kelasperkuliahan->id }}
+                $('#page-length-option').DataTable({
+                    "scrollX": true,
+                    "autoWidth": true,
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ url('akademik/kelasperkuliahan/datadosen') }}/" + idkelasperkuliahan,
+                        type: "GET",
+                    },
+                    columns: [
+                        {
+                            data:"DT_RowIndex",
+                            name:"DT_RowIndex"
+                        },
+
+                        {
+                            data:"dosen.nidn",
+                            name:"dosen.nidn"
+                        },
+
+                        {
+                            data:"dosen.nama_dosen",
+                            name:"dosen.nama_dosen"
+                        },
+
+
+                        {
+                            data: 'bobot_sks',
+                            name: 'bobot_sks'
+                        },
+
+
+                        {
+                            data: 'jumlah_rencana_pertemuan',
+                            name: 'jumlah_rencana_pertemuan'
+                        },
+
+                        {
+                            data: 'jumlah_realisasi_pertemuan',
+                            name: 'jumlah_realisasi_pertemuan'
+                        },
+
+                        {
+                            data: 'action',
+                            name: 'action'
+                        },
+
+                    ],
+                    order: [
+                        [0, 'asc']
+                    ]
+                });
+            });
+        }
+
+   function deleteConfirm(id) {
+            swal({
+                    title: "Kamu Yakin ?",
+                    text: "akan menghapus data ini !",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((dt) => {
+                    if (dt) {
+                        window.location.href = "{{ url('akademik/kelasperkuliahan') }}/" + id + "/deletedosenpengajar";
+                    }
+                });
+        }
+  </script>
 
 @endsection

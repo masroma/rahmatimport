@@ -12,6 +12,8 @@ class SubstansiKuliah extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = "substansi_kuliahs";
+
 
     public function ProgramStudy()
     {
