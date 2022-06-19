@@ -294,6 +294,7 @@ class KelasKuliahController extends Controller
         try {
 
             $data = DosenPerkuliahan::with("Dosen","Substansi")->where('kelasperkuliahan_id',$id)->get();
+
             return DataTables::of($data)
 
                     ->addColumn("action", function ($data) {

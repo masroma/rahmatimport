@@ -185,7 +185,16 @@
                         <th>Realisasi Pertemuan</th>
                         <th>#</th>
                     </tr>
+
                 </thead>
+                <tfoot>
+                    <tr>
+                        <th colspan="3">Total SKS</th>
+
+                        <th>{{ $sum = DB::table('dosen_perkuliahans')->where('kelasperkuliahan_id',$kelasperkuliahan->id)->where('deleted_at',NULL)->sum('dosen_perkuliahans.bobot_sks'); }}</th>
+                        <th colspan="3"></th>
+                    </tr>
+                </tfoot>
               </table>
             </div>
           </div>
