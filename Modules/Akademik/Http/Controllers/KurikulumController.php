@@ -337,12 +337,12 @@ class KurikulumController extends Controller
             $data = Matakuliah::with('KurikulumMatakuliah')->doesntHave('KurikulumMatakuliah')->get();
             return DataTables::of($data)
                     ->addColumn("pilihan", function($data){
-                       return '<input type="number" name="semesters" class="center semesters" max="8" min="1" >';
+                       return '<input type="hidden" name="idmatakuliah" value="'.$data->id.'"><input type="number" name="semesters" class="center semesters" max="8" min="1" >';
                     })
 
                     ->addColumn('checkbox', function($data){
                         return '  <label>
-                        <input type="checkbox" value="y" name="wajibs" class="wajibs" />
+                        <input type="checkbox" value="y" name="wajibs" id="wajibs" class="wajibs" />
                         <span></span>
                       </label>';
                     })
@@ -378,6 +378,20 @@ class KurikulumController extends Controller
             DB::rollback();
             return back()->withError($exception->getMessage())->withInput();
         }
+    }
+
+    public function tambahSemester(Request $request)
+    {
+
+            $tambah = new KurikulumMatakuliah();
+            $tambah->matakuliah_id = $request->idmatakuliah;
+            $tambah->kurikulum_id = $request->idkurikulum;
+            $tambah->semester = $request->semester;
+            $tambah->wajib = $request->wajib;
+            $tambah->save();
+
+            return $tambah;
+
     }
 
     public function updateWajib(Request $request)

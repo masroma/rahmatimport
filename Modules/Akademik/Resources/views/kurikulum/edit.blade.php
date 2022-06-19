@@ -282,7 +282,7 @@
                       ]
                   });
 
-                  $('#page-length-options').DataTable({
+                  var table = $('#page-length-options').DataTable({
                       "scrollX": true,
                       "autoWidth": true,
                       processing: true,
@@ -372,6 +372,7 @@
                 type:"GET",
                 dataType:'json',
                 success:function(data){
+                    table.ajax.reload();
                     var oTable = $('#page-length-option').dataTable(); //inialisasi datatable
                             oTable.fnDraw(false); //reset datatable
                             iziToast.success({ //tampilkan iziToast dengan notif data berhasil disimpan pada posisi kanan bawah
@@ -390,7 +391,7 @@
           function myChecked(val) {
             var wajib = $('.wajib').val();
             var id = $('.id').val();
-            console.log(id);
+
             jQuery.ajax({
                 url:"{{ url('akademik/kurikulum/updatekurikulumwajib') }}?id=" + id +"&wajib=" + wajib,
                 type:"GET",
@@ -429,9 +430,37 @@
 
           function add() {
 
-            var semester = $("input[name=semesters]").val();
+            var semester =$('.semesters').val();
+            var idmatakuliah = $("input[name=idmatakuliah]").val();
             var idkurikulum = $('#idkurikulum').val();
-            var wajib = document.querySelector('.wajibs:checked').value;
+
+            if ($('#wajibs').is(":checked"))
+            {
+                var wajib = $('#wajibs').val();
+            }else{
+                var wajib = "n";
+            }
+
+            jQuery.ajax({
+                url:"{{ url('akademik/kurikulum/tambahsemester') }}?idmatakuliah=" + idmatakuliah +"&wajib=" + wajib + "&idkurikulum=" + idkurikulum + "&semester=" +semester,
+                type:"GET",
+                dataType:'json',
+                success:function(data){
+                    // alert('data berhasil ditambah');
+
+                    var oTables = $('#page-length-options').dataTable(); //inialisasi datatable
+                            oTables.fnDraw(false); //reset datatable
+                            iziToast.success({ //tampilkan iziToast dengan notif data berhasil disimpan pada posisi kanan bawah
+                                title: 'Data Berhasil Ditambah',
+                                message: '{{ Session('
+                                success ')}}',
+                                position: 'bottomRight'
+                            });
+
+                    table.ajax.reload();
+                }
+            });
+
 
           };
 

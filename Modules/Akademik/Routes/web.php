@@ -1093,6 +1093,14 @@ Route::prefix('akademik')->group(function() {
                 );
 
                 Route::get(
+                    '/tambahsemester',
+                    [
+                        'uses' => 'KurikulumController@tambahSemester',
+                        'as' => 'kurikulum.tambahSemester'
+                    ]
+                );
+
+                Route::get(
                     '/updatekurikulumwajib',
                     [
                         'uses' => 'KurikulumController@updateWajib',
