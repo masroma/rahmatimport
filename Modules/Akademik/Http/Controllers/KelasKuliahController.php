@@ -12,6 +12,7 @@ use App\Models\JenisSemester;
 use App\Models\SubstansiKuliah;
 use App\Models\KelasPerkuliahan;
 use App\Models\DosenPerkuliahan;
+use App\Models\DosenPenugasan;
 use DataTables;
 use Exception;
 use Auth;
@@ -337,7 +338,7 @@ class KelasKuliahController extends Controller
         $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
         $matakuliah = MataKuliah::all();
         $jenissemester = JenisSemester::all();
-        $dosen = Dosen::all();
+        $dosen = DosenPenugasan::with('Dosen')->get();
         $substansi = SubstansiKuliah::all();
         $data = array(
             "page" => $name_page,
@@ -400,7 +401,7 @@ class KelasKuliahController extends Controller
         $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
         $matakuliah = MataKuliah::all();
         $jenissemester = JenisSemester::all();
-        $dosen = Dosen::all();
+        $dosen = DosenPenugasan::with('Dosen')->get();
         $substansi = SubstansiKuliah::all();
         $data = array(
             "page" => $name_page,
