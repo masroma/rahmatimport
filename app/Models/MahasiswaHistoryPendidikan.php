@@ -49,4 +49,15 @@ class MahasiswaHistoryPendidikan extends Model
     {
         return $this->belongsTo(ProgramStudy::class, 'programstudy_id', 'id');
     }
+
+    public function JalurMasuk()
+    {
+        return $this->belongsTo(JalurMasukInternal::class, 'jalurmasukinternal_id', 'id');
+    }
+
+
+    public function Type_mahasiswa()
+    {
+        return $this->belongsTo(TypeMahasiswa::class, 'typemahasiswa_id', 'id');
+    }
 }

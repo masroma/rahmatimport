@@ -12,6 +12,8 @@ use App\Models\JenisSemester;
 use App\Models\PembiayaanAwal;
 use App\Models\Kampus;
 use App\Models\ProgramStudy;
+use App\Models\JalurMasukInternal;
+use App\Models\TypeMahasiswa;
 use DataTables;
 use Exception;
 use Auth;
@@ -30,11 +32,24 @@ class MahasiswaHistoryPendidikanController extends Controller
 
             $canUpdate = Gate::allows('mahasiswa-edit');
             $canDelete = Gate::allows('mahasiswa-delete');
-            $data = MahasiswaHistoryPendidikan::with('Jenispendaftaran','Jalurpendaftaran')->where('mahasiswa_id',$id)->get();
+            $data = MahasiswaHistoryPendidikan::with('Jenispendaftaran','Jalurpendaftaran','JalurMasuk','Type_mahasiswa')->where('mahasiswa_id',$id)->get();
             return DataTables::of($data)
 
                     ->addColumn('jenispendaftaran',function($data){
-                        return $data->Jenispendaftaran->jenis_pendaftaran;
+                        return $data->Jenispendaftaran ? $data->Jenispendaftaran->jenis_pendaftaran : '';
+                    })
+
+                    ->addColumn('jalurmasuk',function($data){
+                        return $data->JalurMasuk ? $data->JalurMasuk->nama_jalur : '';
+                    })
+
+                    ->addColumn('type',function($data){
+                        return $data->Type_mahasiswa ? $data->Type_mahasiswa->type_mahasiswa : '';
+                    })
+
+
+                    ->addColumn('jenispendaftaran',function($data){
+                        return $data->Jenispendaftaran ? $data->Jenispendaftaran->jenis_pendaftaran : '';
                     })
 
 
@@ -104,9 +119,12 @@ class MahasiswaHistoryPendidikanController extends Controller
     {
         $name_page = "riwayat pendidikan ";
         $title = "Riwayat pendidikan";
+        $JalurMasuk = JalurMasukInternal::all();
+        $TypeMahasiswa = TypeMahasiswa::All();
         $JenisPendaftaran = JenisPendaftaran::all();
         $JalurPendaftaran = JalurPendaftaran::all();
         $PeriodePendaftaran = JenisSemester::all();
+        $Peminatan = Peminatan::all();
         $PembiayaanAwal = PembiayaanAwal::all();
         $Kampus = Kampus::all();
         $ProgramStudy = ProgramStudy::all();
@@ -119,6 +137,9 @@ class MahasiswaHistoryPendidikanController extends Controller
             'periodependaftaran' => $PeriodePendaftaran,
             'pembiayaanawal' => $PembiayaanAwal,
             'programstudy' => $ProgramStudy,
+            'TypeMahasiswa' => $TypeMahasiswa,
+            "JalurMasuk" => $JalurMasuk,
+            "Peminatan" => $Peminatan,
             'kampus'=>$Kampus
         );
         return view('akademik::mahasiswa.creatependidikan')->with($data);
@@ -139,12 +160,16 @@ class MahasiswaHistoryPendidikanController extends Controller
                 'pembiayaan_awal' => 'required',
                 'kampus_id' => 'required',
                 'programstudy_id' => 'required',
+                'jalurmasukinternal_id' => 'required',
+                'typemahasiswa_id' => 'required',
                 // 'perminatan_id' => 'required',
             ]);
 
             $save = new MahasiswaHistoryPendidikan();
             $save->mahasiswa_id = $request->mahasiswa_id ?? NULL;
             $save->nim = $request->nim;
+            $save->jalurmasukinternal_id = $request->jalurmasukinternal_id;
+            $save->typemahasiswa_id = $request->typemahasiswa_id;
             $save->jenis_pendaftaran = $request->jenis_pendaftaran;
             $save->jalur_pendaftaran = $request->jalur_pendaftaran;
             $save->periode_pendaftaran = $request->periode_pendaftaran;
@@ -178,10 +203,13 @@ class MahasiswaHistoryPendidikanController extends Controller
 
         $name_page = "riwayat pendidikan ";
         $title = "Riwayat pendidikan";
+        $JalurMasuk = JalurMasukInternal::all();
+        $TypeMahasiswa = TypeMahasiswa::All();
         $JenisPendaftaran = JenisPendaftaran::all();
         $JalurPendaftaran = JalurPendaftaran::all();
         $PeriodePendaftaran = JenisSemester::all();
         $PembiayaanAwal = PembiayaanAwal::all();
+        $Peminatan = Peminatan::all();
         $Kampus = Kampus::all();
         $ProgramStudy = ProgramStudy::all();
 
@@ -194,6 +222,9 @@ class MahasiswaHistoryPendidikanController extends Controller
             'periodependaftaran' => $PeriodePendaftaran,
             'pembiayaanawal' => $PembiayaanAwal,
             'programstudy' => $ProgramStudy,
+            'TypeMahasiswa' => $TypeMahasiswa,
+            "JalurMasuk" => $JalurMasuk,
+            "Peminatan" => $Peminatan,
             'kampus' => $Kampus
 
         );
@@ -214,6 +245,8 @@ class MahasiswaHistoryPendidikanController extends Controller
                 'pembiayaan_awal' => 'required',
                 'kampus_id' => 'required',
                 'programstudy_id' => 'required',
+                'jalurmasukinternal_id' => 'required',
+                'typemahasiswa_id' => 'required',
                 // 'perminatan_id' => 'required',
             ]);
 
@@ -221,6 +254,8 @@ class MahasiswaHistoryPendidikanController extends Controller
             $save->mahasiswa_id = $request->mahasiswa_id ?? NULL;
             $save->nim = $request->nim;
             $save->jenis_pendaftaran = $request->jenis_pendaftaran;
+            $save->jalurmasukinternal_id = $request->jalurmasukinternal_id;
+            $save->typemahasiswa_id = $request->typemahasiswa_id;
             $save->jalur_pendaftaran = $request->jalur_pendaftaran;
             $save->periode_pendaftaran = $request->periode_pendaftaran;
             $save->tanggal_masuk = $request->tanggal_masuk;

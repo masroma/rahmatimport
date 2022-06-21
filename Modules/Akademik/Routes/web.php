@@ -1451,5 +1451,63 @@ Route::prefix('akademik')->group(function() {
             }
         );
 
+        // jalur peminatan
+        // jalur pendaftaran
+        Route::prefix('peminatan')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'PeminatanController@data',
+                        'as' => 'peminatan.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'PeminatanController@index',
+                        'as' => 'peminatan.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'PeminatanController@create',
+                        'as' => 'peminatan.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'PeminatanController@store',
+                        'as' => 'peminatan.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'PeminatanController@edit',
+                        'as' => 'peminatan.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'PeminatanController@update',
+                        'as' => 'peminatan.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'PeminatanController@destroy',
+                        'as' => 'peminatan.destroy'
+                    ]
+                );
+            }
+        );
+
     });
 });

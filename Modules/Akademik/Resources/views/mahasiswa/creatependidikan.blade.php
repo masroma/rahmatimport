@@ -50,6 +50,7 @@
                 <input type="hidden" name="mahasiswa_id" value="{{ $id }}">
                 <div class="row">
 
+                  <div class="row">
                     <div class="input-field col s12">
                         <input placeholder="nim" name="nim" id="nim" type="text" class="validate  @error('nim') is-invalid @enderror" value="{{ old('nim') }}">
                         <label for="first_name">NIM</label>
@@ -57,12 +58,16 @@
                         <span class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
                       </div>
+                  </div>
+                  <div class="row">
                     <div class="input-field col s4 ">
                         <select name="jenis_pendaftaran" class="select2 browser-default">
                             <option value="">Jenis Pendaftaran</option>
+                            @if($jenispendaftaran)
                             @foreach($jenispendaftaran as $row)
                                 <option @if(old('jenis_pendaftaran') == $row->id) selected @endif value="{{$row->id}}">{{$row->jenis_pendaftaran}}</option>
                             @endforeach
+                            @endif
                           </select>
                             <label for="first_name">Jenis Pendaftaran<span style="color:red">*</span></label>
                         @error('jenis_pendaftaran')
@@ -95,6 +100,36 @@
                         <span class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
                     </div>
+                  </div>
+
+                   <div class="row">
+                    <div class="input-field col s4 ">
+                        <select name="typemahasiswa_id" class="select2 browser-default">
+                            <option value="">Type Mahasiswa</option>
+                            @foreach($TypeMahasiswa as $row)
+                                <option @if(old('typemahasiswa_id') == $row->id) selected @endif value="{{$row->id}}">{{$row->type_mahasiswa}}</option>
+                            @endforeach
+                          </select>
+                            <label for="first_name">Type Mahasiswa<span style="color:red">*</span></label>
+                        @error('typemahasiswa_id')
+                        <span class="red-text text-darken-2">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="input-field col s4 ">
+                        <select name="jalurmasukinternal_id" class="select2 browser-default">
+                            <option value="">Jalur Masuk</option>
+                            @if($JalurMasuk)
+                            @foreach($JalurMasuk as $row)
+                                <option @if(old('jalurmasukinternal_id') == $row->id) selected @endif value="{{$row->id}}">{{$row->nama_jalur}}</option>
+                            @endforeach
+                            @endif
+                          </select>
+                            <label for="first_name">Jalur Masuk Internal<span style="color:red">*</span></label>
+                        @error('jalurmasukinternal_id')
+                        <span class="red-text text-darken-2">{{ $message }}</small>
+                        @enderror
+                    </div>
 
                     <div class="input-field col s4">
                         <input placeholder="tanggal_masuk" name="tanggal_masuk" id="tanggal_masuk" type="date" class="validate  @error('tanggal_masuk') is-invalid @enderror" value="{{ old('tanggal_masuk') }}">
@@ -104,6 +139,9 @@
                         @enderror
                     </div>
 
+                   </div>
+
+                   <div class="row">
                     <div class="input-field col s4 ">
                         <select name="pembiayaan_awal" class="select2 browser-default">
                             <option value="">Pembiayaan Awal</option>
@@ -138,6 +176,8 @@
                         @enderror
                     </div>
 
+                   </div>
+                   <div class="row">
                     <div class="input-field col s4 ">
                         <select name="programstudy_id" class="select2 browser-default">
                             <option value="">Program Study</option>
@@ -150,6 +190,20 @@
                         <span class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
                     </div>
+                    <div class="input-field col s4 ">
+                        <select name="peminatan_id" class="select2 browser-default">
+                            <option value="">Peminatan</option>
+                            @foreach($programstudy as $row)
+                                <option @if(old('peminatan_id') == $row->id) selected @endif value="{{$row->id}}">{{$row->nama_peminatan}}</option>
+                            @endforeach
+                          </select>
+                            <label for="first_name">Peminatan<span style="color:red">*</span></label>
+                        @error('peminatan_id')
+                        <span class="red-text text-darken-2">{{ $message }}</small>
+                        @enderror
+                    </div>
+                   </div>
+
 
 
                   <div class="input-field col s12">

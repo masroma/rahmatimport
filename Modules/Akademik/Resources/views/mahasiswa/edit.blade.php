@@ -622,6 +622,8 @@
                             <th>NIM</th>
                             <th>Jenis Pendaftaran</th>
                             <th>Jalur Pendaftaran</th>
+                            <th>Jalur Masuk Internal</th>
+                            <th>Type Mahasiswa</th>
                             <th>Periode Pendaftaran</th>
                             <th>Tanggal Masuk</th>
                             <th>Pembiayaan Awal</th>
@@ -754,6 +756,17 @@
                               data: 'jalurpendaftaran',
                               name: 'jalurpendaftaran'
                           },
+
+                          {
+                              data: 'jalurmasuk',
+                              name: 'jalurmasuk'
+                          },
+
+                          {
+                              data: 'type',
+                              name: 'type'
+                          },
+
 
                           {
                               data: 'periodependaftaran',
