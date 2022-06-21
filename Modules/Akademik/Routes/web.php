@@ -1336,5 +1336,120 @@ Route::prefix('akademik')->group(function() {
             }
         );
 
+        // jenis pendaftaran
+        Route::prefix('jenispendaftaran')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'JenisPendaftaranController@data',
+                        'as' => 'jenispendaftaran.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'JenisPendaftaranController@index',
+                        'as' => 'jenispendaftaran.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'JenisPendaftaranController@create',
+                        'as' => 'jenispendaftaran.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'JenisPendaftaranController@store',
+                        'as' => 'jenispendaftaran.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'JenisPendaftaranController@edit',
+                        'as' => 'jenispendaftaran.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'JenisPendaftaranController@update',
+                        'as' => 'jenispendaftaran.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'JenisPendaftaranController@destroy',
+                        'as' => 'jenispendaftaran.destroy'
+                    ]
+                );
+            }
+        );
+
+        // jalur
+        // jalur pendaftaran
+        Route::prefix('jalurpendaftaran')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'JalurPendaftaranController@data',
+                        'as' => 'jalurpendaftaran.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'JalurPendaftaranController@index',
+                        'as' => 'jalurpendaftaran.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'JalurPendaftaranController@create',
+                        'as' => 'jalurpendaftaran.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'JalurPendaftaranController@store',
+                        'as' => 'jalurpendaftaran.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'JalurPendaftaranController@edit',
+                        'as' => 'jalurpendaftaran.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'JalurPendaftaranController@update',
+                        'as' => 'jalurpendaftaran.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'JalurPendaftaranController@destroy',
+                        'as' => 'jalurpendaftaran.destroy'
+                    ]
+                );
+            }
+        );
+
     });
 });
