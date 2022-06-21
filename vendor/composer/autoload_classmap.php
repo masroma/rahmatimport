@@ -3448,6 +3448,7 @@ return array(
     'Modules\\Akademik\\Http\\Controllers\\MahasiswaController' => $baseDir . '/Modules/Akademik/Http/Controllers/MahasiswaController.php',
     'Modules\\Akademik\\Http\\Controllers\\MahasiswaHistoryPendidikanController' => $baseDir . '/Modules/Akademik/Http/Controllers/MahasiswaHistoryPendidikanController.php',
     'Modules\\Akademik\\Http\\Controllers\\MataKuliahController' => $baseDir . '/Modules/Akademik/Http/Controllers/MataKuliahController.php',
+    'Modules\\Akademik\\Http\\Controllers\\PeminatanController' => $baseDir . '/Modules/Akademik/Http/Controllers/PeminatanController.php',
     'Modules\\Akademik\\Http\\Controllers\\PenugasanDosenController' => $baseDir . '/Modules/Akademik/Http/Controllers/PenugasanDosenController.php',
     'Modules\\Akademik\\Http\\Controllers\\ProgramStudyController' => $baseDir . '/Modules/Akademik/Http/Controllers/ProgramStudyController.php',
     'Modules\\Akademik\\Http\\Controllers\\SubstansiKuliahController' => $baseDir . '/Modules/Akademik/Http/Controllers/SubstansiKuliahController.php',

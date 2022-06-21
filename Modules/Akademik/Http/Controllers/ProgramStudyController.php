@@ -126,12 +126,14 @@ class ProgramStudyController extends Controller
         try {
             $this->validate($request, [
                 'nama_program_study' => 'required',
-                'jenjang_id' => 'required'
+                'jenjang_id' => 'required',
+                'kode' => 'required'
             ]);
 
             $save = new ProgramStudy();
             $save->jenjang_id = $request->jenjang_id;
             $save->nama_program_study = $request->nama_program_study;
+            $save->kode = $request->kode;
             $save->save();
 
             DB::commit();
@@ -196,13 +198,14 @@ class ProgramStudyController extends Controller
             $this->validate($request, [
                 'nama_program_study' => 'required',
                 'jenjang_id' => 'required',
+                'kode' => 'required'
 
             ]);
 
             $update = ProgramStudy::find($id);
             $update->jenjang_id = $request->jenjang_id;
             $update->nama_program_study = $request->nama_program_study;
-
+            $update->kode = $request->kode;
             $update->save();
 
             DB::commit();

@@ -85,6 +85,15 @@
                     @enderror
                   </div>
 
+                  <div class="input-field col s6  ">
+                    <input placeholder="kode" name="kode" id="kode" type="text" class="validate  @error('kode') is-invalid @enderror" value="{{ old('kode') }}">
+                    <label for="first_name">Kode</label>
+
+                    @error('kode')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
                   <div class="input-field col s12">
                   <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>save</button>
                   <a href={{route($page.'.index')}} class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>

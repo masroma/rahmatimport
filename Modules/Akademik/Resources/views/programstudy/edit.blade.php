@@ -48,13 +48,7 @@
             enctype="multipart/form-data" class="col s12">
             @csrf
                 <div class="row">
-                  {{-- <div class="input-field col s12">
-                    <input placeholder="Nama jurusan" name="nama_program_study" id="nama_program_study" type="text" class="validate  @error('nama_program_study') is-invalid @enderror" value="{{ old('nama_program_study',$programstudy->nama_program_study) }}">
-                    <label for="first_name">Nama jurusan</label>
-                    @error('nama_program_study')
-                    <span class="red-text text-darken-2">{{ $message }}</small>
-                    @enderror
-                  </div> --}}
+
 
                   <div class="input-field col s12  mt-3 mb-3">
                     <select name="nama_program_study" class="select2 browser-default">
@@ -84,8 +78,14 @@
                     @enderror
                   </div>
 
+                  <div class="input-field col s6  ">
+                    <input placeholder="kode" name="kode" id="kode" type="text" class="validate  @error('kode') is-invalid @enderror" value="{{ old('kode',$programstudy->kode) }}">
+                    <label for="first_name">Kode</label>
 
-
+                    @error('kode')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
 
 
                   <div class="input-field col s12">

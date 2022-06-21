@@ -4076,6 +4076,7 @@ class ComposerStaticInit3da5cb96e764b81e4b282324393f2f84
         'Modules\\Akademik\\Http\\Controllers\\MahasiswaController' => __DIR__ . '/../..' . '/Modules/Akademik/Http/Controllers/MahasiswaController.php',
         'Modules\\Akademik\\Http\\Controllers\\MahasiswaHistoryPendidikanController' => __DIR__ . '/../..' . '/Modules/Akademik/Http/Controllers/MahasiswaHistoryPendidikanController.php',
         'Modules\\Akademik\\Http\\Controllers\\MataKuliahController' => __DIR__ . '/../..' . '/Modules/Akademik/Http/Controllers/MataKuliahController.php',
+        'Modules\\Akademik\\Http\\Controllers\\PeminatanController' => __DIR__ . '/../..' . '/Modules/Akademik/Http/Controllers/PeminatanController.php',
         'Modules\\Akademik\\Http\\Controllers\\PenugasanDosenController' => __DIR__ . '/../..' . '/Modules/Akademik/Http/Controllers/PenugasanDosenController.php',
         'Modules\\Akademik\\Http\\Controllers\\ProgramStudyController' => __DIR__ . '/../..' . '/Modules/Akademik/Http/Controllers/ProgramStudyController.php',
         'Modules\\Akademik\\Http\\Controllers\\SubstansiKuliahController' => __DIR__ . '/../..' . '/Modules/Akademik/Http/Controllers/SubstansiKuliahController.php',
