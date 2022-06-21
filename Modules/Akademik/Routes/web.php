@@ -1223,5 +1223,118 @@ Route::prefix('akademik')->group(function() {
             }
         );
 
+        // jalur masuk
+        Route::prefix('jalurmasuk')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'JalurMasukInternalController@data',
+                        'as' => 'jalurmasuk.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'JalurMasukInternalController@index',
+                        'as' => 'jalurmasuk.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'JalurMasukInternalController@create',
+                        'as' => 'jalurmasuk.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'JalurMasukInternalController@store',
+                        'as' => 'jalurmasuk.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'JalurMasukInternalController@edit',
+                        'as' => 'jalurmasuk.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'JalurMasukInternalController@update',
+                        'as' => 'jalurmasuk.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'JalurMasukInternalController@destroy',
+                        'as' => 'jalurmasuk.destroy'
+                    ]
+                );
+            }
+        );
+
+        Route::prefix('typemahasiswa')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'TypeMahasiswaController@data',
+                        'as' => 'typemahasiswa.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'TypeMahasiswaController@index',
+                        'as' => 'typemahasiswa.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'TypeMahasiswaController@create',
+                        'as' => 'typemahasiswa.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'TypeMahasiswaController@store',
+                        'as' => 'typemahasiswa.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'TypeMahasiswaController@edit',
+                        'as' => 'typemahasiswa.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'TypeMahasiswaController@update',
+                        'as' => 'typemahasiswa.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'TypeMahasiswaController@destroy',
+                        'as' => 'typemahasiswa.destroy'
+                    ]
+                );
+            }
+        );
+
     });
 });
