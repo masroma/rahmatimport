@@ -148,6 +148,47 @@
                       </div>
 
                     </div>
+
+                    <div class="row">
+                        <div class="input-field col s6 my-5">
+
+                            <div class="d-flex">
+                             <label for="first_name">Action</label>
+
+                             @foreach($typemahasiswa as $m)
+                                <p>
+                                 <label>
+                                     <input type="checkbox" name="type_mahasiswa[]"  value="{{ old('type_mahasiswa',$m->type_mahasiswa) }}"
+                                     <?php $namemenu = $m->type_mahasiswa; ?> @if($kelasperkuliahan->typemahasiswa_id) {{ in_array($m->type_mahasiswa, json_decode($kelasperkuliahan->typemahasiswa_id)) ? 'checked' : '' }} @endif  />
+                                     <span>{{ $m->type_mahasiswa }}</span>
+                                   </label>
+                                </p>
+                                @endforeach
+                            </div>
+
+                             @error('type_mahasiswa')
+                             <span class="red-text text-darken-2">{{ $message }}</small>
+                             @enderror
+                           </div>
+
+
+                        <div class="input-field col s6">
+                            <select name="jenis_kelas" class="select2 browser-default">
+                                <option value="">jenis_kelas</option>
+                                <option value="reguler" {{ old('jenis_kelas',$kelasperkuliahan->jenis_kelas) == 'reguler' ? 'selected' : '' }} >Reguler</option>
+                                <option value="paralel"  {{ old('jenis_kelas',$kelasperkuliahan->jenis_kelas) == 'paralel' ? 'selected' : '' }}>Paralel</option>
+
+                              </select>
+                                <label for="first_name">Jenis Kelas</label>
+                            @error('jenis_kelas')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                    </div>
+
+
+
                       <div class="input-field col s12">
                       <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>save</button>
                       <a href={{route($page.'.index')}} class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>

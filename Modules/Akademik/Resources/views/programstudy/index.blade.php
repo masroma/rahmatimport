@@ -51,6 +51,7 @@
             <thead>
                 <tr>
                     <th>No</th>
+                    <th>Kode</th>
                     <th>Nama Program Study</th>
                     <th>Jenjang</th>
                     <th>#</th>
@@ -59,6 +60,7 @@
             <tfoot>
                 <tr>
                     <th>No</th>
+                    <th>Kode</th>
                     <th>Nama Program Study</th>
                     <th>Jenjang</th>
                     <th>#</th>
@@ -109,6 +111,13 @@
                           data:"DT_RowIndex",
                           name:"DT_RowIndex"
                       },
+
+                      {
+                            data: 'kodes',
+                            name: 'kodes'
+                        },
+
+
                       {
                             data: 'jurusan.nama_jurusan',
                             name: 'jurusan.nama_jurusan'

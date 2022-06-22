@@ -13,6 +13,7 @@ use App\Models\SubstansiKuliah;
 use App\Models\KelasPerkuliahan;
 use App\Models\DosenPerkuliahan;
 use App\Models\DosenPenugasan;
+use App\Models\TypeMahasiswa;
 use DataTables;
 use Exception;
 use Auth;
@@ -125,12 +126,14 @@ class KelasKuliahController extends Controller
         $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
         $matakuliah = MataKuliah::all();
         $jenissemester = JenisSemester::all();
+        $typemahasiswa = TypeMahasiswa::all();
         $data = array(
             "page" => $name_page,
             "title" => $title,
             "programstudy" => $programstudy,
             "matakuliah"=>$matakuliah,
-            "jenissemester" => $jenissemester
+            "jenissemester" => $jenissemester,
+            "typemahasiswa" => $typemahasiswa
 
         );
 
@@ -152,8 +155,9 @@ class KelasKuliahController extends Controller
                 "programstudy_id" => 'required',
                 "semester_id" => 'required',
                 "matakuliah_id" => 'required',
-                "nama_kelas" => 'required'
-
+                "nama_kelas" => 'required',
+                "jenis_kelas" => 'required',
+                "type_mahasiswa" => 'required'
             ]);
 
             $save = new KelasPerkuliahan();
@@ -165,6 +169,8 @@ class KelasKuliahController extends Controller
             $save->mode_kuliah = $request->mode_kuliah;
             $save->tanggal_mulai_kuliah = $request->tanggal_mulai_kuliah;
             $save->tanggal_akhir_kuliah = $request->tanggal_akhir_kuliah;
+            $save->jenis_kelas = $request->jenis_kelas;
+            $save->typemahasiswa_id = json_encode($request->type_mahasiswa) ?? null;
             $save->save();
 
             DB::commit();
@@ -201,18 +207,21 @@ class KelasKuliahController extends Controller
     public function edit($id)
     {
         $kelasperkuliahan = KelasPerkuliahan::findOrFail($id);
+        // dd(json_decode($kelasperkuliahan->typemahasiswa_id));
         $name_page = "kelasperkuliahan";
         $title = "Kelas Perkuliahan";
         $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
         $matakuliah = MataKuliah::all();
         $jenissemester = JenisSemester::all();
+        $typemahasiswa = TypeMahasiswa::all();
         $data = array(
             "page" => $name_page,
             "matakuliah" => $matakuliah,
             "kelasperkuliahan" => $kelasperkuliahan,
             "title" => $title,
             "programstudy" => $programstudy,
-            "jenissemester" => $jenissemester
+            "jenissemester" => $jenissemester,
+            "typemahasiswa" => $typemahasiswa
 
         );
         return view("akademik::kelasperkuliahan.edit")->with($data);
@@ -233,8 +242,9 @@ class KelasKuliahController extends Controller
                 "programstudy_id" => 'required',
                 "semester_id" => 'required',
                 "matakuliah_id" => 'required',
-                "nama_kelas" => 'required'
-
+                "nama_kelas" => 'required',
+                "jenis_kelas" => 'required',
+                "type_mahasiswa" => 'required'
             ]);
 
             $save = KelasPerkuliahan::findOrFail($id);
@@ -246,6 +256,8 @@ class KelasKuliahController extends Controller
             $save->mode_kuliah = $request->mode_kuliah;
             $save->tanggal_mulai_kuliah = $request->tanggal_mulai_kuliah;
             $save->tanggal_akhir_kuliah = $request->tanggal_akhir_kuliah;
+            $save->jenis_kelas = $request->jenis_kelas;
+            $save->typemahasiswa_id = json_encode($request->type_mahasiswa) ?? null;
             $save->save();
             DB::commit();
         } catch (ModelNotFoundException $exception) {
@@ -340,6 +352,7 @@ class KelasKuliahController extends Controller
         $jenissemester = JenisSemester::all();
         $dosen = DosenPenugasan::with('Dosen')->get();
         $substansi = SubstansiKuliah::all();
+
         $data = array(
             "page" => $name_page,
             "title" => $title,
@@ -348,7 +361,7 @@ class KelasKuliahController extends Controller
             "jenissemester" => $jenissemester,
             "dosen" => $dosen,
             "substansi" => $substansi,
-            'id' => $id
+            'id' => $id,
 
         );
 

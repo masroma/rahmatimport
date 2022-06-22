@@ -116,7 +116,7 @@
 
                     <div class="input-field col s6">
                         <select name="mode_kuliah" class="select2 browser-default">
-                            <option value="">lingkup</option>
+                            <option value="">Mode Kuliah</option>
                             <option value="online" @if(old('mode_kuliah') == 'online') selected @endif>Online</option>
                             <option value="offline"  @if(old('mode_kuliah') == 'offline') selected @endif>Offline</option>
                             <option value="campuran"  @if(old('mode_kuliah') == 'campuran') selected @endif>Campuran</option>
@@ -146,6 +146,42 @@
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                   </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s6 my-5">
+
+                        <div class="d-flex">
+                         <label for="first_name">Action</label>
+                         @foreach($typemahasiswa as $m)
+                            <p>
+                             <label>
+                                 <input type="checkbox" name="type_mahasiswa[]"  value="{{ old('type_mahasiswa',$m->type_mahasiswa) }}"/>
+                                 <span>{{ $m->type_mahasiswa }}</span>
+                               </label>
+                            </p>
+                            @endforeach
+                        </div>
+
+                         @error('type_mahasiswa')
+                         <span class="red-text text-darken-2">{{ $message }}</small>
+                         @enderror
+                       </div>
+
+
+                    <div class="input-field col s6">
+                        <select name="jenis_kelas" class="select2 browser-default">
+                            <option value="">jenis_kelas</option>
+                            <option value="reguler" @if(old('jenis_kelas') == 'reguler') selected @endif>Reguler</option>
+                            <option value="paralel"  @if(old('jenis_kelas') == 'paralel') selected @endif>Paralel</option>
+
+                          </select>
+                            <label for="first_name">Jenis Kelas</label>
+                        @error('jenis_kelas')
+                        <span class="red-text text-darken-2">{{ $message }}</small>
+                        @enderror
+                    </div>
 
                 </div>
 

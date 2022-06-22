@@ -44,6 +44,10 @@ class ProgramStudyController extends Controller
             $data = ProgramStudy::with('jenjang','jurusan')->get();
             return DataTables::of($data)
 
+                    ->addColumn('kodes', function($data){
+                        return $data->kode ? $data->kode : 'belum ada kode';
+                    })
+
                     ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
 
                         $btn = '';
