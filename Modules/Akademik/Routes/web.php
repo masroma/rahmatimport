@@ -1564,5 +1564,62 @@ Route::prefix('akademik')->group(function() {
                 );
             }
         );
+
+         //status mahasiswa
+         Route::prefix('statusmahasiswa')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'StatusMahasiswaController@data',
+                        'as' => 'statusmahasiswa.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'StatusMahasiswaController@index',
+                        'as' => 'statusmahasiswa.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'StatusMahasiswaController@create',
+                        'as' => 'statusmahasiswa.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'StatusMahasiswaController@store',
+                        'as' => 'statusmahasiswa.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'StatusMahasiswaController@edit',
+                        'as' => 'statusmahasiswa.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'StatusMahasiswaController@update',
+                        'as' => 'statusmahasiswa.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'StatusMahasiswaController@destroy',
+                        'as' => 'statusmahasiswa.destroy'
+                    ]
+                );
+            }
+        );
     });
 });
