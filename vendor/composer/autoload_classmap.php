@@ -71,6 +71,7 @@ return array(
     'App\\Models\\ProgramStudy' => $baseDir . '/app/Models/ProgramStudy.php',
     'App\\Models\\Province' => $baseDir . '/app/Models/Province.php',
     'App\\Models\\RoleHasPermission' => $baseDir . '/app/Models/RoleHasPermission.php',
+    'App\\Models\\RuangGedung' => $baseDir . '/app/Models/RuangGedung.php',
     'App\\Models\\SubstansiKuliah' => $baseDir . '/app/Models/SubstansiKuliah.php',
     'App\\Models\\TahunAjaran' => $baseDir . '/app/Models/TahunAjaran.php',
     'App\\Models\\TypeMahasiswa' => $baseDir . '/app/Models/TypeMahasiswa.php',

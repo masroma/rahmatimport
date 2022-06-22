@@ -1509,5 +1509,60 @@ Route::prefix('akademik')->group(function() {
             }
         );
 
+        Route::prefix('ruangan')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'RuanganController@data',
+                        'as' => 'ruangan.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'RuanganController@index',
+                        'as' => 'ruangan.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'RuanganController@create',
+                        'as' => 'ruangan.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'RuanganController@store',
+                        'as' => 'ruangan.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'RuanganController@edit',
+                        'as' => 'ruangan.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'RuanganController@update',
+                        'as' => 'ruangan.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'RuanganController@destroy',
+                        'as' => 'ruangan.destroy'
+                    ]
+                );
+            }
+        );
     });
 });

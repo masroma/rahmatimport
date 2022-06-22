@@ -699,6 +699,7 @@ class ComposerStaticInit3da5cb96e764b81e4b282324393f2f84
         'App\\Models\\ProgramStudy' => __DIR__ . '/../..' . '/app/Models/ProgramStudy.php',
         'App\\Models\\Province' => __DIR__ . '/../..' . '/app/Models/Province.php',
         'App\\Models\\RoleHasPermission' => __DIR__ . '/../..' . '/app/Models/RoleHasPermission.php',
+        'App\\Models\\RuangGedung' => __DIR__ . '/../..' . '/app/Models/RuangGedung.php',
         'App\\Models\\SubstansiKuliah' => __DIR__ . '/../..' . '/app/Models/SubstansiKuliah.php',
         'App\\Models\\TahunAjaran' => __DIR__ . '/../..' . '/app/Models/TahunAjaran.php',
         'App\\Models\\TypeMahasiswa' => __DIR__ . '/../..' . '/app/Models/TypeMahasiswa.php',
