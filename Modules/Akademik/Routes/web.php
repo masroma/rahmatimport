@@ -1621,5 +1621,120 @@ Route::prefix('akademik')->group(function() {
                 );
             }
         );
+
+        Route::prefix('ruangperkuliahan')->group(
+            function () {
+                // Route::get(
+                //     '/data',
+                //     [
+                //         'uses' => 'RuangPerkuliahanController@data',
+                //         'as' => 'ruangperkuliahan.data'
+                //     ]
+                // );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'RuangPerkuliahanController@index',
+                        'as' => 'ruangperkuliahan.index'
+                    ]
+                );
+                // Route::get(
+                //     '/create',
+                //     [
+                //         'uses' => 'RuangPerkuliahanController@create',
+                //         'as' => 'ruangperkuliahan.create'
+                //     ]
+                // );
+                // Route::post(
+                //     '/store',
+                //     [
+                //         'uses' => 'RuangPerkuliahanController@store',
+                //         'as' => 'ruangperkuliahan.store'
+                //     ]
+                // );
+                // Route::get(
+                //     '/{id}/edit',
+                //     [
+                //         'uses' => 'RuangPerkuliahanController@edit',
+                //         'as' => 'ruangperkuliahan.edit'
+                //     ]
+                // );
+                // Route::post(
+                //     '/update/{id}',
+                //     [
+                //         'uses' => 'RuangPerkuliahanController@update',
+                //         'as' => 'ruangperkuliahan.update'
+                //     ]
+                // );
+
+
+                // Route::get(
+                //     '/{id}/delete',
+                //     [
+                //         'uses' => 'RuangPerkuliahanController@destroy',
+                //         'as' => 'ruangperkuliahan.destroy'
+                //     ]
+                // );
+            }
+        );
+
+          //status mahasiswa
+          Route::prefix('aktivitaskuliahmahasiswa')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'AktivitasKuliahMahasiswaController@data',
+                        'as' => 'aktivitaskuliahmahasiswa.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'AktivitasKuliahMahasiswaController@index',
+                        'as' => 'aktivitaskuliahmahasiswa.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'AktivitasKuliahMahasiswaController@create',
+                        'as' => 'aktivitaskuliahmahasiswa.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'AktivitasKuliahMahasiswaController@store',
+                        'as' => 'aktivitaskuliahmahasiswa.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'AktivitasKuliahMahasiswaController@edit',
+                        'as' => 'aktivitaskuliahmahasiswa.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'AktivitasKuliahMahasiswaController@update',
+                        'as' => 'aktivitaskuliahmahasiswa.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'AktivitasKuliahMahasiswaController@destroy',
+                        'as' => 'aktivitaskuliahmahasiswa.destroy'
+                    ]
+                );
+            }
+        );
+
+
     });
 });
