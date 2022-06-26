@@ -120,8 +120,8 @@
                         },
 
                         {
-                            data: 'nama_kelas',
-                            name: 'nama_kelas'
+                            data: 'namakelas',
+                            name: 'namakelas'
                         },
 
 

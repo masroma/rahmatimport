@@ -35,7 +35,7 @@ enctype="multipart/form-data" class="col s12">
 @csrf
 <!-- Page Length Options -->
 <div class="row">
-<div class="col s4">
+<div class="col s6">
     <div class="card">
         <div class="card-content">
                 <div class="input-field">
@@ -109,7 +109,7 @@ enctype="multipart/form-data" class="col s12">
         </div>
     </div>
 </div>
-<div class="col s8" >
+<div class="col s6" >
   <div class="card">
     <div class="card-content" >
         <h4>Jadwal</h4>

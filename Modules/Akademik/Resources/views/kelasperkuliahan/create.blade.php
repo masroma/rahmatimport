@@ -150,7 +150,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="input-field col s6 my-5">
+                    <div class="input-field col s4 my-5">
 
                         <div class="d-flex">
                          <label for="first_name">Action</label>
@@ -170,7 +170,7 @@
                        </div>
 
 
-                    <div class="input-field col s6">
+                    <div class="input-field col s4">
                         <select name="jenis_kelas" class="select2 browser-default">
                             <option value="">jenis_kelas</option>
                             <option value="reguler" @if(old('jenis_kelas') == 'reguler') selected @endif>Reguler</option>
@@ -182,6 +182,15 @@
                         <span class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
                     </div>
+
+                        <div class="input-field col s4">
+                            <input placeholder="Generate Kelas" name="jumlah_generate_kelas" id="jumlah_generate" type="number" class="validate  @error('nama_kelas') is-invalid @enderror" value="{{ old('jumlah_generate') }}">
+                            <label for="first_name">Jumlah Generate Kelas</label>
+
+                            @error('nama_kelas')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                          </div>
 
                 </div>
 

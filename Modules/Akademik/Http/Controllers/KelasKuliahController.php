@@ -65,6 +65,10 @@ class KelasKuliahController extends Controller
                         return $data->Jenissemester->Tahunajaran->tahun_ajaran .'-'. $data->Jenissemester->jenis_semester;
                     })
 
+                    ->addColumn("namakelas", function($data){
+                        return $data->nama_kelas.$data->kode;
+                })
+
 
 
                     ->addColumn("action", function ($data) use ($canUpdate, $canDelete) {
@@ -148,8 +152,12 @@ class KelasKuliahController extends Controller
     public function store(Request $request)
     {
 
+
+
         DB::beginTransaction();
         try {
+
+
 
             $this->validate($request, [
                 "programstudy_id" => 'required',
@@ -160,18 +168,42 @@ class KelasKuliahController extends Controller
                 "type_mahasiswa" => 'required'
             ]);
 
-            $save = new KelasPerkuliahan();
-            $save->programstudy_id = $request->programstudy_id;
-            $save->semester_id = $request->semester_id;
-            $save->matakuliah_id = $request->matakuliah_id;
-            $save->nama_kelas = $request->nama_kelas;
-            $save->lingkup = $request->lingkup;
-            $save->mode_kuliah = $request->mode_kuliah;
-            $save->tanggal_mulai_kuliah = $request->tanggal_mulai_kuliah;
-            $save->tanggal_akhir_kuliah = $request->tanggal_akhir_kuliah;
-            $save->jenis_kelas = $request->jenis_kelas;
-            $save->typemahasiswa_id = json_encode($request->type_mahasiswa) ?? null;
-            $save->save();
+
+
+            if($request->jumlah_generate_kelas != 0){
+                for($i = 1; $i <= $request->jumlah_generate_kelas; $i++){
+                    $kode = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+                    $random = array_rand($kode,1);
+                    $save = new KelasPerkuliahan();
+                    $save->programstudy_id = $request->programstudy_id;
+                    $save->semester_id = $request->semester_id;
+                    $save->matakuliah_id = $request->matakuliah_id;
+                    $save->nama_kelas = $request->nama_kelas;
+                    $save->lingkup = $request->lingkup;
+                    $save->mode_kuliah = $request->mode_kuliah;
+                    $save->tanggal_mulai_kuliah = $request->tanggal_mulai_kuliah;
+                    $save->tanggal_akhir_kuliah = $request->tanggal_akhir_kuliah;
+                    $save->jenis_kelas = $request->jenis_kelas;
+                    $save->typemahasiswa_id = json_encode($request->type_mahasiswa) ?? null;
+                    $save->kode = $kode[$random].$i;
+                    $save->save();
+                 }
+            }else{
+                $save = new KelasPerkuliahan();
+                $save->programstudy_id = $request->programstudy_id;
+                $save->semester_id = $request->semester_id;
+                $save->matakuliah_id = $request->matakuliah_id;
+                $save->nama_kelas = $request->nama_kelas;
+                $save->lingkup = $request->lingkup;
+                $save->mode_kuliah = $request->mode_kuliah;
+                $save->tanggal_mulai_kuliah = $request->tanggal_mulai_kuliah;
+                $save->tanggal_akhir_kuliah = $request->tanggal_akhir_kuliah;
+                $save->jenis_kelas = $request->jenis_kelas;
+                $save->typemahasiswa_id = json_encode($request->type_mahasiswa) ?? null;
+                $save->kode = NULL;
+            }
+
+
 
             DB::commit();
         } catch (ModelNotFoundException $exception) {
@@ -234,8 +266,6 @@ class KelasKuliahController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-
         DB::beginTransaction();
         try {
             $this->validate($request, [
