@@ -1645,13 +1645,13 @@ Route::prefix('akademik')->group(function() {
                 //         'as' => 'ruangperkuliahan.create'
                 //     ]
                 // );
-                // Route::post(
-                //     '/store',
-                //     [
-                //         'uses' => 'RuangPerkuliahanController@store',
-                //         'as' => 'ruangperkuliahan.store'
-                //     ]
-                // );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'RuangPerkuliahanController@store',
+                        'as' => 'ruangperkuliahan.store'
+                    ]
+                );
                 // Route::get(
                 //     '/{id}/edit',
                 //     [
@@ -1730,6 +1730,63 @@ Route::prefix('akademik')->group(function() {
                     [
                         'uses' => 'AktivitasKuliahMahasiswaController@destroy',
                         'as' => 'aktivitaskuliahmahasiswa.destroy'
+                    ]
+                );
+            }
+        );
+
+        // penggunaan ruang
+        Route::prefix('penggunaanruang')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'PenggunaanRuangController@data',
+                        'as' => 'penggunaanruang.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'PenggunaanRuangController@index',
+                        'as' => 'penggunaanruang.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'PenggunaanRuangController@create',
+                        'as' => 'penggunaanruang.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'PenggunaanRuangController@store',
+                        'as' => 'penggunaanruang.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'PenggunaanRuangController@edit',
+                        'as' => 'penggunaanruang.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'PenggunaanRuangController@update',
+                        'as' => 'penggunaanruang.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'PenggunaanRuangController@destroy',
+                        'as' => 'penggunaanruang.destroy'
                     ]
                 );
             }

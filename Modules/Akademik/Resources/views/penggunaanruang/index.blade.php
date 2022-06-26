@@ -32,6 +32,12 @@
 <div class="card">
 
 </div>
+<!-- DataTables example -->
+
+
+
+<!-- DataTables Row grouping -->
+
 
 <!-- Page Length Options -->
 <div class="row">
@@ -45,18 +51,14 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Kampus</th>
-                    <th>Kode</th>
-                    <th>Nama</th>
+                    <th>Penggunaan Ruangan</th>
                     <th>#</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
                     <th>No</th>
-                    <th>Kampus</th>
-                    <th>Kode</th>
-                    <th>Nama</th>
+                    <th>Penggunaan Ruangan</th>
                     <th>#</th>
                 </tr>
               </tfoot>
@@ -97,7 +99,7 @@
                       processing: true,
                       serverSide: true,
                       ajax: {
-                          url: "{{ route('ruangan.data') }}",
+                          url: "{{ route('penggunaanruang.data') }}",
                           type: "GET",
                       },
                       columns: [
@@ -106,18 +108,8 @@
                           name:"DT_RowIndex"
                       },
                       {
-                            data: 'kampus',
-                            name: 'kampus'
-                        },
-
-                        {
-                            data: 'kode_ruang',
-                            name: 'kode_ruang'
-                        },
-
-                        {
-                            data: 'nama_ruang',
-                            name: 'nama_ruang'
+                            data: 'penggunaan_ruangan',
+                            name: 'penggunaan_ruangan'
                         },
 
 
@@ -147,7 +139,7 @@
                   })
                   .then((dt) => {
                       if (dt) {
-                          window.location.href = "{{ url('akademik/ruangan') }}/" + id + "/delete";
+                          window.location.href = "{{ url('akademik/penggunaanruang') }}/" + id + "/delete";
                       }
                   });
           }

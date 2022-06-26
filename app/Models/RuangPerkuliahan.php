@@ -11,4 +11,10 @@ class RuangPerkuliahan extends Model
     use HasFactory, SoftDeletes;
 
 
+    public function kelasPerkuliahan()
+    {
+        return $this->belongsTo(KelasPerkuliahan::class, 'kelasperkuliahan_id', 'id');
+    }
+
+
 }
