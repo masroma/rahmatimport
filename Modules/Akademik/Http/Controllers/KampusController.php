@@ -84,6 +84,7 @@ class KampusController extends Controller
     }
 
 
+
     public function index()
     {
         $canCreate = Gate::allows('kampus-create');

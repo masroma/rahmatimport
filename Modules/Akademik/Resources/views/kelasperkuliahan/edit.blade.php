@@ -130,7 +130,7 @@
                     </div>
 
                     <div class="row">
-                      <div class="input-field col s6">
+                      <div class="input-field col s4">
                         <input placeholder="tanggal mulai efektif " name="tanggal_mulai_kuliah" id="tanggal_mulai_kuliah" type="date" class="validate  @error('tanggal_mulai_kuliah') is-invalid @enderror" value="{{ old('tanggal_mulai_kuliah',$kelasperkuliahan->tanggal_mulai_kuliah) }}">
                         <label for="first_name">Tanggal Mulai kuliah</label>
 
@@ -138,7 +138,7 @@
                         <span class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
                       </div>
-                      <div class="input-field col s6 ">
+                      <div class="input-field col s4 ">
                         <input placeholder="tanggal akhir kuliah " name="tanggal_akhir_kuliah" id="tanggal_akhir_kuliah" type="date" class="validate  @error('tanggal_akhir_efektif') is-invalid @enderror" value="{{ old('tanggal_akhir_kuliah',$kelasperkuliahan->tanggal_akhir_kuliah) }}">
                         <label for="first_name">Tanggal Akhir kuliah</label>
 
@@ -146,6 +146,18 @@
                         <span class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
                       </div>
+
+                      <div class="input-field col s4 ">
+
+                        <input placeholder="color" name="color" id="color" type="color" class="validate  @error('color') is-invalid @enderror" value="{{ old('color',$kelasperkuliahan->color) }}">
+
+
+                        @error('color')
+                        <span class="red-text text-darken-2">{{ $message }}</small>
+                        @enderror
+                      </div>
+
+
 
                     </div>
 
@@ -184,6 +196,8 @@
                             <span class="red-text text-darken-2">{{ $message }}</small>
                             @enderror
                         </div>
+
+
 
                     </div>
 

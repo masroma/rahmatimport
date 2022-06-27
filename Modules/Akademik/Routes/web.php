@@ -1624,13 +1624,13 @@ Route::prefix('akademik')->group(function() {
 
         Route::prefix('ruangperkuliahan')->group(
             function () {
-                // Route::get(
-                //     '/data',
-                //     [
-                //         'uses' => 'RuangPerkuliahanController@data',
-                //         'as' => 'ruangperkuliahan.data'
-                //     ]
-                // );
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'RuangPerkuliahanController@data',
+                        'as' => 'ruangperkuliahan.data'
+                    ]
+                );
                 Route::get(
                     '/',
                     [
@@ -1638,13 +1638,13 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'ruangperkuliahan.index'
                     ]
                 );
-                // Route::get(
-                //     '/create',
-                //     [
-                //         'uses' => 'RuangPerkuliahanController@create',
-                //         'as' => 'ruangperkuliahan.create'
-                //     ]
-                // );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'RuangPerkuliahanController@create',
+                        'as' => 'ruangperkuliahan.create'
+                    ]
+                );
                 Route::post(
                     '/store',
                     [
@@ -1652,29 +1652,44 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'ruangperkuliahan.store'
                     ]
                 );
-                // Route::get(
-                //     '/{id}/edit',
-                //     [
-                //         'uses' => 'RuangPerkuliahanController@edit',
-                //         'as' => 'ruangperkuliahan.edit'
-                //     ]
-                // );
-                // Route::post(
-                //     '/update/{id}',
-                //     [
-                //         'uses' => 'RuangPerkuliahanController@update',
-                //         'as' => 'ruangperkuliahan.update'
-                //     ]
-                // );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'RuangPerkuliahanController@edit',
+                        'as' => 'ruangperkuliahan.edit'
+                    ]
+                );
+                Route::get(
+                    '/{id}/show',
+                    [
+                        'uses' => 'RuangPerkuliahanController@show',
+                        'as' => 'ruangperkuliahan.show'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'RuangPerkuliahanController@update',
+                        'as' => 'ruangperkuliahan.update'
+                    ]
+                );
 
 
-                // Route::get(
-                //     '/{id}/delete',
-                //     [
-                //         'uses' => 'RuangPerkuliahanController@destroy',
-                //         'as' => 'ruangperkuliahan.destroy'
-                //     ]
-                // );
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'RuangPerkuliahanController@destroy',
+                        'as' => 'ruangperkuliahan.destroy'
+                    ]
+                );
+
+                Route::get(
+                    '/datakelas/{id}',
+                    [
+                        'uses' => 'RuangPerkuliahanController@dataKelas',
+                        'as' => 'ruangperkuliahan.datakelas'
+                    ]
+                );
             }
         );
 

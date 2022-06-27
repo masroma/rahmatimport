@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use App\Models\KelasPerkuliahan;
 use App\Models\PenggunaanRuangan;
 use App\Models\RuangPerkuliahan;
+use App\Models\RuangGedung;
 use DataTables;
 use Exception;
 use Auth;
@@ -23,6 +24,17 @@ class RuangPerkuliahanController extends Controller
      * @return Renderable
      */
 
+    function __construct()
+    {
+         $this->middleware("permission:ruangperkuliahan-view|ruangperkuliahan-create|ruangperkuliahan-edit|ruangperkuliahan-show|ruangperkuliahan-delete", ["only" => ["index","store"]]);
+         $this->middleware("permission:ruangperkuliahan-view", ["only" => ["index"]]);
+         $this->middleware("permission:ruangperkuliahan-create", ["only" => ["create","store"]]);
+         $this->middleware("permission:ruangperkuliahan-edit", ["only" => ["edit","update"]]);
+         $this->middleware("permission:ruangperkuliahan-show", ["only" => ["show"]]);
+         $this->middleware("permission:ruangperkuliahan-delete", ["only" => ["destroy"]]);
+    }
+
+
     private function multiexplode($delimiters, $string)
     {
         $ready = str_replace($delimiters, $delimiters[0], $string);
@@ -32,15 +44,72 @@ class RuangPerkuliahanController extends Controller
     }
 
     use ValidatesRequests;
+
+    public function data()
+    {
+        try {
+            // $canShow = Gate::allows("kelaskuliahshow");
+            $canUpdate = Gate::allows("ruangperkuliahan-edit");
+            $canDelete = Gate::allows("ruangperkuliahan-delete");
+            $data = RuangGedung::with('Perkuliahan','listkampus','Uts','Uas')->withCount(['Perkuliahan','Uts','Uas'])->get();
+            return DataTables::of($data)
+
+            ->addColumn('kampus',function($data){
+                return $data->ListKampus->cabang_kampus;
+            })
+
+                    ->addColumn("action", function ($data) use ($canUpdate, $canDelete) {
+
+                        $btn = "";
+
+                        if ($canUpdate) {
+                            $btn .= '<a class="btn-floating btn-small" href="ruangperkuliahan/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+                        }
+
+                        if ($canDelete) {
+                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
+                        }
+
+                        // if ($canShow) {
+                        //     $btn .= '<a class="btn-floating green darken-1 btn-small" href="matakuliah/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+                        // }
+
+                        return $btn;
+                    })
+                    ->rawColumns(['colors','action'])
+                    ->addIndexColumn()
+                    ->make(true);
+
+        } catch (Exception $e) {
+            DB::commit();
+            return response()->json(
+                [
+                    "status" => false,
+                    "message" => $e->getMessage()
+                ]
+            );
+        }
+
+    }
+
     public function index()
+    {
+        $canCreate = Gate::allows('ruangperkuliahan-create');
+        $name_page = "ruangperkuliahan";
+        $title = "ruang perkuliahan";
+        $data = array(
+            'page' => $name_page,
+            'canCreate' => $canCreate,
+            "title" => $title
+        );
+        return view('akademik::ruangperkuliahan.index')->with($data);
+    }
+
+
+    public function create()
     {
 
         $datasenin = RuangPerkuliahan::with('kelasPerkuliahan')->where('ruang_id',0)->pluck('hari','waktu');
-        // $a = "";
-        // foreach($datasenin as $b){
-        //     $a .= $b;
-        // }
-
 
         $senin = "";
         $selasa = "";
@@ -98,10 +167,10 @@ class RuangPerkuliahanController extends Controller
      * Show the form for creating a new resource.
      * @return Renderable
      */
-    public function create()
-    {
-        return view('akademik::create');
-    }
+    // public function create()
+    // {
+    //     return view('akademik::create');
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -110,22 +179,6 @@ class RuangPerkuliahanController extends Controller
      */
     public function store(Request $request)
     {
-
-        // $waktu = $request->waktu;
-        // $keys = array();
-        // $hasil = "";
-        // foreach($waktu as $wk){
-        //     $keys = explode('-',$wk);
-        //     if($keys[1] == "senin"){
-        //         $hasil .= $keys[0]." ";
-        //         $ar = explode(" ",$hasil);
-        //         $wkt = json_encode($ar);
-        //     }else if($keys[1] == "selasa"){
-        //         $hasil .= $keys[0]." ";
-        //         $ar = explode(" ",$hasil);
-        //         $wkt = json_encode($ar);
-        //     }
-        // }
 
 
         DB::beginTransaction();
@@ -179,7 +232,15 @@ class RuangPerkuliahanController extends Controller
      */
     public function show($id)
     {
-        return view('akademik::show');
+        $canCreate = Gate::allows('ruangperkuliahan-create');
+        $name_page = "ruangperkuliahan";
+        $title = "kelas perkuliahan";
+        $data = array(
+            'page' => $name_page,
+            'canCreate' => $canCreate,
+            "title" => $title
+        );
+        return view('akademik::ruangperkuliahan.show')->with($data);
     }
 
     /**
@@ -189,6 +250,7 @@ class RuangPerkuliahanController extends Controller
      */
     public function edit($id)
     {
+
         return view('akademik::edit');
     }
 
@@ -210,6 +272,49 @@ class RuangPerkuliahanController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+    }
+
+    public function dataKelas($id)
+    {
+        try {
+            // $canShow = Gate::allows("kelaskuliahshow");
+            $canUpdate = Gate::allows("kelasperkuliahan-edit");
+            $canDelete = Gate::allows("kelasperkuliahan-delete");
+            $data = RuangPerkuliahan::get();
+            return DataTables::of($data)
+
+
+                    ->addColumn("action", function ($data) use ($canUpdate, $canDelete) {
+
+                        $btn = "";
+
+                        if ($canUpdate) {
+                            $btn .= '<a class="btn-floating btn-small" href="kelasperkuliahan/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
+                        }
+
+                        if ($canDelete) {
+                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
+                        }
+
+                        // if ($canShow) {
+                        //     $btn .= '<a class="btn-floating green darken-1 btn-small" href="matakuliah/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+                        // }
+
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->addIndexColumn()
+                    ->make(true);
+
+        } catch (Exception $e) {
+            DB::commit();
+            return response()->json(
+                [
+                    "status" => false,
+                    "message" => $e->getMessage()
+                ]
+            );
+        }
     }
 }

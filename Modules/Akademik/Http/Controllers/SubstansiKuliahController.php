@@ -184,7 +184,6 @@ class SubstansiKuliahController extends Controller
             "page" => $name_page,
             "substansikuliah" => $substansikuliah,
             "title" => $title,
-
         );
         return view("akademik::substansikuliah.edit")->with($data);
     }

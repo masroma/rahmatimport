@@ -130,7 +130,7 @@
                 </div>
 
                 <div class="row">
-                  <div class="input-field col s6">
+                  <div class="input-field col s4">
                     <input placeholder="tanggal mulai efektif " name="tanggal_mulai_kuliah" id="tanggal_mulai_kuliah" type="date" class="validate  @error('tanggal_mulai_kuliah') is-invalid @enderror" value="{{ old('tanggal_mulai_kuliah') }}">
                     <label for="first_name">Tanggal Mulai kuliah</label>
 
@@ -138,11 +138,20 @@
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                   </div>
-                  <div class="input-field col s6 ">
+                  <div class="input-field col s4 ">
                     <input placeholder="tanggal akhir kuliah " name="tanggal_akhir_kuliah" id="tanggal_akhir_kuliah" type="date" class="validate  @error('tanggal_akhir_efektif') is-invalid @enderror" value="{{ old('tanggal_akhir_kuliah') }}">
                     <label for="first_name">Tanggal Akhir kuliah</label>
 
                     @error('tanggal_akhir_kuliah')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+                  <div class="input-field col s4 ">
+
+                    <input placeholder="color" name="color" id="color" type="color" class="validate  @error('color') is-invalid @enderror" value="{{ old('color') }}">
+
+
+                    @error('color')
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                   </div>
@@ -184,10 +193,10 @@
                     </div>
 
                         <div class="input-field col s4">
-                            <input placeholder="Generate Kelas" name="jumlah_generate_kelas" id="jumlah_generate" type="number" class="validate  @error('nama_kelas') is-invalid @enderror" value="{{ old('jumlah_generate') }}">
+                            <input placeholder="Generate Kelas" name="jumlah_generate_kelas" id="jumlah_generate_kelas" type="number" class="validate  @error('nama_kelas') is-invalid @enderror" value="{{ old('jumlah_generate_kelas') }}">
                             <label for="first_name">Jumlah Generate Kelas</label>
 
-                            @error('nama_kelas')
+                            @error('jumlah_generate_kelas')
                             <span class="red-text text-darken-2">{{ $message }}</small>
                             @enderror
                           </div>

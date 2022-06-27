@@ -55,6 +55,7 @@
                     <th>Kode MK</th>
                     <th>Nama MK</th>
                     <th>Nama Kelas</th>
+                    <th>Color</th>
                     <th>#</th>
                 </tr>
             </thead>
@@ -123,6 +124,13 @@
                             data: 'namakelas',
                             name: 'namakelas'
                         },
+
+                        {
+                            data: 'colors',
+                            name: 'colors'
+                        },
+
+
 
 
                         {

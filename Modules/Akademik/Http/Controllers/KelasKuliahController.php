@@ -59,7 +59,7 @@ class KelasKuliahController extends Controller
 
                     ->addColumn("kodematalkuliah", function($data){
                         return $data->Matakuliah->kode_matakuliah;
-                })
+                    })
 
                     ->addColumn('semester', function($data){
                         return $data->Jenissemester->Tahunajaran->tahun_ajaran .'-'. $data->Jenissemester->jenis_semester;
@@ -67,7 +67,12 @@ class KelasKuliahController extends Controller
 
                     ->addColumn("namakelas", function($data){
                         return $data->nama_kelas.$data->kode;
-                })
+                    })
+
+                    ->addColumn('colors', function($data){
+                        $input = '<div class="col" style="background-color:'.$data->color.'; height:10px"></div>';
+                        return $input;
+                    })
 
 
 
@@ -89,6 +94,7 @@ class KelasKuliahController extends Controller
 
                         return $btn;
                     })
+                    ->rawColumns(['colors','action'])
                     ->addIndexColumn()
                     ->make(true);
 
@@ -157,15 +163,14 @@ class KelasKuliahController extends Controller
         DB::beginTransaction();
         try {
 
-
-
             $this->validate($request, [
                 "programstudy_id" => 'required',
                 "semester_id" => 'required',
                 "matakuliah_id" => 'required',
                 "nama_kelas" => 'required',
                 "jenis_kelas" => 'required',
-                "type_mahasiswa" => 'required'
+                "type_mahasiswa" => 'required',
+                "color" => 'required'
             ]);
 
 
@@ -184,6 +189,7 @@ class KelasKuliahController extends Controller
                     $save->tanggal_mulai_kuliah = $request->tanggal_mulai_kuliah;
                     $save->tanggal_akhir_kuliah = $request->tanggal_akhir_kuliah;
                     $save->jenis_kelas = $request->jenis_kelas;
+                    $save->color = $request->color;
                     $save->typemahasiswa_id = json_encode($request->type_mahasiswa) ?? null;
                     $save->kode = $kode[$random].$i;
                     $save->save();
@@ -199,6 +205,7 @@ class KelasKuliahController extends Controller
                 $save->tanggal_mulai_kuliah = $request->tanggal_mulai_kuliah;
                 $save->tanggal_akhir_kuliah = $request->tanggal_akhir_kuliah;
                 $save->jenis_kelas = $request->jenis_kelas;
+                $save->color = $request->color;
                 $save->typemahasiswa_id = json_encode($request->type_mahasiswa) ?? null;
                 $save->kode = NULL;
             }
@@ -274,7 +281,8 @@ class KelasKuliahController extends Controller
                 "matakuliah_id" => 'required',
                 "nama_kelas" => 'required',
                 "jenis_kelas" => 'required',
-                "type_mahasiswa" => 'required'
+                "type_mahasiswa" => 'required',
+                "color" => 'required'
             ]);
 
             $save = KelasPerkuliahan::findOrFail($id);
@@ -287,6 +295,7 @@ class KelasKuliahController extends Controller
             $save->tanggal_mulai_kuliah = $request->tanggal_mulai_kuliah;
             $save->tanggal_akhir_kuliah = $request->tanggal_akhir_kuliah;
             $save->jenis_kelas = $request->jenis_kelas;
+            $save->color = $request->color;
             $save->typemahasiswa_id = json_encode($request->type_mahasiswa) ?? null;
             $save->save();
             DB::commit();
