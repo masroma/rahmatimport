@@ -1,5 +1,5 @@
 @extends('layouts.v1')
-@section('title') {{$page}} @endsection
+@section('title') {{$title}} @endsection
 @section('content')
 <div class="row">
     <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
@@ -19,7 +19,9 @@
             </ol>
           </div>
           <div class="col s2 m6 l6">
-
+              @if($canCreate)
+              <a class="btn  waves-effect waves-light breadcrumbs-btn right" href="{{route($page.'.create',$id)}}"  id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
+              @endif
           </div>
         </div>
       </div>
@@ -30,6 +32,12 @@
 <div class="card">
 
 </div>
+<!-- DataTables example -->
+
+
+
+<!-- DataTables Row grouping -->
+
 
 <!-- Page Length Options -->
 <div class="row">
@@ -43,27 +51,16 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Cabang</th>
-                    <th>Kode</th>
-                    <th>Nama</th>
-                    <th>Perkuliahan</th>
-                    <th>UTS</th>
-                    <th>UAS</th>
+                    <th>Nama Kelas</th>
+                    <th>Kode Matakuliah</th>
+                    <th>Matakuliah</th>
+                    <th>Hari</th>
+                    <th>Jam Mulai</th>
+                    <th>Jam Akhir</th>
                     <th>#</th>
                 </tr>
             </thead>
-            <tfoot>
-                <tr>
-                    <th>No</th>
-                    <th>Cabang</th>
-                    <th>Kode</th>
-                    <th>Nama</th>
-                    <th>Perkuliahan</th>
-                    <th>UTS</th>
-                    <th>UAS</th>
-                    <th>#</th>
-                </tr>
-              </tfoot>
+
           </table>
         </div>
       </div>
@@ -95,13 +92,14 @@
 
           function loadDataTable() {
               $(document).ready(function () {
+                let idruangan = {{ $id }}
                   $('#page-length-option').DataTable({
                       "scrollX": true,
                       "autoWidth": true,
                       processing: true,
                       serverSide: true,
                       ajax: {
-                          url: "{{ route('ruangperkuliahan.data') }}",
+                        url: "{{ url('akademik/ruangperkuliahan/datakelas') }}/" + idruangan,
                           type: "GET",
                       },
                       columns: [
@@ -110,43 +108,41 @@
                           name:"DT_RowIndex"
                       },
                       {
-                            data: 'kampus',
-                            name: 'kampus'
+                            data: 'namakelas',
+                            name: 'namakelas'
                         },
 
                         {
-                            data: 'kode_ruang',
-                            name: 'kode_ruang'
+                            data: 'kodematakuliah',
+                            name: 'kodematakuliah'
                         },
 
                         {
-                            data: 'nama_ruang',
-                            name: 'nama_ruang'
+                            data: 'namamatakuliah',
+                            name: 'namamatakuliah'
                         },
 
                         {
-                            data: 'perkuliahan_count',
-                            name: 'perkuliahan_count'
+                            data: 'hari',
+                            name: 'hari'
                         },
 
                         {
-                            data: 'uts_count',
-                            name: 'uts_count'
+                            data: 'jamawal',
+                            name: 'jamawal'
                         },
 
                         {
-                            data: 'uas_count',
-                            name: 'uas_count'
+                            data: 'jamakhir',
+                            name: 'jamakhir'
                         },
+
 
 
                         {
                             data: 'action',
                             name: 'action'
                         },
-
-
-
 
                       ],
                       order: [
@@ -166,7 +162,7 @@
                   })
                   .then((dt) => {
                       if (dt) {
-                          window.location.href = "{{ url('akademik/ruangan') }}/" + id + "/delete";
+                          window.location.href = "{{ url('akademik/ruangperkuliahan') }}/" + id + "/delete";
                       }
                   });
           }

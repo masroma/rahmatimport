@@ -42,7 +42,7 @@ class TypeMahasiswaController extends Controller
             // $canShow = Gate::allows('typemahasiswa-show');
             $canUpdate = Gate::allows('typemahasiswa-edit');
             $canDelete = Gate::allows('typemahasiswa-delete');
-            $data = TypeMahasiswa::all();
+            $data = TypeMahasiswa::all(); //query
             return DataTables::of($data)
 
                     ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
@@ -105,6 +105,7 @@ class TypeMahasiswaController extends Controller
                 "data" => "",
                 "placeholder" =>"nama jalur"
             ],
+
         ];
 
         $name_page = "typemahasiswa";

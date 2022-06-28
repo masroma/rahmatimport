@@ -14,6 +14,7 @@ use Exception;
 use Auth;
 use Gate;
 use DB;
+use Carbon\Carbon;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
 
@@ -199,6 +200,69 @@ class RuangPerkuliahanController extends Controller
             $ar = explode(" ",$output);
             $waktu = json_encode($ar);
 
+            $cekdobleKelas = RuangPerkuliahan::where('kelasperkuliahan_id',$request->kelasperkuliahan_id)->first();
+            if($cekdobleKelas != NULL){
+                return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Kelas sudah ada diruangan lain']);
+            }
+
+            $datasenin = RuangPerkuliahan::with('kelasPerkuliahan')->where('ruang_id',$request->ruang_id)->pluck('hari','waktu');
+
+            $senin = "";
+            $selasa = "";
+            $rabu = "";
+            $kamis = "";
+            $jumat = "";
+            $sabtu ="";
+            foreach($datasenin as $b => $value){
+                if($value == "senin"){
+                    $senin .= $b;
+                }else if($value == "selasa"){
+                    $selasa .= $b;
+                }else if($value == "rabu"){
+                    $rabu .= $b;
+                }else if($value == "kamis"){
+                    $kamis .= $b;
+                }else if($value == "jumat"){
+                    $jumat .= $b;
+                }else if($value == "sabtu"){
+                    $sabtu.= $b;
+                }
+            }
+            $senin = $this->multiexplode(array('[', ']', '"', '"', ','), $senin);
+            $selasa = $this->multiexplode(array('[', ']', '"', '"', ','), $selasa);
+            $rabu= $this->multiexplode(array('[', ']', '"', '"', ','), $rabu);
+            $kamis = $this->multiexplode(array('[', ']', '"', '"', ','), $kamis);
+            $jumat = $this->multiexplode(array('[', ']', '"', '"', ','), $jumat);
+            $sabtu = $this->multiexplode(array('[', ']', '"', '"', ','), $sabtu);
+
+            $hari = $request->hari;
+            if($hari == 'senin'){
+                if(in_array($request->jam_awal,$senin)){
+                    return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
+                }
+            }elseif($hari == 'selasa'){
+                if(in_array($request->jam_awal,$selasa)){
+                    return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
+                }
+            }elseif($hari == 'rabu'){
+                if(in_array($request->jam_awal,$selasa)){
+                    return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
+                }
+            }elseif($hari == 'kamis'){
+                if(in_array($request->jam_awal,$selasa)){
+                    return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
+                }
+            }elseif($hari == 'jumat'){
+                if(in_array($request->jam_awal,$selasa)){
+                    return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
+                }
+            }elseif($hari == 'sabtu'){
+                if(in_array($request->jam_awal,$selasa)){
+                    return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
+                }
+            }
+
+
 
             $save = new RuangPerkuliahan();
             $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
@@ -208,6 +272,8 @@ class RuangPerkuliahanController extends Controller
             $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
             $save->hari = $request->hari;
             $save->waktu = $waktu;
+            $save->jam_awal =$request->jam_mulai;
+            $save->jam_akhir = $request->jam_akhir;
             $save->save();
 
             DB::commit();
@@ -218,10 +284,10 @@ class RuangPerkuliahanController extends Controller
 
         if ($save) {
             //redirect dengan pesan sukses
-            return redirect()->back()->with(['success' => 'Data Berhasil Disimpan!']);
+            return redirect()->route('ruangperkuliahan.show',$request->ruang_id)->with(['success' => 'Data Berhasil Disimpan!']);
         } else {
             //redirect dengan pesan error
-            return redirect()->back()->with(['error' => 'Data Gagal Disimpan!']);
+            return redirect()->route('ruangperkuliahan.show',$request->ruang_id)->with(['error' => 'Data Gagal Disimpan!']);
         }
     }
 
@@ -238,7 +304,8 @@ class RuangPerkuliahanController extends Controller
         $data = array(
             'page' => $name_page,
             'canCreate' => $canCreate,
-            "title" => $title
+            "title" => $title,
+            "id" => $id
         );
         return view('akademik::ruangperkuliahan.show')->with($data);
     }
@@ -262,7 +329,50 @@ class RuangPerkuliahanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $this->validate($request, [
+                'kelasperkuliahan_id' => 'required',
+                'penggunaanruang_id' => 'required',
+            ]);
+
+
+            $open_time = strtotime($request->jam_mulai);
+            $close_time = strtotime($request->jam_akhir);
+            $output = "";
+            for ($i = $open_time; $i < $close_time; $i+= 300) {
+                $output .= date('H:i',$i)." ";
+            }
+
+            $ar = explode(" ",$output);
+            $waktu = json_encode($ar);
+
+
+            $save = RuangPerkuliahan::findOrFail($id);
+            $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
+            $save->penggunaanruang_id = $request->penggunaanruang_id;
+            $save->ruang_id = $request->ruang_id ?? 0;
+            $save->kode = $request->kode;
+            $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
+            $save->hari = $request->hari;
+            $save->waktu = $waktu;
+            $save->jam_awal =$request->jam_mulai;
+            $save->jam_akhir = $request->jam_akhir;
+            $save->save();
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with('error', $exception->getMessage());
+        }
+
+        if ($save) {
+            //redirect dengan pesan sukses
+            return redirect()->route('ruangperkuliahan.show',$request->ruang_id)->with(['success' => 'Data Berhasil Disimpan!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route('ruangperkuliahan.show',$request->ruang_id)->with(['error' => 'Data Gagal Disimpan!']);
+        }
     }
 
     /**
@@ -273,6 +383,21 @@ class RuangPerkuliahanController extends Controller
     public function destroy($id)
     {
 
+        DB::beginTransaction();
+        try {
+           $delete =  RuangPerkuliahan::find($id)->delete();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+        if ($delete) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with("success", "Data berhasil dihapus");
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(["error" => "Data Gagal Dihapus!"]);
+        }
     }
 
     public function dataKelas($id)
@@ -281,16 +406,37 @@ class RuangPerkuliahanController extends Controller
             // $canShow = Gate::allows("kelaskuliahshow");
             $canUpdate = Gate::allows("kelasperkuliahan-edit");
             $canDelete = Gate::allows("kelasperkuliahan-delete");
-            $data = RuangPerkuliahan::get();
+            $data = RuangPerkuliahan::with('kelasPerkuliahan','kelasPerkuliahan.programstudy','kelasPerkuliahan.matakuliah')->where('ruang_id',$id)->get();
             return DataTables::of($data)
+                    ->addColumn('namakelas', function($data){
+                        return $data->kelasperkuliahan->nama_kelas.$data->kelasperkuliahan->kode;
+                    })
+
+                    ->addColumn('kodematakuliah', function($data){
+                        return $data->kelasperkuliahan->matakuliah->kode_matakuliah;
+                    })
+
+                    ->addColumn('namamatakuliah', function($data){
+                        return $data->kelasperkuliahan->matakuliah->nama_matakuliah;
+                    })
+
+                    ->addColumn('jamawal',function($data){
+                        return Carbon::createFromFormat('H:i:s',$data->jam_awal)->format('h:i');
+                    })
+
+                    ->addColumn('jamakhir',function($data){
+                        return Carbon::createFromFormat('H:i:s',$data->jam_akhir)->format('h:i');
+                    })
+
 
 
                     ->addColumn("action", function ($data) use ($canUpdate, $canDelete) {
 
+                        $url = route('ruangperkuliahan.edit',$data->id);
                         $btn = "";
 
                         if ($canUpdate) {
-                            $btn .= '<a class="btn-floating btn-small" href="kelasperkuliahan/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
+                            $btn .= '<a class="btn-floating btn-small" href="'.$url.'"><i class="material-icons">edit</i></a>';
                         }
 
                         if ($canDelete) {
@@ -316,5 +462,128 @@ class RuangPerkuliahanController extends Controller
                 ]
             );
         }
+    }
+
+    public function createKelasByRuangan($id){
+        $data = RuangPerkuliahan::with('kelasPerkuliahan')->where('ruang_id',$id)->pluck('hari','waktu');
+
+        $senin = "";
+        $selasa = "";
+        $rabu = "";
+        $kamis = "";
+        $jumat = "";
+        $sabtu ="";
+
+        foreach($data as $b => $value){
+            if($value == "senin"){
+                $senin .= $b;
+            }else if($value == "selasa"){
+                $selasa .= $b;
+            }else if($value == "rabu"){
+                $rabu .= $b;
+            }else if($value == "kamis"){
+                $kamis .= $b;
+            }else if($value == "jumat"){
+                $jumat .= $b;
+            }else if($value == "sabtu"){
+                $sabtu.= $b;
+            }
+        }
+
+        $senin = $this->multiexplode(array('[', ']', '"', '"', ','), $senin);
+        $selasa = $this->multiexplode(array('[', ']', '"', '"', ','), $selasa);
+        $rabu= $this->multiexplode(array('[', ']', '"', '"', ','), $rabu);
+        $kamis = $this->multiexplode(array('[', ']', '"', '"', ','), $kamis);
+        $jumat = $this->multiexplode(array('[', ']', '"', '"', ','), $jumat);
+        $sabtu = $this->multiexplode(array('[', ']', '"', '"', ','), $sabtu);
+
+        // $dataall = RuangPerkuliahan::with('kelasPerkuliahan')->where('ruang_id',$id)->get();
+
+        $kelasperkuliahan = KelasPerkuliahan::with('Matakuliah')->get();
+        $penggunaanruang = PenggunaanRuangan::all();
+        $open_time = strtotime("07:00");
+        $close_time = strtotime("21:00");
+        $name_page = "ruang perkuliahan";
+        $title = "ruang perkuliahan";
+        $data = array(
+            'page' => $name_page,
+            "title" => $title,
+            "open_time" => $open_time,
+            "close_time" => $close_time,
+            "kelasperkuliahan" => $kelasperkuliahan,
+            "penggunaanruang" => $penggunaanruang,
+            "senin" =>$senin,
+            "selasa" =>$selasa,
+            "rabu" => $rabu,
+            "kamis" => $kamis,
+            "jumat" => $jumat,
+            "sabtu" => $sabtu,
+            "id" => $id,
+
+        );
+        return view('akademik::ruangperkuliahan.create')->with($data);
+    }
+
+    public function editkelasByRuangan($id)
+    {
+
+        $old = RuangPerkuliahan::with('kelasPerkuliahan')->findOrFail($id);
+        $data = RuangPerkuliahan::with('kelasPerkuliahan')->where('ruang_id',$old->ruang_id)->pluck('hari','waktu');
+
+        $senin = "";
+        $selasa = "";
+        $rabu = "";
+        $kamis = "";
+        $jumat = "";
+        $sabtu ="";
+
+        foreach($data as $b => $value){
+            if($value == "senin"){
+                $senin .= $b;
+            }else if($value == "selasa"){
+                $selasa .= $b;
+            }else if($value == "rabu"){
+                $rabu .= $b;
+            }else if($value == "kamis"){
+                $kamis .= $b;
+            }else if($value == "jumat"){
+                $jumat .= $b;
+            }else if($value == "sabtu"){
+                $sabtu.= $b;
+            }
+        }
+
+        $senin = $this->multiexplode(array('[', ']', '"', '"', ','), $senin);
+        $selasa = $this->multiexplode(array('[', ']', '"', '"', ','), $selasa);
+        $rabu= $this->multiexplode(array('[', ']', '"', '"', ','), $rabu);
+        $kamis = $this->multiexplode(array('[', ']', '"', '"', ','), $kamis);
+        $jumat = $this->multiexplode(array('[', ']', '"', '"', ','), $jumat);
+        $sabtu = $this->multiexplode(array('[', ']', '"', '"', ','), $sabtu);
+
+        // $dataall = RuangPerkuliahan::with('kelasPerkuliahan')->where('ruang_id',$id)->get();
+
+        $kelasperkuliahan = KelasPerkuliahan::with('Matakuliah')->get();
+        $penggunaanruang = PenggunaanRuangan::all();
+        $open_time = strtotime("07:00");
+        $close_time = strtotime("21:00");
+        $name_page = "ruang perkuliahan";
+        $title = "ruang perkuliahan";
+        $data = array(
+            'page' => $name_page,
+            "title" => $title,
+            "open_time" => $open_time,
+            "close_time" => $close_time,
+            "kelasperkuliahan" => $kelasperkuliahan,
+            "penggunaanruang" => $penggunaanruang,
+            "senin" =>$senin,
+            "selasa" =>$selasa,
+            "rabu" => $rabu,
+            "kamis" => $kamis,
+            "jumat" => $jumat,
+            "sabtu" => $sabtu,
+            'old' => $old
+
+        );
+        return view('akademik::ruangperkuliahan.edit')->with($data);
     }
 }

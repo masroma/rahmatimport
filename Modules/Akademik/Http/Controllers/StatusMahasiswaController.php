@@ -166,7 +166,7 @@ class StatusMahasiswaController extends Controller
     public function edit($id)
     {
         $statusmahasiswa = StatusMahasiswa::findOrFail($id);
-        
+
         $form = [
             0 => [
                 "name" => "status_mahasiswa",
@@ -176,7 +176,7 @@ class StatusMahasiswaController extends Controller
                 "data" => $statusmahasiswa->status_mahasiswa,
                 "placeholder" =>"Status Mahasiswa"
             ],
-            
+
         ];
 
         $name_page = "statusmahasiswa";

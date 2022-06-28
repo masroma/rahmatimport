@@ -166,7 +166,7 @@
                   })
                   .then((dt) => {
                       if (dt) {
-                          window.location.href = "{{ url('akademik/ruangan') }}/" + id + "/delete";
+                          window.location.href = "{{ url('akademik/ruangperkuliahan') }}/" + id + "/delete";
                       }
                   });
           }

@@ -30,7 +30,7 @@
 <div class="card">
 
 </div>
-<form action="{{ route('ruangperkuliahan.store') }}" method="POST"
+<form action="{{ route('ruangperkuliahan.update',$old->id) }}" method="POST"
 enctype="multipart/form-data" class="col s12">
 @csrf
 <!-- Page Length Options -->
@@ -39,13 +39,13 @@ enctype="multipart/form-data" class="col s12">
     <div class="card">
         <div class="card-content">
               <div class="input-field">
-                <input placeholder="Ruang id" name="ruang_id" id="ruang_id" type="hidden" class="validate  @error('ruang_id') is-invalid @enderror" value="{{ $id }}">
+                <input placeholder="Ruang id" name="ruang_id" id="ruang_id" type="hidden" class="validate  @error('ruang_id') is-invalid @enderror" value="{{ $old->ruang_id }}">
               </div>
               <div class="input-field">
-                <select name="kelasperkuliahan_id" class="select2 browser-default">
+                <select name="kelasperkuliahan_id" class="select2 browser-default" readonly>
                     <option value="">Kelas Perkuliahan</option>
                     @foreach($kelasperkuliahan as $row)
-                        <option @if(old('kelasperkuliahan_id') == $row->id) selected @endif value="{{$row->id}}">{{$row->nama_kelas}}{{ $row->kode }} - {{ $row->matakuliah->nama_matakuliah }}({{ $row->matakuliah->kode_matakuliah }})</option>
+                        <option @if(old('kelasperkuliahan_id',$old->kelasperkuliahan_id) == $row->id) selected @endif value="{{$row->id}}">{{$row->nama_kelas}}{{ $row->kode }} - {{ $row->matakuliah->nama_matakuliah }}({{ $row->matakuliah->kode_matakuliah }})</option>
                     @endforeach
                 </select>
                     <label for="first_name">Kelas Perkuliahan</label>
@@ -57,7 +57,7 @@ enctype="multipart/form-data" class="col s12">
                 <select name="penggunaanruang_id" class="select2 browser-default">
                     <option value="">type penggunaan</option>
                     @foreach($penggunaanruang as $row)
-                        <option value="{{ $row->id }}" @if(old('penggunaanruang_id') == $row->id) selected @endif value="{{$row->id}}">{{$row->penggunaan_ruangan}}</option>
+                        <option value="{{ $row->id }}" @if(old('penggunaanruang_id',$old->penggunaanruang_id) == $row->id) selected @endif value="{{$row->id}}">{{$row->penggunaan_ruangan}}</option>
                     @endforeach
                 </select>
                     <label for="first_name">Penggunaan Ruangan<span style="color:red">*</span></label>
@@ -69,12 +69,12 @@ enctype="multipart/form-data" class="col s12">
             <div class="input-field">
               <select name="hari" id="hari" class="validate">
                 <option value="">pilih hari</option>
-                <option value="senin" @if(old('hari') == "senin") selected @endif>Senin</option>
-                <option value="selasa" @if(old('hari') == "selasa") selected @endif>Selasa</option>
-                <option value="rabu" @if(old('hari') == "rabu") selected @endif>Rabu</option>
-                <option value="kamis" @if(old('hari') == "kamis") selected @endif>Kamis</option>
-                <option value="jumat" @if(old('hari') == "jumat") selected @endif>Jum'at</option>
-                <option value="sabtu" @if(old('hari') == "sabtu") selected @endif>Sabtu</option>
+                <option value="senin" @if(old('hari',$old->hari) == "senin") selected @endif>Senin</option>
+                <option value="selasa" @if(old('hari',$old->hari) == "selasa") selected @endif>Selasa</option>
+                <option value="rabu" @if(old('hari',$old->hari) == "rabu") selected @endif>Rabu</option>
+                <option value="kamis" @if(old('hari',$old->hari) == "kamis") selected @endif>Kamis</option>
+                <option value="jumat" @if(old('hari',$old->hari) == "jumat") selected @endif>Jum'at</option>
+                <option value="sabtu" @if(old('hari',$old->hari) == "sabtu") selected @endif>Sabtu</option>
               </select>
                 <label for="first_name">Hari</label>
                 @error('kode')
@@ -83,7 +83,7 @@ enctype="multipart/form-data" class="col s12">
           </div>
 
             <div class="input-field">
-                <input placeholder="jam mulai" name="jam_mulai" id="kode" type="time" class="validate  @error('jam_mulai') is-invalid @enderror" value="{{ old('jam_mulai') }}">
+                <input placeholder="jam mulai" name="jam_mulai" id="kode" type="time" class="validate  @error('jam_mulai') is-invalid @enderror"value="{{ old('jam_mulai',\Carbon\Carbon::createFromFormat('H:i:s',$old->jam_awal)->format('h:i')) }}">
                 <label for="first_name">Jam Mulai</label>
                 @error('kode')
                 <span class="red-text text-darken-2">{{ $message }}</small>
@@ -91,7 +91,7 @@ enctype="multipart/form-data" class="col s12">
           </div>
 
           <div class="input-field">
-            <input placeholder="jam mulai" name="jam_akhir" id="kode" type="time" class="validate  @error('jam_mulai') is-invalid @enderror" value="{{ old('jam_akhir') }}">
+            <input placeholder="jam mulai" name="jam_akhir" id="kode" type="time" class="validate  @error('jam_mulai') is-invalid @enderror" value="{{ old('jam_akhir',\Carbon\Carbon::createFromFormat('H:i:s',$old->jam_akhir)->format('h:i')) }}">
             <label for="first_name">Jam Akhir</label>
             @error('kode')
             <span class="red-text text-darken-2">{{ $message }}</small>
@@ -100,7 +100,7 @@ enctype="multipart/form-data" class="col s12">
 
             <div class="input-field">
                 <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>save</button>
-                <a href={{route('ruangperkuliahan.show',$id)}} class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>
+                <a href={{route('ruangperkuliahan.show',$old->ruang_id)}} class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>
             </div>
         </div>
     </div>
@@ -188,15 +188,6 @@ enctype="multipart/form-data" class="col s12">
 
   @stop
   @section('script')
-  <script>
-    @if($message = session('succes_message'))
-Swal.fire(
-  'Good job!',
-  '{{ $message }}',
-  'success'
-)
-@endif
-    </script>
 
 
 @endsection

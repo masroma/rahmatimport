@@ -95,7 +95,7 @@
                   </div>
                   @elseif($forms['type'] === "selectsemester")
                       <div class="input-field col {{ $forms['col'] }}">
-                        
+
                         <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
                         <option value="">Pilih</option>
                             @foreach($jenis as $row)
@@ -109,7 +109,7 @@
                         <span class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
                   </div>
-                      @endif		
+                      @endif
                     @endforeach
 
 

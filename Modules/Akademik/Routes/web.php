@@ -1639,9 +1639,9 @@ Route::prefix('akademik')->group(function() {
                     ]
                 );
                 Route::get(
-                    '/create',
+                    '/create/{id}',
                     [
-                        'uses' => 'RuangPerkuliahanController@create',
+                        'uses' => 'RuangPerkuliahanController@createKelasByRuangan',
                         'as' => 'ruangperkuliahan.create'
                     ]
                 );
@@ -1655,7 +1655,7 @@ Route::prefix('akademik')->group(function() {
                 Route::get(
                     '/{id}/edit',
                     [
-                        'uses' => 'RuangPerkuliahanController@edit',
+                        'uses' => 'RuangPerkuliahanController@editkelasByRuangan',
                         'as' => 'ruangperkuliahan.edit'
                     ]
                 );
