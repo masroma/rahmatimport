@@ -1804,9 +1804,120 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'penggunaanruang.destroy'
                     ]
                 );
-            }
-        );
+
+                   // skala nilai
+                Route::prefix('skalanilai')->group(
+                    function () {
+                        Route::get(
+                            '/data',
+                            [
+                                'uses' => 'SkalaNilaiController@data',
+                                'as' => 'skalanilai.data'
+                            ]
+                        );
+                        Route::get(
+                            '/',
+                            [
+                                'uses' => 'SkalaNilaiController@index',
+                                'as' => 'skalanilai.index'
+                            ]
+                        );
+                        Route::get(
+                            '/create',
+                            [
+                                'uses' => 'SkalaNilaiController@create',
+                                'as' => 'skalanilai.create'
+                            ]
+                        );
+                        Route::post(
+                            '/store',
+                            [
+                                'uses' => 'SkalaNilaiController@store',
+                                'as' => 'skalanilai.store'
+                            ]
+                        );
+                        Route::get(
+                            '/{id}/edit',
+                            [
+                                'uses' => 'SkalaNilaiController@edit',
+                                'as' => 'skalanilai.edit'
+                            ]
+                        );
+                        Route::post(
+                            '/update/{id}',
+                            [
+                                'uses' => 'SkalaNilaiController@update',
+                                'as' => 'skalanilai.update'
+                            ]
+                        );
 
 
-    });
+                        Route::get(
+                            '/{id}/delete',
+                            [
+                                'uses' => 'SkalaNilaiController@destroy',
+                                'as' => 'skalanilai.destroy'
+                            ]
+                        );}
+                    );
+                });
+
+
+        });
+
+         //Pengaturan Periode Perkuliahan
+         Route::prefix('pengaturanperiodeperkuliahan')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'PengaturanPeriodePerkuliahanController@data',
+                        'as' => 'pengaturanperiodeperkuliahan.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'PengaturanPeriodePerkuliahanController@index',
+                        'as' => 'pengaturanperiodeperkuliahan.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'PengaturanPeriodePerkuliahanController@create',
+                        'as' => 'pengaturanperiodeperkuliahan.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'PengaturanPeriodePerkuliahanController@store',
+                        'as' => 'pengaturanperiodeperkuliahan.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'PengaturanPeriodePerkuliahanController@edit',
+                        'as' => 'pengaturanperiodeperkuliahan.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'PengaturanPeriodePerkuliahanController@update',
+                        'as' => 'pengaturanperiodeperkuliahan.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'PengaturanPeriodePerkuliahanController@destroy',
+                        'as' => 'pengaturanperiodeperkuliahan.destroy'
+                    ]
+                );
+            });
 });
