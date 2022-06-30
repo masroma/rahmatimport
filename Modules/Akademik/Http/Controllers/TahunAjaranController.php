@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\TahunAjaran;
+use App\Models\JenisSemester;
 use DataTables;
 use Exception;
 use Auth;
@@ -123,6 +124,14 @@ class TahunAjaranController extends Controller
             $save->tahun_ajaran = $request->tahun_ajaran;
             $save->save();
 
+            $semester = ['genap','ganjil'];
+            foreach($semester as $sm){
+                $savesemester = new JenisSemester();
+                $savesemester->tahunajaran_id = $save->id;
+                $savesemester->jenis_semester = $sm;
+                $savesemester->save();
+            }
+
             DB::commit();
         } catch (ModelNotFoundException $exception) {
             DB::rollback();
@@ -185,6 +194,16 @@ class TahunAjaranController extends Controller
             $update = TahunAjaran::find($id);
             $update->tahun_ajaran = $request->tahun_ajaran;
             $update->save();
+
+            $delete = JenisSemester::where('tahunajaran_id', $id)->delete();
+
+            $semester = ['genap','ganjil'];
+            foreach($semester as $sm){
+                $savesemester = new JenisSemester();
+                $savesemester->tahunajaran_id = $update->id;
+                $savesemester->jenis_semester = $sm;
+                $savesemester->save();
+            }
 
             DB::commit();
         } catch (ModelNotFoundException $exception) {

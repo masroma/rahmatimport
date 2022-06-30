@@ -603,6 +603,77 @@
   </div>
 
 
+  <div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col s12">
+                <h5>KRS Mahasiswa</h5>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col s10 m6 l6">
+                <select name="tahunajaran" id="tahunajaran"  class="select2 browser-default">
+                    <option value="">Pilih Tahun Ajaran</option>
+                    @foreach($jenissemester as $row)
+                    <option @if(old('masa_berlaku') == $row->id) selected @endif value="{{$row->id}}">{{ $row->Tahunajaran->tahun_ajaran }}-{{$row->jenis_semester}}</option>
+                @endforeach
+                </select>
+
+            </div>
+            <div class="col s10 m6 l6 ">
+
+
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col s8" id="krs">
+                <table id="page-length-option-krs" class="display">
+                    <thead>
+                        <tr>
+                        <th>No</th>
+                        <th>Kode MK</th>
+                        <th>Nama MK</th>
+                        <th>Kelas</th>
+                        <th>Bobot MK (SKS)</th>
+                        <th>#</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div class="col s4">
+                <form action="{{ route('krs.add') }}"   enctype="multipart/form-data">
+                    @csrf
+                    <div class="input-field col s12">
+                        <select name="matakuliah_id" class="select2 browser-default">
+                            <option value="">Matakuliah</option>
+                            @foreach($datakelas as $row)
+                                <option @if(old('kelas_id') == $row->id) selected @endif value="{{$row->id}}">{{ $row->nama_kelas.$row->kode }} - {{$row->matakuliah->nama_matakuliah . ' ' . $row->matakuliah->kode_matakuliah}}</option>
+                            @endforeach
+                        </select>
+                            <label for="first_name">Matakuliah<span style="color:red">*</span></label>
+                        @error('matakuliah_id')
+                        <span class="red-text text-darken-2">{{ $message }}</small>
+                        @enderror
+
+                        <button class="btn waves-effect waves-light btn-block mt-5"  id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</button>
+                    </div>
+                    <div class="inpuit-field col12">
+
+
+
+
+                        <input type="hidden" name="mahasiswa_id" value="{{ $mahasiswa->id }}">
+                        <input type="hidden" name="jenissemester_id" id="jenissemester_id">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
     <div class="card">
         <div class="card-content">
             <div class="row mb-5">
@@ -640,6 +711,8 @@
             </div>
         </div>
     </div>
+
+
  </div>
 
 
@@ -655,6 +728,183 @@
 
 
   <script>
+
+       // pendidikan datatable
+       (function() {
+            loadDataTable();
+        })();
+
+        function loadDataTable() {
+            let idmahasiswa = {{ $mahasiswa->id }}
+            $(document).ready(function () {
+
+                $('#page-length-option-pendidikan').DataTable({
+                    "scrollX": true,
+                    "autoWidth": true,
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ url('akademik/mahasiswa/datapendidikan') }}/" + idmahasiswa,
+                        type: "GET",
+                    },
+                    columns: [
+                        {
+                            data:"DT_RowIndex",
+                            name:"DT_RowIndex"
+                        },
+                        {
+                            data: 'nim',
+                            name: 'nim'
+                        },
+
+                        {
+                            data: 'jenispendaftaran',
+                            name: 'jenispendaftaran'
+                        },
+
+                        {
+                            data: 'jalurpendaftaran',
+                            name: 'jalurpendaftaran'
+                        },
+
+                        {
+                            data: 'jalurmasuk',
+                            name: 'jalurmasuk'
+                        },
+
+                        {
+                            data: 'type',
+                            name: 'type'
+                        },
+
+
+                        {
+                            data: 'periodependaftaran',
+                            name: 'periodependaftaran'
+                        },
+
+                        {
+                            data: 'tanggalmasuk',
+                            name: 'tanggalmasuk'
+                        },
+
+                        {
+                            data: 'pembiayaanawal',
+                            name: 'pembiayaanawal'
+                        },
+
+                        {
+                            data: 'biayamasuk',
+                            name: 'biayamasuk'
+                        },
+
+                        {
+                            data: 'kampus',
+                            name: 'kampus'
+                        },
+
+                        {
+                            data: 'programstudy',
+                            name: 'programstudy'
+                        },
+
+                    //   {
+                    //       data: 'perminatan_id',
+                    //       name: 'perminatan_id'
+                    //   },
+
+
+                        {
+                            data: 'action',
+                            name: 'action'
+                        },
+
+                    ],
+                    order: [
+                        [0, 'asc']
+                    ]
+                });
+
+                var tables = $('#page-length-option-krs').DataTable({
+                    "scrollX": true,
+                    "autoWidth": true,
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ url('akademik/mahasiswa/datakrs') }}/" + idmahasiswa,
+                        type: "GET",
+                        data: function (d) {
+                            d.tahunajaran = $('#tahunajaran').val()
+                            console.log(d.tahunajaran);
+                        }
+                    },
+
+                    columns: [
+                        {
+                            data:"DT_RowIndex",
+                            name:"DT_RowIndex"
+                        },
+                        {
+                            data: 'mata_kuliah.kode_matakuliah',
+                            name: 'mata_kuliah.kode_matakuliah'
+                        },
+
+                        {
+                            data: 'mata_kuliah.nama_matakuliah',
+                            name: 'mata_kuliah.nama_matakuliah'
+                        },
+
+                        {
+                            data: 'namakelas',
+                            name: 'namakelas'
+                        },
+
+                        {
+                            data: 'mata_kuliah.bobot_mata_kuliah',
+                            name: 'mata_kuliah.bobot_mata_kuliah'
+                        },
+
+                        {
+                            data: 'action',
+                            name: 'action'
+                        },
+
+                    ],
+                    order: [
+                        [0, 'asc']
+                    ]
+                });
+
+
+                $('#tahunajaran').change(function(){
+                    tables.draw();
+                    $.ajax({
+                            type: "GET",
+                            url: "{{ url('akademik/mahasiswa/totalsks') }}/" + idmahasiswa,
+                            data:{tahunajaran:$('#tahunajaran').val()},
+
+                            success: function (response) {
+                                // $('#totalsks').empty()
+                                var result = response.data;
+                                console.log("hasil",result)
+
+                                tahun = $('#tahunajaran').val();
+
+                                $('#jenissemester_id').val(tahun);
+                            }
+                        })
+                });
+
+
+
+            });
+        }
+
+
+
+
+
+
       $(document).ready(function(){
         //   city
         $('select[name="province_id"]').on('change', function(){
@@ -719,106 +969,7 @@
                 $('select[name="village_id"]').empty();
             }
         });
-
-        // pendidikan datatable
-        (function() {
-              loadDataTable();
-          })();
-
-          function loadDataTable() {
-              $(document).ready(function () {
-                let idmahasiswa = {{ $mahasiswa->id }};
-                  $('#page-length-option-pendidikan').DataTable({
-                      "scrollX": true,
-                      "autoWidth": true,
-                      processing: true,
-                      serverSide: true,
-                      ajax: {
-                          url: "{{ url('akademik/mahasiswa/datapendidikan') }}/" + idmahasiswa,
-                          type: "GET",
-                      },
-                      columns: [
-                            {
-                                data:"DT_RowIndex",
-                                name:"DT_RowIndex"
-                            },
-                          {
-                              data: 'nim',
-                              name: 'nim'
-                          },
-
-                          {
-                              data: 'jenispendaftaran',
-                              name: 'jenispendaftaran'
-                          },
-
-                          {
-                              data: 'jalurpendaftaran',
-                              name: 'jalurpendaftaran'
-                          },
-
-                          {
-                              data: 'jalurmasuk',
-                              name: 'jalurmasuk'
-                          },
-
-                          {
-                              data: 'type',
-                              name: 'type'
-                          },
-
-
-                          {
-                              data: 'periodependaftaran',
-                              name: 'periodependaftaran'
-                          },
-
-                          {
-                              data: 'tanggalmasuk',
-                              name: 'tanggalmasuk'
-                          },
-
-                          {
-                              data: 'pembiayaanawal',
-                              name: 'pembiayaanawal'
-                          },
-
-                          {
-                              data: 'biayamasuk',
-                              name: 'biayamasuk'
-                          },
-
-                          {
-                              data: 'kampus',
-                              name: 'kampus'
-                          },
-
-                          {
-                              data: 'programstudy',
-                              name: 'programstudy'
-                          },
-
-                        //   {
-                        //       data: 'perminatan_id',
-                        //       name: 'perminatan_id'
-                        //   },
-
-
-                          {
-                              data: 'action',
-                              name: 'action'
-                          },
-
-                      ],
-                      order: [
-                          [0, 'asc']
-                      ]
-                  });
-
-                });
-          }
-
-      });
+    });
 
       function deleteConfirmPendidikan(id) {
               swal({
@@ -834,6 +985,9 @@
                       }
                   });
           }
+
+
+
     </script>
 
 

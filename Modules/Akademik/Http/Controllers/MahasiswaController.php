@@ -14,7 +14,10 @@ use App\Models\Province;
 use App\Models\City;
 use App\Models\District;
 use App\Models\Village;
+use App\Models\Krs;
+use App\Models\JenisSemester;
 use App\Models\Kewarganegaraan;
+use App\Models\KelasPerkuliahan;
 use DataTables;
 use Exception;
 use Auth;
@@ -122,6 +125,39 @@ class MahasiswaController extends Controller
      * @param Request $request
      * @return Renderable
      */
+    public function addKrsMahasiswa(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $this->validate($request, [
+                'matakuliah_id' => 'required',
+            ]);
+
+            $getsemesterterbaru  = JenisSemester::latest()->first();
+            $matakuliah = KelasPerkuliahan::findOrFail($request->matakuliah_id);
+
+            $save = new Krs();
+            $save->jenissemester_id = $request->jenissemester_id ?? $getsemesterterbaru->id;
+            $save->mahasiswa_id = $request->mahasiswa_id;
+            $save->matakuliah_id = $matakuliah->matakuliah_id;
+            $save->kelas_id = $request->matakuliah_id;
+            $save->save();
+
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+
+        if ($save) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with(['success' => 'KRS Berhasil Ditambah!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(['error' => 'KRS Gagal Ditambah!']);
+        }
+    }
     public function store(Request $request)
     {
 
@@ -302,9 +338,18 @@ class MahasiswaController extends Controller
      * @param int $id
      * @return Renderable
      */
+
     public function edit($id)
     {
         $mahasiswa = Mahasiswa::with('Detail','OrangTua', 'Wali','KebutuhanKhusus')->findOrFail($id);
+        $datakrs = Krs::with('Kelas','MataKuliah','JenisSemester','JenisSemester.TahunAjaran')->where('mahasiswa_id',$id)->get();
+        $jenissemester = JenisSemester::all();
+        $totalsks = 0;
+        foreach($datakrs as $dk){
+            $totalsks += $dk->matakuliah->bobot_mata_kuliah;
+        }
+
+        $datakelas = KelasPerkuliahan::with("Programstudy","Matakuliah")->get();
 
         $name_page = "mahasiswa";
         $title = "Mahasiswa";
@@ -321,7 +366,10 @@ class MahasiswaController extends Controller
             'city' => $city,
             'village'=> $village,
             'district' => $district,
-            'kewarganegaraan' => $kewarganegaraan
+            'kewarganegaraan' => $kewarganegaraan,
+            "totalsks" => $totalsks,
+            "jenissemester" => $jenissemester,
+            "datakelas" => $datakelas
         );
         return view('akademik::mahasiswa.edit')->with($data);
     }

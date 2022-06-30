@@ -5,16 +5,8 @@ namespace Modules\Akademik\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use App\Models\MahasiswaHistoryPendidikan;
-use App\Models\JenisPendaftaran;
-use App\Models\JalurPendaftaran;
+use App\Models\Krs;
 use App\Models\JenisSemester;
-use App\Models\PembiayaanAwal;
-use App\Models\Kampus;
-use App\Models\Peminatan;
-use App\Models\ProgramStudy;
-use App\Models\JalurMasukInternal;
-use App\Models\TypeMahasiswa;
 use DataTables;
 use Exception;
 use Auth;
@@ -23,63 +15,37 @@ use DB;
 use Carbon\Carbon;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
-class MahasiswaHistoryPendidikanController extends Controller
+class MahasiswaKrsController extends Controller
 {
-    use ValidatesRequests;
-    // pendidikan
-    public function datapendidikan($id)
+    public function datakrs(Request $request, $id)
     {
         try {
+            $tahunajaran = $request->tahunajaran ?? NULL;
 
             $canUpdate = Gate::allows('mahasiswa-edit');
             $canDelete = Gate::allows('mahasiswa-delete');
-            $data = MahasiswaHistoryPendidikan::with('Jenispendaftaran','Jalurpendaftaran','JalurMasuk','Type_mahasiswa')->where('mahasiswa_id',$id)->get();
+            $jenissemesterterbaru = JenisSemester::latest()->first();
+            $data = Krs::with('Kelas','MataKuliah','JenisSemester','JenisSemester.TahunAjaran')->where('mahasiswa_id',$id)
+            ->when(
+                $tahunajaran == NULL,
+                function ($q) use ($tahunajaran, $jenissemesterterbaru){
+                    return  $q->where('jenissemester_id', $jenissemesterterbaru->id);
+                }
+            )
+
+            ->when(
+                $tahunajaran != NULL,
+                function ($q) use ($tahunajaran) {
+                    return $q->where('jenissemester_id', $tahunajaran);
+                }
+            )
+            ->get();
+
+
             return DataTables::of($data)
 
-                    ->addColumn('jenispendaftaran',function($data){
-                        return $data->Jenispendaftaran ? $data->Jenispendaftaran->jenis_pendaftaran : '';
-                    })
-
-                    ->addColumn('jalurmasuk',function($data){
-                        return $data->JalurMasuk ? $data->JalurMasuk->nama_jalur : '';
-                    })
-
-                    ->addColumn('type',function($data){
-                        return $data->Type_mahasiswa ? $data->Type_mahasiswa->type_mahasiswa : '';
-                    })
-
-
-                    ->addColumn('jenispendaftaran',function($data){
-                        return $data->Jenispendaftaran ? $data->Jenispendaftaran->jenis_pendaftaran : '';
-                    })
-
-
-                    ->addColumn('jalurpendaftaran',function($data){
-                        return $data->Jalurpendaftaran->jalur_pendaftaran;
-                    })
-
-                    ->addColumn('periodependaftaran',function($data){
-                        return $data->Jenissemester->Tahunajaran->tahun_ajaran .'-'.$data->Jenissemester->jenis_semester;
-                    })
-
-                    ->addColumn('tanggalmasuk', function($data){
-                        return Carbon::parse($data->tanggal_masuk)->isoFormat('D MMMM Y');
-                    })
-
-                    ->addColumn('pembiayaanawal',function($data){
-                        return $data->Pembiayaanawal->pembiayaan_awal;
-                    })
-
-                    ->addColumn('biayamasuk',function($data){
-                        return number_format($data->biaya_masuk);
-                    })
-
-                    ->addColumn('kampus',function($data){
-                        return $data->Kampus->nama_kampus .'-'. $data->Kampus->cabang_kampus;
-                    })
-
-                    ->addColumn('programstudy',function($data){
-                        return $data->Programstudy->Jurusan->nama_jurusan;
+                    ->addColumn("namakelas", function($data){
+                        return $data->kelas->nama_kelas.$data->kelas->kode;
                     })
 
                     ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
@@ -87,10 +53,6 @@ class MahasiswaHistoryPendidikanController extends Controller
                         $btn = '';
 
                         $url = route('mahasiswa.editpendidikan',$data->id);
-
-                        if ($canUpdate) {
-                            $btn .= '<a class="btn-floating btn-small" href="'.$url.'"><i class="material-icons">edit</i></a>';
-                        }
 
                         if ($canDelete) {
                             $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirmPendidikan('.$data->id.')"><i class="material-icons">delete</i></button>';
@@ -115,6 +77,48 @@ class MahasiswaHistoryPendidikanController extends Controller
 
 
     }
+
+    public function TotalSks(Request $request, $id)
+    {
+        try{
+            $tahunajaran = $request->tahunajaran ?? NULL;
+            $jenissemesterterbaru = JenisSemester::latest()->first();
+            $datakrs = Krs::with('Kelas','MataKuliah','JenisSemester','JenisSemester.TahunAjaran')->where('mahasiswa_id',$id)->when(
+                $tahunajaran == NULL,
+                function ($q) use ($tahunajaran, $jenissemesterterbaru){
+                    return  $q->where('jenissemester_id', $jenissemesterterbaru->id);
+                }
+            )
+
+            ->when(
+                $tahunajaran != NULL,
+                function ($q) use ($tahunajaran) {
+                    return $q->where('jenissemester_id', $tahunajaran);
+                }
+            )->get();
+
+            $totalsks = 0;
+            foreach($datakrs as $dk){
+                $totalsks += $dk->matakuliah->bobot_mata_kuliah;
+            }
+
+            return response()->json(
+                [
+                    'status' => true,
+                    'data' => $totalsks
+                ]
+            );
+        }catch (Exception $e) {
+            DB::commit();
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => $e->getMessage()
+                ]
+            );
+        }
+    }
+
 
     public function creatependidikan($id)
     {

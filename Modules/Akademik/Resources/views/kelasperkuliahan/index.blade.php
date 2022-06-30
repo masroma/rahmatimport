@@ -106,8 +106,8 @@
                           name:"DT_RowIndex"
                       },
                       {
-                            data: 'semester',
-                            name: 'semester'
+                            data: 'semesters',
+                            name: 'semesters'
                         },
 
                         {

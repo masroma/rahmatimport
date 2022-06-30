@@ -24,4 +24,6 @@ class MataKuliah extends Model
     {
         return $this->hasMany(KurikulumMatakuliah::class, 'matakuliah_id');
     }
+
+
 }

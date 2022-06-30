@@ -442,6 +442,48 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'mahasiswa.destroypendidikan'
                     ]
                 );
+
+                // krs mahasiswa
+                Route::get(
+                    '/createkrs/{id}',
+                    [
+                        'uses' => 'MahasiswaKrsController@createKrs',
+                        'as' => 'mahasiswa.createkrs'
+                    ]
+                );
+
+                Route::get(
+                    '/datakrs/{id}',
+                    [
+                        'uses' => 'MahasiswaKrsController@dataKrs',
+                        'as' => 'mahasiswa.datakrs'
+                    ]
+                );
+
+                Route::get(
+                    '/totalsks/{id}',
+                    [
+                        'uses' => 'MahasiswaKrsController@TotalSks',
+                        'as' => 'mahasiswa.totalsks'
+                    ]
+                );
+
+                Route::post(
+                    '/storekrs',
+                    [
+                        'uses' => 'MahasiswaKrsController@storeRiwayatKrs',
+                        'as' => 'mahasiswa.storeriwayatkrs'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/deletekrs',
+                    [
+                        'uses' => 'MahasiswaKrsController@destroyKrs',
+                        'as' => 'mahasiswa.destroykrs'
+                    ]
+                );
             }
         );
 
@@ -1128,6 +1170,15 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'kelasperkuliahan.data'
                     ]
                 );
+
+                Route::get(
+                    '/datakelasbelumkrs/{id}',
+                    [
+                        'uses' => 'KelasKuliahController@dataKelasBelumKrs',
+                        'as' => 'kelasperkuliahan.datakelasbelumkrs'
+                    ]
+                );
+
                 Route::get(
                     '/',
                     [
@@ -1919,5 +1970,17 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'pengaturanperiodeperkuliahan.destroy'
                     ]
                 );
+            });
+
+
+            Route::prefix('krs')->group(
+                function () {
+                    Route::get(
+                        '/add',
+                        [
+                            'uses' => 'MahasiswaController@addKrsMahasiswa',
+                            'as' => 'krs.add'
+                        ]
+                    );
             });
 });

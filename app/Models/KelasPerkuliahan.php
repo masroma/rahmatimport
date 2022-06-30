@@ -24,4 +24,10 @@ class KelasPerkuliahan extends Model
     {
         return $this->belongsTo(JenisSemester::class, 'semester_id', 'id');
     }
+
+    public function Krs()
+    {
+        return $this->hasMany(Krs::class, 'kelas_id');
+    }
+
 }

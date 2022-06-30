@@ -49,6 +49,15 @@ class KelasKuliahController extends Controller
             $canDelete = Gate::allows("kelasperkuliahan-delete");
             $data = KelasPerkuliahan::with("Programstudy","Matakuliah")->get();
             return DataTables::of($data)
+
+                    ->addColumn('checkbox', function($data){
+                            return ' <label>
+                            <input type="checkbox" class="add"  value="'.$data->id.'" onchange="myChecked(this.value)"/>
+                            <span></span>
+                        </label>';
+
+                    })
+
                     ->addColumn("programstudy", function($data){
                         return $data->Programstudy->jurusan->nama_jurusan.'-'.$data->Programstudy->jenjang->nama_jenjang;
                     })
@@ -61,8 +70,12 @@ class KelasKuliahController extends Controller
                         return $data->Matakuliah->kode_matakuliah;
                     })
 
-                    ->addColumn('semester', function($data){
+                    ->addColumn('semesters', function($data){
                         return $data->Jenissemester->Tahunajaran->tahun_ajaran .'-'. $data->Jenissemester->jenis_semester;
+                    })
+
+                    ->addColumn('namamatkul', function($data){
+                        return $data->Matakuliah->kode_matakuliah.'-'. $data->Matakuliah->nama_matakuliah;;
                     })
 
                     ->addColumn("namakelas", function($data){
@@ -94,7 +107,7 @@ class KelasKuliahController extends Controller
 
                         return $btn;
                     })
-                    ->rawColumns(['colors','action'])
+                    ->rawColumns(['colors','action','checkbox'])
                     ->addIndexColumn()
                     ->make(true);
 
@@ -110,6 +123,7 @@ class KelasKuliahController extends Controller
 
 
     }
+
 
     public function index()
     {
