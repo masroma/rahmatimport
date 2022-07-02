@@ -61,6 +61,7 @@
                     <th>Perkuliahan</th>
                     <th>UTS</th>
                     <th>UAS</th>
+
                     <th>#</th>
                 </tr>
               </tfoot>
@@ -138,6 +139,8 @@
                             data: 'uas_count',
                             name: 'uas_count'
                         },
+
+
 
 
                         {

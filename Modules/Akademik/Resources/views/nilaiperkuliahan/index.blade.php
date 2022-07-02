@@ -55,6 +55,7 @@
                     <th>Kode MK</th>
                     <th>Nama MK</th>
                     <th>Nama Kelas</th>
+                    <th>Bobot MK</th>
                     <th>Peserta</th>
                     <th>#</th>
                 </tr>
@@ -97,7 +98,7 @@
                       processing: true,
                       serverSide: true,
                       ajax: {
-                          url: "{{ route('kelasperkuliahan.data') }}",
+                          url: "{{ route('nilaiperkuliahan.data') }}",
                           type: "GET",
                       },
                       columns: [
@@ -123,6 +124,11 @@
                         {
                             data: 'namakelas',
                             name: 'namakelas'
+                        },
+
+                        {
+                            data: 'matakuliah.bobot_mata_kuliah',
+                            name: 'matakuliah.bobot_mata_kuliah'
                         },
 
                         {

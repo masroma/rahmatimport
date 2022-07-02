@@ -1917,7 +1917,7 @@ Route::prefix('akademik')->group(function() {
         });
 
          //Pengaturan Periode Perkuliahan
-         Route::prefix('pengaturanperiodeperkuliahan')->group(
+        Route::prefix('pengaturanperiodeperkuliahan')->group(
             function () {
                 Route::get(
                     '/data',
@@ -1961,8 +1961,6 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'pengaturanperiodeperkuliahan.update'
                     ]
                 );
-
-
                 Route::get(
                     '/{id}/delete',
                     [
@@ -1970,17 +1968,69 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'pengaturanperiodeperkuliahan.destroy'
                     ]
                 );
-            });
+        });
 
 
-            Route::prefix('krs')->group(
-                function () {
-                    Route::get(
-                        '/add',
-                        [
-                            'uses' => 'MahasiswaController@addKrsMahasiswa',
-                            'as' => 'krs.add'
-                        ]
-                    );
-            });
+        Route::prefix('krs')->group(
+            function () {
+                Route::get(
+                    '/add',
+                    [
+                        'uses' => 'MahasiswaController@addKrsMahasiswa',
+                        'as' => 'krs.add'
+                    ]
+                );
+        });
+
+        Route::prefix('nilaiperkuliahan')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'NilaiPerkuliahanController@data',
+                        'as' => 'nilaiperkuliahan.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'NilaiPerkuliahanController@index',
+                        'as' => 'nilaiperkuliahan.index'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'NilaiPerkuliahanController@edit',
+                        'as' => 'nilaiperkuliahan.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'NilaiPerkuliahanController@update',
+                        'as' => 'nilaiperkuliahan.update'
+                    ]
+                );
+        });
+
+        Route::prefix('exportdata')->group(
+            function () {
+                Route::get(
+                    '/mahasiswa',
+                    [
+                        'uses' => 'ExportDataController@mahasiswa',
+                        'as' => 'exportdata.mahasiswa'
+                    ]
+                );
+                Route::post(
+                    '/mahasiswastore',
+                    [
+                        'uses' => 'ExportDataController@store',
+                        'as' => 'exportdata.mahasiswa.store'
+                    ]
+                );
+        });
+
+
 });

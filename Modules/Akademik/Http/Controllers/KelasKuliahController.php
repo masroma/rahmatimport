@@ -47,7 +47,7 @@ class KelasKuliahController extends Controller
             // $canShow = Gate::allows("kelaskuliahshow");
             $canUpdate = Gate::allows("kelasperkuliahan-edit");
             $canDelete = Gate::allows("kelasperkuliahan-delete");
-            $data = KelasPerkuliahan::with("Programstudy","Matakuliah")->get();
+            $data = KelasPerkuliahan::with("Programstudy","Matakuliah","Krs")->withCount(['Krs'])->get();
             return DataTables::of($data)
 
                     ->addColumn('checkbox', function($data){

@@ -40,4 +40,20 @@ class Krs extends Model
     }
 
 
+    public function Mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id');
+    }
+
+    /**
+     * Get the user associated with the KRS
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function Nilai()
+    {
+        return $this->hasOne(NilaiPerkuliahan::class, 'mahasiswa_id', 'mahasiswa_id');
+    }
+
+
 }

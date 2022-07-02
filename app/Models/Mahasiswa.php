@@ -49,4 +49,14 @@ class Mahasiswa extends Model
     {
         return $this->hasOne(MahasiswaDetailKebutuhanKhusus::class, 'mahasiswa_id');
     }
+
+    /**
+     * Get the user associated with the Mahasiswa
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function Riwayatpendidikan()
+    {
+        return $this->hasOne(MahasiswaHistoryPendidikan::class, 'mahasiswa_id');
+    }
 }
