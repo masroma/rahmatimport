@@ -92,11 +92,11 @@
                         <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
                             <option value="">Pilih</option>
                             @foreach ($forms['relasi'] as $p)
-                            <option value="{{ $p->id }}" 
+                            <option value="{{ $p->id }}"
                             <?php
                             if($p->id == $forms['data'])
                             {echo "selected";}else{echo "";}
-                            
+
                             ?> >{{ $p->$v }}</option>
                             @endforeach
                         </select>
@@ -109,14 +109,14 @@
                   </div>
                   @elseif($forms['type'] === "selectsemester")
                       <div class="input-field col {{ $forms['col'] }}">
-                        
+
                         <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
                         <option value="">Pilih</option>
                             @foreach($jenis as $row)
                                 <option <?php
                             if($row->id == $forms['data'])
                             {echo "selected";}else{echo "";}
-                            
+
                             ?> value="{{$row->id}}">{{ $row->Tahunajaran->tahun_ajaran }}-{{$row->jenis_semester}}</option>
                             @endforeach
                         </select>
@@ -129,15 +129,15 @@
                   </div>
                   @elseif($forms['type'] === "selectsemester")
                       <div class="input-field col {{ $forms['col'] }}">
-                        
+
                         <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
                         <option value="">Pilih</option>
                             @foreach($jenis as $row)
-                                <option 
+                                <option
                                 <?php
                             if($row->id == $forms['data'])
                             {echo "selected";}else{echo "";}
-                            
+
                             ?> value="{{$row->id}}">{{ $row->Tahunajaran->tahun_ajaran }}-{{$row->jenis_semester}}</option>
                             @endforeach
                         </select>
@@ -150,15 +150,15 @@
                   </div>
                   @elseif($forms['type'] === "selectprogram")
                       <div class="input-field col {{ $forms['col'] }}">
-                        
+
                         <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
                         <option value="">Pilih</option>
                             @foreach($programstudy as $row)
-                                <option 
+                                <option
                                 <?php
                             if($row->id == $forms['data'])
                             {echo "selected";}else{echo "";}
-                            
+
                             ?> value="{{$row->id}}">{{ $row->jurusan->nama_jurusan }}</option>
                             @endforeach
                         </select>
@@ -171,20 +171,13 @@
                   </div>
                   @elseif($forms['type'] === "selectanggota")
                       <div class="input-field col {{ $forms['col'] }}">
-                        
+
                         <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
-                        <option value="">Pilih</option>
-                        <option <?php
-                            if("personal" == $forms['data'])
-                            {echo "selected";}else{echo "";}
-                            
-                            ?> value="personal">Personal</option>
-                        <option 
-                        <?php
-                            if("kelompok" == $forms['data'])
-                            {echo "selected";}else{echo "";}
-                            
-                            ?>value="kelompok">Kelompok</option>
+                            <option value="">Pilih</option>
+                            <option value="personal" @if($forms['data'] == "personal") selected @endif>Personal</option>
+                            <option value="kelompok" @if($forms['data'] == "kelompok") selected @endif>Kelompok</option>
+
+
                         </select>
 
                         <label for="first_name">{{ $forms['placeholder'] }}</label>
@@ -209,6 +202,68 @@
     </div>
   </div>
 </div>
+</div>
+
+{{-- listing --}}
+
+<div class="row">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12">
+                        <ul class="tabs tab-demo z-depth-1">
+                           <li class="tab col"><a class="active" href="#test1">Peserta Aktivitas</a></li>
+                           <li class="tab col"><a href="#test2">Dosen Pembimbing</a></li>
+                           <li class="tab col"><a href="#test3">Dosen Penguji</a></li>
+                        </ul>
+                    </div>
+                    <div id="test1" class="col s12 ">
+                       <form class="mt-3">
+                        <div class="input-field col s4">
+                            <select name="mahasiswa_id" id="mahasiswa_id" class="validate select2 browser-default  @error('mahasiswa_id') is-invalid @enderror">
+                                <option value="" disabled selected>Pilih Mahasiswa</option>
+                                @foreach($mahasiswa as $row)
+                                    <option  {{ old('mahasiswa_id') == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->nama}}</option>
+                                @endforeach
+                            </select>
+                            <label for="first_name">Mahasiswa</label>
+                            @error('mahasiswa_id')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                          </div>
+                          <div class="input-field col s4">
+                            <select name="mahasiswa_id" id="peran_id" class="validate select2 browser-default  @error('mahasiswa_id') is-invalid @enderror">
+                                <option value="" disabled selected>Peran Peserta</option>
+                                @if($aktivitas->jenis_anggota == "kelompok")
+                                <option value="1-ketua">Ketua</option>
+                                <option value="2-anggota">Anggota</option>
+                                <option value="2-personal">Personal</option>
+                                @elseif($aktivitas->jenis_anggota == "personal")
+                                <option value="2-personal">Personal</option>
+                                @endif
+                            </select>
+                            <label for="first_name">Mahasiswa</label>
+                            @error('mahasiswa_id')
+                            <span class="red-text text-darken-2">{{ $message }}</small>
+                            @enderror
+                          </div>
+                          <div class="input-field col s4">
+                            <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons"></i>tambah</button>
+                          </div>
+                       </form>
+                    </div>
+
+                    <div id="test2" class="col s12 ">
+                        <h3>Dosen Pembimbing</h3>
+                    </div>
+                    <div id="test3" class="col s12 ">
+                        <h3>Dosen Penguji</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

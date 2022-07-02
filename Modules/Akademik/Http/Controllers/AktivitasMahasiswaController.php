@@ -9,6 +9,7 @@ use App\Models\ProgramStudy;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Models\Mahasiswa;
 use DataTables;
 use Exception;
 use Auth;
@@ -129,12 +130,12 @@ class AktivitasMahasiswaController extends Controller
             ],
             2 => [
                 "name" => "no_sk_tugas",
-                "type" => "number",
+                "type" => "text",
                 "col" => "s6",
                 "data" => "",
                 "placeholder" =>"No SK Tugas"
             ],
-            
+
             3 => [
                 "name" => "tanggal_sk_tugas",
                 "type" => "date",
@@ -215,7 +216,7 @@ class AktivitasMahasiswaController extends Controller
                 'jenisaktivitas_id' => 'required',
                 'jenis_anggota' => 'required',
                 'judul' => 'required',
-                'keterangan' => 'required',
+                // 'keterangan' => 'required',
                 'lokasi' => 'required'
             ]);
 
@@ -227,7 +228,7 @@ class AktivitasMahasiswaController extends Controller
             $save->jenisaktivitas_id = $request->jenisaktivitas_id;
             $save->jenis_anggota = $request->jenis_anggota;
             $save->judul = $request->judul;
-            $save->keterangan = $request->keterangan;
+            $save->keterangan = $request->keterangan ?? "&nbsp;";
             $save->lokasi = $request->lokasi;
             $save->save();
 
@@ -267,6 +268,7 @@ class AktivitasMahasiswaController extends Controller
         $programstudy = ProgramStudy::all();
         $jenisaktivitas = JenisAktivitas::all();
         $jenis = JenisSemester::all();
+        $mahasiswa = Mahasiswa::all();
         $form = [
             0 => [
                 "name" => "programstudy_id",
@@ -288,12 +290,12 @@ class AktivitasMahasiswaController extends Controller
             ],
             2 => [
                 "name" => "no_sk_tugas",
-                "type" => "number",
+                "type" => "text",
                 "col" => "s6",
                 "data" => $aktivitas->no_sk_tugas,
                 "placeholder" =>"No SK Tugas"
             ],
-            
+
             3 => [
                 "name" => "tanggal_sk_tugas",
                 "type" => "date",
@@ -350,7 +352,8 @@ class AktivitasMahasiswaController extends Controller
             'programstudy'=>$programstudy,
             'jenisaktivitas'=>$jenisaktivitas,
             'jenis' =>$jenis,
-            'aktivitas'=>$aktivitas
+            'aktivitas'=>$aktivitas,
+            'mahasiswa' => $mahasiswa
         );
         return view('akademik::aktivitasmahasiswa.edit')->with($data);
     }
