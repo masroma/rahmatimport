@@ -1801,6 +1801,116 @@ Route::prefix('akademik')->group(function() {
             }
         );
 
+          //Aktivitas Mahasiswa
+          Route::prefix('aktivitasmahasiswa')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@data',
+                        'as' => 'aktivitasmahasiswa.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@index',
+                        'as' => 'aktivitasmahasiswa.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@create',
+                        'as' => 'aktivitasmahasiswa.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@store',
+                        'as' => 'aktivitasmahasiswa.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@edit',
+                        'as' => 'aktivitasmahasiswa.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@update',
+                        'as' => 'aktivitasmahasiswa.update'
+                    ]
+                );
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@destroy',
+                        'as' => 'aktivitasmahasiswa.destroy'
+                    ]
+                );
+            }
+        );
+
+         //jenis Aktivitas
+         Route::prefix('jenisaktivitas')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'JenisAktivitasController@data',
+                        'as' => 'jenisaktivitas.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'JenisAktivitasController@index',
+                        'as' => 'jenisaktivitas.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'JenisAktivitasController@create',
+                        'as' => 'jenisaktivitas.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'JenisAktivitasController@store',
+                        'as' => 'jenisaktivitas.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'JenisAktivitasController@edit',
+                        'as' => 'jenisaktivitas.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'JenisAktivitasController@update',
+                        'as' => 'jenisaktivitas.update'
+                    ]
+                );
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'JenisAktivitasController@destroy',
+                        'as' => 'jenisaktivitas.destroy'
+                    ]
+                );
+            }
+        );
+
         // penggunaan ruang
         Route::prefix('penggunaanruang')->group(
             function () {
