@@ -1877,8 +1877,43 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'aktivitasmahasiswa.destroypeserta'
                     ]
                 );
+
+                // dosen pembimbing aktivitas mahasiswa
+                Route::get(
+                    '/datapembimbing/{id}',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@dataPembimbingAktivitasMahasiswa',
+                        'as' => 'aktivitasmahasiswa.datapembimbingaktivitasmahasiswa'
+                    ]
+                );
+
+                Route::post(
+                    '/storepembimbing',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@addPembimbingAktivitasMahasiswa',
+                        'as' => 'aktivitasmahasiswa.storepembimbingaktivitasmahasiswa'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deletepembimbing',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@destroyPembimbingAktivitasMahasiswa',
+                        'as' => 'aktivitasmahasiswa.destroypembimbingaktivitasmahasiswa'
+                    ]
+                );
+
+                Route::post(
+                    '/cek',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@cekSubmit',
+                        'as' => 'aktivitasmahasiswa.cek'
+                    ]
+                );
             }
         );
+
+
 
          //jenis Aktivitas
          Route::prefix('jenisaktivitas')->group(

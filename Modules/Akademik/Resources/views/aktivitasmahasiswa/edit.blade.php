@@ -204,10 +204,6 @@
 </div>
 
 {{-- listing --}}
-
-
-
-
 <div class="row">
     <div class="col s12">
         <div class="card">
@@ -222,75 +218,146 @@
                         </ul>
                     </div>
                     <div id="test1" class="col s12 ">
-                       <form class="mt-3" method="POST" action="{{ route('aktivitasmahasiswa.storeperanpeserta') }}" >
-                        @csrf
-                        <input type="hidden" name="aktivitasmahasiswa_id" value="{{ $aktivitas->id }}">
-                        <div class="input-field col s4">
-                            <select name="mahasiswa_id" id="mahasiswa_id" class="validate select2 browser-default  @error('mahasiswa_id') is-invalid @enderror">
-                                <option value="" disabled selected>Pilih Mahasiswa</option>
-                                @foreach($mahasiswa as $row)
-                                    <option  {{ old('mahasiswa_id') == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->nama}}</option>
-                                @endforeach
-                            </select>
-                            <label for="first_name">Mahasiswa</label>
-                            @error('mahasiswa_id')
-                            <span class="red-text text-darken-2">{{ $message }}</small>
-                            @enderror
-                          </div>
-                          <div class="input-field col s4">
-                            <select name="peranpeserta_id" id="peranpeserta_id" class="validate select2 browser-default  @error('peranpeserta_id') is-invalid @enderror">
-                                <option value="" disabled selected>Peran Peserta</option>
-                                @if($aktivitas->jenis_anggota == "kelompok")
-                                <option value="1-ketua">Ketua</option>
-                                <option value="2-anggota">Anggota</option>
-                                <option value="2-personal">Personal</option>
-                                @elseif($aktivitas->jenis_anggota == "personal")
-                                <option value="2-personal">Personal</option>
-                                @endif
-                            </select>
-                            <label for="first_name">Mahasiswa</label>
-                            @error('mahasiswa_id')
-                            <span class="red-text text-darken-2">{{ $message }}</small>
-                            @enderror
-                          </div>
-                          <div class="input-field col s4">
-                            <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons"></i>tambah</button>
-                          </div>
-                       </form>
+                        <div class="row">
+                            <div class="col s12">
+                                <form class="mt-3" method="POST" action="{{ route('aktivitasmahasiswa.cek') }}" >
+                                    @csrf
 
-                       <div class="row">
-                        <div class="col s12">
-                            <div class="card">
-                                <div class="card-content">
-                                   <div class="row">
-                                    <div class="col s12">
-                                        <table id="page-length-options" class="display">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>NIM</th>
-                                                    <th>Nama Mahasiwa</th>
-                                                    <th>Peran</th>
-                                                    <th>#</th>
-                                                </tr>
-                                            </thead>
-                                          </table>
+                                    <input type="hidden" name="aktivitasmahasiswa_id" value="{{ $aktivitas->id }}">
+                                    <div class="input-field col s4">
+                                        <select name="mahasiswa_id" id="mahasiswa_id" class="validate select2 browser-default  @error('mahasiswa_id') is-invalid @enderror">
+                                            <option value="" disabled selected>Pilih Mahasiswa</option>
+                                            @foreach($mahasiswa as $row)
+                                                <option  {{ old('mahasiswa_id') == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->nama}}</option>
+                                            @endforeach
+                                        </select>
+                                        <label for="first_name">Mahasiswa</label>
+                                        @error('mahasiswa_id')
+                                        <span class="red-text text-darken-2">{{ $message }}</small>
+                                        @enderror
+                                      </div>
+                                      <div class="input-field col s4">
+                                        <select name="peranpeserta_id" id="peranpeserta_id" class="validate select2 browser-default  @error('peranpeserta_id') is-invalid @enderror">
+                                            <option value="" disabled selected>Peran Peserta</option>
+                                            @if($aktivitas->jenis_anggota == "kelompok")
+                                            <option value="1-ketua">Ketua</option>
+                                            <option value="2-anggota">Anggota</option>
+                                            <option value="2-personal">Personal</option>
+                                            @elseif($aktivitas->jenis_anggota == "personal")
+                                            <option value="2-personal">Personal</option>
+                                            @endif
+                                        </select>
+                                        <label for="first_name">Mahasiswa</label>
+                                        @error('mahasiswa_id')
+                                        <span class="red-text text-darken-2">{{ $message }}</small>
+                                        @enderror
+                                      </div>
+                                      <div class="input-field col s4">
+                                        <button type="submit" class="waves-effect waves-light btn-small" name="type" value="peserta"><i class="material-icons"></i>tambah</button>
+                                      </div>
+                                   </form>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="card">
+                                    <div class="card-content">
+                                       <div class="row">
+                                            <div class="col s12">
+                                                <table id="page-length-options" class="display">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>NIM</th>
+                                                            <th>Nama Mahasiwa</th>
+                                                            <th>Peran</th>
+                                                            <th>#</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                       </div>
                                     </div>
-                                   </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-
-
-
 
                     </div>
+
+
 
                     <div id="test2" class="col s12 ">
-                        <h3>Dosen Pembimbing</h3>
+                        <form class="mt-3" method="POST" action="{{ route('aktivitasmahasiswa.cek') }}" >
+                            @csrf
+
+                            <input type="hidden" name="aktivitasmahasiswa_id" value="{{ $aktivitas->id }}">
+                            <div class="input-field col s3">
+                                <select name="dosen_id" id="dosen_id" class="validate select2 browser-default  @error('dosen_id') is-invalid @enderror">
+                                    <option value="" disabled selected>Pilih Dosen</option>
+                                    @foreach($dosen as $row)
+                                        <option  {{ old('dosen_id') == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->nama_dosen}}</option>
+                                    @endforeach
+                                </select>
+                                <label for="first_name">Dosen</label>
+                                @error('dosen_id')
+                                <span class="red-text text-darken-2">{{ $message }}</small>
+                                @enderror
+                              </div>
+
+                              <div class="input-field col s5">
+                                <select name="kategorikegiatan_id" id="kategorikegiatan_id" class="validate select2 browser-default  @error('kategorikegiatan_id') is-invalid @enderror">
+                                    <option value="" disabled selected>Pilih Kegiatan</option>
+                                    @foreach($kategorikegiatan as $row)
+                                        <option  {{ old('kategorikegiatan_id') == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{$row->nama_kategori_kegiatan}}</option>
+                                    @endforeach
+                                </select>
+                                <label for="first_name">Kategori Kegiatan</label>
+                                @error('kategorikegiatan_id')
+                                <span class="red-text text-darken-2">{{ $message }}</small>
+                                @enderror
+                              </div>
+
+
+                              <div class="input-field col s2">
+                                <input placeholder="Pembimbing ke" name="order" id="order" type="text" class="validate  @error('order') is-invalid @enderror" value="{{ old('order') }}">
+                                <label for="first_name">Pembimbing ke</label>
+                                @error('order')
+                                <span class="red-text text-darken-2">{{ $message }}</small>
+                                @enderror
+                              </div>
+
+
+                              <div class="input-field col s2">
+                                <button type="submit" class="waves-effect waves-light btn-small" name="type" value="pembimbing"><i class="material-icons"></i>tambah</button>
+                              </div>
+                        </form>
+
+
+                        <div class="col s12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="row">
+                                        <div class="col s12">
+                                            <table id="page-length-option" class="display">
+                                                <thead >
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>NIP</th>
+                                                        <th>Nama Dosen</th>
+                                                        <th>Pembimbing ke</th>
+                                                        <th>Kegiatan</th>
+                                                        <th>#</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div id="test3" class="col s12 ">
                         <h3>Dosen Penguji</h3>
@@ -302,8 +369,6 @@
 </div>
 
 
-
-</div><!-- START RIGHT SIDEBAR NAV -->
 
 </div>
       </div>
@@ -347,6 +412,8 @@
                             name: 'mahasiswa.nama'
                         },
 
+
+
                         {
                             data:'peranpeserta',
                             name:'peranpeserta'
@@ -366,7 +433,56 @@
                           [0, 'asc']
                       ]
                   });
+
+                //   pembimbing
+                $('#page-length-option').DataTable({
+                      "scrollX": true,
+                      "autoWidth": true,
+                      processing: true,
+                      serverSide: true,
+                      ajax: {
+                        url: "{{ url('akademik/aktivitasmahasiswa/datapembimbing') }}/" + idaktivitasmahasiswa,
+                          type: "GET",
+                      },
+                      columns: [
+                      {
+                          data:"DT_RowIndex",
+                          name:"DT_RowIndex"
+                      },
+                      {
+                            data: 'dosen.nidn',
+                            name: 'dosen.nidn'
+                        },
+                        {
+                            data: 'dosen.nama_dosen',
+                            name: 'dosen.nama_dosen'
+                        },
+
+                        {
+                            data:'order',
+                            name:'order'
+                        },
+
+                        {
+                            data:'kategorikegiatan.nama_kategori_kegiatan',
+                            name:'kategorikegiatan.nama_kategori_kegiatan'
+                        },
+
+
+                        {
+                            data: 'action',
+                            name: 'action'
+                        },
+
+
+                      ],
+                      order: [
+                          [0, 'asc']
+                      ]
+                  });
+
               });
+
           }
 
      function deleteConfirmPeserta(id) {
