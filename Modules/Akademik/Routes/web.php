@@ -1853,6 +1853,30 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'aktivitasmahasiswa.destroy'
                     ]
                 );
+
+                Route::get(
+                    '/datapesertaaktif/{id}',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@dataPesertaAktif',
+                        'as' => 'aktivitasmahasiswa.datapesertaaktif'
+                    ]
+                );
+
+                Route::post(
+                    '/storeperanpeserta',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@addPesertaAktif',
+                        'as' => 'aktivitasmahasiswa.storeperanpeserta'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deletepeserta',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@destroyPeserta',
+                        'as' => 'aktivitasmahasiswa.destroypeserta'
+                    ]
+                );
             }
         );
 
@@ -2141,6 +2165,62 @@ Route::prefix('akademik')->group(function() {
                     ]
                 );
         });
+
+        Route::prefix('kategorikegiatan')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'KategoriKegiatanController@data',
+                        'as' => 'kategorikegiatan.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'KategoriKegiatanController@index',
+                        'as' => 'kategorikegiatan.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'KategoriKegiatanController@create',
+                        'as' => 'kategorikegiatan.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'KategoriKegiatanController@store',
+                        'as' => 'kategorikegiatan.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'KategoriKegiatanController@edit',
+                        'as' => 'kategorikegiatan.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'KategoriKegiatanController@update',
+                        'as' => 'kategorikegiatan.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'KategoriKegiatanController@destroy',
+                        'as' => 'kategorikegiatan.destroy'
+                    ]
+                );
+            }
+        );
 
 
 });

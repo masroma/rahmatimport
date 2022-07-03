@@ -202,14 +202,17 @@
     </div>
   </div>
 </div>
-</div>
 
 {{-- listing --}}
+
+
+
 
 <div class="row">
     <div class="col s12">
         <div class="card">
             <div class="card-content">
+
                 <div class="row">
                     <div class="col s12">
                         <ul class="tabs tab-demo z-depth-1">
@@ -219,7 +222,9 @@
                         </ul>
                     </div>
                     <div id="test1" class="col s12 ">
-                       <form class="mt-3">
+                       <form class="mt-3" method="POST" action="{{ route('aktivitasmahasiswa.storeperanpeserta') }}" >
+                        @csrf
+                        <input type="hidden" name="aktivitasmahasiswa_id" value="{{ $aktivitas->id }}">
                         <div class="input-field col s4">
                             <select name="mahasiswa_id" id="mahasiswa_id" class="validate select2 browser-default  @error('mahasiswa_id') is-invalid @enderror">
                                 <option value="" disabled selected>Pilih Mahasiswa</option>
@@ -233,7 +238,7 @@
                             @enderror
                           </div>
                           <div class="input-field col s4">
-                            <select name="mahasiswa_id" id="peran_id" class="validate select2 browser-default  @error('mahasiswa_id') is-invalid @enderror">
+                            <select name="peranpeserta_id" id="peranpeserta_id" class="validate select2 browser-default  @error('peranpeserta_id') is-invalid @enderror">
                                 <option value="" disabled selected>Peran Peserta</option>
                                 @if($aktivitas->jenis_anggota == "kelompok")
                                 <option value="1-ketua">Ketua</option>
@@ -252,6 +257,36 @@
                             <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons"></i>tambah</button>
                           </div>
                        </form>
+
+                       <div class="row">
+                        <div class="col s12">
+                            <div class="card">
+                                <div class="card-content">
+                                   <div class="row">
+                                    <div class="col s12">
+                                        <table id="page-length-options" class="display">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>NIM</th>
+                                                    <th>Nama Mahasiwa</th>
+                                                    <th>Peran</th>
+                                                    <th>#</th>
+                                                </tr>
+                                            </thead>
+                                          </table>
+                                    </div>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
                     </div>
 
                     <div id="test2" class="col s12 ">
@@ -281,6 +316,74 @@
   @stop
   @section('script')
   <script>
+
+(function() {
+              loadDataTable();
+          })();
+
+          function loadDataTable() {
+            let idaktivitasmahasiswa = {{ $aktivitas->id }}
+              $(document).ready(function () {
+                $('#page-length-options').DataTable({
+                      "scrollX": true,
+                      "autoWidth": true,
+                      processing: true,
+                      serverSide: true,
+                      ajax: {
+                        url: "{{ url('akademik/aktivitasmahasiswa/datapesertaaktif') }}/" + idaktivitasmahasiswa,
+                          type: "GET",
+                      },
+                      columns: [
+                      {
+                          data:"DT_RowIndex",
+                          name:"DT_RowIndex"
+                      },
+                      {
+                            data: 'mahasiswa.nim',
+                            name: 'mahasiswa.nim'
+                        },
+                        {
+                            data: 'mahasiswa.nama',
+                            name: 'mahasiswa.nama'
+                        },
+
+                        {
+                            data:'peranpeserta',
+                            name:'peranpeserta'
+                        },
+
+
+                        {
+                            data: 'action',
+                            name: 'action'
+                        },
+
+
+
+
+                      ],
+                      order: [
+                          [0, 'asc']
+                      ]
+                  });
+              });
+          }
+
+     function deleteConfirmPeserta(id) {
+              swal({
+                      title: "Kamu Yakin ?",
+                      text: "akan menghapus data ini !",
+                      icon: "warning",
+                      buttons: true,
+                      dangerMode: true,
+                  })
+                  .then((dt) => {
+                      if (dt) {
+                          window.location.href = "{{ url('akademik/aktivitasmahasiswa') }}/" + id + "/deletepeserta";
+                      }
+                  });
+          }
+
 
 
     </script>

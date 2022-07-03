@@ -10,6 +10,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\Mahasiswa;
+use App\Models\PesertaAktivitas;
 use DataTables;
 use Exception;
 use Auth;
@@ -58,9 +59,10 @@ class AktivitasMahasiswaController extends Controller
                     ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
 
                         $btn = '';
+                        $url = route('aktivitasmahasiswa.edit',$data->id);
 
                         if ($canUpdate) {
-                            $btn .= '<a class="btn-floating btn-small" href="aktivitasmahasiswa/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
+                            $btn .= '<a class="btn-floating btn-small" href="'.$url.'"><i class="material-icons">edit</i></a>';
                         }
 
                         if ($canDelete) {
@@ -430,4 +432,105 @@ class AktivitasMahasiswaController extends Controller
             return redirect()->route("aktivitasmahasiswa.index")->with(["error" => "Data Gagal Dihapus!"]);
         }
     }
+
+    // peserta aktif
+    public function dataPesertaAktif($id)
+    {
+        try {
+            // $canShow = Gate::allows('typemahasiswa-show');
+            // $canUpdate = Gate::allows('aktivitasmahasiswa-edit');
+            // $canDelete = Gate::allows('aktivitasmahasiswa-delete');
+            $data = PesertaAktivitas::with('Mahasiswa')->where('aktivitasmahasiswa_id',$id)->get();
+            return DataTables::of($data)
+                    ->addColumn('peranpeserta', function($data){
+                        $peran = "";
+                        if($data->peranpeserta_id == "1"){
+                            $peran = "1 - Ketua";
+                        }elseif($data->peranpeserta_id == "2"){
+                            $peran = "2 - Anggota";
+                        }elseif($data->peranpeserta_id == "3"){
+                            $peran = "3 - Personal";
+                        }
+
+                        return $peran;
+                    })
+
+
+                    ->addColumn('action', function ($data)  {
+
+                        $btn = '';
+
+
+                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirmPeserta('.$data->id.')"><i class="material-icons">delete</i></button>';
+
+
+                        // if ($canShow) {
+                        //     $btn .= '<a class="btn-floating green darken-1 btn-small" href="aktivitasmahasiswa/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+                        // }
+
+                        return $btn;
+                    })
+                    ->addIndexColumn()
+                    ->make(true);
+
+        } catch (Exception $e) {
+            DB::commit();
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => $e->getMessage()
+                ]
+            );
+        }
+    }
+
+    public function addPesertaAktif(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $this->validate($request, [
+                'mahasiswa_id' => 'required',
+                'peranpeserta_id' => 'required',
+            ]);
+
+            $save = new PesertaAktivitas();
+            $save->aktivitasmahasiswa_id = $request->aktivitasmahasiswa_id;
+            $save->mahasiswa_id = $request->mahasiswa_id;
+            $save->peranpeserta_id = $request->peranpeserta_id;
+            $save->save();
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with('error', $exception->getMessage());
+        }
+
+        if ($save) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with(['success' => 'Data Berhasil Diubah!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(['error' => 'Data Gagal Diubah!']);
+        }
+    }
+
+    public function destroyPeserta($id)
+    {
+        DB::beginTransaction();
+        try {
+           $delete =  PesertaAktivitas::find($id)->delete();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+        if ($delete) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with("success", "Data berhasil dihapus");
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(["error" => "Data Gagal Dihapus!"]);
+        }
+    }
+
 }

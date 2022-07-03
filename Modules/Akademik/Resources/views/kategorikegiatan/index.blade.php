@@ -51,30 +51,16 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Program Study</th>
-                    <th>Semester</th>
-                    <th>No SK Tugas</th>
-                    <th>Tanggal SK Tugas</th>
-                    <th>Jenis Aktivitas</th>
-                    <th>Jenis Anggota</th>
-                    <th>Judul</th>
-                    <th>Keterangan</th>
-                    <th>Lokasi</th>
+                    <th>Kode</th>
+                    <th>Nama Kegiatan</th>
                     <th>#</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
                     <th>No</th>
-                    <th>Program Study</th>
-                    <th>Semester</th>
-                    <th>No SK Tugas</th>
-                    <th>Tanggal SK Tugas</th>
-                    <th>Jenis Aktivitas</th>
-                    <th>Jenis Anggota</th>
-                    <th>Judul</th>
-                    <th>Keterangan</th>
-                    <th>Lokasi</th>
+                    <th>Kode</th>
+                    <th>Nama Kegiatan</th>
                     <th>#</th>
                 </tr>
               </tfoot>
@@ -115,7 +101,7 @@
                       processing: true,
                       serverSide: true,
                       ajax: {
-                          url: "{{ route('aktivitasmahasiswa.data') }}",
+                          url: "{{ route('kategorikegiatan.data') }}",
                           type: "GET",
                       },
                       columns: [
@@ -124,41 +110,16 @@
                           name:"DT_RowIndex"
                       },
                       {
-                            data: 'programstudy',
-                            name: 'programstudy'
+                            data: 'kode',
+                            name: 'kode'
                         },
+
                         {
-                            data: 'semester',
-                            name: 'semester'
+                            data: 'nama_kategori_kegiatan',
+                            name: 'nama_kategori_kegiatan'
                         },
-                        {
-                            data: 'no_sk_tugas',
-                            name: 'no_sk_tugas'
-                        },
-                        {
-                            data: 'tanggal_sk_tugas',
-                            name: 'tanggal_sk_tugas'
-                        },
-                        {
-                            data: 'jenisaktivitas',
-                            name: 'jenisaktivitas'
-                        },
-                        {
-                            data: 'jenis_anggota',
-                            name: 'jenis_anggota'
-                        },
-                        {
-                            data: 'judul',
-                            name: 'judul'
-                        },
-                        {
-                            data: 'keterangan',
-                            name: 'keterangan'
-                        },
-                        {
-                            data: 'lokasi',
-                            name: 'lokasi'
-                        },
+
+
                         {
                             data: 'action',
                             name: 'action'
@@ -172,8 +133,6 @@
                           [0, 'asc']
                       ]
                   });
-
-
               });
           }
 
@@ -187,11 +146,10 @@
                   })
                   .then((dt) => {
                       if (dt) {
-                          window.location.href = "{{ url('akademik/aktivitasmahasiswa') }}/" + id + "/delete";
+                          window.location.href = "{{ url('akademik/kategorikegiatan') }}/" + id + "/delete";
                       }
                   });
           }
     </script>
-
 
 @endsection
