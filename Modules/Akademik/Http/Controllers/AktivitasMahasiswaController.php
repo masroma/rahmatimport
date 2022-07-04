@@ -14,6 +14,7 @@ use App\Models\Dosen;
 use App\Models\KategoriKegiatan;
 use App\Models\PesertaAktivitas;
 use App\Models\DosenPembimbingAktivitasMahasiswa;
+use App\Models\DosenPengujiAktivitasMahasiswa;
 use DataTables;
 use Exception;
 use Auth;
@@ -448,6 +449,9 @@ class AktivitasMahasiswaController extends Controller
         }else if($request->type == "pembimbing"){
             return $this->addPembimbingAktivitasMahasiswa($request);
 
+        }else if($request->type == "penguji"){
+            return $this->addPengujiAktivitasMahasiswa($request);
+
         }
     }
     // peserta aktif
@@ -623,6 +627,93 @@ class AktivitasMahasiswaController extends Controller
         DB::beginTransaction();
         try {
            $delete =  DosenPembimbingAktivitasMahasiswa::find($id)->delete();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+        if ($delete) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with("success", "Data berhasil dihapus");
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(["error" => "Data Gagal Dihapus!"]);
+        }
+    }
+
+    // penguji
+    public function dataPengujiAktivitasMahasiswa($id)
+    {
+        try {
+
+            $data = DosenPengujiAktivitasMahasiswa::with('Dosen','Kategorikegiatan')->where('aktivitasmahasiswa_id',$id)->get();
+            return DataTables::of($data)
+
+                    ->addColumn('action', function ($data)  {
+
+                        $btn = '';
+
+
+                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirmDospen('.$data->id.')"><i class="material-icons">delete</i></button>';
+
+
+                        // if ($canShow) {
+                        //     $btn .= '<a class="btn-floating green darken-1 btn-small" href="aktivitasmahasiswa/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+                        // }
+
+                        return $btn;
+                    })
+                    ->addIndexColumn()
+                    ->make(true);
+
+        } catch (Exception $e) {
+            DB::commit();
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => $e->getMessage()
+                ]
+            );
+        }
+    }
+
+    public function addPengujiAktivitasMahasiswa(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $this->validate($request, [
+                'dosen_id' => 'required',
+                'order' => 'required',
+                'kategorikegiatan_id' => 'required',
+            ]);
+
+            $save = new DosenPengujiAktivitasMahasiswa();
+            $save->aktivitasmahasiswa_id = $request->aktivitasmahasiswa_id;
+            $save->dosen_id = $request->dosen_id;
+            $save->order = $request->order;
+            $save->kategorikegiatan_id = $request->kategorikegiatan_id;
+            $save->save();
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with('error', $exception->getMessage());
+        }
+
+        if ($save) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with(['success' => 'Data Berhasil Diubah!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(['error' => 'Data Gagal Diubah!']);
+        }
+    }
+
+    public function destroyPengujiAktivitasMahasiswa($id)
+    {
+        DB::beginTransaction();
+        try {
+           $delete =  DosenPengujiAktivitasMahasiswa::find($id)->delete();
             DB::commit();
         } catch (ModelNotFoundException $exception) {
             DB::rollback();

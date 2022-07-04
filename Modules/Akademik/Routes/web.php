@@ -1903,6 +1903,31 @@ Route::prefix('akademik')->group(function() {
                     ]
                 );
 
+                // penguji
+                Route::get(
+                    '/datapenguji/{id}',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@dataPengujiAktivitasMahasiswa',
+                        'as' => 'aktivitasmahasiswa.datapengujiaktivitasmahasiswa'
+                    ]
+                );
+
+                Route::post(
+                    '/storepenguji',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@addPengujiAktivitasMahasiswa',
+                        'as' => 'aktivitasmahasiswa.storepengujiaktivitasmahasiswa'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deletepenguji',
+                    [
+                        'uses' => 'AktivitasMahasiswaController@destroyPengujiAktivitasMahasiswa',
+                        'as' => 'aktivitasmahasiswa.destroypengujiaktivitasmahasiswa'
+                    ]
+                );
+
                 Route::post(
                     '/cek',
                     [

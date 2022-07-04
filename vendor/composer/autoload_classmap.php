@@ -41,6 +41,7 @@ return array(
     'App\\Models\\DosenKebutuhanKhusus' => $baseDir . '/app/Models/DosenKebutuhanKhusus.php',
     'App\\Models\\DosenKeluarga' => $baseDir . '/app/Models/DosenKeluarga.php',
     'App\\Models\\DosenPembimbingAktivitasMahasiswa' => $baseDir . '/app/Models/DosenPembimbingAktivitasMahasiswa.php',
+    'App\\Models\\DosenPengujiAktivitasMahasiswa' => $baseDir . '/app/Models/DosenPengujiAktivitasMahasiswa.php',
     'App\\Models\\DosenPenugasan' => $baseDir . '/app/Models/DosenPenugasan.php',
     'App\\Models\\DosenPerkuliahan' => $baseDir . '/app/Models/DosenPerkuliahan.php',
     'App\\Models\\DosenRiwayatFungsional' => $baseDir . '/app/Models/DosenRiwayatFungsional.php',
