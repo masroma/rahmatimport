@@ -214,7 +214,7 @@
            @foreach($menudata as $b => $value)
                 @foreach ($value as $a)
                 @if(($a->menu->parent_id == 0) && ($a->menu->position == 'none'))
-                <li class="bold"><a class="waves-effect waves-cyan " href="{{route($a->menu->link)}}" target="_blank"><i class="material-icons">{{$a->menu->icon}}</i><span class="menu-title" data-i18n="Documentation">{{$a->menu->name}}</span></a>
+                <li class="bold"><a class="waves-effect waves-cyan " href="{{route($a->menu->link ?? '')}}" target="_blank"><i class="material-icons">{{$a->menu->icon}}</i><span class="menu-title" data-i18n="Documentation">{{$a->menu->name}}</span></a>
                 </li>
                     @elseif(($a->menu->parent_id == 0) && ($a->menu->position == 'parent'))
                         <li class="bold"><a class="collapsible-header waves-effect waves-cyan " href="javascript:void(0);"><i class="material-icons">{{$a->menu->icon}}</i><span class="menu-title" data-i18n="Menu levels">{{$a->menu->name}}</span></a>
@@ -223,7 +223,7 @@
                                     @foreach($menudata as $children => $childs)
                                         @foreach($childs as $child)
                                             @if($child->menu->parent_id == $a->menu->id)
-                                            <li><a href="{{route($child->menu->link)}}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Second level">{{$child->menu->name}}</span></a>
+                                            <li><a href="{{route($child->menu->link ?? '')}}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Second level">{{$child->menu->name}}</span></a>
                                             </li>
                                         @endif
                                         @endforeach
