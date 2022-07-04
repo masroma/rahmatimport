@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Export Data Mahasiswa</title>
+    <title>Export Data Mahasiswa Lulus  / DO</title>
 </head>
 <style>
     body {
@@ -13,6 +13,7 @@
         font-size: 12px;
     }
 </style>
+
 <body onload="{{ ( isset($format)  ? 'window.print()'  : '' ) }}">
     <table style="border-bottom-style:double;padding-bottom:20px;margin-bottom:10px;" width="100%">
         <tbody>
@@ -44,7 +45,7 @@
             <tr>
                 <td colspan="4" align="center">
                     <font size="5">
-                        <strong>DAFTAR MAHASISWA PER PERIODE
+                        <strong>DAFTAR MAHASISWA LULUS / DO PER PERIODE
 
                         </strong>
                     </font>
@@ -56,11 +57,11 @@
                 <td width="30%" align="left"><strong>:</strong> 031041 - Universitas Paramadina</td>
 
                 <td width="20%" align="left"><strong>Tahun Ajaran</strong></td>
-                <td align="left"><strong>:</strong> {{  $selMH[0]->tahun_ajaran.' - '.$selMH[0]->jenis_semester }}</td>
+                <td align="left"><strong>:</strong> {{ $selMHLD[0]->tahun_ajaran.' - '.$selMHLD[0]->jenis_semester }}</td>
             </tr>
             <tr>
                 <td align="left"><strong>Program Studi</strong></td>
-                <td align="left"><strong>:</strong> {{ $selMH[0]->nama_jenjang.' '.$selMH[0]->nama_jurusan }}</td>
+                <td align="left"><strong>:</strong> {{ $selMHLD[0]->nama_jenjang.' '.$selMHLD[0]->nama_jurusan }}</td>
 
                 <td align="left"><strong>Data Per Tanggal</strong></td>
                 <td align="left"><strong>:</strong> {{ date('d F Y') }}</td>
@@ -71,39 +72,29 @@
         <tbody>
             <tr>
                 <th>No</th>
-                <th>NIM</th>
-                <th>NIK</th>
+                <th>NIM</th>                
                 <th>Nama</th>
                 <th>Program Studi</th>
-                <th>Tanggal Masuk</th>
-                <th>Status <br>Mahasiswa</th>
-                <th>Jenis <br>Pendaftaran</th>
-                <th>Biaya Masuk</th>
-                <th>Jenis<br>Kelamin</th>
-                <th>Tempat,Tanggal Lahir</th>
-                <th>Agama</th>
-                <th>Alamat</th>
+                <th>L/P</th>
+                <th>Status</th>
+                <th>Tanggal Keluar</th>
+                <th>Nomor Ijazah</th>
+                <th>Keterangan</th>                
             </tr>
             @php $no = 1; @endphp
-            @foreach($selMH as $sm)
+            @foreach($selMHLD as $smld)
             <tr>
                 <td>{{ $no++ }}</td>
-                <td>{{ $sm->nim }}</td>
-                <td>{{ (string)$sm->ktp }}</td>
-                <td>{{ $sm->nama }}</td>
-
-                <td>{{ $sm->nama_jenjang.' '.$sm->nama_jurusan }}</td>
-
-                <td align="center">{{ date('d F Y', strtotime($sm->tanggal_masuk)) }}</td>
-                <td align="center">{{ $sm->status_mahasiswa }}</td>
-                <td align="center">{{ $sm->jenis_pendaftaran }}</td>
-                <td align="center">{{ $sm->pembiayaan_awal }}</td>
-                <td align="center">{{ ($sm->jenis_kelamin == 'laki-laki' ? 'L' : 'P') }}</td>
-                <td align="center"> <span style="text-transform:capitalize;">{{ $sm->tempat_lahir }},</span> {{ date('d F Y', strtotime($sm->tanggal_lahir)) }} </td>
-                <td align="center">{{ $sm->agama }}</td>
-                <td align="center" style="text-transform:capitalize;">{{ $sm->jalan }}</td>
+                <td>{{ $smld->nim }}</td>                
+                <td>{{ $smld->nama }}</td>
+                <td>{{ $smld->nama_jenjang.' '.$smld->nama_jurusan }}</td>
+                <td align="center">{{ ($smld->jenis_kelamin == 'laki-laki' ? 'L' : 'P') }}</td>
+                <td align="center">{{ ( $smld->jeniskeluar_id == 1 ? 'Lulus': 'Dikeluarkan' ) }}</td>
+                <td align="center">{{ date('d F Y', strtotime($smld->tanggal_keluat)) }}</td>
+                <td align="center">{{ $smld->no_ijazah }}</td>
+                <td align="center">{{ $smld->keterangan }}</td>
             </tr>
-            @endforeach            
+            @endforeach
         </tbody>
     </table>
 </body>

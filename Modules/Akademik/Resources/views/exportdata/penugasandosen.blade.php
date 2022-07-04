@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Export Data Mahasiswa</title>
+    <title>Export Data Penugasan Dosen</title>
 </head>
 <style>
     body {
@@ -14,6 +14,7 @@
     }
 </style>
 <body onload="{{ ( isset($format)  ? 'window.print()'  : '' ) }}">
+
     <table style="border-bottom-style:double;padding-bottom:20px;margin-bottom:10px;" width="100%">
         <tbody>
 
@@ -44,9 +45,7 @@
             <tr>
                 <td colspan="4" align="center">
                     <font size="5">
-                        <strong>DAFTAR MAHASISWA PER PERIODE
-
-                        </strong>
+                        <strong>DAFTAR PENUGASAN DOSEN PER PERIODE</strong>
                     </font>
                     <br><br>
                 </td>
@@ -54,14 +53,12 @@
             <tr>
                 <td width="20%" align="left"><strong>Perguruan Tinggi</strong></td>
                 <td width="30%" align="left"><strong>:</strong> 031041 - Universitas Paramadina</td>
-
                 <td width="20%" align="left"><strong>Tahun Ajaran</strong></td>
-                <td align="left"><strong>:</strong> {{  $selMH[0]->tahun_ajaran.' - '.$selMH[0]->jenis_semester }}</td>
+                <td align="left"><strong>:</strong> {{  $selDSN[0]->tahun_ajaran.' - '.$selDSN[0]->jenis_semester }}</td>
             </tr>
             <tr>
                 <td align="left"><strong>Program Studi</strong></td>
-                <td align="left"><strong>:</strong> {{ $selMH[0]->nama_jenjang.' '.$selMH[0]->nama_jurusan }}</td>
-
+                <td align="left"><strong>:</strong> {{ $selDSN[0]->nama_jenjang.' '.$selDSN[0]->nama_jurusan }}</td>
                 <td align="left"><strong>Data Per Tanggal</strong></td>
                 <td align="left"><strong>:</strong> {{ date('d F Y') }}</td>
             </tr>
@@ -71,41 +68,30 @@
         <tbody>
             <tr>
                 <th>No</th>
-                <th>NIM</th>
-                <th>NIK</th>
+                <th>NIDN</th>
                 <th>Nama</th>
                 <th>Program Studi</th>
-                <th>Tanggal Masuk</th>
-                <th>Status <br>Mahasiswa</th>
-                <th>Jenis <br>Pendaftaran</th>
-                <th>Biaya Masuk</th>
-                <th>Jenis<br>Kelamin</th>
+                <th>L/P</th>
                 <th>Tempat,Tanggal Lahir</th>
                 <th>Agama</th>
-                <th>Alamat</th>
             </tr>
             @php $no = 1; @endphp
-            @foreach($selMH as $sm)
+            @foreach($selDSN as $sd)
             <tr>
                 <td>{{ $no++ }}</td>
-                <td>{{ $sm->nim }}</td>
-                <td>{{ (string)$sm->ktp }}</td>
-                <td>{{ $sm->nama }}</td>
-
-                <td>{{ $sm->nama_jenjang.' '.$sm->nama_jurusan }}</td>
-
-                <td align="center">{{ date('d F Y', strtotime($sm->tanggal_masuk)) }}</td>
-                <td align="center">{{ $sm->status_mahasiswa }}</td>
-                <td align="center">{{ $sm->jenis_pendaftaran }}</td>
-                <td align="center">{{ $sm->pembiayaan_awal }}</td>
-                <td align="center">{{ ($sm->jenis_kelamin == 'laki-laki' ? 'L' : 'P') }}</td>
-                <td align="center"> <span style="text-transform:capitalize;">{{ $sm->tempat_lahir }},</span> {{ date('d F Y', strtotime($sm->tanggal_lahir)) }} </td>
-                <td align="center">{{ $sm->agama }}</td>
-                <td align="center" style="text-transform:capitalize;">{{ $sm->jalan }}</td>
+                <td>{{ $sd->nidn }}</td>
+                <td>{{ $sd->nama_dosen }}</td>
+                <td>{{ $sd->nama_jenjang.' '.$sd->nama_jurusan }}</td>
+                <td align="center">{{ ($sd->jenis_kelamin == 'laki-laki' ? 'L' : 'P') }}</td>
+                <td align="center"> <span style="text-transform:capitalize;">{{ $sd->tempat_lahir }},</span> {{ date('d F Y', strtotime($sd->tanggal_lahir)) }} </td>
+                <td align="center">{{ $sd->agama }}</td>
             </tr>
-            @endforeach            
+            @endforeach    
         </tbody>
     </table>
+
+
+
 </body>
 
 </html>

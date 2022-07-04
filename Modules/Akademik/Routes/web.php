@@ -2183,7 +2183,8 @@ Route::prefix('akademik')->group(function() {
                 );
         });
 
-        Route::prefix('exportdata')->group(
+         //Export Data
+         Route::prefix('exportdata')->group(
             function () {
                 Route::get(
                     '/mahasiswa',
@@ -2195,11 +2196,148 @@ Route::prefix('akademik')->group(function() {
                 Route::post(
                     '/mahasiswastore',
                     [
-                        'uses' => 'ExportDataController@store',
+                        'uses' => 'ExportDataController@mahasiswastore',
                         'as' => 'exportdata.mahasiswa.store'
                     ]
                 );
-        });
+
+                Route::get(
+                    '/nilaitransfer',
+                    [
+                        'uses' => 'ExportDataController@nilaitransfer',
+                        'as' => 'exportdata.nilaitransfer'
+                    ]
+                );
+                Route::post(
+                    '/nilaitransferstore',
+                    [
+                        'uses' => 'ExportDataController@nilaitransferstore',
+                        'as' => 'exportdata.nilaitransfer.store'
+                    ]
+                );
+
+                Route::get(
+                    '/penugasandosen',
+                    [
+                        'uses' => 'ExportDataController@penugasandosen',
+                        'as' => 'exportdata.penugasandosen'
+                    ]
+                );
+                Route::post(
+                    '/penugasandosenstore',
+                    [
+                        'uses' => 'ExportDataController@penugasandosenstore',
+                        'as' => 'exportdata.penugasandosen.store'
+                    ]
+                );
+
+                Route::get(
+                    '/matakuliah',
+                    [
+                        'uses' => 'ExportDataController@matakuliah',
+                        'as' => 'exportdata.matakuliah'
+                    ]
+                );
+                Route::post(
+                    '/matakuliahstore',
+                    [
+                        'uses' => 'ExportDataController@matakuliahstore',
+                        'as' => 'exportdata.matakuliah.store'
+                    ]
+                );
+
+                Route::get(
+                    '/kelasperkuliahan',
+                    [
+                        'uses' => 'ExportDataController@kelasperkuliahan',
+                        'as' => 'exportdata.kelasperkuliahan'
+                    ]
+                );
+                Route::post(
+                    '/kelasperkuliahanstore',
+                    [
+                        'uses' => 'ExportDataController@kelasperkuliahanstore',
+                        'as' => 'exportdata.kelasperkuliahan.store'
+                    ]
+                );
+
+                Route::get(
+                    '/krs',
+                    [
+                        'uses' => 'ExportDataController@krs',
+                        'as' => 'exportdata.krs'
+                    ]
+                );
+                Route::post(
+                    '/krsstore',
+                    [
+                        'uses' => 'ExportDataController@krsstore',
+                        'as' => 'exportdata.krs.store'
+                    ]
+                );
+
+                Route::get(
+                    '/aktivitaskuliah',
+                    [
+                        'uses' => 'ExportDataController@aktivitaskuliah',
+                        'as' => 'exportdata.aktivitaskuliah'
+                    ]
+                );
+                Route::post(
+                    '/aktivitaskuliahstore',
+                    [
+                        'uses' => 'ExportDataController@aktivitaskuliahstore',
+                        'as' => 'exportdata.aktivitaskuliah.store'
+                    ]
+                );
+
+                Route::get(
+                    '/mahasiswalulusdo',
+                    [
+                        'uses' => 'ExportDataController@mahasiswalulusdo',
+                        'as' => 'exportdata.mahasiswalulusdo'
+                    ]
+                );
+                Route::post(
+                    '/mahasiswalulusdostore',
+                    [
+                        'uses' => 'ExportDataController@mahasiswalulusdostore',
+                        'as' => 'exportdata.mahasiswalulusdo.store'
+                    ]
+                );
+
+                Route::get(
+                    '/aktivitasmengajardosen',
+                    [
+                        'uses' => 'ExportDataController@aktivitasmengajardosen',
+                        'as' => 'exportdata.aktivitasmengajardosen'
+                    ]
+                );
+                Route::post(
+                    '/aktivitasmengajardosenstore',
+                    [
+                        'uses' => 'ExportDataController@aktivitasmengajardosenstore',
+                        'as' => 'exportdata.aktivitasmengajardosen.store'
+                    ]
+                );
+
+                Route::get(
+                    '/transkripnilai',
+                    [
+                        'uses' => 'ExportDataController@transkripnilai',
+                        'as' => 'exportdata.transkripnilai'
+                    ]
+                );
+                Route::post(
+                    '/transkripnilaistore',
+                    [
+                        'uses' => 'ExportDataController@transkripnilaistore',
+                        'as' => 'exportdata.transkripnilai.store'
+                    ]
+                );
+
+            }
+        );
 
         Route::prefix('kategorikegiatan')->group(
             function () {

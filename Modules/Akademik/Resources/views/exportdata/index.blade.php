@@ -8,11 +8,12 @@
         <div class="container">
             <div class="row">
                 <div class="col s10 m6 l6">
-                    <h5 class="breadcrumbs-title mt-0 mb-0"><span>Export data {{$page}}</span></h5>
+                    <h5 class="breadcrumbs-title mt-0 mb-0 text-capitalize"><span>Export data {{$title}}</span></h5>
                     <ol class="breadcrumbs mb-0">
                         <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}">Dashboard</a>
                         </li>
-                        <li class="breadcrumb-item active">Export data {{$page}}
+                        <li class="breadcrumb-item active ">Export data {{$title}}
+
                         </li>
                     </ol>
                 </div>
@@ -133,7 +134,7 @@
                                                 <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
                                                     <option value="nim">NIM</option>
                                                     <option value="nama">Nama Mahasiswa</option>
-                                                    <option value="program_studi">Program Studi</option>
+                                                    <option value="programstudy_id">Program Studi</option>
                                                     <option value="status">Status</option>
                                                     <option value="jenis_pendaftaran">Jenis Pendaftaran</option>
                                                     <option value="jenis_kelamin">Jenis kelamin</option>
