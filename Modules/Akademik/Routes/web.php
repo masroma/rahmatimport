@@ -2086,55 +2086,55 @@ Route::prefix('akademik')->group(function() {
         });
 
          //Pengaturan Periode Perkuliahan
-        Route::prefix('pengaturanperiodeperkuliahan')->group(
+        Route::prefix('periodeperkuliahan')->group(
             function () {
                 Route::get(
                     '/data',
                     [
                         'uses' => 'PengaturanPeriodePerkuliahanController@data',
-                        'as' => 'pengaturanperiodeperkuliahan.data'
+                        'as' => 'periodeperkuliahan.data'
                     ]
                 );
                 Route::get(
                     '/',
                     [
                         'uses' => 'PengaturanPeriodePerkuliahanController@index',
-                        'as' => 'pengaturanperiodeperkuliahan.index'
+                        'as' => 'periodeperkuliahan.index'
                     ]
                 );
                 Route::get(
                     '/create',
                     [
                         'uses' => 'PengaturanPeriodePerkuliahanController@create',
-                        'as' => 'pengaturanperiodeperkuliahan.create'
+                        'as' => 'periodeperkuliahan.create'
                     ]
                 );
                 Route::post(
                     '/store',
                     [
                         'uses' => 'PengaturanPeriodePerkuliahanController@store',
-                        'as' => 'pengaturanperiodeperkuliahan.store'
+                        'as' => 'periodeperkuliahan.store'
                     ]
                 );
                 Route::get(
                     '/{id}/edit',
                     [
                         'uses' => 'PengaturanPeriodePerkuliahanController@edit',
-                        'as' => 'pengaturanperiodeperkuliahan.edit'
+                        'as' => 'periodeperkuliahan.edit'
                     ]
                 );
                 Route::post(
                     '/update/{id}',
                     [
                         'uses' => 'PengaturanPeriodePerkuliahanController@update',
-                        'as' => 'pengaturanperiodeperkuliahan.update'
+                        'as' => 'periodeperkuliahan.update'
                     ]
                 );
                 Route::get(
                     '/{id}/delete',
                     [
                         'uses' => 'PengaturanPeriodePerkuliahanController@destroy',
-                        'as' => 'pengaturanperiodeperkuliahan.destroy'
+                        'as' => 'periodeperkuliahan.destroy'
                     ]
                 );
         });
