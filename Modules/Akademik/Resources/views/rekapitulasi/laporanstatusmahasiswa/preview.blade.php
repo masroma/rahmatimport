@@ -47,7 +47,7 @@
             <tr>
                 <td align="center" colspan="4">
                     <font size="5">
-                        <strong>REKAPITULASI PELAPORAN</strong>
+                        <strong> DAFTAR STATUS MAHASISWA PER ANGKATAN </strong>
                     </font>
                     <br><br>
                 </td>
@@ -55,43 +55,63 @@
             <tr>
                 <td align="left" width="20%"><strong>Perguruan Tinggi</strong></td>
                 <td align="left" width="30%"><strong>:</strong> 031041 - Universitas Paramadina</td>
-                <td align="left" width="20%"><strong>Periode</strong></td>
-                <td align="left"><strong>:</strong> {{$periode}}</td>
+                <td align="left" width="20%"><strong>Angkatan</strong></td>
+                <td align="left"><strong>:</strong> {{$angkatan}}</td>
             </tr>
             <tr>
                 <td align="left"><strong>Program Studi</strong></td>
-                <td align="left"><strong>:</strong> {{$jurusan}}</td>
+                <td align="left"><strong>:</strong> S1 Desain Komunikasi Visual</td>
                 <td align="left"><strong>Data Per Tanggal</strong></td>
-                <td align="left"><strong>:</strong> {{ date('d F Y') }}</td>
+                <td align="left"><strong>:</strong> {{date('d F Y')}}</td>
             </tr>
         </tbody>
     </table>
     <table width="100%" border="1">
         <tbody>
             <tr>
-                <td rowspan="2" style="text-align:center"><strong>No.</strong></td>
-                <td rowspan="2" style="text-align:center"><strong>Semester</strong></td>
-                <td colspan="8" style="text-align:center"><strong>Rekap</strong></td>
-            </tr>
-            <tr>
-                <td style="text-align:center"><strong>Mahasiswa<br>Baru</strong></td>
-                <td style="text-align:center"><strong>Kelas<br>Perkuliahan</strong></td>
-                <td style="text-align:center"><strong>KRS<br>Mahasiswa</strong></td>
-                <td style="text-align:center"><strong>Aktivitas<br>Kuliah Mahasiswa</strong></td>
-                <td style="text-align:center"><strong>Nilai<br>Mahasiswa</strong></td>
+                <th>No</th>
+                <th>NIM</th>
+                <th>Nama</th>
+                <th>Periode Masuk</th>
+                <th>Status</th>
+                @foreach ($main as $item)
+                <th>{{$item->periode_left}}</th>
+                    
+                @endforeach
             </tr>
             @php($i=1)
+            @php($bef_nim='')
             @foreach ($main as $item)
+            @if ($item->nim == $bef_nim)
+            <td align="center">{{$item->status_mahasiswa}}</td>
+            @else
+            @if($bef_nim!='')</tr>@endif
                 <tr>
                     <td>{{$i++}}</td>
-                    <td>{{$item->tahun_ajaran}}</td>
-                    <td align="right">{{$item->mahasiswa_baru}}</td>
-                    <td align="right">{{$item->kelas_perkuliahan}}</td>
-                    <td align="right">{{$item->jumlah_krs}}</td>
-                    <td align="right">{{$item->aktifitas_kuliah}}</td>
-                    <td align="right">{{$item->nilai_angka}}</td>
-                </tr>
+                    <td>{{$item->nim}}</td>
+                    <td>{{$item->nama}}</td>
+                    <td align="center">{{$item->periode_masuk}}</td>
+                    <td align="center">{{$item->last_sts}}</td>
+                    <td align="center">{{$item->status_mahasiswa}}</td>
+            @endif
+             @php($bef_nim=$item->nim)
             @endforeach
+        </tbody>
+    </table>
+    <table>
+        <tbody>
+            <tr>
+                <td>*keterangan:</td>
+                <td>
+                    <p>A (Aktif)</p>
+                </td>
+                <td>
+                    <p>C (Cuti)</p>
+                </td>
+                <td>
+                    <p>N (Non-Aktif)</p>
+                </td>
+            </tr>
         </tbody>
     </table>
 

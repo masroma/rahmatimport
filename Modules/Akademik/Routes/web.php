@@ -2427,18 +2427,141 @@ Route::prefix('akademik')->group(function() {
                     '/',
                     [
                         'uses' => 'RekapitulasiController@index_rekappelaporan',
-                        'as' => 'rekappelaporan.index_rekappelaporan'
+                        'as' => 'rekappelaporan.index'
                     ]
                 );
                 Route::post(
                     '/show',
                     [
                         'uses' => 'RekapitulasiController@show_rekappelaporan',
-                        'as' => 'rekappelaporan.show_rekappelaporan'
+                        'as' => 'rekappelaporan.show'
                     ]
                 );
             }
         );
 
+        Route::prefix('jumlahmahasiswa')->group(
+            function () {
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'RekapitulasiController@index_jumlahmahasiswa',
+                        'as' => 'jumlahmahasiswa.index'
+                    ]
+                );
+                Route::post(
+                    '/show',
+                    [
+                        'uses' => 'RekapitulasiController@show_jumlahmahasiswa',
+                        'as' => 'jumlahmahasiswa.show'
+                    ]
+                );
+            }
+        );
+
+        Route::prefix('jumlahdosen')->group(
+            function () {
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'RekapitulasiController@index_jumlahdosen',
+                        'as' => 'jumlahdosen.index'
+                    ]
+                );
+                Route::post(
+                    '/show',
+                    [
+                        'uses' => 'RekapitulasiController@show_jumlahdosen',
+                        'as' => 'jumlahdosen.show'
+                    ]
+                );
+            }
+        );
+
+        Route::prefix('ipsmahasiswa')->group(
+            function () {
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'RekapitulasiController@index_ipsmahasiswa',
+                        'as' => 'ipsmahasiswa.index'
+                    ]
+                );
+                Route::post(
+                    '/show',
+                    [
+                        'uses' => 'RekapitulasiController@show_ipsmahasiswa',
+                        'as' => 'ipsmahasiswa.show'
+                    ]
+                );
+            }
+        );
+
+        Route::get(
+            '/krsmahasiswa',
+            [
+                'uses' => 'RekapitulasiController@krsmahasiswa',
+                'as' => 'krsmahasiswa.index'
+            ]
+        );
+        Route::post(
+            '/krsmahasiswastore',
+            [
+                'uses' => 'RekapitulasiController@krsmahasiswastore',
+                'as' => 'krsmahasiswa.store'
+            ]
+        );
+
+        Route::get(
+            '/khsmahasiswa',
+            [
+                'uses' => 'RekapitulasiController@khsmahasiswa',
+                'as' => 'khsmahasiswa.index'
+            ]
+        );
+        Route::post(
+            '/khsmahasiswastore',
+            [
+                'uses' => 'RekapitulasiController@khsmahasiswastore',
+                'as' => 'khsmahasiswa.store'
+            ]
+        );
+        Route::prefix('laporanstatusmahasiswa')->group(
+            function () {
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'RekapitulasiController@index_laporanstatusmahasiswa',
+                        'as' => 'laporanstatusmahasiswa.index'
+                    ]
+                );
+                Route::post(
+                    '/show',
+                    [
+                        'uses' => 'RekapitulasiController@show_laporanstatusmahasiswa',
+                        'as' => 'laporanstatusmahasiswa.show'
+                    ]
+                );
+            }
+        );
+
+        Route::prefix('sksdosenmengajar')->group(
+            function () {
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'RekapitulasiController@index_sksdosenmengajar',
+                        'as' => 'sksdosenmengajar.index'
+                    ]
+                );
+                Route::post(
+                    '/show',
+                    [
+                        'uses' => 'RekapitulasiController@show_sksdosenmengajar',
+                        'as' => 'sksdosenmengajar.show'
+                    ]
+                );
+            }
+        );
 
 });

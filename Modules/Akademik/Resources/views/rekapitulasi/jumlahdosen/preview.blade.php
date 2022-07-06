@@ -47,7 +47,7 @@
             <tr>
                 <td align="center" colspan="4">
                     <font size="5">
-                        <strong>REKAPITULASI PELAPORAN</strong>
+                        <strong>LAPORAN JUMLAH DOSEN PER TAHUN AJARAN</strong>
                     </font>
                     <br><br>
                 </td>
@@ -56,41 +56,32 @@
                 <td align="left" width="20%"><strong>Perguruan Tinggi</strong></td>
                 <td align="left" width="30%"><strong>:</strong> 031041 - Universitas Paramadina</td>
                 <td align="left" width="20%"><strong>Periode</strong></td>
-                <td align="left"><strong>:</strong> {{$periode}}</td>
+                <td align="left"><strong>:</strong> {{$tahun}}</td>
             </tr>
             <tr>
                 <td align="left"><strong>Program Studi</strong></td>
-                <td align="left"><strong>:</strong> {{$jurusan}}</td>
+                <td align="left"><strong>:</strong> Semua Program Studi</td>
                 <td align="left"><strong>Data Per Tanggal</strong></td>
-                <td align="left"><strong>:</strong> {{ date('d F Y') }}</td>
+                <td align="left"><strong>:</strong> {{date('d F Y')}}</td>
             </tr>
         </tbody>
     </table>
     <table width="100%" border="1">
         <tbody>
             <tr>
-                <td rowspan="2" style="text-align:center"><strong>No.</strong></td>
-                <td rowspan="2" style="text-align:center"><strong>Semester</strong></td>
-                <td colspan="8" style="text-align:center"><strong>Rekap</strong></td>
+                <th rowspan="2">Program Studi</th>
+                <th colspan="2">Jumlah Dosen</th>
             </tr>
             <tr>
-                <td style="text-align:center"><strong>Mahasiswa<br>Baru</strong></td>
-                <td style="text-align:center"><strong>Kelas<br>Perkuliahan</strong></td>
-                <td style="text-align:center"><strong>KRS<br>Mahasiswa</strong></td>
-                <td style="text-align:center"><strong>Aktivitas<br>Kuliah Mahasiswa</strong></td>
-                <td style="text-align:center"><strong>Nilai<br>Mahasiswa</strong></td>
+                <th>Homebase</th>
+                <th>Non Homebase </th>
             </tr>
-            @php($i=1)
             @foreach ($main as $item)
-                <tr>
-                    <td>{{$i++}}</td>
-                    <td>{{$item->tahun_ajaran}}</td>
-                    <td align="right">{{$item->mahasiswa_baru}}</td>
-                    <td align="right">{{$item->kelas_perkuliahan}}</td>
-                    <td align="right">{{$item->jumlah_krs}}</td>
-                    <td align="right">{{$item->aktifitas_kuliah}}</td>
-                    <td align="right">{{$item->nilai_angka}}</td>
-                </tr>
+            <tr>
+                <td> {{$item->nama_jurusan}}</td>
+                <td style="text-align:right">{{$item->home_base}}</td>
+                <td style="text-align:right"> {{$item->non_home_base}}</td>
+            </tr>
             @endforeach
         </tbody>
     </table>

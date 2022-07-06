@@ -1,5 +1,5 @@
 @extends('layouts.v1')
-@section('title') {{$page}} @endsection
+@section('title') Rekapitulasi {{$title}} @endsection
 @section('content')
 <div class="row">
     <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
@@ -8,11 +8,11 @@
         <div class="container">
             <div class="row">
                 <div class="col s10 m6 l6">
-                    <h5 class="breadcrumbs-title mt-0 mb-0"><span>Export data {{$page}}</span></h5>
+                    <h5 class="breadcrumbs-title mt-0 mb-0 text-capitalize"><span>Rekapitulasi {{$title}}</span></h5>
                     <ol class="breadcrumbs mb-0">
                         <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}">Dashboard</a>
                         </li>
-                        <li class="breadcrumb-item active">Export data {{$page}}
+                        <li class="breadcrumb-item active">Rekapitulasi {{$title}}
                         </li>
                     </ol>
                 </div>
@@ -42,7 +42,7 @@
                             <div class="card-content mx-5">
                                 {{-- <h4 class="card-title">Page Length Options</h4> --}}
                                 <div class="row">
-                                    <form action="{{ route('rekappelaporan.show') }}" method="POST" enctype="multipart/form-data" class="col s12">
+                                    <form action="{{ route('sksdosenmengajar.show') }}" method="POST" enctype="multipart/form-data" class="col s12">
                                         @csrf
                                         <div class="row">
 
@@ -70,10 +70,26 @@
                                                 <span class="red-text text-darken-2">{{ $message }}</small>
                                                     @enderror
                                             </div>
-                                            @elseif($forms['type'] === "selectsemester")
+                                            @elseif($forms['type'] === "selectprogram")
                                             <div class="input-field col {{ $forms['col'] }}">
 
                                                 <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
+                                                    <option value="">Pilih</option>
+                                                    @foreach($programstudy as $row)
+                                                    <option value="{{$row->id}}">{{  $row->jenjang->nama_jenjang.' '.$row->jurusan->nama_jurusan }}</option>
+                                                    @endforeach
+                                                </select>
+
+                                                <label for="first_name">{{ $forms['placeholder'] }}</label>
+                                                <?php $error = $forms['name']; ?>
+                                                @error($error)
+                                                <span class="red-text text-darken-2">{{ $message }}</small>
+                                                    @enderror
+                                            </div>
+                                            @elseif($forms['type'] === "selectsemester")
+                                            <div class="input-field col {{ $forms['col'] }}">
+
+                                                <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" required>
                                                     <option value="">Pilih</option>
                                                     @foreach($jenis as $row)
                                                     <option value="{{$row->id}}">{{ $row->Tahunajaran->tahun_ajaran }}-{{$row->jenis_semester}}</option>
@@ -98,10 +114,10 @@
                                             @elseif($forms['type'] === "select")
                                             <div class="input-field col {{ $forms['col'] }}">
                                                 @php $v = $forms['value']; @endphp
-                                                <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
+                                                <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" required>
                                                     <option value="">Pilih</option>
                                                     @foreach ($forms['relasi'] as $p)
-                                                    <option value="{{ $p->id }}">{{ $p->Tahunajaran->tahun_ajaran??$p->nama_jurusan }} {{ $p->jenis_semester??'' }}</option>
+                                                    <option value="{{ $p->id }}">{{ $p->nama }}</option>
                                                     @endforeach
                                                 </select>
 

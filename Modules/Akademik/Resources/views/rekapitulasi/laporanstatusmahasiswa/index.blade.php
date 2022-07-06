@@ -42,7 +42,7 @@
                             <div class="card-content mx-5">
                                 {{-- <h4 class="card-title">Page Length Options</h4> --}}
                                 <div class="row">
-                                    <form action="{{ route('rekappelaporan.show') }}" method="POST" enctype="multipart/form-data" class="col s12">
+                                    <form action="{{ route('laporanstatusmahasiswa.show') }}" method="POST" enctype="multipart/form-data" class="col s12">
                                         @csrf
                                         <div class="row">
 
@@ -73,7 +73,7 @@
                                             @elseif($forms['type'] === "selectsemester")
                                             <div class="input-field col {{ $forms['col'] }}">
 
-                                                <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
+                                                <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" required>
                                                     <option value="">Pilih</option>
                                                     @foreach($jenis as $row)
                                                     <option value="{{$row->id}}">{{ $row->Tahunajaran->tahun_ajaran }}-{{$row->jenis_semester}}</option>
@@ -98,10 +98,10 @@
                                             @elseif($forms['type'] === "select")
                                             <div class="input-field col {{ $forms['col'] }}">
                                                 @php $v = $forms['value']; @endphp
-                                                <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
+                                                <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" required>
                                                     <option value="">Pilih</option>
                                                     @foreach ($forms['relasi'] as $p)
-                                                    <option value="{{ $p->id }}">{{ $p->Tahunajaran->tahun_ajaran??$p->nama_jurusan }} {{ $p->jenis_semester??'' }}</option>
+                                                    <option value="{{ $p->id }}">{{ $p->nama_jurusan }}</option>
                                                     @endforeach
                                                 </select>
 
@@ -127,8 +127,26 @@
                                                 <span class="red-text text-darken-2">{{ $message }}</small>
                                                     @enderror
                                             </div>
+                                            @elseif($forms['type'] === "angkatan")
+                                            <div class="input-field col {{ $forms['col'] }}">
+
+                                                <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
+                                                    <option value="">Pilih</option>
+                                                    <option value="2022/2023">2022/2023</option>
+                                                    <option value="2021/2022">2021/2022</option>
+                                                    <option value="2020/2021">2020/2021</option>
+                                                    <option value="2019/2020">2019/2020</option>
+                                                    <option value="2018/2019">2018/2019</option>
+                                                </select>
+
+                                                <label for="first_name">{{ $forms['placeholder'] }}</label>
+                                                <?php $error = $forms['name']; ?>
+                                                @error($error)
+                                                <span class="red-text text-darken-2">{{ $message }}</small>
+                                                    @enderror
+                                            </div>
                                             @elseif($forms['type'] == 'selectsortbymahasiswa')
-                                            <div class="input-field col s4 m4 offset-m2">
+                                            <div class="input-field col s8 ">
 
                                                 <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
                                                     <option value="nim">NIM</option>
@@ -145,7 +163,7 @@
                                                 <span class="red-text text-darken-2">{{ $message }}</small>
                                                     @enderror
                                             </div>
-                                            <div class="input-field col s4 m4 offset-s2">
+                                            <div class="input-field col s4 ">
 
                                                 <select name="sorttype" id="sorttype">
                                                     <option value="asc">A-Z (Ascending)</option>
