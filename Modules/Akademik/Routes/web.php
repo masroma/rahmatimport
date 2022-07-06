@@ -2420,5 +2420,25 @@ Route::prefix('akademik')->group(function() {
             }
         );
 
+        // rekapitulasi
+        Route::prefix('rekappelaporan')->group(
+            function () {
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'RekapitulasiController@index_rekappelaporan',
+                        'as' => 'rekappelaporan.index_rekappelaporan'
+                    ]
+                );
+                Route::post(
+                    '/show',
+                    [
+                        'uses' => 'RekapitulasiController@show_rekappelaporan',
+                        'as' => 'rekappelaporan.show_rekappelaporan'
+                    ]
+                );
+            }
+        );
+
 
 });
