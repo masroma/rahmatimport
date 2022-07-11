@@ -1387,6 +1387,122 @@ Route::prefix('akademik')->group(function() {
             }
         );
 
+        // jenisprestasi
+        Route::prefix('jenisprestasi')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'JenisPrestasiController@data',
+                        'as' => 'jenisprestasi.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'JenisPrestasiController@index',
+                        'as' => 'jenisprestasi.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'JenisPrestasiController@create',
+                        'as' => 'jenisprestasi.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'JenisPrestasiController@store',
+                        'as' => 'jenisprestasi.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'JenisPrestasiController@edit',
+                        'as' => 'jenisprestasi.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'JenisPrestasiController@update',
+                        'as' => 'jenisprestasi.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'JenisPrestasiController@destroy',
+                        'as' => 'jenisprestasi.destroy'
+                    ]
+                );
+            }
+        );
+
+        // tingkatprestasi
+        // tingkatprestasi
+Route::prefix('tingkatprestasi')->group(
+    function () {
+        Route::get(
+            '/data',
+            [
+                'uses' => 'TingkatPrestasiController@data',
+                'as' => 'tingkatprestasi.data'
+            ]
+        );
+        Route::get(
+            '/',
+            [
+                'uses' => 'TingkatPrestasiController@index',
+                'as' => 'tingkatprestasi.index'
+            ]
+        );
+        Route::get(
+            '/create',
+            [
+                'uses' => 'TingkatPrestasiController@create',
+                'as' => 'tingkatprestasi.create'
+            ]
+        );
+        Route::post(
+            '/store',
+            [
+                'uses' => 'TingkatPrestasiController@store',
+                'as' => 'tingkatprestasi.store'
+            ]
+        );
+        Route::get(
+            '/{id}/edit',
+            [
+                'uses' => 'TingkatPrestasiController@edit',
+                'as' => 'tingkatprestasi.edit'
+            ]
+        );
+        Route::post(
+            '/update/{id}',
+            [
+                'uses' => 'TingkatPrestasiController@update',
+                'as' => 'tingkatprestasi.update'
+            ]
+        );
+
+
+        Route::get(
+            '/{id}/delete',
+            [
+                'uses' => 'TingkatPrestasiController@destroy',
+                'as' => 'tingkatprestasi.destroy'
+            ]
+        );
+    }
+);
+
+
         // jenis pendaftaran
         Route::prefix('jenispendaftaran')->group(
             function () {
