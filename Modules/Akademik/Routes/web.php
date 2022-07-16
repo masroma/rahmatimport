@@ -1491,7 +1491,6 @@ Route::prefix('tingkatprestasi')->group(
             ]
         );
 
-
         Route::get(
             '/{id}/delete',
             [

@@ -973,7 +973,7 @@
                                             <li class="tab col m3"><a href="#lima">Transkip</a></li>
                                         </ul>
                                     </div>
-                                    <div id="satu" class="col s12">
+                                    <div id="satu" class="col s12 mt-3">
                                         <div class="row">
                                             <div class="col s12">
                                                 <h5>KRS Mahasiswa</h5>
@@ -1050,7 +1050,7 @@
 
                                         </div>
                                     </div>
-                                    <div id="dua" class="col s12">
+                                    <div id="dua" class="col s12 mt-3">
                                         <div class="row mb-5">
                                             <div class="col s10 m6 l6">
                                                 <h5>Riwayat Pendidikan</h5>
@@ -1087,7 +1087,43 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="tiga" class="col s12">Test 3</div>
+                                    <div id="tiga" class="col s12">
+                                        <div class="row mb-5">
+                                            <div class="col s10 m6 l6">
+                                                <h5>Prestasi</h5>
+                                            </div>
+                                            <div class="col s10 m6 l6 ">
+                                                <a class="btn waves-effect waves-light breadcrumbs-btn  right"
+                                                    href="{{ route('mahasiswa.createaktifitas', $mahasiswa->id) }}"
+                                                    id="tombol-tambah"><i class="material-icons left">add_circle_outline</i>Tambah</a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <table id="page-length-option-pendidikan" class="display">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>#</th>
+                                                            <th>Status</th>
+                                                            <th>Jenis prestasi</th>
+                                                            <th>Tingkat Prestasi</th>
+                                                            <th>Nama Prestasi</th>
+                                                            <th>Tahun</th>
+                                                            <th>Penyelenggara</th>
+                                                            <th>Peringkat</th>
+                                                            <th>Biaya Masuk</th>
+                                                            <th>Kampus</th>
+                                                            <th>Program Study</th>
+                                                            {{-- <th>Perminatan</th> --}}
+                                                            <th>#</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div id="empat" class="col s12">Test 4</div>
                                     <div id="lima" class="col s12">Test 5</div>
                                 </div>
