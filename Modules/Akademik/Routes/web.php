@@ -443,6 +443,55 @@ Route::prefix('akademik')->group(function() {
                     ]
                 );
 
+                // prestasi
+                Route::get(
+                    '/createprestasi/{id}',
+                    [
+                        'uses' => 'PrestasiMahasiswaController@create',
+                        'as' => 'mahasiswa.createprestasi'
+                    ]
+                );
+
+                Route::get(
+                    '/dataprestasi/{id}',
+                    [
+                        'uses' => 'PrestasiMahasiswaController@data',
+                        'as' => 'mahasiswa.dataprestasi'
+                    ]
+                );
+
+                Route::post(
+                    '/storeprestasi',
+                    [
+                        'uses' => 'PrestasiMahasiswaController@store',
+                        'as' => 'mahasiswa.storeprestasi'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/editprestasi',
+                    [
+                        'uses' => 'PrestasiMahasiswaController@edit',
+                        'as' => 'mahasiswa.editprestasi'
+                    ]
+                );
+
+                Route::post(
+                    '/updateprestasi/{id}',
+                    [
+                        'uses' => 'PrestasiMahasiswaController@update',
+                        'as' => 'mahasiswa.updateprestasi'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deleteprestasi',
+                    [
+                        'uses' => 'PrestasiMahasiswaController@destroy',
+                        'as' => 'mahasiswa.destroyprestasi'
+                    ]
+                );
+
                 // krs mahasiswa
                 Route::get(
                     '/createkrs/{id}',

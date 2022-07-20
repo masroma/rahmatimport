@@ -967,7 +967,7 @@
                                     <div class="col s12">
                                         <ul class="tabs tab-demo z-depth-1">
                                             <li class="tab col m3"><a class="active" href="#satu">KRS</a></li>
-                                            <li class="tab col m3"><a href="#dua">History Nilai</a></li>
+                                            <li class="tab col m3"><a href="#dua">History Pendidikan</a></li>
                                             <li class="tab col m3"><a href="#tiga">Aktivitas Perkuliahan</a></li>
                                             <li class="tab col m3"><a href="#empat">Prestasi</a></li>
                                             <li class="tab col m3"><a href="#lima">Transkip</a></li>
@@ -1000,7 +1000,7 @@
                                         <div class="row">
 
                                             <div class="col s8" id="krs">
-                                                <table id="page-length-option-krs" class="display">
+                                                <table id="page-length-option" class="display krsmahasiswa">
                                                     <thead>
                                                         <tr>
                                                             <th>No</th>
@@ -1063,7 +1063,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col s12">
-                                                <table id="page-length-option-pendidikan" class="display">
+                                                <table id="page-length-option" class="display riwayatpendidikan">
                                                     <thead>
                                                         <tr>
                                                             <th>No</th>
@@ -1088,43 +1088,39 @@
                                         </div>
                                     </div>
                                     <div id="tiga" class="col s12">
-                                        <div class="row mb-5">
+                                       
+                                    </div>
+                                    <div id="empat" class="col s12">
+                                        <div class="row mb-5 mt-2">
                                             <div class="col s10 m6 l6">
                                                 <h5>Prestasi</h5>
                                             </div>
                                             <div class="col s10 m6 l6 ">
                                                 <a class="btn waves-effect waves-light breadcrumbs-btn  right"
-                                                    href="{{ route('mahasiswa.createaktifitas', $mahasiswa->id) }}"
+                                                    href="#"
                                                     id="tombol-tambah"><i class="material-icons left">add_circle_outline</i>Tambah</a>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col s12">
-                                                <table id="page-length-option-pendidikan" class="display">
+                                                <table id="page-length-option" class="display prestasimahasiswa">
                                                     <thead>
                                                         <tr>
                                                             <th>No</th>
-                                                            <th>#</th>
-                                                            <th>Status</th>
+                                                            <th>Aktivitas mahasiswa</th>
                                                             <th>Jenis prestasi</th>
                                                             <th>Tingkat Prestasi</th>
                                                             <th>Nama Prestasi</th>
                                                             <th>Tahun</th>
                                                             <th>Penyelenggara</th>
                                                             <th>Peringkat</th>
-                                                            <th>Biaya Masuk</th>
-                                                            <th>Kampus</th>
-                                                            <th>Program Study</th>
-                                                            {{-- <th>Perminatan</th> --}}
                                                             <th>#</th>
                                                         </tr>
                                                     </thead>
-
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="empat" class="col s12">Test 4</div>
                                     <div id="lima" class="col s12">Test 5</div>
                                 </div>
                             </div>
@@ -1154,7 +1150,7 @@
             let idmahasiswa = {{ $mahasiswa->id }}
             $(document).ready(function() {
 
-                $('#page-length-option-pendidikan').DataTable({
+                $('.riwayatpendidikan').DataTable({
                     "scrollX": true,
                     "autoWidth": true,
                     processing: true,
@@ -1240,7 +1236,7 @@
                     ]
                 });
 
-                var tables = $('#page-length-option-krs').DataTable({
+                var tables = $('.krsmahasiswa').DataTable({
                     "scrollX": true,
                     "autoWidth": true,
                     processing: true,
@@ -1276,6 +1272,67 @@
                         {
                             data: 'mata_kuliah.bobot_mata_kuliah',
                             name: 'mata_kuliah.bobot_mata_kuliah'
+                        },
+
+                        {
+                            data: 'action',
+                            name: 'action'
+                        },
+
+                    ],
+                    order: [
+                        [0, 'asc']
+                    ]
+                });
+
+               $('.prestasimahasiswa').DataTable({
+                    "scrollX": true,
+                    "autoWidth": true,
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ url('akademik/mahasiswa/dataprestasi') }}/" + idmahasiswa,
+                        type: "GET",
+                    },
+                    columns: [{
+                            data: "DT_RowIndex",
+                            name: "DT_RowIndex"
+                        },
+
+                        {
+                            data: 'aktivitas_mahasiswa.judul',
+                            name: 'aktivitas_mahasiswa.judul',
+                        },
+
+                        {
+                            data: 'jenis_prestasi.jenis_prestasi',
+                            name: 'jenis_prestasi.jenis_prestasi'
+                        },
+
+                        {
+                            data: 'tingkat_prestasi.tingkat_prestasi',
+                            name: 'tingkat_prestasi.tingkat_prestasi'
+                        },
+
+                        {
+                            data: 'nama_prestasi',
+                            name: 'nama_prestasi'
+                        },
+
+                        {
+                            data: 'tahun_prestasi',
+                            name: 'tahun_prestasi'
+                        },
+
+
+                        {
+                            data: 'penyelenggara',
+                            name: 'penyelenggara'
+                        },
+
+                        {
+                            data: 'peringkat',
+                            name: 'peringkat'
                         },
 
                         {
