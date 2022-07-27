@@ -58,8 +58,7 @@ class RuangPerkuliahanController extends Controller
             ->addColumn('kampus',function($data){
                 return $data->ListKampus->cabang_kampus;
             })
-
-                    ->addColumn("action", function ($data) use ($canUpdate, $canDelete) {
+            ->addColumn("action", function ($data) use ($canUpdate, $canDelete) {
 
                         $btn = "";
 
@@ -110,7 +109,7 @@ class RuangPerkuliahanController extends Controller
     public function create()
     {
 
-        $datasenin = RuangPerkuliahan::with('kelasPerkuliahan')->where('ruang_id',0)->pluck('hari','waktu');
+        $datasenin = RuangPerkuliahan::with('kelasPerkuliahan')->where('ruang_id', 0)->pluck('hari','waktu');
 
         $senin = "";
         $selasa = "";
@@ -180,8 +179,6 @@ class RuangPerkuliahanController extends Controller
      */
     public function store(Request $request)
     {
-
-
         DB::beginTransaction();
         try {
             $this->validate($request, [
@@ -201,12 +198,13 @@ class RuangPerkuliahanController extends Controller
             $waktu = json_encode($ar);
 
             $cekdobleKelas = RuangPerkuliahan::where('kelasperkuliahan_id',$request->kelasperkuliahan_id)->first();
+
             if($cekdobleKelas != NULL){
                 return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Kelas sudah ada diruangan lain']);
             }
 
             $datasenin = RuangPerkuliahan::with('kelasPerkuliahan')->where('ruang_id',$request->ruang_id)->pluck('hari','waktu');
-
+           
             $senin = "";
             $selasa = "";
             $rabu = "";
@@ -234,35 +232,34 @@ class RuangPerkuliahanController extends Controller
             $kamis = $this->multiexplode(array('[', ']', '"', '"', ','), $kamis);
             $jumat = $this->multiexplode(array('[', ']', '"', '"', ','), $jumat);
             $sabtu = $this->multiexplode(array('[', ']', '"', '"', ','), $sabtu);
-
+           
             $hari = $request->hari;
+           
             if($hari == 'senin'){
-                if(in_array($request->jam_awal,$senin)){
+                if(in_array($request->jam_mulai,$senin)){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'selasa'){
-                if(in_array($request->jam_awal,$selasa)){
+                if(in_array($request->jam_mulai,$selasa)){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'rabu'){
-                if(in_array($request->jam_awal,$selasa)){
+                if(in_array($request->jam_mulai,$selasa)){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'kamis'){
-                if(in_array($request->jam_awal,$selasa)){
+                if(in_array($request->jam_mulai,$selasa)){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'jumat'){
-                if(in_array($request->jam_awal,$selasa)){
+                if(in_array($request->jam_mulai,$selasa)){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'sabtu'){
-                if(in_array($request->jam_awal,$selasa)){
+                if(in_array($request->jam_mulai,$selasa)){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }
-
-
 
             $save = new RuangPerkuliahan();
             $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;

@@ -12,8 +12,8 @@
             <ol class="breadcrumbs mb-0">
               <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}">Dashboard</a>
               </li>
-              {{-- <li class="breadcrumb-item"><a href="#">Table</a>
-              </li> --}}
+              <li class="breadcrumb-item"><a href="{{ route('ruangperkuliahan.index') }}">Ruangan</a>
+              </li>
               <li class="breadcrumb-item active">{{$title}}
               </li>
             </ol>
