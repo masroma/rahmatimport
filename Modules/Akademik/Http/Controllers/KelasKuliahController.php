@@ -79,7 +79,7 @@ class KelasKuliahController extends Controller
                     })
 
                     ->addColumn("namakelas", function($data){
-                        return $data->nama_kelas.$data->kode;
+                        return $data->nama_kelas.'-'.$data->kode;
                     })
 
                     ->addColumn('colors', function($data){

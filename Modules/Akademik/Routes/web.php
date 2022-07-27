@@ -1908,6 +1908,69 @@ Route::prefix('tingkatprestasi')->group(
             }
         );
 
+        // hitung aktivitas mahasiswa
+        Route::prefix('hitungaktivitaskuliahmahasiswa')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'HitungAktivitasMahasiswaController@data',
+                        'as' => 'hitungaktivitaskmahasiswa.data'
+                    ]
+                );
+                Route::get(
+                    '/datakrs/{id}',
+                    [
+                        'uses' => 'HitungAktivitasMahasiswaController@dataKrs',
+                        'as' => 'hitungaktivitaskmahasiswa.datakrs'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'HitungAktivitasMahasiswaController@index',
+                        'as' => 'hitungaktivitaskmahasiswa.index'
+                    ]
+                );
+                // Route::get(
+                //     '/create',
+                //     [
+                //         'uses' => 'HitungAktivitasMahasiswaController@create',
+                //         'as' => 'hitungaktivitaskmahasiswa.create'
+                //     ]
+                // );
+                // Route::post(
+                //     '/store',
+                //     [
+                //         'uses' => 'HitungAktivitasMahasiswaController@store',
+                //         'as' => 'hitungaktivitaskmahasiswa.store'
+                //     ]
+                // );
+                // Route::get(
+                //     '/{id}/edit',
+                //     [
+                //         'uses' => 'HitungAktivitasMahasiswaController@edit',
+                //         'as' => 'hitungaktivitaskmahasiswa.edit'
+                //     ]
+                // );
+                // Route::post(
+                //     '/update/{id}',
+                //     [
+                //         'uses' => 'HitungAktivitasMahasiswaController@update',
+                //         'as' => 'hitungaktivitaskmahasiswa.update'
+                //     ]
+                // );
+        
+        
+                // Route::get(
+                //     '/{id}/delete',
+                //     [
+                //         'uses' => 'HitungAktivitasMahasiswaController@destroy',
+                //         'as' => 'hitungaktivitaskmahasiswa.destroy'
+                //     ]
+                // );
+            }
+        );
           //status mahasiswa
           Route::prefix('aktivitaskuliahmahasiswa')->group(
             function () {

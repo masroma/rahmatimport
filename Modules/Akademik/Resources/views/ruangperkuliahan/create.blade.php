@@ -45,7 +45,7 @@ enctype="multipart/form-data" class="col s12">
                 <select name="kelasperkuliahan_id" class="select2 browser-default">
                     <option value="">Kelas Perkuliahan</option>
                     @foreach($kelasperkuliahan as $row)
-                        <option @if(old('kelasperkuliahan_id') == $row->id) selected @endif value="{{$row->id}}">{{$row->nama_kelas}}{{ $row->kode }} - {{ $row->matakuliah->nama_matakuliah }}({{ $row->matakuliah->kode_matakuliah }})</option>
+                        <option @if(old('kelasperkuliahan_id') == $row->id) selected @endif value="{{$row->id}}">{{$row->nama_kelas}}-{{ $row->kode }} </option>
                     @endforeach
                 </select>
                     <label for="first_name">Kelas Perkuliahan</label>

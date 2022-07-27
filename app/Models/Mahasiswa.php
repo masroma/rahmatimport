@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Mahasiswa extends Model
 {
@@ -59,4 +60,43 @@ class Mahasiswa extends Model
     {
         return $this->hasOne(MahasiswaHistoryPendidikan::class, 'mahasiswa_id');
     }
+
+    /**
+     * Get all of the comments for the Mahasiswa
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function aktivitasKuliahMahaswa()
+    {
+        return $this->hasMany(AktivitasKuliahMahasiswa::class, 'mahasiswa_id', 'id');
+    }
+
+    /**
+     * Get the user that owns the Mahasiswa
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+
+    /**
+     * Get all of the comments for the Mahasiswa
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function Krs()
+    {
+        return $this->hasMany(Krs::class, 'mahasiswa_id', 'id')->with(['Matakuliah']);
+    }
+
+    /**
+     * Get all of the comments for the Mahasiswa
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function totalKrs()
+    {
+        return $this->hasMany(Krs::class, 'mahasiswa_id', 'id')->with(['Matakuliah']);
+    }
+
+  
+   
 }

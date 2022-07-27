@@ -25,5 +25,10 @@ class MataKuliah extends Model
         return $this->hasMany(KurikulumMatakuliah::class, 'matakuliah_id');
     }
 
+    public function matakuliahs()
+    {
+        return $this->morphTo();
+    }
+
 
 }

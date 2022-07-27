@@ -162,7 +162,7 @@
                     <div class="input-field col s4 my-5">
 
                         <div class="d-flex">
-                         <label for="first_name">Action</label>
+                         <label for="first_name">Type Mahasiswa Yang Bisa Ikut Kelas</label>
                          @foreach($typemahasiswa as $m)
                             <p>
                              <label>

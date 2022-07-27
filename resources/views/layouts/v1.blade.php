@@ -280,6 +280,7 @@
     <script src="{{asset('v1/app-assets/js/search.js')}}"></script>
     <script src="{{asset('v1/app-assets/js/custom/custom-script.js')}}"></script>
     <script src="{{asset('v1/app-assets/js/scripts/customizer.js')}}"></script>
+
     <!-- END THEME  JS-->
     <!-- BEGIN PAGE LEVEL JS-->
     {{-- <script src="{{asset('v1/app-assets/js/scripts/data-tables.js')}}"></script> --}}
