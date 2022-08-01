@@ -169,10 +169,17 @@ class NilaiPerkuliahanController extends Controller
     public function edit($id)
     {
         $nilaiperkuliahan = KelasPerkuliahan::with("Jenissemester","Jenissemester.tahunajaran","Programstudy","Programstudy.jurusan","Programstudy.jenjang","Matakuliah","Krs")->withCount(['Krs'])->findOrFail($id);
+        
+       
         // dd($nilaiperkuliahan);
-        // dd(json_decode($nilaiperkuliahan->typemahasiswa_id));
-        $mahasiswakrs = Krs::where('kelas_id',$nilaiperkuliahan->id)->with('Mahasiswa','Mahasiswa.Riwayatpendidikan','Mahasiswa.Riwayatpendidikan.programstudy','Mahasiswa.Riwayatpendidikan.programstudy.jurusan','Nilai')->get();
-        // dd($mahasiswakrs);
+        // dd(json_decode($nilaiperkuliahan->typemahasiswa_id));\
+
+        // ->with(['Nilai' => function($q) use($id){
+        //     $q->where('kelas_id', '=', $id);
+        // }])
+       
+        $mahasiswakrs = Krs::with('Mahasiswa','Mahasiswa.Riwayatpendidikan','Mahasiswa.Riwayatpendidikan.programstudy','Mahasiswa.Riwayatpendidikan.programstudy.jurusan')->where('kelas_id',$id)->get();
+       
         $name_page = "nilaiperkuliahan";
         $title = "Nilai Perkuliahan";
         $data = array(

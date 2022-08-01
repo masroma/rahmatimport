@@ -93,7 +93,9 @@
                     </thead>
                     <tbody>
                         @php $no = 1 @endphp
-                        @foreach($mahasiswa as $row)
+                      
+                        @foreach($mahasiswa as $row )
+                       
                         <tr>
                             <td></td>
                             <td>{{ $no++ }}</td>

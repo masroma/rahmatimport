@@ -1463,6 +1463,21 @@
                     }
                 });
         }
+
+        function deleteConfirmKrs(id) {
+            swal({
+                    title: "Kamu Yakin ?",
+                    text: "akan menghapus data ini !",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((dt) => {
+                    if (dt) {
+                        window.location.href = "{{ url('akademik/mahasiswa') }}/" + id + "/deletekrs";
+                    }
+                });
+        }
     </script>
 
 

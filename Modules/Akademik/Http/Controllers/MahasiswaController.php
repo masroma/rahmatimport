@@ -158,6 +158,7 @@ class MahasiswaController extends Controller
             return redirect()->back()->with(['error' => 'KRS Gagal Ditambah!']);
         }
     }
+
     public function store(Request $request)
     {
 
@@ -205,6 +206,26 @@ class MahasiswaController extends Controller
         } else {
             //redirect dengan pesan error
             return redirect()->route('mahasiswa.index')->with(['error' => 'Data Gagal Disimpan!']);
+        }
+    }
+
+    public function destroyKrs($id)
+    {
+        DB::beginTransaction();
+        try {
+            $delete = Krs::find($id)->delete();
+                DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+        if ($delete) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with(['success' => 'Data Berhasil Dihapus!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(['error' => 'Data Gagal Dihapus!']);
         }
     }
 

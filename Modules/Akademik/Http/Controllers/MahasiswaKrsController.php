@@ -55,7 +55,7 @@ class MahasiswaKrsController extends Controller
                         $url = route('mahasiswa.editpendidikan',$data->id);
 
                         if ($canDelete) {
-                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirmPendidikan('.$data->id.')"><i class="material-icons">delete</i></button>';
+                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirmKrs('.$data->id.')"><i class="material-icons">delete</i></button>';
                         }
 
 
@@ -306,5 +306,26 @@ class MahasiswaKrsController extends Controller
             return redirect()->back()->with(['error' => 'Data Gagal Dihapus!']);
         }
     }
+
+    public function destroyKrs($id)
+    {
+        DB::beginTransaction();
+        try {
+            $delete = Krs::find($id)->delete();
+                DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+        if ($delete) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with(['success' => 'Data Berhasil Dihapus!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(['error' => 'Data Gagal Dihapus!']);
+        }
+    }
+
 
 }
