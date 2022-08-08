@@ -1,57 +1,93 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                {{-- <x-application-logo class="w-20 h-20 fill-current text-gray-500" /> --}}
-                <img src="{{asset('universitas.png')}}" alt="logo" class="img-fluid" width="200px">
-            </a>
-        </x-slot>
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+   
+    <link rel="stylesheet" href="{{ asset('templatelogin/fonts/icomoon/style.css') }}">
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+    <link rel="stylesheet" href="{{ asset('templatelogin/css/owl.carousel.min.css') }}">
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('templatelogin/css/bootstrap.min.css') }}">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="{{ asset('templatelogin/css/style.css') }}">
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+    <title>Login ASIK Paramadina</title>
+  </head>
+  <body>
+  
 
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
+  <div class="d-lg-flex half">
+    <div class="bg order-1 order-md-2" style="background-image: url('{{ asset('kampuscikarang.jpg') }}');"></div>
+    <div class="contents order-2 order-md-1">
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-7">
+            <div class="mb-4">
+              <h3>Masuk</h3>
+              <p class="mb-4">Selamat datang di website ASIK Universitas Paramadina</p>
             </div>
+            <x-auth-session-status class="mb-4" :status="session('status')" />
 
-            {{-- <!-- Password --> --}}
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-            </div>
-
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+            <!-- Validation Errors -->
+            <x-auth-validation-errors class="mb-4" :errors="$errors" />
+    
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+    
+            {{-- <form action="#" method="post"> --}}
+              <div class="form-group first">
+                <label for="username">Email</label>
+                {{-- <input type="text" class="form-control" id="username"> --}}
+                <input id="email" class="form-control block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+              </div>
+              <div class="form-group last mb-3">
+                <label for="password">Password</label>
+                {{-- <input type="password" class="form-control" id="password"> --}}
+                <input id="password" class="form-control block mt-1 w-full"
+                type="password"
+                name="password"
+                required autocomplete="current-password" />
+                
+              </div>
+              
+              <div class="d-flex mb-5 align-items-center">
+                <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
+                  <input type="checkbox" checked="checked"/>
+                  <div class="control__indicator"></div>
                 </label>
-            </div>
+                <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span> 
+              </div>
 
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
+              <input type="submit" value="Log In" class="btn btn-block btn-primary">
 
-                <x-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+              <span class="d-block text-center my-4 text-muted">&mdash; or &mdash;</span>
+              
+              <div class="social-login">
+              
+                <a href="#" class="google btn d-flex justify-content-center align-items-center">
+                  <span class="icon-google mr-3"></span> Login with  Google
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+    
+    
+
+    <script src="{{ asset('templatelogin/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('templatelogin/js/popper.min.js') }}"></script>
+    <script src="{{ asset('templatelogin/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('templatelogin/js/main.js') }}"></script>
+  </body>
+</html>
