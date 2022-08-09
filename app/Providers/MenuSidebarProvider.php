@@ -30,11 +30,10 @@ class MenuSidebarProvider extends ServiceProvider
             $user = Auth::user();
             if($user != null){
                 $userRole = $user->roles->pluck('id');
-                // $menua = AksesMenu::with('menu')->where('role_id', $userRole)->get();
-                $menua = AksesMenu::with('menu')->get();
+                $menua = AksesMenu::with('menu')->where('role_id', $userRole)->get();
+                // $menua = AksesMenu::with('menu')->where('')->get();
                 \View::share('menudata',[$menua]);
             }
-
         });
 
     }
