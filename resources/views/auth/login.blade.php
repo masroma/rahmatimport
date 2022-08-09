@@ -57,11 +57,19 @@
               </div>
               
               <div class="d-flex mb-5 align-items-center">
-                <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
+                {{-- <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
                   <input type="checkbox" checked="checked"/>
                   <div class="control__indicator"></div>
-                </label>
-                <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span> 
+                </label> --}}
+                <label for="remember_me" class="inline-flex items-center">
+                  <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
+                  <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+              </label>
+                <span class="ml-auto">   @if (Route::has('password.request'))
+                  <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                      {{ __('Forgot your password?') }}
+                  </a>
+              @endif</span> 
               </div>
 
               <input type="submit" value="Log In" class="btn btn-block btn-primary">
@@ -70,7 +78,7 @@
               
               <div class="social-login">
               
-                <a href="#" class="google btn d-flex justify-content-center align-items-center">
+                <a href="{{ '/auth/redirect'}}" class="google btn d-flex justify-content-center align-items-center">
                   <span class="icon-google mr-3"></span> Login with  Google
                 </a>
               </div>
