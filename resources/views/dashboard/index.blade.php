@@ -20,15 +20,26 @@
                     </div>
                 </div>
             </div>
-            <div class="col s12">
+            <div class="col s3">
+                <div class="container">
+                    <div class="section">
+                        <div class="card">
+                            <div class="card-content center">
+                                <image width="100px" style="border-radius: 50px" src="{{ Auth::user()->photo }}"/>
+                              <h6> {{ Auth::user()->name }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s9">
                 <div class="container">
                     <div class="section">
                         <div class="card" >
                             <div class="card-content">
                                 <p class="caption mb-0">
-                                    <b>halo {{Auth::user()->name}}</b>
+                                    <h5>Selamat datang {{Auth::user()->name}}</h5> <p> Selamat Datang di Portal Akademik. Portal Akademik adalah sistem yang memungkinkan para civitas akademika UNIVERSITAS PARAMADINA untuk menerima informasi dengan lebih cepat melalui Internet. Sistem ini diharapkan dapat memberi kemudahan setiap civitas akademika untuk melakukan aktivitas-aktivitas akademik dan proses belajar mengajar. Selamat menggunakan fasilitas ini.
                                  </p>
-                               
                             </div>
                         </div>
                     </div><!-- START RIGHT SIDEBAR NAV -->

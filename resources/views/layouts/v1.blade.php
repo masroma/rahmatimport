@@ -91,7 +91,7 @@
                     <ul class="dropdown-content" id="profile-dropdown">
                         <li><a class="grey-text text-darken-1" href="user/{{Auth::user()->id}}/editprofile"><i class="material-icons">person_outline</i> Profile</a></li>
                         {{-- <li><a class="grey-text text-darken-1" href="app-chat.html"><i class="material-icons">lock</i> Password</a></li> --}}
-                        <li><a class="grey-text text-darken-1" href="user/{{Auth::user()->id}}/editprofile"><i class="material-icons">lock</i> Password</a></li>
+                        {{-- <li><a class="grey-text text-darken-1" href="user/{{Auth::user()->id}}/editprofile"><i class="material-icons">lock</i> Password</a></li> --}}
 
                         <li class="divider"></li>
 

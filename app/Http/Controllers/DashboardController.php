@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AksesMenu;
+use App\Models\Mahasiswa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,8 @@ class DashboardController extends Controller
         if($role == 'superdewa'){
             return view('dashboard.index');
         }else{
-            return view('mahasiswa::dashboard.index');
+            $mahasiswa = Mahasiswa::findOrFail($user->relation_id);
+            return view('mahasiswa::dashboard.index',compact('mahasiswa'));
         }
        
     }
