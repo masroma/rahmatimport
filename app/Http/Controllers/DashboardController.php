@@ -22,8 +22,8 @@ class DashboardController extends Controller
         if($role == 'superdewa'){
             return view('dashboard.index');
         }else{
-            $mahasiswa = Mahasiswa::findOrFail($user->relation_id);
-            return view('mahasiswa::dashboard.index',compact('mahasiswa'));
+            // $mahasiswa = Mahasiswa::findOrFail($user->relation_id);
+            return view('mahasiswa::dashboard.index');
         }
        
     }
