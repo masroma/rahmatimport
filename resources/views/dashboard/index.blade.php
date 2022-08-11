@@ -26,7 +26,7 @@
                         <div class="card">
                             <div class="card-content center">
                                 <image width="100px" style="border-radius: 50px" src="{{ Auth::user()->photo }}"/>
-                              <h6> {{ Auth::user()->name }}</h6>
+                             
                             </div>
                         </div>
                     </div>

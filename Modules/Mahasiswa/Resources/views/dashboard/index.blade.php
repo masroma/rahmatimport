@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="col s10">
                                     <p class="caption mb-0">
-                                        <h5>Selamat datang {{Auth::user()->name}} ({{ $mahasiswa->nim }})</h5> <p> Selamat Datang di Portal Akademik. Portal Akademik adalah sistem yang memungkinkan para civitas akademika UNIVERSITAS PARAMADINA untuk menerima informasi dengan lebih cepat melalui Internet. Sistem ini diharapkan dapat memberi kemudahan setiap civitas akademika untuk melakukan aktivitas-aktivitas akademik dan proses belajar mengajar. Selamat menggunakan fasilitas ini.
+                                        <h5>Selamat datang {{Auth::user()->name}} ({{ $mahasiswa->nim ?? '' }})</h5> <p> Selamat Datang di Portal Akademik. Portal Akademik adalah sistem yang memungkinkan para civitas akademika UNIVERSITAS PARAMADINA untuk menerima informasi dengan lebih cepat melalui Internet. Sistem ini diharapkan dapat memberi kemudahan setiap civitas akademika untuk melakukan aktivitas-aktivitas akademik dan proses belajar mengajar. Selamat menggunakan fasilitas ini.
                                      </p>
                                 </div>
                               
