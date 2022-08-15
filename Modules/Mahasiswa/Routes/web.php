@@ -12,6 +12,13 @@
 */
 
 Route::prefix('mahasiswa')->group(function() {
+    Route::get(
+        '/',
+        [
+            'uses' => 'DashboardController@index',
+            'as' => 'dashboard'
+        ]
+    );
     Route::group(['middleware' => 'auth'], function () {
         Route::prefix('dashboard')->group(
             function () {
@@ -20,6 +27,17 @@ Route::prefix('mahasiswa')->group(function() {
                     [
                         'uses' => 'DashboardController@index',
                         'as' => 'dashboard'
+                    ]
+                );
+            }
+        );
+        Route::prefix('informasi-matakuliah')->group(
+            function () {
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'InformasiMatakuliahController@index',
+                        'as' => 'informasimatakuliah'
                     ]
                 );
             }

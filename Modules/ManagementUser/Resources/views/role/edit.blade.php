@@ -78,7 +78,7 @@ use App\Models\Menu;
                                 {
                                     $menu_admin_id = $menuAdmin->id;
                                     $link = $menuAdmin->link;
-
+                                    // print_r(json_decode($menuAdmin->action) );
                                     if($link != '#')
                                     {
                                         ?>
@@ -88,7 +88,7 @@ use App\Models\Menu;
                                             <td class="text-center">
                                                 <label>
                                                 <input type="checkbox" name="permission[]"  value="{{$act}}" data-valuetwo="1"/>
-                                                <span></span>
+                                                <span>{{ $act }}</span>
                                               </label></td>
                                         @endforeach
                                         </tr>
@@ -96,8 +96,8 @@ use App\Models\Menu;
                                     }
                                     else
                                     {
-                                        $dataMenuAdminChild = Menu::where('parent_id', $menu_admin_id)->orderBy('order', 'asc')->get();
-
+                                        $dataMenuAdminChild = Menu::whereIn('parent_id', [$menu_admin_id])->orderBy('order', 'asc')->get();
+                                       
                                         {
                                             foreach($dataMenuAdminChild as $menuAdminChild)
                                             {

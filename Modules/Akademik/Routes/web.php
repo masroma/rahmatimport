@@ -1436,6 +1436,118 @@ Route::prefix('akademik')->group(function() {
             }
         );
 
+        Route::prefix('kategoriinformasi')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'KategoriInformasiController@data',
+                        'as' => 'kategoriinformasi.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'KategoriInformasiController@index',
+                        'as' => 'kategoriinformasi.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'KategoriInformasiController@create',
+                        'as' => 'kategoriinformasi.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'KategoriInformasiController@store',
+                        'as' => 'kategoriinformasi.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'KategoriInformasiController@edit',
+                        'as' => 'kategoriinformasi.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'KategoriInformasiController@update',
+                        'as' => 'kategoriinformasi.update'
+                    ]
+                );
+        
+        
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'KategoriInformasiController@destroy',
+                        'as' => 'kategoriinformasi.destroy'
+                    ]
+                );
+            }
+        );
+
+        Route::prefix('informasi')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'InformasiController@data',
+                        'as' => 'informasi.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'InformasiController@index',
+                        'as' => 'informasi.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'InformasiController@create',
+                        'as' => 'informasi.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'InformasiController@store',
+                        'as' => 'informasi.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'InformasiController@edit',
+                        'as' => 'informasi.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'InformasiController@update',
+                        'as' => 'informasi.update'
+                    ]
+                );
+        
+        
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'InformasiController@destroy',
+                        'as' => 'informasi.destroy'
+                    ]
+                );
+            }
+        );
+
         // jenisprestasi
         Route::prefix('jenisprestasi')->group(
             function () {

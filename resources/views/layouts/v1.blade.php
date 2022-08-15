@@ -88,8 +88,14 @@
                         </li>
                     </ul> --}}
                     <!-- profile-dropdown-->
+                    @php
+                       
+                    $role = Auth::user()->getRoleNames()[0];
+                    @endphp
                     <ul class="dropdown-content" id="profile-dropdown">
-                        <li><a class="grey-text text-darken-1" href="user/{{Auth::user()->id}}/editprofile"><i class="material-icons">person_outline</i> Profile</a></li>
+                        @if($role == 'mahasiswa'){
+                        <li><a class="grey-text text-darken-1" href="{{ route('profile') }}"><i class="material-icons">person_outline</i> Profile</a></li>
+                        @endif
                         {{-- <li><a class="grey-text text-darken-1" href="app-chat.html"><i class="material-icons">lock</i> Password</a></li> --}}
                         {{-- <li><a class="grey-text text-darken-1" href="user/{{Auth::user()->id}}/editprofile"><i class="material-icons">lock</i> Password</a></li> --}}
 

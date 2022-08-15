@@ -86,7 +86,8 @@
                   <div class="input-field col s12">
                     <select name="position" >
                         <option value="" disabled selected>Position</option>
-                        <option {{ $menu->position == 'none' ? 'selected' : '' }} value="none">single menu</option>
+                        <option {{ $menu->position == 'none' ? 'selected' : '' }} value="none">none menu</option>
+                        <option {{ $menu->position == 'single' ? 'selected' : '' }} value="single">single menu</option>
                         <option {{ $menu->position == 'parent' ? 'selected' : '' }} value="parent">parent menu</option>
                         <option {{ $menu->position == 'children' ? 'selected' : '' }}  value="children">children menu</option>
                       </select>
