@@ -171,13 +171,38 @@ class InformasiController extends Controller
             $this->validate($request, [
                 'judul' => 'required',
                 'content' => 'required',
+                'image'     => 'required|image|mimes:png,jpg,jpeg',
+                'berkas' => 'required|mimes:pdf|max:2048'
             ]);
 
+           
+     
             $save = new Informasi();
             $save->judul = $request->judul;
             $save->content = $request->content;
             $save->kategoriinformasi_id = $request->kategoriinformasi_id;
             $save->slug = Str::slug($request->slug);
+            $save->image = $image ?? NULL;
+            $save->berkas = $file ?? NULL;
+
+            if ($request->file('image')) {
+                $tujuan_upload = "image_informasi";
+                $image = $request->file('image');
+                $namareplace_ = str_replace(' ', '_', $image->getClientOriginalName());
+                $nama_file = time() . "_" . $namareplace_;
+                $image->move($tujuan_upload, $nama_file);
+                $save->image = $nama_file;
+            }
+
+            if ($request->file('berkas')) {
+                $tujuan_upload = "berkas";
+                $image = $request->file('berkas');
+                $namareplace_ = str_replace(' ', '_', $image->getClientOriginalName());
+                $nama_file = time() . "_" . $namareplace_;
+                $image->move($tujuan_upload, $nama_file);
+                $save->berkas = $nama_file;
+            }
+
             $save->save();
 
             DB::commit();
@@ -242,6 +267,24 @@ class InformasiController extends Controller
                 "data" => $informasi->kategoriinformasi_id,
                 "placeholder" =>"kategori informasi",
                 "value" =>"nama_kategori"
+            ],
+            3 => [
+                "name" => "image",
+                "type" => "file",
+                "relasi" => "",
+                "col" => "s6",
+                "data" => $informasi->image,
+                "placeholder" =>"image",
+                "value" => "image"
+            ],
+            4 => [
+                "name" => "berkas",
+                "type" => "file",
+                "relasi" => "",
+                "col" => "s6",
+                "data" => $informasi->berkas,
+                "placeholder" =>"berkas",
+                "value" => "berkas"
             ],
 
           

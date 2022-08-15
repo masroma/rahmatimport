@@ -86,6 +86,24 @@
                         <span class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
                   </div>
+                  @elseif($forms['type'] === "file")
+                  <div class="input-field  col {{ $forms['col'] }}">
+                    <div class="col s12 mb-2">
+                      <p>{{ $forms['placeholder'] }}</p>
+                      @if($forms['name'] === "image")
+                      <img src="{{ asset('image_informasi/'.$forms['data'].'') }}" width="200px"/>
+                      @elseif($forms['name'] === 'berkas')
+                      <a href={{ asset('berkas/'.$forms['data'].'') }}>Download File</a>
+                      @endif
+                    </div>
+                  
+                  <input placeholder="{{ $forms['placeholder'] }}" name="{{ $forms['name'] }}"  type="file"  class="dropify" value="{{ old($forms['name']) }}"  id="input-file-now" data-default-file=" "><br/>
+                       
+                        <?php $error = $forms['name'];?>
+                        @error($error)
+                        <span class="red-text text-darken-2">{{ $message }}</small>
+                        @enderror
+              </div>
                   @elseif($forms['type'] === "select")
                       <div class="input-field col {{ $forms['col'] }}">
                         @php $v = $forms['value']; @endphp

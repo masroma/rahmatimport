@@ -77,6 +77,18 @@
                             <span class="red-text text-darken-2">{{ $message }}</small>
                             @enderror
                   </div>
+                  @elseif($forms['type'] === "file")
+                  <div class="input-field  col {{ $forms['col'] }}">
+                    <div class="col s12">
+                      <p>{{ $forms['placeholder'] }}</p>
+                    </div>
+                  <input placeholder="{{ $forms['placeholder'] }}" name="{{ $forms['name'] }}"  type="file"  class="dropify" value="{{ old($forms['name']) }}"  id="input-file-now" data-default-file=""><br/>
+                       
+                        <?php $error = $forms['name'];?>
+                        @error($error)
+                        <span class="red-text text-darken-2">{{ $message }}</small>
+                        @enderror
+              </div>
                       @elseif($forms['type'] === "textarea")
                       <div class="input-field col {{ $forms['col'] }}">
                         <textarea placeholder="{{ $forms['placeholder'] }}" name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" type="text" value={{ old($forms['name']) }}>{{ old($forms['name']) }}</textarea>
@@ -106,6 +118,8 @@
              
                       @endif
                     @endforeach
+
+
 
 
 

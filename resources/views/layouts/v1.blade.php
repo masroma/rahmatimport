@@ -20,6 +20,7 @@
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/data-tables/css/jquery.dataTables.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/data-tables/css/select.dataTables.min.css')}}">
+   <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/dropify/css/dropify.min.css')}}">
    <!-- END: VENDOR CSS-->
    <!-- BEGIN: Page Level CSS-->
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/css/themes/vertical-modern-menu-template/materialize.css')}}">
@@ -272,6 +273,7 @@
     <!-- END: Footer-->
     <!-- BEGIN VENDOR JS-->
     <script src="{{asset('v1/app-assets/js/vendors.min.js')}}"></script>
+    <script src="{{asset('v1/app-assets/vendors/dropify/js/dropify.min.js')}}"></script>
     <script src="{{asset('v1/app-assets/vendors/select2/select2.full.min.js')}}"></script>
     <link rel="stylesheet" href="{{asset('v1/app-assets/vendors/select2/select2.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('v1/app-assets/vendors/select2/select2-materialize.css')}}" type="text/css">
@@ -300,7 +302,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.js"
         integrity="sha256-siqh9650JHbYFKyZeTEAhq+3jvkFCG8Iz+MHdr9eKrw=" crossorigin="anonymous"></script>
-
+    <script src="{{asset('v1/app-assets/js/scripts/form-file-uploads.js')}}"></script>
     <script>
       //message with toastr
       @if(session()->has('success'))
