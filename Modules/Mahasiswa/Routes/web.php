@@ -12,13 +12,7 @@
 */
 
 Route::prefix('mahasiswa')->group(function() {
-    Route::get(
-        '/',
-        [
-            'uses' => 'DashboardController@index',
-            'as' => 'dashboard'
-        ]
-    );
+  
     Route::group(['middleware' => 'auth'], function () {
         Route::prefix('dashboard')->group(
             function () {
@@ -31,6 +25,19 @@ Route::prefix('mahasiswa')->group(function() {
                 );
             }
         );
+
+        Route::prefix('info')->group(
+            function () {
+                Route::get(
+                    '/{id}',
+                    [
+                        'uses' => 'DashboardController@detailinfo',
+                        'as' => 'info'
+                    ]
+                );
+            }
+        );
+       
         Route::prefix('informasi-matakuliah')->group(
             function () {
                 Route::get(

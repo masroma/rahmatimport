@@ -51,7 +51,7 @@
                @foreach($info as $row)
                <div class="col s12 m6 l4">
                 <div class="card-panel border-radius-6 mt-10 card-animation-1">
-                  <a href="#"><img class="responsive-img border-radius-8 z-depth-4 image-n-margin"
+                  <a href="{{ route('info',$row->id) }}"><img class="responsive-img border-radius-8 z-depth-4 image-n-margin"
                       src="{{ asset('image_informasi/'.$row->image.'') }}" alt=""></a>
                   <h6 class="deep-purple-text text-darken-3 mt-5"><a href="#">{{ $row->judul }}</a></h6>
                   <span>{{ Str::limit($row->content, 50) }}</span>
@@ -60,8 +60,6 @@
               </div>
                @endforeach
             
-               
-              
                </div>
 
                <div class="row">

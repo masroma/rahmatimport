@@ -2,6 +2,7 @@
 
 namespace Modules\Mahasiswa\Http\Controllers;
 
+use App\Models\Informasi;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -14,8 +15,13 @@ class DashboardController extends Controller
      */
     public function index()
     {
-       
-        return view('mahasiswa::dashboard.index');
+        $info = Informasi::with('Kategori')->paginate(6);
+        return view('mahasiswa::dashboard.index',compact('info'));
+    }
+
+    public function detailinfo($id){
+        $info = Informasi::with('Kategori')->findOrFail($id);
+        return view('mahasiswa::dashboard.detail', compact('info'));
     }
 
     /**
