@@ -21,6 +21,7 @@
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/data-tables/css/select.dataTables.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/dropify/css/dropify.min.css')}}">
+   <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/css/pages/page-blog.css')}}">
    <!-- END: VENDOR CSS-->
    <!-- BEGIN: Page Level CSS-->
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/css/themes/vertical-modern-menu-template/materialize.css')}}">

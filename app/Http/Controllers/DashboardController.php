@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AksesMenu;
+use App\Models\Informasi;
 use App\Models\Mahasiswa;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -23,7 +24,8 @@ class DashboardController extends Controller
             return view('dashboard.index');
         }else{
             // $mahasiswa = Mahasiswa::findOrFail($user->relation_id);
-            return view('mahasiswa::dashboard.index');
+            $info = Informasi::with('Kategori')->paginate(6);
+            return view('mahasiswa::dashboard.index', compact('info'));
         }
        
     }

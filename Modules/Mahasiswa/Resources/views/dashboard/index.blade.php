@@ -46,32 +46,56 @@
                 <div class="content-overlay"></div>
             </div>
 
-            <div class="col s7">
+          <div class="container">
+            <div class="row">
+               @foreach($info as $row)
+               <div class="col s12 m6 l4">
+                <div class="card-panel border-radius-6 mt-10 card-animation-1">
+                  <a href="#"><img class="responsive-img border-radius-8 z-depth-4 image-n-margin"
+                      src="{{ asset('image_informasi/'.$row->image.'') }}" alt=""></a>
+                  <h6 class="deep-purple-text text-darken-3 mt-5"><a href="#">{{ $row->judul }}</a></h6>
+                  <span>{{ Str::limit($row->content, 50) }}</span>
+                 
+                </div>
+              </div>
+               @endforeach
+            
+               
+              
+               </div>
+
+               <div class="row">
+                <div class="col s12">
+                 
+                </div>
+               </div>
+          </div>
+
+            <div class="col s12">
                 <div class="container">
                     <div class="section">
                         <div class="card" >
                             <div class="card-content">
                                 <div class="row">
-                                    <div class="col s12 center">
+                                    <div class="col s6 center">
                                         <h5>Alur Pengisian KRS</h5>
                                         <image src="{{ asset('alur_krs_mhs.jpg') }}"></image>
                                         <p><b>Catatan</b><br/>
                                             Apabila Anda menemukan kendala dalam proses pengisian KRS secara online, silahkan kirim email ke asikbeta@paramadina.ac.id</p>
                                     </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col s12 center">
+                                    <div class="col s6 center">
                                         <h5>Alur Pembayaran</h5>
                                         <image src="{{ asset('alur_pembayaran_mhs.png') }}" class="responsive-img"></image>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col s5">
+            <div class="col s12">
                 <div class="container">
                     <div class="section">
                         <div class="card" >
