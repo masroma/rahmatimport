@@ -14,7 +14,7 @@ class InformasiMatakuliahController extends Controller
      */
     public function index()
     {
-        return view('mahasiswa::matakuliah.index');
+        return view('mahasiswa::informasimatakuliah.index');
     }
 
     /**

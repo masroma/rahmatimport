@@ -87,7 +87,7 @@ use App\Models\Menu;
                                             @foreach (json_decode($menuAdmin->action) as $act)
                                             <td class="text-center">
                                                 <label>
-                                                <input type="checkbox" name="permission[]"  value="{{$act}}" data-valuetwo="1"/>
+                                                <input type="checkbox" name="permission[]"  value="{{$menuAdmin->id}}-{{str_replace(" ","",$menuAdmin->name)}}-{{$act}}"  value="{{$act}}" data-valuetwo="1"/>
                                                 <span>{{ $act }}</span>
                                               </label></td>
                                         @endforeach

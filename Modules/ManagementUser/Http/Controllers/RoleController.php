@@ -259,7 +259,7 @@ class RoleController extends Controller
 
     public function update(Request $request, $id)
     {
-
+        
         $this->validate($request, [
             'name' => 'required',
             'permission' => 'required',
@@ -276,6 +276,7 @@ class RoleController extends Controller
           // delete permision role old
         foreach($permission as $a){
             $keys = explode('-', $a);
+          
             $nameMenu = str_replace(" ","",$keys[1]);
             $idMenu = $keys[0];
             // save menu

@@ -13,7 +13,6 @@ class ProfileController extends Controller
     {
         $user = User::findOrFail(Auth::user()->id);
         $mahasiswa = Mahasiswa::with('detail','detail.provinsi','detail.kota','detail.kecamatan','detail.kelurahan')->findOrFail($user->relation_id);
-        
         return view('profile.index', compact('user','mahasiswa'));
     }
 }
