@@ -30,16 +30,20 @@ class HitungAktivitasMahasiswaController extends Controller
             // $canShow = Gate::allows('typemahasiswa-show');
             $canUpdate = Gate::allows('statusmahasiswa-edit');
             $canDelete = Gate::allows('statusmahasiswa-delete');
-            $semester = JenisSemester::orderBy('id','DESC')->pluck('id')->first();
+            // $semester = JenisSemester::orderBy('id','DESC')->pluck('id')->first();
+            $semester = 6;
             
             $data = Mahasiswa::with(['totalKrs','Krs' => function($a) use($semester){
                 $a->where('jenissemester_id',$semester);
+            },'aktivitasKuliahMahaswa' => function($b) use($semester){
+                $b->where('semester_id',$semester);
             }])
             ->whereHas('Krs',function($a) use($semester){
                 $a->where('jenissemester_id',$semester);
             })
            ->SELECT('*')
             ->get();
+            // dd($data);
             // $data = Mahasiswa::with(['totalKrs'])
             // ->get();
             return DataTables::of($data)
@@ -56,6 +60,26 @@ class HitungAktivitasMahasiswaController extends Controller
                             $totalBobotSemester += $row->matakuliah->bobot_mata_kuliah;
                         }
                         return number_format($totalBobotSemester, 2, '.', '');
+                    })
+                    ->addColumn('akm', function($data){
+                        return json_decode($data->aktivitasKuliahMahaswa,true)[0]??[
+                            "status_id"=>"",
+                            "jumlah_sks_semester"=>"",
+                            "sks_total"=>"",
+                            "ipk"=>"",
+                            "ips"=>"",
+                            "biaya_kuliah"=>"",
+                        ];
+                    })
+                    ->addColumn('krs_nilai', function($data){
+                        return json_decode($data->krs_nilai,true)[0]??[
+                            "status_id"=>"",
+                            "jumlah_sks_semester"=>"",
+                            "sks_total"=>"",
+                            "ipk"=>"",
+                            "ips"=>"",
+                            "biaya_kuliah"=>"",
+                        ];
                     })
                     ->addColumn('action', function ($data) {
 
