@@ -87,7 +87,7 @@ class RoleController extends Controller
     {
 
         $name_page = "role";
-        $menus = Menu::where('position', 'parent')->orderBy('order', 'asc')->get();
+        $menus = Menu::whereIn('position', ['parent','single'])->orderBy('order', 'asc')->get();
         $data = array(
             'page'          => $name_page,
             'menus'          => $menus,
@@ -216,9 +216,7 @@ class RoleController extends Controller
             $role = Role::find($id);
 
             $name_page = "role";
-            $menus = Menu::where('position', 'parent')->orderBy('order', 'asc')->get();
-
-
+            $menus = Menu::whereIn('position', ['single','parent'])->orderBy('order', 'asc')->get();
             $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->leftJoin('permissions','permissions.id','role_has_permissions.permission_id')
             // ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
@@ -260,14 +258,11 @@ class RoleController extends Controller
      */
 
     public function update(Request $request, $id)
-
     {
-
+        
         $this->validate($request, [
-
             'name' => 'required',
             'permission' => 'required',
-
         ]);
 
         $role = Role::find($id);
@@ -281,8 +276,8 @@ class RoleController extends Controller
           // delete permision role old
         foreach($permission as $a){
             $keys = explode('-', $a);
+          
             $nameMenu = str_replace(" ","",$keys[1]);
-
             $idMenu = $keys[0];
             // save menu
             if($keys[2] == 'view'){

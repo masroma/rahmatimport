@@ -26,8 +26,14 @@
     <div class="contents order-2 order-md-1">
 
       <div class="container">
+        
         <div class="row align-items-center justify-content-center">
           <div class="col-md-7">
+            @if ($message = Session::get('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ $message }}
+            </div>
+        @endif
             <div class="mb-4">
               <h3>Masuk</h3>
               <p class="mb-4">Selamat datang di website ASIK Universitas Paramadina</p>

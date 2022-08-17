@@ -24,11 +24,20 @@ Route::group(['middleware' => 'auth'], function () {
             'as' => 'dashboard.index'
         ]
     );
+   
     Route::get(
         '/dashboard',
         [
             'uses' => 'DashboardController@index',
             'as' => 'dashboard.index'
+        ]
+    );
+
+    Route::get(
+        '/profile',
+        [
+            'uses' => 'ProfileController@index',
+            'as' => 'profile'
         ]
     );
 });

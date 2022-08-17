@@ -86,7 +86,8 @@
                   <div class="input-field col s12">
                     <select name="position" onchange="displayDivPosition('parent_id', this)">
                         <option value="" disabled selected>Position</option>
-                        <option {{ old('position') == 'none' ? 'selected' : '' }} value="none">single menu</option>
+                        <option {{ old('position') == 'none' ? 'selected' : '' }} value="none">none</option>
+                        <option {{ old('position') == 'single' ? 'selected' : '' }} value="single">single menu</option>
                         <option  {{ old('position') == 'parent' ? 'selected' : '' }}  value="parent">parent menu</option>
                         <option  {{ old('position') == 'children' ? 'selected' : '' }}  value="children">children menu</option>
                       </select>
