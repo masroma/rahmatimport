@@ -371,8 +371,10 @@ class RekapitulasiController extends Controller
 
     public function export($format,$data)
     {
-        if(count($data['main'])<=0){
-            return redirect()->back()->with(["error" => "Data tidak ditemukan!"]);
+        if(isset($data['main'])){
+            if(count($data['main'])<=0){
+                return redirect()->back()->with(["error" => "Data tidak ditemukan!"]);
+            }
         }
         $filename = $this->filename;;
         if ( $format == 'html' ) {
@@ -496,7 +498,10 @@ class RekapitulasiController extends Controller
         }
         $this->exportView = 'akademik::rekapitulasi.krs.preview';
         $this->filename = "KRS_Mahasiswa" . $selKRSMahasiswa[0]->tahun_ajaran . "-" . $selKRSMahasiswa[0]->jenis_semester;
-        return $this->export(request('format'), $selKRSMahasiswa);
+        $data = [
+            'main' => $selKRSMahasiswa,
+        ];
+        return $this->export(request('format'), $data);
     }
     public function khsmahasiswa()
     {

@@ -1915,21 +1915,21 @@ Route::prefix('tingkatprestasi')->group(
                     '/data',
                     [
                         'uses' => 'HitungAktivitasMahasiswaController@data',
-                        'as' => 'hitungaktivitaskmahasiswa.data'
+                        'as' => 'hitungaktivitaskuliahmahasiswa.data'
                     ]
                 );
                 Route::get(
                     '/datakrs/{id}',
                     [
                         'uses' => 'HitungAktivitasMahasiswaController@dataKrs',
-                        'as' => 'hitungaktivitaskmahasiswa.datakrs'
+                        'as' => 'hitungaktivitaskuliahmahasiswa.datakrs'
                     ]
                 );
                 Route::get(
                     '/',
                     [
                         'uses' => 'HitungAktivitasMahasiswaController@index',
-                        'as' => 'hitungaktivitaskmahasiswa.index'
+                        'as' => 'hitungaktivitaskuliahmahasiswa.index'
                     ]
                 );
                 // Route::get(

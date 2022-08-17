@@ -124,7 +124,7 @@
                       processing: true,
                       serverSide: true,
                       ajax: {
-                          url: "{{ route('hitungaktivitaskmahasiswa.data') }}",
+                          url: "{{ route('hitungaktivitaskuliahmahasiswa.data') }}",
                           type: "GET",
                       },
                       columns: [
