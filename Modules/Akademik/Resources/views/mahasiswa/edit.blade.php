@@ -1039,9 +1039,6 @@
                                                     </div>
                                                     <div class="inpuit-field col12">
 
-
-
-
                                                         <input type="hidden" name="mahasiswa_id" value="{{ $mahasiswa->id }}">
                                                         <input type="hidden" name="jenissemester_id" id="jenissemester_id">
                                                     </div>

@@ -1160,7 +1160,7 @@ Route::prefix('akademik')->group(function() {
 
                 // matakuliah kurikulum
                 Route::get(
-                    '/datakurikulummatakuliah',
+                    '/datakurikulummatakuliah/{id}',
                     [
                         'uses' => 'KurikulumController@dataKurikulumMatakuliah',
                         'as' => 'kurikulummatakuliah.data'
@@ -1168,7 +1168,7 @@ Route::prefix('akademik')->group(function() {
                 );
 
                 Route::get(
-                    '/datakurikulummatakuliahbelumterdaftar',
+                    '/datakurikulummatakuliahbelumterdaftar/{id}',
                     [
                         'uses' => 'KurikulumController@dataKurikulumMatakuliahBelumTerdaftar',
                         'as' => 'kurikulummatakuliahbelumterdaftar.data'
