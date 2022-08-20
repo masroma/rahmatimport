@@ -271,13 +271,13 @@ class KurikulumController extends Controller
     }
 
     // kurikulum matakuliah
-    public function dataKurikulumMatakuliah()
+    public function dataKurikulumMatakuliah($id)
     {
         try {
             // $canShow = Gate::allows("kurikulum-show");
             // $canUpdate = Gate::allows("kurikulum-edit");
             $canDelete = Gate::allows("kurikulum-delete");
-            $data = KurikulumMatakuliah::with('matakuliah')->get();
+            $data = KurikulumMatakuliah::with('matakuliah')->where('kurikulum_id',$id)->get();
             return DataTables::of($data)
                     ->addColumn("pilihan", function($data){
                        return '<input type="hidden" class="center id" value="'.$data->id.'"><input type="number" class ="center  semester" max="8" min="1" value="'.$data->semester.'" onchange="myFunction(this.value)">';
@@ -328,16 +328,16 @@ class KurikulumController extends Controller
         }
     }
 
-    public function dataKurikulumMatakuliahBelumTerdaftar()
+    public function dataKurikulumMatakuliahBelumTerdaftar($id)
     {
         try {
             // $canShow = Gate::allows("kurikulum-show");
             // $canUpdate = Gate::allows("kurikulum-edit");
             // $canDelete = Gate::allows("kurikulum-delete");
-            $data = Matakuliah::with('KurikulumMatakuliah')->doesntHave('KurikulumMatakuliah')->get();
+            $data = Matakuliah::with('KurikulumMatakuliah')->get();
             return DataTables::of($data)
                     ->addColumn("pilihan", function($data){
-                       return '<input type="hidden" name="idmatakuliah" value="'.$data->id.'"><input type="number" name="semesters" class="center semesters" max="8" min="1" >';
+                       return '<input type="hidden" name="idmatakuliah" value="'.$data->id.'"><input type="number" name="semesters" class="center semesters" id="datasemester" max="8" min="1" >';
                     })
 
                     ->addColumn('checkbox', function($data){

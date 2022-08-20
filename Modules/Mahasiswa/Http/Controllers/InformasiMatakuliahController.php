@@ -2,9 +2,13 @@
 
 namespace Modules\Mahasiswa\Http\Controllers;
 
+use App\Models\Kurikulum;
+use App\Models\KurikulumMatakuliah;
+use App\Models\User;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class InformasiMatakuliahController extends Controller
 {
@@ -14,6 +18,7 @@ class InformasiMatakuliahController extends Controller
      */
     public function index()
     {
+        $mahasiswa = User::with('mahasiswa.Riwayatpendidikan.Programstudy.jenjang','mahasiswa.Riwayatpendidikan.Programstudy.jurusan')->findOrFail(Auth::user()->id);
         return view('mahasiswa::informasimatakuliah.index');
     }
 

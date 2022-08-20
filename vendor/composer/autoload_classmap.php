@@ -3525,6 +3525,7 @@ return array(
     'Modules\\Akademik\\Http\\Controllers\\ExportDataController' => $baseDir . '/Modules/Akademik/Http/Controllers/ExportDataController.php',
     'Modules\\Akademik\\Http\\Controllers\\FakultasController' => $baseDir . '/Modules/Akademik/Http/Controllers/FakultasController.php',
     'Modules\\Akademik\\Http\\Controllers\\HitungAktivitasMahasiswaController' => $baseDir . '/Modules/Akademik/Http/Controllers/HitungAktivitasMahasiswaController.php',
+    'Modules\\Akademik\\Http\\Controllers\\InformasiController' => $baseDir . '/Modules/Akademik/Http/Controllers/InformasiController.php',
     'Modules\\Akademik\\Http\\Controllers\\JalurMasukInternalController' => $baseDir . '/Modules/Akademik/Http/Controllers/JalurMasukInternalController.php',
     'Modules\\Akademik\\Http\\Controllers\\JalurPendaftaranController' => $baseDir . '/Modules/Akademik/Http/Controllers/JalurPendaftaranController.php',
     'Modules\\Akademik\\Http\\Controllers\\JenisAktivitasController' => $baseDir . '/Modules/Akademik/Http/Controllers/JenisAktivitasController.php',

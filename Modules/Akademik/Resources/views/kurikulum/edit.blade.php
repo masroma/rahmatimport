@@ -162,6 +162,11 @@
                                                             <th>Simulasi</th>
                                                           </tr>
                                                         </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td></td>
+                                                            </tr>
+                                                        </tbody>
                                                     </table>
                                                 </div>
                                             </div>
@@ -191,14 +196,16 @@
                 })();
       
                 function loadDataTable() {
+                    let idkurikulum = {{ $kurikulum->id }}
                     $(document).ready(function () {
-                        $('.daftartambah').DataTable({
+                        var table1 = $('.daftartambah').DataTable({
                             "scrollX": true,
                             "autoWidth": true,
                             processing: true,
                             serverSide: true,
                             ajax: {
-                                url: "{{ route('kurikulummatakuliah.data') }}",
+                              
+                                url: "{{ url('akademik/kurikulum/datakurikulummatakuliah') }}/" + idkurikulum,
                                 type: "GET",
                             },
                             columns: [
@@ -269,13 +276,14 @@
                             ]
                         });
 
-                        var table = $('.daftarlist').DataTable({
+                        var table = $('').DataTable({
                       "scrollX": true,
                       "autoWidth": true,
                       processing: true,
                       serverSide: true,
                       ajax: {
-                          url: "{{ route('kurikulummatakuliahbelumterdaftar.data') }}",
+                         
+                          url: "{{ url('akademik/kurikulum/datakurikulummatakuliahbelumterdaftar') }}/" + idkurikulum,
                           type: "GET",
                       },
                       columns: [
@@ -417,18 +425,19 @@
                 }
       
                 function add() {
-      
-                  var semester =$('.semesters').val();
+                  
+                  var semester =$('#datasemester').val();
                   var idmatakuliah = $("input[name=idmatakuliah]").val();
                   var idkurikulum = $('#idkurikulum').val();
-      
+                  
                   if ($('#wajibs').is(":checked"))
                   {
                       var wajib = $('#wajibs').val();
                   }else{
                       var wajib = "n";
                   }
-      
+
+                    
                   jQuery.ajax({
                       url:"{{ url('akademik/kurikulum/tambahsemester') }}?idmatakuliah=" + idmatakuliah +"&wajib=" + wajib + "&idkurikulum=" + idkurikulum + "&semester=" +semester,
                       type:"GET",
@@ -436,7 +445,7 @@
                       success:function(data){
                           // alert('data berhasil ditambah');
       
-                          var oTables = $('#page-length-option').dataTable(); //inialisasi datatable
+                          var oTables = $('.daftarlist').DataTable()//inialisasi datatable
                                   oTables.fnDraw(false); //reset datatable
                                   iziToast.success({ //tampilkan iziToast dengan notif data berhasil disimpan pada posisi kanan bawah
                                       title: 'Data Berhasil Ditambah',
@@ -444,8 +453,9 @@
                                       success ')}}',
                                       position: 'bottomRight'
                                   });
-      
-                          table.ajax.reload();
+
+                            
+                         table.ajax.reload();
                       }
                   });
       
