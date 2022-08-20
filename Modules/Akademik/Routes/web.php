@@ -2903,4 +2903,141 @@ Route::prefix('tingkatprestasi')->group(
             }
         );
 
+        //Konversi Kampus Merdeka
+        Route::prefix('konversikampusmerdeka')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@data',
+                        'as' => 'konversikampusmerdeka.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@index',
+                        'as' => 'konversikampusmerdeka.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@create',
+                        'as' => 'konversikampusmerdeka.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@store',
+                        'as' => 'konversikampusmerdeka.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@edit',
+                        'as' => 'konversikampusmerdeka.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@update',
+                        'as' => 'konversikampusmerdeka.update'
+                    ]
+                );
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@destroy',
+                        'as' => 'konversikampusmerdeka.destroy'
+                    ]
+                );
+
+                Route::get(
+                    '/datapesertaaktif/{id}',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@dataPesertaAktif',
+                        'as' => 'konversikampusmerdeka.datapesertaaktif'
+                    ]
+                );
+
+                Route::post(
+                    '/storeperanpeserta',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@addPesertaAktif',
+                        'as' => 'konversikampusmerdeka.storeperanpeserta'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deletepeserta',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@destroyPeserta',
+                        'as' => 'konversikampusmerdeka.destroypeserta'
+                    ]
+                );
+
+                // dosen pembimbing aktivitas mahasiswa
+                Route::get(
+                    '/datapembimbing/{id}',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@dataPembimbingKonversiKampusMedeka',
+                        'as' => 'konversikampusmerdeka.datapembimbingkonversikampusmerdeka'
+                    ]
+                );
+
+                Route::post(
+                    '/storepembimbing',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@addPembimbingKonversiKampusMedeka',
+                        'as' => 'konversikampusmerdeka.storepembimbingkonversikampusmerdeka'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deletepembimbing',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@destroyPembimbingKonversiKampusMedeka',
+                        'as' => 'konversikampusmerdeka.destroypembimbingkonversikampusmerdeka'
+                    ]
+                );
+
+                // penguji
+                Route::get(
+                    '/datapenguji/{id}',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@dataPengujiKonversiKampusMedeka',
+                        'as' => 'konversikampusmerdeka.datapengujikonversikampusmerdeka'
+                    ]
+                );
+
+                Route::post(
+                    '/storepenguji',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@addPengujiKonversiKampusMedeka',
+                        'as' => 'konversikampusmerdeka.storepengujikonversikampusmerdeka'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/deletepenguji',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@destroyPengujiKonversiKampusMedeka',
+                        'as' => 'konversikampusmerdeka.destroypengujikonversikampusmerdeka'
+                    ]
+                );
+
+                Route::post(
+                    '/cek',
+                    [
+                        'uses' => 'KonversiKampusMedekaController@cekSubmit',
+                        'as' => 'konversikampusmerdeka.cek'
+                    ]
+                );
+            }
+        );
+
 });
