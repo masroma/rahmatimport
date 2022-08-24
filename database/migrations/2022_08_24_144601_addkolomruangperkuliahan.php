@@ -19,14 +19,14 @@ class Addkolomruangperkuliahan extends Migration
         });
 
         Schema::table('mata_kuliahs', function (Blueprint $table) {
-            $table->integer('min_nilai_kelulusan')->after('bobot_simulasi')->default(0);
+            $table->decimal('min_nilai_kelulusan',5,2)->after('bobot_simulasi')->default(0);
         });
 
         Schema::create('persyaratan_kelas_perkuliahan', function (Blueprint $table) {
             $table->id();
             $table->integer('kelasperkuliahan_id');
-            $table->text('key');
-            $table->text('value');
+            $table->text('key')->nullable();
+            $table->text('value')->nullable();
             $table->timestamps();
         });
     }
