@@ -146,40 +146,32 @@
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                   </div>
-                  <div class="input-field col s4 ">
+                  <div class="input-field col s4 my-5">
 
-                    <input placeholder="color" name="color" id="color" type="color" class="validate  @error('color') is-invalid @enderror" value="{{ old('color') }}">
+                    <div class="d-flex">
+                     <label for="first_name">Type Mahasiswa Yang Bisa mengikuti Kelas ini selain reguler</label>
+                     @foreach($typemahasiswa as $m)
+                        <p>
+                         <label>
+                             <input type="checkbox" name="type_mahasiswa[]"  value="{{ old('type_mahasiswa',$m->type_mahasiswa) }}"/>
+                             <span>kelas {{ $m->type_mahasiswa }}</span>
+                           </label>
+                        </p>
+                        @endforeach
+                    </div>
 
+                     @error('type_mahasiswa')
+                     <span class="red-text text-darken-2">{{ $message }}</small>
+                     @enderror
+                </div>
 
-                    @error('color')
-                    <span class="red-text text-darken-2">{{ $message }}</small>
-                    @enderror
-                  </div>
 
                 </div>
 
                 <div class="row">
-                    <div class="input-field col s4 my-5">
+                   
 
-                        <div class="d-flex">
-                         <label for="first_name">Type Mahasiswa Yang Bisa Ikut Kelas</label>
-                         @foreach($typemahasiswa as $m)
-                            <p>
-                             <label>
-                                 <input type="checkbox" name="type_mahasiswa[]"  value="{{ old('type_mahasiswa',$m->type_mahasiswa) }}"/>
-                                 <span>{{ $m->type_mahasiswa }}</span>
-                               </label>
-                            </p>
-                            @endforeach
-                        </div>
-
-                         @error('type_mahasiswa')
-                         <span class="red-text text-darken-2">{{ $message }}</small>
-                         @enderror
-                       </div>
-
-
-                    <div class="input-field col s4">
+                    <div class="input-field col s6">
                         <select name="jenis_kelas" class="select2 browser-default">
                             <option value="">jenis_kelas</option>
                             <option value="reguler" @if(old('jenis_kelas') == 'reguler') selected @endif>Reguler</option>
@@ -192,7 +184,7 @@
                         @enderror
                     </div>
 
-                        <div class="input-field col s4">
+                        <div class="input-field col s6">
                             <input placeholder="Generate Kelas" name="jumlah_generate_kelas" id="jumlah_generate_kelas" type="number" class="validate  @error('nama_kelas') is-invalid @enderror" value="{{ old('jumlah_generate_kelas') }}">
                             <label for="first_name">Jumlah Generate Kelas</label>
 
@@ -201,6 +193,25 @@
                             @enderror
                           </div>
 
+                </div>
+
+                <div class="row">
+                  <div class="input-field col s6">
+                    <input placeholder="min peserta kelas" name="min_peserta" id=""min_peserta" type="number" class="validate  @error('min_peserta') is-invalid @enderror" value="{{ old('min_peserta') }}">
+                    <label for="first_name">Minimal Peserta Kelas</label>
+
+                    @error('min_peserta')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+                  <div class="input-field col s6">
+                    <input placeholder="max peserta kelas" name="max_peserta" id=""max_peserta" type="number" class="validate  @error('max_peserta') is-invalid @enderror" value="{{ old('max_peserta') }}">
+                    <label for="first_name">Max Peserta Kelas</label>
+
+                    @error('min_peserta')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
                 </div>
 
 
