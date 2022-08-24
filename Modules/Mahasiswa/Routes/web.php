@@ -47,6 +47,13 @@ Route::prefix('mahasiswa')->group(function() {
                         'as' => 'informasimatakuliah'
                     ]
                 );
+                Route::get(
+                    '/show/{id}',
+                    [
+                        'uses' => 'InformasiMatakuliahController@show',
+                        'as' => 'informasimatakuliah.show'
+                    ]
+                );
             }
         );
     });

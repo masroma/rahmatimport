@@ -52,6 +52,7 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Kelas</th>
+                    <th>Penggunaan</th>
                     <th>Kode Matakuliah</th>
                     <th>Matakuliah</th>
                     <th>Hari</th>
@@ -110,6 +111,12 @@
                       {
                             data: 'namakelas',
                             name: 'namakelas'
+                        },
+
+                        
+                        {
+                            data: 'penggunaankelas',
+                            name: 'penggunaankelas'
                         },
 
                         {
