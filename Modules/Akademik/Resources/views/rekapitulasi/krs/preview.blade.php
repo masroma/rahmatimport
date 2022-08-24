@@ -28,7 +28,7 @@
                                     <td align="left">
                                         <div class="repTitle">
                                             <font size="3">
-                                                <strong>PANGKALAN DATA PENDIDIKAN TINGGI</strong>
+                                                <strong>PANGKALAN main PENDIDIKAN TINGGI</strong>
                                             </font>
                                             <br>
                                             <font size="2">
@@ -53,15 +53,15 @@
             </tr>
             <tr>
                 <td align="left" width="20%"><strong>Nama Mahasiswa</strong></td>
-                <td align="left" width="30%"><strong>:</strong> {{ $selKRSMahasiswa[0]->nama }}</td>
+                <td align="left" width="30%"><strong>:</strong> {{ $main[0]->nama }}</td>
                 <td align="left" width="20%"><strong>NIM</strong></td>
-                <td align="left"><strong>:</strong> {{ $selKRSMahasiswa[0]->nim }}</td>
+                <td align="left"><strong>:</strong> {{ $main[0]->nim }}</td>
             </tr>
             <tr>
                 <td align="left"><strong>Program Studi</strong></td>
-                <td align="left"><strong>:</strong> {{ $selKRSMahasiswa[0]->nama_jurusan }}</td>
+                <td align="left"><strong>:</strong> {{ $main[0]->nama_jurusan }}</td>
                 <td align="left"><strong>Periode</strong></td>
-                <td align="left"><strong>:</strong> {{ $selKRSMahasiswa[0]->tahun_ajaran }} - {{ $selKRSMahasiswa[0]->jenis_semester }}</td>
+                <td align="left"><strong>:</strong> {{ $main[0]->tahun_ajaran }} - {{ $main[0]->jenis_semester }}</td>
             </tr>
         </tbody>
     </table>
@@ -79,9 +79,9 @@
             @php
             $no = 1;
             $totalsks = 0 ;
-            $maxdata = count($selKRSMahasiswa);
+            $maxmain = count($main);
             @endphp
-            @foreach($selKRSMahasiswa as $skrsm)
+            @foreach($main as $skrsm)
 
             <tr>
                 <td align="center">{{ $no++ }}</td>
