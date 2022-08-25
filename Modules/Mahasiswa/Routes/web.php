@@ -54,6 +54,13 @@ Route::prefix('mahasiswa')->group(function() {
                         'as' => 'informasimatakuliah.show'
                     ]
                 );
+                Route::get(
+                    '/cetak',
+                    [
+                        'uses' => 'InformasiMatakuliahController@cetak',
+                        'as' => 'informasimatakuliah.cetak'
+                    ]
+                );
             }
         );
     });

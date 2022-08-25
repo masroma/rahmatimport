@@ -2,6 +2,7 @@
 
 namespace Modules\Mahasiswa\Http\Controllers;
 
+use App\Models\JenisSemester;
 use App\Models\Kurikulum;
 use App\Models\KurikulumMatakuliah;
 use App\Models\MataKuliah;
@@ -98,5 +99,21 @@ class InformasiMatakuliahController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function cetak(){
+        $mahasiswa = User::with('mahasiswa.Riwayatpendidikan.Programstudy.jenjang','mahasiswa.Riwayatpendidikan.Programstudy.jurusan','mahasiswa.Riwayatpendidikan.Kampus')->findOrFail(Auth::user()->id);
+
+        // dd($mahasiswa->mahasiswa->Riwayatpendidikan->Kampus);
+       
+        $programstudyid = $mahasiswa->mahasiswa->riwayatpendidikan->programstudy->id;
+        $matakuliahkurikulum = Kurikulum::with(['matakuliah.matakuliah.Jenismatakuliah','matakuliah.matakuliah.kelas','matakuliahsemester' => function($q) {
+            $q->groupBy('semester');
+        }])->where('programstudy_id',$programstudyid)->first();
+
+        $semester = JenisSemester::with('TahunAjaran')->orderByDesc('id')->first();
+       
+       
+        return view('mahasiswa::informasimatakuliah.cetak',compact('matakuliahkurikulum','mahasiswa','semester'));
     }
 }
