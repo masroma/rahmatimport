@@ -52,7 +52,7 @@
                                         <tr>
                                             <td>Perkuliahan</td>
                                             <td>{{ $perkuliahan->hari }}</td>
-                                            <td>{{ $perkuliahan->jam_awal }} - {{ $perkuliahan->jam_akhir }} </td>
+                                            <td>{{ \Carbon\Carbon::parse($perkuliahan->jam_awal)->format('H:i')}} - {{  \Carbon\Carbon::parse($perkuliahan->jam_akhir)->format('H:i') }} </td>
                                             <td>{{ $perkuliahan->ruang->kode_ruang }}-{{ $perkuliahan->ruang->nama_ruang }} cabang {{ $perkuliahan->ruang->listkampus->cabang_kampus }}</td>
                                         </tr>
                                     </tbody>

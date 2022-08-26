@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use PDF;
 
 class InformasiMatakuliahController extends Controller
 {
@@ -112,8 +113,19 @@ class InformasiMatakuliahController extends Controller
         }])->where('programstudy_id',$programstudyid)->first();
 
         $semester = JenisSemester::with('TahunAjaran')->orderByDesc('id')->first();
+        $data = [
+            'matakuliahkurikulum' => $matakuliahkurikulum,
+            'mahasiswa' => $mahasiswa,
+            'semester' => $semester
+        ]; 
+
+        $pdf = PDF::loadView('mahasiswa::informasimatakuliah.cetak', $data);
+
+     
+
+        return $pdf->download('listmatakuliah.pdf');
        
        
-        return view('mahasiswa::informasimatakuliah.cetak',compact('matakuliahkurikulum','mahasiswa','semester'));
+        // return view('mahasiswa::informasimatakuliah.cetak',compact('matakuliahkurikulum','mahasiswa','semester'));
     }
 }

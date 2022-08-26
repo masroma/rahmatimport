@@ -39,6 +39,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col s12">
+                 
+                        <a class="btn waves-effect waves-light breadcrumbs-btn left mb-1"  href="{{ route('informasimatakuliah.cetak') }}"   id="tombol-tambah" ><i class="material-icons left">local_printshop</i>Cetak</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
                        <ul class="collapsible collapsible-accordion">
                         @if($matakuliahkurikulum)
                          @foreach ($matakuliahkurikulum->matakuliahsemester as $row)
