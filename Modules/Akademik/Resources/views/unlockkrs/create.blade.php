@@ -49,63 +49,48 @@
             @csrf
              
                   <div class="input-field col s6">
-                   <select name="key"  class="select2 browser-default">
-                    <option  {{ old('key') == 'krs' ? 'selected' : '' }}  value="krs">KRS</option>
-                    <option  {{ old('key') == 'input_nilai' ? 'selected' : '' }}  value="input_nilai">Input Nilai</option>
+                   <select name="mahasiswa_id"  class="select2 browser-default">
+                    <option value="" disabled selected>Mahasiswa</option>
+                    @foreach ($mahasiswa as $row)
+                      <option value="{{ $row->id }}"  {{ old('mahasiswa_id') == $row->id ? 'selected' : '' }} >{{ $row->nim }}{{ " " }} {{ $row->nama }}</option>
+                    @endforeach
                    </select>
                     <label for="first_name">Type  <span style="color:red">*</span></label>
 
-                    @error('cabang_kampus')
+                    @error('mahasiswa_id')
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                   </div>
 
                   <div class="input-field col s6">
-                    <select name="tahunajaran_id" class="select2 browser-default">
+                    <select name="jenissemester_id" class="select2 browser-default">
                         <option value="" disabled selected>Tahun Ajaran</option>
-                        @foreach($tahunajaran as $row)
-                            <option  {{ old('tahunajaran_id') == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{ $row->jenis_semester .' '. $row->tahunajaran->tahun_ajaran }}</option>
+                        @foreach($jenissemester as $row)
+                            <option  {{ old('jenissemester_id') == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{ $row->jenis_semester .' '. $row->tahunajaran->tahun_ajaran }}</option>
                         @endforeach
                     </select>
                      <label for="first_name">Semester <span style="color:red">*</span></label>
  
-                     @error('cabang_kampus')
+                     @error('jenissemester_id')
                      <span class="red-text text-darken-2">{{ $message }}</small>
                      @enderror
                 </div>
 
-                <div class="input-field col s6">
-                    <input type="date" name="start_tanggal" class="validate  @error('start_tanggal') is-invalid @enderror"  value="{{ old('start_tanggal') }}" >
-                    <label for="first_name">Start Tanggal <span style="color:red">*</span></label>
-                    @error('start_tanggal')
+                <div class="input-field col s12">
+                    <input type="number" name="totalkrs"  value="{{ old('totalkrs') }}" >
+                    <label for="first_name">Total KRS <span style="color:red">*</span></label>
+                    @error('totalkrs')
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                 </div>
 
-                <div class="input-field col s6">
-                    <input type="time" name="start_time" class="validate  @error('start_time') is-invalid @enderror"  value="{{ old('start_time') }}" >
-                    <label for="first_name">Start Jam <span style="color:red">*</span></label>
+                <div class="input-field col s12">
+                    <textarea class="validate" name="keterangan"> {{ old('keterangan') }} </textarea>
+                    <label for="first_name">Keterangan</label>
                     @error('start_time')
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                 </div>
-
-                <div class="input-field col s6">
-                    <input type="date" name="end_tanggal" class="validate  @error('end_tanggal') is-invalid @enderror"  value="{{ old('end_tanggal') }}" >
-                    <label for="first_name">End Tanggal <span style="color:red">*</span></label>
-                    @error('end_tanggal')
-                    <span class="red-text text-darken-2">{{ $message }}</small>
-                    @enderror
-                </div>
-
-                <div class="input-field col s6">
-                    <input type="time" name="end_time" class="validate  @error('end_time') is-invalid @enderror"  value="{{ old('end_time') }}" >
-                    <label for="end_name">End Jam <span style="color:red">*</span></label>
-                    @error('end_time')
-                    <span class="red-text text-darken-2">{{ $message }}</small>
-                    @enderror
-                </div>
-              
 
                 <div class="input-field col s12">
                     <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>save</button>

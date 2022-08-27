@@ -22,4 +22,14 @@ class UnlockKrs extends Model
     {
         return $this->belongsTo(JenisSemester::class, 'jenissemester_id', 'id');
     }
+
+    /**
+     * Get the user that owns the UnlockKrs
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Admin()
+    {
+        return $this->belongsTo(User::class, 'admin', 'id');
+    }
 }

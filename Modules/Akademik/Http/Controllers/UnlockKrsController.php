@@ -40,23 +40,26 @@ class UnlockKrsController extends Controller
             // $canShow = Gate::allows('unlockkrs-show');
             $canUpdate = Gate::allows('unlockkrs-edit');
             $canDelete = Gate::allows('unlockkrs-delete');
-            $data = UnlockKrs::with('jenissemester.TahunAjaran','mahasiswa')->get();
+            $data = UnlockKrs::with('jenissemester.TahunAjaran','mahasiswa','Admin')->get();
+            
             return DataTables::of($data)
 
-            
-                    ->addColumn('tahunajaran', function($data){
-                        return $data->jenissemester->jenis_semester .' '. $data->jenissemester->tahunajaran->tahun_ajaran;
+                    ->addColumn('semester', function($data){
+                        return  $data->JenisSemester ? $data->JenisSemester->jenis_semester : ' '. ' ' . $data->jenissemester ?? $data->jenissemester->TahunAjaran->tahun_ajaran;
                     })
 
                     ->addColumn('namamahasiswa', function($data){
-                        return $data->mahasiswa->nama;
+                        return $data->Mahasiswa->nama;
+                    })
+
+                    ->addColumn('admin', function($data){
+                        return $data->Admin->name;
                     })
 
                     ->addColumn('nimmahasiswa', function($data){
                         return $data->mahasiswa->nim;
                     })
                 
-
                     ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
 
                         $btn = '';
@@ -145,6 +148,8 @@ class UnlockKrsController extends Controller
             $save->mahasiswa_id = $request->mahasiswa_id;
             $save->jenissemester_id = $request->jenissemester_id;
             $save->totalkrs = $request->totalkrs;
+            $save->keterangan = $request->keterangan;
+            $save->admin = Auth::user()->id;
             $save->save();
 
             DB::commit();
@@ -204,19 +209,21 @@ class UnlockKrsController extends Controller
      */
     public function update(Request $request, $id)
     {
+       dd($request->all());
         DB::beginTransaction();
         try {
             $this->validate($request, [
-                'mahasiswa_id' => 'required',
-                'jenissemester_id' => 'required',
-                'totalkrs'=>'required'
-
+                // 'mahasiswa_id' => 'required',
+                // 'jenissemester_id' => 'required',
+                // 'totalkrs'=>'required'
             ]);
 
-            $save = unlockkrs::find($id);
+            $save = UnlockKrs::find($id);
             $save->mahasiswa_id = $request->mahasiswa_id;
             $save->jenissemester_id = $request->jenissemester_id;
             $save->totalkrs = $request->totalkrs;
+            $save->keterangan = $request->keterangan;
+            $save->admin = Auth::user()->id;
             $save->save();
 
             DB::commit();

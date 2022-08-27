@@ -941,68 +941,134 @@ Route::prefix('akademik')->group(function() {
 
         // cutlock time
         // tahun ajaran
-Route::prefix('cutlocktime')->group(
-    function () {
-        Route::get(
-            '/data',
-            [
-                'uses' => 'CutLockTimeController@data',
-                'as' => 'cutlocktime.data'
-            ]
+            Route::prefix('cutlocktime')->group(
+                function () {
+                    Route::get(
+                        '/data',
+                        [
+                            'uses' => 'CutLockTimeController@data',
+                            'as' => 'cutlocktime.data'
+                        ]
+                    );
+                    Route::get(
+                        '/',
+                        [
+                            'uses' => 'CutLockTimeController@index',
+                            'as' => 'cutlocktime.index'
+                        ]
+                    );
+                    Route::get(
+                        '/create',
+                        [
+                            'uses' => 'CutLockTimeController@create',
+                            'as' => 'cutlocktime.create'
+                        ]
+                    );
+                    Route::post(
+                        '/store',
+                        [
+                            'uses' => 'CutLockTimeController@store',
+                            'as' => 'cutlocktime.store'
+                        ]
+                    );
+                    Route::post(
+                        '/updatestatus',
+                        [
+                            'uses' => 'CutLockTimeController@updateStatus',
+                            'as' => 'cutlocktime.updatestatus'
+                        ]
+                    );
+                    Route::get(
+                        '/{id}/edit',
+                        [
+                            'uses' => 'CutLockTimeController@edit',
+                            'as' => 'cutlocktime.edit'
+                        ]
+                    );
+                    Route::post(
+                        '/update/{id}',
+                        [
+                            'uses' => 'CutLockTimeController@update',
+                            'as' => 'cutlocktime.update'
+                        ]
+                    );
+            
+            
+                    Route::get(
+                        '/{id}/delete',
+                        [
+                            'uses' => 'CutLockTimeController@destroy',
+                            'as' => 'cutlocktime.destroy'
+                        ]
+                    );
+                }
+            );
+
+        // unclokkrs
+        Route::prefix('unlockkrs')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'UnlockKrsController@data',
+                        'as' => 'unlockkrs.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'UnlockKrsController@index',
+                        'as' => 'unlockkrs.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'UnlockKrsController@create',
+                        'as' => 'unlockkrs.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'UnlockKrsController@store',
+                        'as' => 'unlockkrs.store'
+                    ]
+                );
+                Route::post(
+                    '/updatestatus',
+                    [
+                        'uses' => 'UnlockKrsController@updateStatus',
+                        'as' => 'unlockkrs.updatestatus'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'UnlockKrsController@edit',
+                        'as' => 'unlockkrs.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'UnlockKrsController@update',
+                        'as' => 'unlockkrs.update'
+                    ]
+                );
+        
+        
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'UnlockKrsController@destroy',
+                        'as' => 'unlockkrs.destroy'
+                    ]
+                );
+            }
         );
-        Route::get(
-            '/',
-            [
-                'uses' => 'CutLockTimeController@index',
-                'as' => 'cutlocktime.index'
-            ]
-        );
-        Route::get(
-            '/create',
-            [
-                'uses' => 'CutLockTimeController@create',
-                'as' => 'cutlocktime.create'
-            ]
-        );
-        Route::post(
-            '/store',
-            [
-                'uses' => 'CutLockTimeController@store',
-                'as' => 'cutlocktime.store'
-            ]
-        );
-        Route::post(
-            '/updatestatus',
-            [
-                'uses' => 'CutLockTimeController@updateStatus',
-                'as' => 'cutlocktime.updatestatus'
-            ]
-        );
-        Route::get(
-            '/{id}/edit',
-            [
-                'uses' => 'CutLockTimeController@edit',
-                'as' => 'cutlocktime.edit'
-            ]
-        );
-        Route::post(
-            '/update/{id}',
-            [
-                'uses' => 'CutLockTimeController@update',
-                'as' => 'cutlocktime.update'
-            ]
-        );
- 
- 
-        Route::get(
-            '/{id}/delete',
-            [
-                'uses' => 'CutLockTimeController@destroy',
-                'as' => 'cutlocktime.destroy'
-            ]
-        );
-    }
- );
+        
+        
  
 
         // penugasan dosen

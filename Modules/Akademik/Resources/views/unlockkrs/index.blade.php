@@ -56,6 +56,7 @@
                     <th>Semester</th>
                     <th>Total SKS</th>
                     <th>Keterangan</th>
+                    <th>Petugas</th>
                     <th>#</th>
                 </tr>
             </thead>
@@ -67,6 +68,7 @@
                   <th>Semester</th>
                   <th>Total SKS</th>
                   <th>Keterangan</th>
+                  <th>Petugas</th>
                   <th>#</th>
                 </tr>
               </tfoot>
@@ -107,7 +109,7 @@
                       processing: true,
                       serverSide: true,
                       ajax: {
-                          url: "{{ route('cutlocktime.data') }}",
+                          url: "{{ route('unlockkrs.data') }}",
                           type: "GET",
                       },
                       columns: [
@@ -125,16 +127,20 @@
                         },
 
                         {
-                            data: 'tahunajaran',
-                            name: 'tahunajaran'
+                            data: 'semester',
+                            name: 'semester'
                         },
                         {
                             data: 'totalkrs',
                             name: 'totalkrs'
                         },
                         {
-                            data: '',
-                            name: ''
+                            data: 'keterangan',
+                            name: 'keterangan'
+                        },
+                        {
+                            data: 'admin',
+                            name: 'admin'
                         },
                                               {
                             data: 'action',
@@ -164,7 +170,7 @@
                   })
                   .then((dt) => {
                       if (dt) {
-                          window.location.href = "{{ url('akademik/cutlocktime') }}/" + id + "/delete";
+                          window.location.href = "{{ url('akademik/unlockkrs') }}/" + id + "/delete";
                       }
                   });
           }
