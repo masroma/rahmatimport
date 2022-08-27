@@ -62,7 +62,7 @@
              </div>
 
              <div class="input-field col s6">
-               <select name="jenissemeter_id" class="select2 browser-default">
+               <select name="jenissemester_id" class="select2 browser-default">
                    <option value="" disabled selected>Tahun Ajaran</option>
                    @foreach($jenissemester as $row)
                        <option  {{ old('jenissemeter_id', $unlockkrs->jenissemester_id) == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{ $row->jenis_semester .' '. $row->tahunajaran->tahun_ajaran }}</option>

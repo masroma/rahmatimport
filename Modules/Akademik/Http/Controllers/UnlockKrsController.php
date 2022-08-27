@@ -209,13 +209,13 @@ class UnlockKrsController extends Controller
      */
     public function update(Request $request, $id)
     {
-       dd($request->all());
+      
         DB::beginTransaction();
         try {
             $this->validate($request, [
-                // 'mahasiswa_id' => 'required',
-                // 'jenissemester_id' => 'required',
-                // 'totalkrs'=>'required'
+                'mahasiswa_id' => 'required',
+                'jenissemester_id' => 'required',
+                'totalkrs'=>'required'
             ]);
 
             $save = UnlockKrs::find($id);
@@ -225,6 +225,8 @@ class UnlockKrsController extends Controller
             $save->keterangan = $request->keterangan;
             $save->admin = Auth::user()->id;
             $save->save();
+
+           
 
             DB::commit();
         } catch (ModelNotFoundException $exception) {
