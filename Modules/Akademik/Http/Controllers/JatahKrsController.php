@@ -2,10 +2,10 @@
 
 namespace Modules\Akademik\Http\Controllers;
 
+use App\Models\JatahKrs;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use App\Models\JalurMasukInternal;
 use DataTables;
 use Exception;
 use Auth;
@@ -14,9 +14,10 @@ use DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
-class JalurMasukInternalController extends Controller
+class JatahKrsController extends Controller
 {
-    /**
+   
+      /**
      * Display a listing of the resource.
      * @return Renderable
      */
@@ -29,22 +30,22 @@ class JalurMasukInternalController extends Controller
 
     function __construct()
     {
-         $this->middleware('permission:jalurmasuk-view|jalurmasuk-create|jalurmasuk-edit|jalurmasuk-show|jalurmasuk-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:jalurmasuk-view', ['only' => ['index']]);
-         $this->middleware('permission:jalurmasuk-create', ['only' => ['create','store']]);
-         $this->middleware('permission:jalurmasuk-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:jalurmasuk-show', ['only' => ['show']]);
-         $this->middleware('permission:jalurmasuk-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:jatahkrs-view|jatahkrs-create|jatahkrs-edit|jatahkrs-show|jatahkrs-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:jatahkrs-view', ['only' => ['index']]);
+         $this->middleware('permission:jatahkrs-create', ['only' => ['create','store']]);
+         $this->middleware('permission:jatahkrs-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:jatahkrs-show', ['only' => ['show']]);
+         $this->middleware('permission:jatahkrs-delete', ['only' => ['destroy']]);
 
     }
 
     public function data()
     {
         try {
-            // $canShow = Gate::allows('jalurmasuk-show');
-            $canUpdate = Gate::allows('jalurmasuk-edit');
-            $canDelete = Gate::allows('jalurmasuk-delete');
-            $data = JalurMasukInternal::all();
+            // $canShow = Gate::allows('jatahkrs-show');
+            $canUpdate = Gate::allows('jatahkrs-edit');
+            $canDelete = Gate::allows('jatahkrs-delete');
+            $data = JatahKrs::all();
             return DataTables::of($data)
 
                     ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
@@ -52,7 +53,7 @@ class JalurMasukInternalController extends Controller
                         $btn = '';
 
                         if ($canUpdate) {
-                            $btn .= '<a class="btn-floating btn-small" href="jalurmasuk/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
+                            $btn .= '<a class="btn-floating btn-small" href="jatahkrs/' .$data->id. '/edit"><i class="material-icons">edit</i></a>';
                         }
 
                         if ($canDelete) {
@@ -60,7 +61,7 @@ class JalurMasukInternalController extends Controller
                         }
 
                         // if ($canShow) {
-                        //     $btn .= '<a class="btn-floating green darken-1 btn-small" href="jalurmasuk/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+                        //     $btn .= '<a class="btn-floating green darken-1 btn-small" href="jatahkrs/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
                         // }
 
                         return $btn;
@@ -81,15 +82,15 @@ class JalurMasukInternalController extends Controller
 
     public function index()
     {
-        $canCreate = Gate::allows('jalurmasuk-create');
-        $name_page = "jalurmasuk";
-        $title = "jalur masuk internal";
+        $canCreate = Gate::allows('jatahkrs-create');
+        $name_page = "jatahkrs";
+        $title = "jatah krs";
         $data = array(
             'page' => $name_page,
             'canCreate' => $canCreate,
             "title" => $title
         );
-        return view('akademik::jalurmasuk.index')->with($data);
+        return view('akademik::jatahkrs.index')->with($data);
     }
 
     /**
@@ -100,17 +101,33 @@ class JalurMasukInternalController extends Controller
     {
         $form = [
             0 => [
-                "name" => "nama_jalur",
-                "type" => "text",
+                "name" => "ip_min",
+                "type" => "number",
                 "relasi" => "",
                 "col" => "s12",
                 "data" => "",
-                "placeholder" =>"nama jalur"
+                "placeholder" =>"ip minimal"
+            ],
+            1 => [
+                "name" => "ip_max",
+                "type" => "number",
+                "relasi" => "",
+                "col" => "s12",
+                "data" => "",
+                "placeholder" =>"ip maximal"
+            ],
+            2 => [
+                "name" => "jumlah_sks",
+                "type" => "number",
+                "relasi" => "",
+                "col" => "s12",
+                "data" => "",
+                "placeholder" =>"jumlah sks"
             ],
         ];
 
-        $name_page = "jalurmasuk";
-        $title = "jalur masuk internal";
+        $name_page = "jatahkrs";
+        $title = "jatah krs";
         $data = array(
             'page' => $name_page,
             'form' => $form,
@@ -118,7 +135,7 @@ class JalurMasukInternalController extends Controller
 
         );
 
-        return view('akademik::jalurmasuk.create')->with($data);
+        return view('akademik::jatahkrs.create')->with($data);
 
     }
 
@@ -132,25 +149,29 @@ class JalurMasukInternalController extends Controller
         DB::beginTransaction();
         try {
             $this->validate($request, [
-                'nama_jalur' => 'required'
+                'ip_min' => 'required',
+                'ip_max' => 'required',
+                'jumlah_sks' => 'required'
             ]);
 
-            $save = new JalurMasukInternal();
-            $save->nama_jalur = $request->nama_jalur;
+            $save = new JatahKrs();
+            $save->ip_min = $request->ip_min;
+            $save->ip_max = $request->ip_max;
+            $save->jumlah_sks = $request->jumlah_sks;
             $save->save();
 
             DB::commit();
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $exception) {
             DB::rollback();
             return back()->with('error', $exception->getMessage());
         }
 
         if ($save) {
             //redirect dengan pesan sukses
-            return redirect()->route('jalurmasuk.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            return redirect()->route('jatahkrs.index')->with(['success' => 'Data Berhasil Disimpan!']);
         } else {
             //redirect dengan pesan error
-            return redirect()->route('jalurmasuk.index')->with(['error' => 'Data Gagal Disimpan!']);
+            return redirect()->route('jatahkrs.index')->with(['error' => 'Data Gagal Disimpan!']);
         }
     }
 
@@ -172,27 +193,44 @@ class JalurMasukInternalController extends Controller
     public function edit($id)
     {
 
-        $jalurmasukinternal = JalurMasukInternal::findOrFail($id);
+        $jatahkrs = JatahKrs::findOrFail($id);
         $form = [
+        
             0 => [
-                "name" => "nama_jalur",
-                "type" => "text",
+                "name" => "ip_min",
+                "type" => "number",
                 "relasi" => "",
                 "col" => "s12",
-                "data" => $jalurmasukinternal->nama_jalur,
-                "placeholder" =>"nama jalur"
+                "data" => $jatahkrs->ip_min,
+                "placeholder" =>"ip minimal"
+            ],
+            1 => [
+                "name" => "ip_max",
+                "type" => "number",
+                "relasi" => "",
+                "col" => "s12",
+                "data" =>  $jatahkrs->ip_max,
+                "placeholder" =>"ip maximal"
+            ],
+            2 => [
+                "name" => "jumlah_sks",
+                "type" => "number",
+                "relasi" => "",
+                "col" => "s12",
+                "data" =>  $jatahkrs->jumlah_sks,
+                "placeholder" =>"jumlah sks"
             ],
         ];
 
-        $name_page = "jalurmasuk";
-        $title = "jalur masuk internal";
+        $name_page = "jatahkrs";
+        $title = "jatah krs";
         $data = array(
             'page' => $name_page,
             'form' => $form,
             'title' => $title,
-            'jalurmasukinternal' =>  $jalurmasukinternal
+            'jatahkrs' => $jatahkrs
         );
-        return view('akademik::jalurmasuk.edit')->with($data);
+        return view('akademik::jatahkrs.edit')->with($data);
     }
 
     /**
@@ -206,25 +244,29 @@ class JalurMasukInternalController extends Controller
         DB::beginTransaction();
         try {
             $this->validate($request, [
-                'nama_jalur' => 'required'
+                'ip_min' => 'required',
+                'ip_max' => 'required',
+                'jumlah_krs' => 'required'
             ]);
 
-            $save = JalurMasukInternal::findOrFail($id);
-            $save->nama_jalur = $request->nama_jalur;
+            $save = JatahKrs::findOrFail($id);
+            $save->ip_min = $request->ip_min;
+            $save->ip_max = $request->ip_max;
+            $save->jumlah_sks = $request->jumlah_sks;
             $save->save();
 
             DB::commit();
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $exception) {
             DB::rollback();
             return back()->with('error', $exception->getMessage());
         }
 
         if ($save) {
             //redirect dengan pesan sukses
-            return redirect()->route('jalurmasuk.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            return redirect()->route('jatahkrs.index')->with(['success' => 'Data Berhasil Disimpan!']);
         } else {
             //redirect dengan pesan error
-            return redirect()->route('jalurmasuk.index')->with(['error' => 'Data Gagal Disimpan!']);
+            return redirect()->route('jatahkrs.index')->with(['error' => 'Data Gagal Disimpan!']);
         }
     }
 
@@ -237,18 +279,18 @@ class JalurMasukInternalController extends Controller
     {
         DB::beginTransaction();
         try {
-           $delete =  JalurMasukInternal::find($id)->delete();
+           $delete =  JatahKrs::find($id)->delete();
             DB::commit();
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $exception) {
             DB::rollback();
             return back()->withError($exception->getMessage())->withInput();
         }
         if ($delete) {
             //redirect dengan pesan sukses
-            return redirect()->route("jalurmasuk.index")->with("success", "Data berhasil dihapus");
+            return redirect()->route("jatahkrs.index")->with("success", "Data berhasil dihapus");
         } else {
             //redirect dengan pesan error
-            return redirect()->route("jalurmasuk.index")->with(["error" => "Data Gagal Dihapus!"]);
+            return redirect()->route("jatahkrs.index")->with(["error" => "Data Gagal Dihapus!"]);
         }
     }
 }

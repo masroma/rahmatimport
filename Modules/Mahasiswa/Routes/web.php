@@ -70,7 +70,7 @@ Route::prefix('mahasiswa')->group(function() {
                     '/',
                     [
                         'uses' => 'KrsController@index',
-                        'as' => 'krs'
+                        'as' => 'krs.index'
                     ]
                 );
             }

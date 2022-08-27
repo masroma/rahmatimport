@@ -1851,6 +1851,63 @@ Route::prefix('tingkatprestasi')->group(
             }
         );
 
+                // jalur pendaftaran
+        Route::prefix('jatahkrs')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'JatahKrsController@data',
+                        'as' => 'jatahkrs.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'JatahKrsController@index',
+                        'as' => 'jatahkrs.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'JatahKrsController@create',
+                        'as' => 'jatahkrs.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'JatahKrsController@store',
+                        'as' => 'jatahkrs.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'JatahKrsController@edit',
+                        'as' => 'jatahkrs.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'JatahKrsController@update',
+                        'as' => 'jatahkrs.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'JatahKrsController@destroy',
+                        'as' => 'jatahkrs.destroy'
+                    ]
+                );
+            }
+        );
+
         // jalur peminatan
         // jalur pendaftaran
         Route::prefix('peminatan')->group(

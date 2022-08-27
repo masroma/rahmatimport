@@ -2,6 +2,8 @@
 
 namespace Modules\Mahasiswa\Http\Controllers;
 
+use App\Models\JenisSemester;
+use App\Models\Krs;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -12,6 +14,12 @@ class KrsController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
+    public function data()
+    {
+        $semester = JenisSemester::where('active',1)->first();
+       
+    }
+
     public function index()
     {
         return view('mahasiswa::krs.index');
