@@ -63,5 +63,17 @@ Route::prefix('mahasiswa')->group(function() {
                 );
             }
         );
+
+        Route::prefix('krs')->group(
+            function () {
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'KrsController@index',
+                        'as' => 'krs'
+                    ]
+                );
+            }
+        );
     });
 });

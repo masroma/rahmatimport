@@ -46,43 +46,30 @@
     <div class="card-content">
       {{-- <h4 class="card-title">Page Length Options</h4> --}}
       <div class="row">
-        <div class="col-s12">
-          <form method="post" action="{{ route('tahunajaran.updatestatus') }}" >
-            @csrf
-            <div class="input-field col s4">
-              <select class="form-control" name="id" onchange="this.form.submit()">
-                <option value="">belum ada yang aktif</option>
-                @foreach ($semester as $s)
-                  <option value="{{ $s->id }}" @if($s->active == 1) selected @endif>{{ $s->jenis_semester }}-{{ $s->TahunAjaran->tahun_ajaran }}</option>
-                @endforeach
-              </select>
-              <label for="first_name">Status Tahun Ajaran Yang Aktif</label>
-              @error('tahun_ajaran')
-              <span class="red-text text-darken-2">{{ $message }}</small>
-              @enderror
-            </div>
-          </form>
-        </div>
         <div class="col s12">
           <table id="page-length-option" class="display">
             <thead>
                 <tr>
                     <th>No</th>
+                    <th>Type</th>
                     <th>Tahun Ajaran</th>
+                    <th>Tanggal Start</th>
+                    <th>Tanggal End</th>
                     <th>#</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
                     <th>No</th>
+                    <th>Type</th>
                     <th>Tahun Ajaran</th>
+                    <th>Tanggal Start</th>
+                    <th>Tanggal End</th>
                     <th>#</th>
                 </tr>
               </tfoot>
           </table>
         </div>
-
-        
       </div>
     </div>
   </div>
@@ -118,7 +105,7 @@
                       processing: true,
                       serverSide: true,
                       ajax: {
-                          url: "{{ route('tahunajaran.data') }}",
+                          url: "{{ route('cutlocktime.data') }}",
                           type: "GET",
                       },
                       columns: [
@@ -127,20 +114,36 @@
                           name:"DT_RowIndex"
                       },
                       {
-                            data: 'tahun_ajaran',
-                            name: 'tahun_ajaran'
+                            data: 'key',
+                            name: 'key'
+                        },
+                        {
+                            data: 'tahunajaran',
+                            name: 'tahunajaran'
+                        },
+                        {
+                            data: 'start',
+                            name: 'start'
+                        },
+                        {
+                            data: 'end',
+                            name: 'end'
+                        },
+                                              {
+                            data: 'action',
+                            name: 'action'
                         },
 
-                        {
-                            data:'action',
-                            name:'action'
-                        }
+
+
 
                       ],
                       order: [
                           [0, 'asc']
                       ]
                   });
+
+
               });
           }
 
@@ -154,10 +157,11 @@
                   })
                   .then((dt) => {
                       if (dt) {
-                          window.location.href = "{{ url('akademik/tahunajaran') }}/" + id + "/delete";
+                          window.location.href = "{{ url('akademik/cutlocktime') }}/" + id + "/delete";
                       }
                   });
           }
     </script>
+
 
 @endsection

@@ -78,13 +78,15 @@ class TahunAjaranController extends Controller
 
     public function index()
     {
+        $semester = JenisSemester::with('Tahunajaran')->get();
         $canCreate = Gate::allows('tahunajaran-create');
         $name_page = "tahunajaran";
         $title = "Tahun Ajaran";
         $data = array(
             'page' => $name_page,
             'canCreate' => $canCreate,
-            'title' => $title
+            'title' => $title,
+            'semester' => $semester
         );
         return view('akademik::tahunajaran.index')->with($data);
     }
@@ -175,6 +177,8 @@ class TahunAjaranController extends Controller
         );
         return view('akademik::tahunajaran.edit')->with($data);
     }
+
+    
     /**
      * Update the specified resource in storage.
      * @param Request $request
@@ -205,6 +209,31 @@ class TahunAjaranController extends Controller
                 $savesemester->save();
             }
 
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+
+
+            if ($update) {
+                //redirect dengan pesan sukses
+                return redirect()->route('tahunajaran.index')->with(['success' => 'Data Berhasil Diubah!']);
+            } else {
+                //redirect dengan pesan error
+                return redirect()->route('tahunajaran.index')->with(['error' => 'Data Gagal Diubah!']);
+            }
+    }
+
+    public function updateStatus(Request $request){
+        // dd($request->all());
+        DB::beginTransaction();
+        try {
+           $id = $request->id;
+            $update = JenisSemester::find($id);
+            $update->active = 1;
+            $update->save();
+          
             DB::commit();
         } catch (ModelNotFoundException $exception) {
             DB::rollback();

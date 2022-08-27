@@ -906,6 +906,13 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'tahunajaran.store'
                     ]
                 );
+                Route::post(
+                    '/updatestatus',
+                    [
+                        'uses' => 'TahunAjaranController@updateStatus',
+                        'as' => 'tahunajaran.updatestatus'
+                    ]
+                );
                 Route::get(
                     '/{id}/edit',
                     [
@@ -931,6 +938,72 @@ Route::prefix('akademik')->group(function() {
                 );
             }
         );
+
+        // cutlock time
+        // tahun ajaran
+Route::prefix('cutlocktime')->group(
+    function () {
+        Route::get(
+            '/data',
+            [
+                'uses' => 'CutLockTimeController@data',
+                'as' => 'cutlocktime.data'
+            ]
+        );
+        Route::get(
+            '/',
+            [
+                'uses' => 'CutLockTimeController@index',
+                'as' => 'cutlocktime.index'
+            ]
+        );
+        Route::get(
+            '/create',
+            [
+                'uses' => 'CutLockTimeController@create',
+                'as' => 'cutlocktime.create'
+            ]
+        );
+        Route::post(
+            '/store',
+            [
+                'uses' => 'CutLockTimeController@store',
+                'as' => 'cutlocktime.store'
+            ]
+        );
+        Route::post(
+            '/updatestatus',
+            [
+                'uses' => 'CutLockTimeController@updateStatus',
+                'as' => 'cutlocktime.updatestatus'
+            ]
+        );
+        Route::get(
+            '/{id}/edit',
+            [
+                'uses' => 'CutLockTimeController@edit',
+                'as' => 'cutlocktime.edit'
+            ]
+        );
+        Route::post(
+            '/update/{id}',
+            [
+                'uses' => 'CutLockTimeController@update',
+                'as' => 'cutlocktime.update'
+            ]
+        );
+ 
+ 
+        Route::get(
+            '/{id}/delete',
+            [
+                'uses' => 'CutLockTimeController@destroy',
+                'as' => 'cutlocktime.destroy'
+            ]
+        );
+    }
+ );
+ 
 
         // penugasan dosen
         Route::prefix('penugasandosen')->group(
