@@ -15,4 +15,14 @@ class Jurusan extends Model
     {
         return $this->belongsTo(Fakultas::class, 'fakultas_id', 'id');
     }
+
+    /**
+     * Get all of the comments for the Jurusan
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function SkalaNilai()
+    {
+        return $this->hasMany(SkalaNilai::class, 'programstudy_id', 'id');
+    }
 }
