@@ -600,7 +600,7 @@ class RekapitulasiController extends Controller
         }
         $this->exportView = 'akademik::rekapitulasi.khs.preview';
         $this->filename = "KHS_Mahasiswa" . $selKHSMahasiswa[0]->tahun_ajaran . "-" . $selKHSMahasiswa[0]->jenis_semester;
-        return $this->export(request('format'), $selKHSMahasiswa);
+        return $this->export(request('format'), ['selKHSMahasiswa'=>$selKHSMahasiswa]);
     }
 
     public function index_sksdosenmengajar()

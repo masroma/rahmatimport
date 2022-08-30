@@ -19,12 +19,12 @@
                         </ol>
                     </div>
                     <div class="col s2 m6 l6">
-                        {{-- <a class="btn waves-effect waves-light green  breadcrumbs-btn right me-3" style="margin-top:-3px; margin-left:10px" href="{{route($page.'.trash')}}"  id="tombol-tambah" ><i class="material-icons left">delete</i>Trash</a> --}}
-                        {{-- @if ($canCreate)
-              <a class="btn waves-effect waves-light breadcrumbs-btn right" href="{{route($page.'.create')}}"  id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
-
-              @endif --}}
-
+                        <a class="btn waves-effect waves-light green  breadcrumbs-btn right me-3"
+                            style="margin-top:-3px; margin-left:10px" href="#" onclick="$('#formSimpan').submit()"
+                            id="tombol-tambah"><i class="material-icons left">save</i>Simpan</a>
+                        <a class="btn waves-effect waves-light cyan  breadcrumbs-btn right me-3"
+                            style="margin-top:-3px; margin-left:10px" href="#" id="tombol-tambah"><i
+                                class="material-icons left">filter_list</i>Filter</a>
                     </div>
                 </div>
             </div>
@@ -32,33 +32,6 @@
         <div class="col s12">
             <div class="container">
                 <div class="section section-data-tables">
-                    <div class="card">
-
-                    </div>
-                    <!-- DataTables example -->
-
-                    <div id="modal1" class="modal modal-fixed-footer">
-                        <div class="modal-content">
-                            <h4>KRS </h4>
-                            <table id="page-length-options" class="display krs">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Kode</th>
-                                        <th>Matakuliah</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="" class="modal-action modal-close  waves-effect waves-green btn-flat ">x
-                                tutup</a>
-                        </div>
-                    </div>
-
-                    <!-- DataTables Row grouping -->
-
-
                     <!-- Page Length Options -->
                     <div class="row">
                         <div class="col s12">
@@ -67,63 +40,70 @@
                                     {{-- <h4 class="card-title">Page Length Options</h4> --}}
                                     <div class="row">
                                         <div class="col s12">
-                                            <table id="page-length-option" border="1">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="center-align" rowspan="2">No</th>
-                                                        <th class="center-align" rowspan="2">NIM</th>
-                                                        <th class="center-align" rowspan="2">Nama</th>
-                                                        <th class="center-align" colspan="6">Perhitungan Berdasarkan KRS & Nilai Mahasiswa
-                                                        </th>
-                                                        <th class="center-align" colspan="6">Data Aktivitas Kuliah Mahasiswa</th>
-                                                        <th class="center-align" rowspan="2">#</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="center-align">Status Mahasiswa</th>
-                                                        <th class="center-align">Jumlah SKS Semester</th>
-                                                        <th class="center-align">Jumlah SKS Total</th>
-                                                        <th class="center-align">IPK</th>
-                                                        <th class="center-align">IPS</th>
-                                                        <th class="center-align">Biaya Semester</th>
+                                            <form id="formSimpan" action="{{ route('hitungaktivitaskmahasiswa.store') }}"
+                                                method="POST">
+                                                @csrf
+                                                <table id="page-length-option" border="1">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="center-align" rowspan="2">No</th>
+                                                            <th class="center-align" rowspan="2">NIM</th>
+                                                            <th class="center-align" rowspan="2">Nama</th>
+                                                            <th class="center-align" colspan="6">Perhitungan Berdasarkan
+                                                                KRS & Nilai Mahasiswa
+                                                            </th>
+                                                            <th class="center-align" colspan="6">Data Aktivitas Kuliah
+                                                                Mahasiswa</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="center-align">Status Mahasiswa</th>
+                                                            <th class="center-align">Jumlah SKS Semester</th>
+                                                            <th class="center-align">Jumlah SKS Total</th>
+                                                            <th class="center-align">IPK</th>
+                                                            <th class="center-align">IPS</th>
+                                                            <th class="center-align">Biaya Semester</th>
 
-                                                        <th class="center-align">Status Mahasiswa</th>
-                                                        <th class="center-align">Jumlah SKS Semester</th>
-                                                        <th class="center-align">Jumlah SKS Total</th>
-                                                        <th class="center-align">IPK</th>
-                                                        <th class="center-align">IPS</th>
-                                                        <th class="center-align">Biaya Semester</th>
-                                                    </tr>
-                                                </thead>
-                                                <tfoot>
-                                                    <tr>
-                                                      <th class="center-align" rowspan="2">No</th>
-                                                        <th class="center-align" rowspan="2">NIM</th>
-                                                        <th class="center-align" rowspan="2">Nama</th>
-                                                        <th class="center-align">Status Mahasiswa</th>
-                                                        <th class="center-align">Jumlah SKS Semester</th>
-                                                        <th class="center-align">Jumlah SKS Total</th>
-                                                        <th class="center-align">IPK</th>
-                                                        <th class="center-align">IPS</th>
-                                                        <th class="center-align">Biaya Semester</th>
+                                                            <th class="center-align">Status Mahasiswa</th>
+                                                            <th class="center-align">Jumlah SKS Semester</th>
+                                                            <th class="center-align">Jumlah SKS Total</th>
+                                                            <th class="center-align">IPK</th>
+                                                            <th class="center-align">IPS</th>
+                                                            <th class="center-align">Biaya Semester</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th class="center-align" rowspan="2">No</th>
+                                                            <th class="center-align" rowspan="2">NIM</th>
+                                                            <th class="center-align" rowspan="2">Nama</th>
+                                                            <th class="center-align">Status Mahasiswa</th>
+                                                            <th class="center-align">Jumlah SKS Semester</th>
+                                                            <th class="center-align">Jumlah SKS Total</th>
+                                                            <th class="center-align">IPK</th>
+                                                            <th class="center-align">IPS</th>
+                                                            <th class="center-align">Biaya Semester</th>
 
-                                                        <th class="center-align">Status Mahasiswa</th>
-                                                        <th class="center-align">Jumlah SKS Semester</th>
-                                                        <th class="center-align">Jumlah SKS Total</th>
-                                                        <th class="center-align">IPK</th>
-                                                        <th class="center-align">IPS</th>
-                                                        <th class="center-align">Biaya Semester</th>
-                                                        <th class="center-align" rowspan="2">#</th>
-                                                    </tr>
-                                                    <tr>
-                                                        
-                                                        <th class="center-align" colspan="6">Perhitungan Berdasarkan KRS & Nilai Mahasiswa
-                                                        </th>
-                                                        <th class="center-align" colspan="6">Data Aktivitas Kuliah Mahasiswa</th>
-                                                        
-                                                    </tr>
+                                                            <th class="center-align">Status Mahasiswa</th>
+                                                            <th class="center-align">Jumlah SKS Semester</th>
+                                                            <th class="center-align">Jumlah SKS Total</th>
+                                                            <th class="center-align">IPK</th>
+                                                            <th class="center-align">IPS</th>
+                                                            <th class="center-align">Biaya Semester</th>
+                                                        </tr>
+                                                        <tr>
 
-                                                </tfoot>
-                                            </table>
+                                                            <th class="center-align" colspan="6">Perhitungan Berdasarkan
+                                                                KRS & Nilai Mahasiswa
+                                                            </th>
+                                                            <th class="center-align" colspan="6">Data Aktivitas Kuliah
+                                                                Mahasiswa</th>
+
+                                                        </tr>
+
+                                                    </tfoot>
+                                                </table>
+                                            </form>
+
                                         </div>
                                     </div>
                                 </div>
@@ -131,16 +111,47 @@
                         </div>
                     </div>
 
-
-
-
-
                 </div><!-- START RIGHT SIDEBAR NAV -->
 
             </div>
         </div>
         <div class="content-overlay"></div>
     </div>
+
+    <div id="detailKrs" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4>Detail KRS</h4>
+            <div class="container">
+                <div class="section section-data-tables">
+                    <!-- Page Length Options -->
+                    <div class="row">
+                        <div class="col s12">
+                            <table id="detailKrsTable" >
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Bobot(sks)</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Bobot(sks)</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close btn waves-effect waves-light red accent-2 ">Close</a>
+        </div>
     </div>
 
 
@@ -148,6 +159,7 @@
 @stop
 @section('script')
     <script>
+        var table;
         // ini vendor data
         (function() {
             loadDataTable();
@@ -173,36 +185,36 @@
                             name: 'nim'
                         },
                         {
-                            data: 'nama',
-                            name: 'nama'
+                            data: 'action',
+                            name: 'action'
                         },
                         {
-                            data: 'krs_nilai.status_id',
-                            name: 'krs_nilai.status_id'
+                            data: 'input_status',
+                            name: 'input_status',
                         },
                         {
-                            data: 'krs_nilai.jumlah_sks_semester',
-                            name: 'krs_nilai.jumlah_sks_semester'
+                            data: 'input_jumlah_sks',
+                            name: 'input_jumlah_sks'
                         },
                         {
-                            data: 'krs_nilai.sks_total',
-                            name: 'krs_nilai.sks_total'
+                            data: 'input_jumlah_sks_total',
+                            name: 'input_jumlah_sks_total'
                         },
                         {
-                            data: 'krs_nilai.ipk',
-                            name: 'krs_nilai.ipk'
+                            data: 'input_ipk',
+                            name: 'input_ipk'
                         },
                         {
-                            data: 'krs_nilai.ips',
-                            name: 'krs_nilai.ips'
+                            data: 'input_ips',
+                            name: 'input_ips'
                         },
                         {
-                            data: 'krs_nilai.biaya_kuliah',
-                            name: 'krs_nilai.biaya_kuliah'
+                            data: 'input_biaya_semester',
+                            name: 'input_biaya_semester'
                         },
                         {
-                            data: 'akm.status_id',
-                            name: 'akm.status_id'
+                            data: 'akm.status.status_mahasiswa',
+                            name: 'akm.status.status_mahasiswa'
                         },
                         {
                             data: 'akm.jumlah_sks_semester',
@@ -224,10 +236,6 @@
                             data: 'akm.biaya_kuliah',
                             name: 'akm.biaya_kuliah'
                         },
-                        {
-                            data: 'action',
-                            name: 'action'
-                        },
 
 
 
@@ -239,16 +247,20 @@
             });
         }
 
-        function detailKrs(id) {
-            console.log("data", id);
-            $(document).ready(function() {
-                $('#page-length-options').DataTable({
+        function detailKrs(e) {
+            console.log("data", e);
+                if(table){
+                    table.destroy()
+                }
+                table = $('#detailKrsTable').DataTable({
                     "scrollX": true,
                     "autoWidth": true,
                     processing: true,
                     serverSide: true,
+                    paging:false,
+                    retrieve: false,
                     ajax: {
-                        url: "{{ url('akademik/hitungaktivitaskuliahmahasiswa/datakrs') }}/" + id,
+                        url: "{{ url('akademik/hitungaktivitaskuliahmahasiswa/datakrs') }}/" + $(e).data('id'),
                         type: "GET",
                     },
                     columns: [{
@@ -275,7 +287,6 @@
                         [0, 'asc']
                     ]
                 });
-            });
         }
 
         function deleteConfirm(id) {

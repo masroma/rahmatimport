@@ -97,6 +97,14 @@ class Mahasiswa extends Model
         return $this->hasMany(Krs::class, 'mahasiswa_id', 'id')->with(['Matakuliah']);
     }
 
-  
+    public function nilai_perkuliahan()
+    {
+        return $this->hasMany(NilaiPerkuliahan::class,'mahasiswa_id','id')->with(['master_nilai']);
+    }
+
+    public function calculate_nilai()
+    {
+        return $this->hasMany(CalculateIpsIpk::class,'mahasiswa_id','id');
+    }
    
 }
