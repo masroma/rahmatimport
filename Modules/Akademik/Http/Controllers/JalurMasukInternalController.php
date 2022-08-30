@@ -11,6 +11,7 @@ use Exception;
 use Auth;
 use Gate;
 use DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class JalurMasukInternalController extends Controller

@@ -198,8 +198,9 @@ class RuangPerkuliahanController extends Controller
             $waktu = json_encode($ar);
 
             $cekdobleKelas = RuangPerkuliahan::where('kelasperkuliahan_id',$request->kelasperkuliahan_id)->first();
+            
 
-            if($cekdobleKelas != NULL){
+            if($cekdobleKelas != NULL && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
                 return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Kelas sudah ada diruangan lain']);
             }
 
@@ -236,27 +237,27 @@ class RuangPerkuliahanController extends Controller
             $hari = $request->hari;
            
             if($hari == 'senin'){
-                if(in_array($request->jam_mulai,$senin)){
+                if(in_array($request->jam_mulai,$senin)  && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'selasa'){
-                if(in_array($request->jam_mulai,$selasa)){
+                if(in_array($request->jam_mulai,$selasa)  && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'rabu'){
-                if(in_array($request->jam_mulai,$selasa)){
+                if(in_array($request->jam_mulai,$selasa)  && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'kamis'){
-                if(in_array($request->jam_mulai,$selasa)){
+                if(in_array($request->jam_mulai,$selasa)  && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'jumat'){
-                if(in_array($request->jam_mulai,$selasa)){
+                if(in_array($request->jam_mulai,$selasa)  && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'sabtu'){
-                if(in_array($request->jam_mulai,$selasa)){
+                if(in_array($request->jam_mulai,$selasa)  && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }
@@ -403,11 +404,17 @@ class RuangPerkuliahanController extends Controller
             // $canShow = Gate::allows("kelaskuliahshow");
             $canUpdate = Gate::allows("kelasperkuliahan-edit");
             $canDelete = Gate::allows("kelasperkuliahan-delete");
-            $data = RuangPerkuliahan::with('kelasPerkuliahan','kelasPerkuliahan.programstudy','kelasPerkuliahan.matakuliah')->where('ruang_id',$id)->get();
+            $data = RuangPerkuliahan::with('kelasPerkuliahan','kelasPerkuliahan.programstudy','kelasPerkuliahan.matakuliah','PenggunaanRuangs')->where('ruang_id',$id)->get();
             return DataTables::of($data)
                     ->addColumn('namakelas', function($data){
                         return $data->kelasperkuliahan->nama_kelas.$data->kelasperkuliahan->kode;
                     })
+
+                    ->addColumn('penggunaankelas', function($data){
+                        return $data->PenggunaanRuangs->penggunaan_ruangan;
+                    })
+
+
 
                     ->addColumn('kodematakuliah', function($data){
                         return $data->kelasperkuliahan->matakuliah->kode_matakuliah;

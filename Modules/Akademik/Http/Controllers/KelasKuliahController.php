@@ -172,8 +172,6 @@ class KelasKuliahController extends Controller
     public function store(Request $request)
     {
 
-
-
         DB::beginTransaction();
         try {
 
@@ -184,7 +182,6 @@ class KelasKuliahController extends Controller
                 "nama_kelas" => 'required',
                 "jenis_kelas" => 'required',
                 "type_mahasiswa" => 'required',
-                "color" => 'required'
             ]);
 
 
@@ -203,7 +200,9 @@ class KelasKuliahController extends Controller
                     $save->tanggal_mulai_kuliah = $request->tanggal_mulai_kuliah;
                     $save->tanggal_akhir_kuliah = $request->tanggal_akhir_kuliah;
                     $save->jenis_kelas = $request->jenis_kelas;
-                    $save->color = $request->color;
+                    $save->color = $request->color ?? '#000000';
+                    $save->min_peserta = $request->min_peserta ?? 0;
+                    $save->max_peserta = $request->max_peserta ?? 0;
                     $save->typemahasiswa_id = json_encode($request->type_mahasiswa) ?? null;
                     $save->kode = $kode[$random].$i;
                     $save->save();
@@ -219,7 +218,9 @@ class KelasKuliahController extends Controller
                 $save->tanggal_mulai_kuliah = $request->tanggal_mulai_kuliah;
                 $save->tanggal_akhir_kuliah = $request->tanggal_akhir_kuliah;
                 $save->jenis_kelas = $request->jenis_kelas;
-                $save->color = $request->color;
+                $save->color = $request->color ?? '#000000';
+                $save->min_peserta = $request->min_peserta ?? 0;
+                $save->max_peserta = $request->max_peserta ?? 0;
                 $save->typemahasiswa_id = json_encode($request->type_mahasiswa) ?? null;
                 $save->kode = NULL;
             }
@@ -259,6 +260,7 @@ class KelasKuliahController extends Controller
      */
     public function edit($id)
     {
+       
         $kelasperkuliahan = KelasPerkuliahan::findOrFail($id);
         // dd(json_decode($kelasperkuliahan->typemahasiswa_id));
         $name_page = "kelasperkuliahan";
@@ -287,6 +289,7 @@ class KelasKuliahController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         DB::beginTransaction();
         try {
             $this->validate($request, [
@@ -296,7 +299,6 @@ class KelasKuliahController extends Controller
                 "nama_kelas" => 'required',
                 "jenis_kelas" => 'required',
                 "type_mahasiswa" => 'required',
-                "color" => 'required'
             ]);
 
             $save = KelasPerkuliahan::findOrFail($id);
@@ -309,7 +311,9 @@ class KelasKuliahController extends Controller
             $save->tanggal_mulai_kuliah = $request->tanggal_mulai_kuliah;
             $save->tanggal_akhir_kuliah = $request->tanggal_akhir_kuliah;
             $save->jenis_kelas = $request->jenis_kelas;
-            $save->color = $request->color;
+            $save->min_peserta = $request->min_peserta ?? 0;
+            $save->max_peserta = $request->max_peserta ?? 0;
+            $save->color = $request->color ?? "#000000";
             $save->typemahasiswa_id = json_encode($request->type_mahasiswa) ?? null;
             $save->save();
             DB::commit();

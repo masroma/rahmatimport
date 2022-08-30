@@ -23,7 +23,12 @@ class RuangPerkuliahan extends Model
      */
     public function PenggunaanRuang()
     {
-        return $this->belongsTo(PenggunaanRuang::class, 'penggunaanruang_id', 'id');
+        return $this->belongsTo(PenggunaanRuangan::class, 'penggunaanruang_id', 'id');
+    }
+
+    public function PenggunaanRuangs()
+    {
+        return $this->belongsTo(PenggunaanRuangan::class, 'penggunaanruang_id', 'id');
     }
 
     /**

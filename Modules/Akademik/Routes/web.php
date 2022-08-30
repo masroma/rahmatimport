@@ -906,6 +906,13 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'tahunajaran.store'
                     ]
                 );
+                Route::post(
+                    '/updatestatus',
+                    [
+                        'uses' => 'TahunAjaranController@updateStatus',
+                        'as' => 'tahunajaran.updatestatus'
+                    ]
+                );
                 Route::get(
                     '/{id}/edit',
                     [
@@ -931,6 +938,138 @@ Route::prefix('akademik')->group(function() {
                 );
             }
         );
+
+        // cutlock time
+        // tahun ajaran
+            Route::prefix('cutlocktime')->group(
+                function () {
+                    Route::get(
+                        '/data',
+                        [
+                            'uses' => 'CutLockTimeController@data',
+                            'as' => 'cutlocktime.data'
+                        ]
+                    );
+                    Route::get(
+                        '/',
+                        [
+                            'uses' => 'CutLockTimeController@index',
+                            'as' => 'cutlocktime.index'
+                        ]
+                    );
+                    Route::get(
+                        '/create',
+                        [
+                            'uses' => 'CutLockTimeController@create',
+                            'as' => 'cutlocktime.create'
+                        ]
+                    );
+                    Route::post(
+                        '/store',
+                        [
+                            'uses' => 'CutLockTimeController@store',
+                            'as' => 'cutlocktime.store'
+                        ]
+                    );
+                    Route::post(
+                        '/updatestatus',
+                        [
+                            'uses' => 'CutLockTimeController@updateStatus',
+                            'as' => 'cutlocktime.updatestatus'
+                        ]
+                    );
+                    Route::get(
+                        '/{id}/edit',
+                        [
+                            'uses' => 'CutLockTimeController@edit',
+                            'as' => 'cutlocktime.edit'
+                        ]
+                    );
+                    Route::post(
+                        '/update/{id}',
+                        [
+                            'uses' => 'CutLockTimeController@update',
+                            'as' => 'cutlocktime.update'
+                        ]
+                    );
+            
+            
+                    Route::get(
+                        '/{id}/delete',
+                        [
+                            'uses' => 'CutLockTimeController@destroy',
+                            'as' => 'cutlocktime.destroy'
+                        ]
+                    );
+                }
+            );
+
+        // unclokkrs
+        Route::prefix('unlockkrs')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'UnlockKrsController@data',
+                        'as' => 'unlockkrs.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'UnlockKrsController@index',
+                        'as' => 'unlockkrs.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'UnlockKrsController@create',
+                        'as' => 'unlockkrs.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'UnlockKrsController@store',
+                        'as' => 'unlockkrs.store'
+                    ]
+                );
+                Route::post(
+                    '/updatestatus',
+                    [
+                        'uses' => 'UnlockKrsController@updateStatus',
+                        'as' => 'unlockkrs.updatestatus'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'UnlockKrsController@edit',
+                        'as' => 'unlockkrs.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'UnlockKrsController@update',
+                        'as' => 'unlockkrs.update'
+                    ]
+                );
+        
+        
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'UnlockKrsController@destroy',
+                        'as' => 'unlockkrs.destroy'
+                    ]
+                );
+            }
+        );
+        
+        
+ 
 
         // penugasan dosen
         Route::prefix('penugasandosen')->group(
@@ -1773,6 +1912,63 @@ Route::prefix('tingkatprestasi')->group(
                     [
                         'uses' => 'JalurPendaftaranController@destroy',
                         'as' => 'jalurpendaftaran.destroy'
+                    ]
+                );
+            }
+        );
+
+                // jalur pendaftaran
+        Route::prefix('jatahkrs')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'JatahKrsController@data',
+                        'as' => 'jatahkrs.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'JatahKrsController@index',
+                        'as' => 'jatahkrs.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'JatahKrsController@create',
+                        'as' => 'jatahkrs.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'JatahKrsController@store',
+                        'as' => 'jatahkrs.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'JatahKrsController@edit',
+                        'as' => 'jatahkrs.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'JatahKrsController@update',
+                        'as' => 'jatahkrs.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'JatahKrsController@destroy',
+                        'as' => 'jatahkrs.destroy'
                     ]
                 );
             }

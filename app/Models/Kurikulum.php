@@ -21,4 +21,20 @@ class Kurikulum extends Model
     {
         return $this->belongsTo(JenisSemester::class, 'masa_berlaku', 'id');
     }
+
+    /**
+     * Get all of the comments for the Kurikulum
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function matakuliah()
+    {
+        return $this->hasMany(KurikulumMatakuliah::class, 'kurikulum_id');
+    }
+
+    public function matakuliahsemester()
+    {
+        return $this->hasMany(KurikulumMatakuliah::class, 'kurikulum_id');
+    }
+
 }

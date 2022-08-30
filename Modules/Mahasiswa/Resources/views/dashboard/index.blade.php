@@ -93,17 +93,6 @@
                 </div>
             </div>
 
-            <div class="col s12">
-                <div class="container">
-                    <div class="section">
-                        <div class="card" >
-                            <div class="card-content">
-                                <h5>Informasi Akademik</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
          
         </div>
 @endsection

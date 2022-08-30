@@ -46,6 +46,23 @@
     <div class="card-content">
       {{-- <h4 class="card-title">Page Length Options</h4> --}}
       <div class="row">
+        <div class="col-s12">
+          <form method="post" action="{{ route('tahunajaran.updatestatus') }}" >
+            @csrf
+            <div class="input-field col s4">
+              <select class="form-control" name="id" onchange="this.form.submit()">
+                <option value="">belum ada yang aktif</option>
+                @foreach ($semester as $s)
+                  <option value="{{ $s->id }}" @if($s->active == 1) selected @endif>{{ $s->jenis_semester }}-{{ $s->TahunAjaran->tahun_ajaran }}</option>
+                @endforeach
+              </select>
+              <label for="first_name">Status Tahun Ajaran Yang Aktif</label>
+              @error('tahun_ajaran')
+              <span class="red-text text-darken-2">{{ $message }}</small>
+              @enderror
+            </div>
+          </form>
+        </div>
         <div class="col s12">
           <table id="page-length-option" class="display">
             <thead>
@@ -64,6 +81,8 @@
               </tfoot>
           </table>
         </div>
+
+        
       </div>
     </div>
   </div>

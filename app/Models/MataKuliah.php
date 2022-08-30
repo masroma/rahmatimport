@@ -30,5 +30,15 @@ class MataKuliah extends Model
         return $this->morphTo();
     }
 
+    /**
+     * Get all of the comments for the MataKuliah
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function kelas()
+    {
+        return $this->hasMany(KelasPerkuliahan::class, 'matakuliah_id');
+    }
+
 
 }

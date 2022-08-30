@@ -30,14 +30,7 @@
 <div class="card">
 
 </div>
-<!-- DataTables example -->
 
-
-
-<!-- DataTables Row grouping -->
-
-
-<!-- Page Length Options -->
 <div class="row">
     <div class="col s12">
       <div class="card">
@@ -147,44 +140,36 @@
                         @enderror
                       </div>
 
-                      <div class="input-field col s4 ">
+                      <div class="input-field col s4 my-5">
 
-                        <input placeholder="color" name="color" id="color" type="color" class="validate  @error('color') is-invalid @enderror" value="{{ old('color',$kelasperkuliahan->color) }}">
+                        <div class="d-flex">
+                         <label for="first_name">Type Mahasiswa Yang Bisa mengikuti Kelas ini selain reguler</label>
 
+                         @foreach($typemahasiswa as $m)
+                            <p>
+                             <label>
+                                 <input type="checkbox" name="type_mahasiswa[]"  value="{{ old('type_mahasiswa',$m->type_mahasiswa) }}"
+                                 <?php $namemenu = $m->type_mahasiswa; ?> @if($kelasperkuliahan->typemahasiswa_id) {{ in_array($m->type_mahasiswa, json_decode($kelasperkuliahan->typemahasiswa_id)) ? 'checked' : '' }} @endif  />
+                                 <span>Kelas {{ $m->type_mahasiswa }}</span>
+                               </label>
+                            </p>
+                            @endforeach
+                        </div>
 
-                        @error('color')
-                        <span class="red-text text-darken-2">{{ $message }}</small>
-                        @enderror
-                      </div>
+                         @error('type_mahasiswa')
+                         <span class="red-text text-darken-2">{{ $message }}</small>
+                         @enderror
+                       </div>
 
 
 
                     </div>
 
                     <div class="row">
-                        <div class="input-field col s6 my-5">
-
-                            <div class="d-flex">
-                             <label for="first_name">Action</label>
-
-                             @foreach($typemahasiswa as $m)
-                                <p>
-                                 <label>
-                                     <input type="checkbox" name="type_mahasiswa[]"  value="{{ old('type_mahasiswa',$m->type_mahasiswa) }}"
-                                     <?php $namemenu = $m->type_mahasiswa; ?> @if($kelasperkuliahan->typemahasiswa_id) {{ in_array($m->type_mahasiswa, json_decode($kelasperkuliahan->typemahasiswa_id)) ? 'checked' : '' }} @endif  />
-                                     <span>{{ $m->type_mahasiswa }}</span>
-                                   </label>
-                                </p>
-                                @endforeach
-                            </div>
-
-                             @error('type_mahasiswa')
-                             <span class="red-text text-darken-2">{{ $message }}</small>
-                             @enderror
-                           </div>
+                       
 
 
-                        <div class="input-field col s6">
+                        <div class="input-field col s4">
                             <select name="jenis_kelas" class="select2 browser-default">
                                 <option value="">jenis_kelas</option>
                                 <option value="reguler" {{ old('jenis_kelas',$kelasperkuliahan->jenis_kelas) == 'reguler' ? 'selected' : '' }} >Reguler</option>
@@ -195,6 +180,24 @@
                             @error('jenis_kelas')
                             <span class="red-text text-darken-2">{{ $message }}</small>
                             @enderror
+                        </div>
+
+                        <div class="input-field col s4">
+                          <input placeholder="min_peserta" name="min_peserta" id="min_peserta" type="number" class="validate  @error('min_peserta') is-invalid @enderror" value="{{ old('min_peserta',$kelasperkuliahan->min_peserta) }}">
+                          <label for="first_name">Minimal Peserta</label>
+  
+                          @error('min_peserta')
+                          <span class="red-text text-darken-2">{{ $message }}</small>
+                          @enderror
+                        </div>
+
+                        <div class="input-field col s4">
+                          <input placeholder="max_peserta" name="max_peserta" id="max_peserta" type="number" class="validate  @error('max_peserta') is-invalid @enderror" value="{{ old('max_peserta',$kelasperkuliahan->max_peserta) }}">
+                          <label for="first_name">Maximal Peserta</label>
+  
+                          @error('max_peserta')
+                          <span class="red-text text-darken-2">{{ $message }}</small>
+                          @enderror
                         </div>
 
 

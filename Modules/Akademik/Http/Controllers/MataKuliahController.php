@@ -157,6 +157,7 @@ class MataKuliahController extends Controller
             $save->bobot_pratikum = $request->bobot_pratikum ?? 0;
             $save->bobot_praktek_lapanagn = $request->bobot_praktek_lapanagn ?? 0;
             $save->bobot_simulasi = $request->bobot_simulasil ?? 0;
+            $save->min_nilai_kelulusan = $request->min_nilai_kelulusan ?? 0;
             $save->metode_pembelajaran = $request->metode_pembelajaran ?? NULL;
             $save->tanggal_mulai_efektif = $request->tanggal_mulai_efektif ?? NULL;
             $save->tanggal_akhir_efektif = $request->tanggal_akhir_efektif ?? NULL;
@@ -239,6 +240,7 @@ class MataKuliahController extends Controller
             $save->bobot_pratikum = $request->bobot_pratikum ?? 0;
             $save->bobot_praktek_lapanagn = $request->bobot_praktek_lapanagn ?? 0;
             $save->bobot_simulasi = $request->bobot_simulasil ?? 0;
+            $save->min_nilai_kelulusan = $request->min_nilai_kelulusan ?? 0;
             $save->metode_pembelajaran = $request->metode_pembelajaran ?? NULL;
             $save->tanggal_mulai_efektif = $request->tanggal_mulai_efektif ?? NULL;
             $save->tanggal_akhir_efektif = $request->tanggal_akhir_efektif ?? NULL;

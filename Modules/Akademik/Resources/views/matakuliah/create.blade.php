@@ -159,11 +159,34 @@
                     @enderror
                   </div>
 
-                  <div class="input-field col s8  mt-2 mb-2">
+                  <div class="input-field col s4  mt-2 mb-2">
                     <input placeholder="metode pembelajaran" name="metode_pembelajaran" id="metode_pembelajaran" type="text" class="validate  @error('metode_pembelajaran') is-invalid @enderror" value="{{ old('metode_pembelajaran') }}">
                     <label for="first_name">Metode Pembelajaran</label>
 
                     @error('metode_pembelajaran')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+                  
+                  <div class="input-field col s4  mt-2 mb-2">
+                    {{-- <input placeholder="min nilai kelulusan" name="min_nilai_kelulusan" id="min_nilai_kelulusan" type="number" class="validate  @error('min_nilai_kelulusan') is-invalid @enderror" value="{{ old('min_nilai_kelulusan') }}"> --}}
+                    <select name="huruf[]" id="">
+                      <option value=""></option>
+                      <option value="3.67">A- (3,67)</option>
+                      <option value="4.00">A (4,00)</option>
+                      <option value="2.67" >B- (2,67)</option>
+                      <option value="3.00">B (3,00)</option>
+                      <option value="3.33">B+ (3,33)</option>
+                      <option value="1.67">C- (1,67)</option>
+                      <option value="2.00">C (2,00)</option>
+                      <option value="2.33">C+ (2,33)</option>
+                      <option value="1.00">D (1,00)</option>
+                      <option value="0">E (0,00)</option>
+                  </select>
+                    <label for="first_name">Metode Pembelajaran</label>
+
+                    @error('min_nilai_kelulusan')
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                   </div>
