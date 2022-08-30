@@ -2247,13 +2247,13 @@ Route::prefix('tingkatprestasi')->group(
                 //         'as' => 'hitungaktivitaskmahasiswa.create'
                 //     ]
                 // );
-                // Route::post(
-                //     '/store',
-                //     [
-                //         'uses' => 'HitungAktivitasMahasiswaController@store',
-                //         'as' => 'hitungaktivitaskmahasiswa.store'
-                //     ]
-                // );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'HitungAktivitasMahasiswaController@store',
+                        'as' => 'hitungaktivitaskmahasiswa.store'
+                    ]
+                );
                 // Route::get(
                 //     '/{id}/edit',
                 //     [
