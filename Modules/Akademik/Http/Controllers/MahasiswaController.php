@@ -5,6 +5,7 @@ namespace Modules\Akademik\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Models\AktivitasKuliahMahasiswa;
 use App\Models\Mahasiswa;
 use App\Models\MahasiswaDetail;
 use App\Models\MahasiswaDetailOrangTua;
@@ -342,7 +343,11 @@ class MahasiswaController extends Controller
     public function show($id)
     {
 
-        $mahasiswa = Mahasiswa::with('Detail','Detail.Provinsi','Detail.Kota','Detail.Kecamatan','Detail.Kelurahan','OrangTua', 'Wali','KebutuhanKhusus')->findOrFail($id);
+        $mahasiswa = Mahasiswa::with(['Detail','Detail.Provinsi','Detail.Kota','Detail.Kecamatan','Detail.Kelurahan','OrangTua', 'Wali','KebutuhanKhusus','Riwayatpendidikan'=>function($e){
+            $e->with(['Programstudy'=>function($d){
+                $d->with('jurusan');
+            }]);
+        }])->findOrFail($id);
 
         $name_page = "mahasiswa";
         $title = "Mahasiswa";
@@ -644,8 +649,37 @@ class MahasiswaController extends Controller
             return redirect()->route('mahasiswa.index')->with(['error' => 'Data Gagal Dikembalikan!']);
         }
     }
+    public function getAkm($id)
+    {
+        $data = AktivitasKuliahMahasiswa::with(['Semester','Status'])->join('calculate_ips_ipk',function($join){
+            $join->on('calculate_ips_ipk.mahasiswa_id','aktivitas_kuliah_mahasiswas.mahasiswa_id');
+            $join->on('calculate_ips_ipk.semester_id','aktivitas_kuliah_mahasiswas.semester_id');
+        })->where('aktivitas_kuliah_mahasiswas.mahasiswa_id',$id)->get();
+        // dd($data);
+            return DataTables::of($data)
+                ->addColumn('semester', function($data){
+                    return $data->Semester->Tahunajaran->tahun_ajaran .'-'. $data->Semester->jenis_semester;
+                })
+                ->addColumn('status', function($data){
+                    return $data->Status->status_mahasiswa;
+                })
+                ->addIndexColumn()
+                ->make(true);
+    }
+    public function getTransrip($id)
+    {
+        $data = DB::select("SELECT d.kode_matakuliah, d.nama_matakuliah, d.bobot_mata_kuliah,a.nilai_angka,a.nilai_huruf,c.nilai_index,d.bobot_mata_kuliah*c.nilai_index nindex
+        FROM nilai_perkuliahans a
+        JOIN kelas_perkuliahans b ON a.kelas_id = b.id
+        JOIN skala_nilais c ON c.programstudy_id = b.programstudy_id AND a.nilai_huruf = c.nilai_huruf
+        JOIN mata_kuliahs d ON d.id = b.matakuliah_id
+        ");
+        return DataTables::of($data)
+                ->rawColumns(['colors','action','checkbox'])
+                ->addIndexColumn()
+                ->make(true);
 
-
+    }
 
 
 

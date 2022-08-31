@@ -29,5 +29,8 @@ class KelasPerkuliahan extends Model
     {
         return $this->hasMany(Krs::class, 'kelas_id');
     }
-
+    public function nilai_perkuliahan()
+    {
+        return $this->hasMany(NilaiPerkuliahan::class,'kelas_id','id');
+    }
 }

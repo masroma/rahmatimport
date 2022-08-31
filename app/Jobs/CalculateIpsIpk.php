@@ -35,18 +35,18 @@ class CalculateIpsIpk implements ShouldQueue
         $ipk =[];
         $total_sks = [];
         Calculate::truncate();
-        $data = DB::select("SELECT a.id mahasiswa_id, a.nama,round(sum(f.ip)/COUNT(a.nama),2) ips,
+        $data = DB::select("SELECT a.id mahasiswa_id, a.nama,round(sum(f.nilai_index)/COUNT(a.nama),2) ips,
         d.jenissemester_id,d.sks sks_semester, d.jenissemester_id semester_id
         FROM mahasiswas a
         JOIN nilai_perkuliahans b ON a.id = b.mahasiswa_id
-        /*JOIN kelas_perkuliahans d ON d.id = b.kelas_id*/
+        JOIN kelas_perkuliahans g ON g.id = b.kelas_id
         JOIN (
 		  	 	SELECT SUM(b.bobot_mata_kuliah)sks,a.jenissemester_id,a.mahasiswa_id
 	        FROM krs a
 	        JOIN mata_kuliahs b ON a.matakuliah_id = b.id
 	        GROUP BY a.jenissemester_id, a.mahasiswa_id
 		  ) d ON d.mahasiswa_id = a.id 
-        JOIN master_nilais f ON f.nilai_huruf = b.nilai_huruf
+        JOIN skala_nilais f ON f.nilai_huruf = b.nilai_huruf AND f.programstudy_id = g.programstudy_id
         GROUP BY  a.id, a.nama,d.jenissemester_id
         ORDER BY a.id, d.jenissemester_id;
         ");

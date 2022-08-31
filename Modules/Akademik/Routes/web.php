@@ -533,6 +533,20 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'mahasiswa.destroykrs'
                     ]
                 );
+                Route::get(
+                    '/{id}/getakm',
+                    [
+                        'uses' => 'MahasiswaController@getAkm',
+                        'as' => 'mahasiswa.getakm'
+                    ]
+                );
+                Route::get(
+                    '/{id}/gettranskrip',
+                    [
+                        'uses' => 'MahasiswaController@getTransrip',
+                        'as' => 'mahasiswa.gettranskrip'
+                    ]
+                );
             }
         );
 
