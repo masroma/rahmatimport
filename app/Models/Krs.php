@@ -55,5 +55,10 @@ class Krs extends Model
         return $this->hasOne(NilaiPerkuliahan::class, 'mahasiswa_id', 'mahasiswa_id');
     }
 
+    public function NilaiKrs()
+    {
+        return $this->belongsTo(NilaiPerkuliahan::class,'kelas_id','kelas_id');
+    }
+
 
 }
