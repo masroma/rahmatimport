@@ -34,8 +34,8 @@ class HitungAktivitasMahasiswaController extends Controller
             // $canShow = Gate::allows('typemahasiswa-show');
             $canUpdate = Gate::allows('statusmahasiswa-edit');
             $canDelete = Gate::allows('statusmahasiswa-delete');
-            // $semester = JenisSemester::orderBy('id','DESC')->pluck('id')->first();
-            $semester = 6;
+            $semester = JenisSemester::orderBy('id','DESC')->pluck('id')->first();
+            // $semester = 6;
             
             $data = Mahasiswa::with(['totalKrs','Krs' => function($a) use($semester){
                 $a->where('jenissemester_id',$semester);

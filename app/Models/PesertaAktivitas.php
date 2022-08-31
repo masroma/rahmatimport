@@ -17,4 +17,8 @@ class PesertaAktivitas extends Model
     {
         return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id');
     }
+    public function aktivitas_mahasiswa()
+    {
+        return $this->hasOne(AktivitasMahasiswa::class,'id','aktivitasmahasiswa_id');
+    }
 }

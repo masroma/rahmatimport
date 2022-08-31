@@ -190,6 +190,7 @@ class SkalaNilaiController extends Controller
             $params = array_filter(request()->all(),function($key) use ($skalanilai){
                 return in_array($key,$skalanilai->fillable)!==false;
             },ARRAY_FILTER_USE_KEY);
+            $params['nilai_huruf']=strtoupper($params['nilai_huruf']);
 
             $save = SkalaNilai::create($params);
 
