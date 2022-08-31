@@ -82,9 +82,56 @@
                                 <td> IPS anda {{ $ips }} , jatah SKS semester ini adalah {{ $sks }}</td>
                             </tr>
                         </table>
+                    </div>
+                </div>
+            </div>
+
+           @if(($date >= $cutoff->start_tanggal) && ($date <= $cutoff->end_tanggal))
+                @if(($date >= $cutoff->start_time) && ($date <= $cutoff->end_time))
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="section">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <p>halo bener tanggal di antara 2 tanggal</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                @else
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <p>Mohon maaf waktu pengisian KRS telah ditutup, silahkan hubungi akademik untuk info lebih lanjut</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                
+           @else
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <p>halo tanggal tidak ada</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           @endif
 {{-- 
                         <table>
                            <thead>

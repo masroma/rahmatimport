@@ -2,6 +2,7 @@
 
 namespace Modules\Mahasiswa\Http\Controllers;
 
+use App\Models\CutLockTime;
 use App\Models\JatahKrs;
 use App\Models\JenisSemester;
 use App\Models\Krs;
@@ -11,6 +12,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Auth;
+use Carbon\Carbon;
 
 class KrsController extends Controller
 {
@@ -58,10 +60,10 @@ class KrsController extends Controller
                 $sks = $js->jumlah_sks;
             }
         }
-
-        
-
-        return view('mahasiswa::krs.index',compact('krs','semester','mahasiswa','krssemesterkemarin','ips','sks'));
+        $date = date("Y-m-d");
+        $time = date("h:i:s");
+        $cutoff = CutLockTime::where('tahunajaran_id', $semester->id)->where('key','krs')->first();
+        return view('mahasiswa::krs.index',compact('krs','semester','mahasiswa','krssemesterkemarin','ips','sks','cutoff','date','time'));
     }
 
     /**
