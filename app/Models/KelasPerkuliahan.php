@@ -29,6 +29,7 @@ class KelasPerkuliahan extends Model
     {
         return $this->hasMany(Krs::class, 'kelas_id');
     }
+<<<<<<< HEAD
 
     /**
      * Get the user associated with the KelasPerkuliahan
@@ -40,4 +41,10 @@ class KelasPerkuliahan extends Model
         return $this->hasOne(RuangPerkuliahan::class, 'kelasperkuliahan_id', 'id')->where('penggunaanruang_id',1);
     }
 
+=======
+    public function nilai_perkuliahan()
+    {
+        return $this->hasMany(NilaiPerkuliahan::class,'kelas_id','id');
+    }
+>>>>>>> 79ee5b9d44eddd42d2146ecd6eb392695fd9a411
 }

@@ -44,7 +44,7 @@
                                 <div class="card-content">
                                     {{-- <h4 class="card-title">Page Length Options</h4> --}}
                                     <div class="row">
-                                        <form action="{{ route($page . '.update', $aktivitas->id) }}" method="POST"
+                                        <form action="#" method="POST"
                                             enctype="multipart/form-data" class="col s12">
                                             @csrf
                                             <div class="row">
@@ -233,16 +233,16 @@
                                                 @endforeach
 
 
-                                                @if ((request('act') ?? '') != 'detail')
+                                                {{-- @if ((request('act') ?? '') != 'detail')
                                                     <div class="input-field col s12">
                                                         <button type="submit"
                                                             class="waves-effect waves-light btn-small"><i
                                                                 class="material-icons right">send</i>save</button>
-                                                        <a href="{{ route('datapesertaaktif.index') }}"
+                                                        <a href="{{ route('konversikampusmerdeka.index') }}"
                                                             class="waves-effect purple darken-1 btn-small"><i
                                                                 class="material-icons left">keyboard_arrow_left</i>back</a>
                                                     </div>
-                                                @endif
+                                                @endif --}}
                                             </div>
                                         </form>
                                     </div>
@@ -309,7 +309,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ url('akademik/datapesertaaktif/datapesertaaktif') }}/" +
+                        url: "{{ url('akademik/konversikampusmerdeka/datapesertaaktif') }}/" +
                             iddatapesertaaktif,
                         type: "GET",
                     },
@@ -347,149 +347,9 @@
                         [0, 'asc']
                     ]
                 });
-
-                //   pembimbing
-                $('.pembimbing').DataTable({
-                    "scrollX": true,
-                    "autoWidth": true,
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: "{{ url('akademik/datapesertaaktif/datapembimbing') }}/" +
-                            iddatapesertaaktif,
-                        type: "GET",
-                    },
-                    columns: [{
-                            data: "DT_RowIndex",
-                            name: "DT_RowIndex"
-                        },
-                        {
-                            data: 'dosen.nidn',
-                            name: 'dosen.nidn'
-                        },
-                        {
-                            data: 'dosen.nama_dosen',
-                            name: 'dosen.nama_dosen'
-                        },
-
-                        {
-                            data: 'order',
-                            name: 'order'
-                        },
-
-                        {
-                            data: 'kategorikegiatan.nama_kategori_kegiatan',
-                            name: 'kategorikegiatan.nama_kategori_kegiatan'
-                        },
-
-
-                        {
-                            data: 'action',
-                            name: 'action'
-                        },
-
-
-                    ],
-                    order: [
-                        [0, 'asc']
-                    ]
-                });
-
-                //   penguji
-                $('.penguji').DataTable({
-                    "scrollX": true,
-                    "autoWidth": true,
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: "{{ url('akademik/datapesertaaktif/datapenguji') }}/" +
-                            iddatapesertaaktif,
-                        type: "GET",
-                    },
-                    columns: [{
-                            data: "DT_RowIndex",
-                            name: "DT_RowIndex"
-                        },
-                        {
-                            data: 'dosen.nidn',
-                            name: 'dosen.nidn'
-                        },
-                        {
-                            data: 'dosen.nama_dosen',
-                            name: 'dosen.nama_dosen'
-                        },
-
-                        {
-                            data: 'order',
-                            name: 'order'
-                        },
-
-                        {
-                            data: 'kategorikegiatan.nama_kategori_kegiatan',
-                            name: 'kategorikegiatan.nama_kategori_kegiatan'
-                        },
-
-
-                        {
-                            data: 'action',
-                            name: 'action'
-                        },
-
-
-                    ],
-                    order: [
-                        [0, 'asc']
-                    ]
-                });
-
-            });
-
+            })
         }
 
-        function deleteConfirmPeserta(id) {
-            swal({
-                    title: "Kamu Yakin ?",
-                    text: "akan menghapus data ini !",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((dt) => {
-                    if (dt) {
-                        window.location.href = "{{ url('akademik/datapesertaaktif') }}/" + id + "/deletepeserta";
-                    }
-                });
-        }
-
-        function deleteConfirmDospem(id) {
-            swal({
-                    title: "Kamu Yakin ?",
-                    text: "akan menghapus data ini !",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((dt) => {
-                    if (dt) {
-                        window.location.href = "{{ url('akademik/datapesertaaktif') }}/" + id + "/deletepembimbing";
-                    }
-                });
-        }
-
-        function deleteConfirmDospen(id) {
-            swal({
-                    title: "Kamu Yakin ?",
-                    text: "akan menghapus data ini !",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((dt) => {
-                    if (dt) {
-                        window.location.href = "{{ url('akademik/datapesertaaktif') }}/" + id + "/deletepenguji";
-                    }
-                });
-        }
     </script>
 
 @endsection

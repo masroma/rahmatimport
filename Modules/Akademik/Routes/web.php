@@ -533,6 +533,20 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'mahasiswa.destroykrs'
                     ]
                 );
+                Route::get(
+                    '/{id}/getakm',
+                    [
+                        'uses' => 'MahasiswaController@getAkm',
+                        'as' => 'mahasiswa.getakm'
+                    ]
+                );
+                Route::get(
+                    '/{id}/gettranskrip',
+                    [
+                        'uses' => 'MahasiswaController@getTransrip',
+                        'as' => 'mahasiswa.gettranskrip'
+                    ]
+                );
             }
         );
 
@@ -1745,61 +1759,60 @@ Route::prefix('akademik')->group(function() {
         );
 
         // tingkatprestasi
-        // tingkatprestasi
-Route::prefix('tingkatprestasi')->group(
-    function () {
-        Route::get(
-            '/data',
-            [
-                'uses' => 'TingkatPrestasiController@data',
-                'as' => 'tingkatprestasi.data'
-            ]
-        );
-        Route::get(
-            '/',
-            [
-                'uses' => 'TingkatPrestasiController@index',
-                'as' => 'tingkatprestasi.index'
-            ]
-        );
-        Route::get(
-            '/create',
-            [
-                'uses' => 'TingkatPrestasiController@create',
-                'as' => 'tingkatprestasi.create'
-            ]
-        );
-        Route::post(
-            '/store',
-            [
-                'uses' => 'TingkatPrestasiController@store',
-                'as' => 'tingkatprestasi.store'
-            ]
-        );
-        Route::get(
-            '/{id}/edit',
-            [
-                'uses' => 'TingkatPrestasiController@edit',
-                'as' => 'tingkatprestasi.edit'
-            ]
-        );
-        Route::post(
-            '/update/{id}',
-            [
-                'uses' => 'TingkatPrestasiController@update',
-                'as' => 'tingkatprestasi.update'
-            ]
-        );
+        Route::prefix('tingkatprestasi')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'TingkatPrestasiController@data',
+                        'as' => 'tingkatprestasi.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'TingkatPrestasiController@index',
+                        'as' => 'tingkatprestasi.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'TingkatPrestasiController@create',
+                        'as' => 'tingkatprestasi.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'TingkatPrestasiController@store',
+                        'as' => 'tingkatprestasi.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'TingkatPrestasiController@edit',
+                        'as' => 'tingkatprestasi.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'TingkatPrestasiController@update',
+                        'as' => 'tingkatprestasi.update'
+                    ]
+                );
 
-        Route::get(
-            '/{id}/delete',
-            [
-                'uses' => 'TingkatPrestasiController@destroy',
-                'as' => 'tingkatprestasi.destroy'
-            ]
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'TingkatPrestasiController@destroy',
+                        'as' => 'tingkatprestasi.destroy'
+                    ]
+                );
+            }
         );
-    }
-);
 
 
         // jenis pendaftaran
@@ -2527,8 +2540,7 @@ Route::prefix('tingkatprestasi')->group(
                         'as' => 'jenisaktivitas.destroy'
                     ]
                 );
-            }
-        );
+        });
 
         // penggunaan ruang
         Route::prefix('penggunaanruang')->group(
@@ -2584,66 +2596,121 @@ Route::prefix('tingkatprestasi')->group(
                         'as' => 'penggunaanruang.destroy'
                     ]
                 );
-
-                   // skala nilai
-                Route::prefix('skalanilai')->group(
-                    function () {
-                        Route::get(
-                            '/data',
-                            [
-                                'uses' => 'SkalaNilaiController@data',
-                                'as' => 'skalanilai.data'
-                            ]
-                        );
-                        Route::get(
-                            '/',
-                            [
-                                'uses' => 'SkalaNilaiController@index',
-                                'as' => 'skalanilai.index'
-                            ]
-                        );
-                        Route::get(
-                            '/create',
-                            [
-                                'uses' => 'SkalaNilaiController@create',
-                                'as' => 'skalanilai.create'
-                            ]
-                        );
-                        Route::post(
-                            '/store',
-                            [
-                                'uses' => 'SkalaNilaiController@store',
-                                'as' => 'skalanilai.store'
-                            ]
-                        );
-                        Route::get(
-                            '/{id}/edit',
-                            [
-                                'uses' => 'SkalaNilaiController@edit',
-                                'as' => 'skalanilai.edit'
-                            ]
-                        );
-                        Route::post(
-                            '/update/{id}',
-                            [
-                                'uses' => 'SkalaNilaiController@update',
-                                'as' => 'skalanilai.update'
-                            ]
-                        );
-
-
-                        Route::get(
-                            '/{id}/delete',
-                            [
-                                'uses' => 'SkalaNilaiController@destroy',
-                                'as' => 'skalanilai.destroy'
-                            ]
-                        );}
-                    );
-                });
-
-
         });
+
+          // skala nilai
+        Route::prefix('skalanilai')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'SkalaNilaiController@data',
+                        'as' => 'skalanilai.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'SkalaNilaiController@index',
+                        'as' => 'skalanilai.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'SkalaNilaiController@create',
+                        'as' => 'skalanilai.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'SkalaNilaiController@store',
+                        'as' => 'skalanilai.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'SkalaNilaiController@edit',
+                        'as' => 'skalanilai.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'SkalaNilaiController@update',
+                        'as' => 'skalanilai.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'SkalaNilaiController@destroy',
+                        'as' => 'skalanilai.destroy'
+                    ]
+                );
+            });
+
+         // Mahasiswa Lulus DO
+         Route::prefix('mahasiswalulusdo')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'MahasiswaLulusDOController@data',
+                        'as' => 'mahasiswalulusdo.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'MahasiswaLulusDOController@index',
+                        'as' => 'mahasiswalulusdo.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'MahasiswaLulusDOController@create',
+                        'as' => 'mahasiswalulusdo.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'MahasiswaLulusDOController@store',
+                        'as' => 'mahasiswalulusdo.store'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'MahasiswaLulusDOController@edit',
+                        'as' => 'mahasiswalulusdo.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'MahasiswaLulusDOController@update',
+                        'as' => 'mahasiswalulusdo.update'
+                    ]
+                );
+                Route::get('/getipk/{id}',[
+                    'uses' => 'MahasiswaLulusDOController@getIpk',
+                        'as' => 'mahasiswalulusdo.getipk'
+                ]);
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'MahasiswaLulusDOController@destroy',
+                        'as' => 'mahasiswalulusdo.destroy'
+                    ]
+                );
+            });
 
          //Pengaturan Periode Perkuliahan
         Route::prefix('periodeperkuliahan')->group(
@@ -3116,17 +3183,10 @@ Route::prefix('tingkatprestasi')->group(
                         'as' => 'konversikampusmerdeka.index'
                     ]
                 );
-                Route::get(
-                    '/create',
-                    [
-                        'uses' => 'KonversiKampusMedekaController@create',
-                        'as' => 'konversikampusmerdeka.create'
-                    ]
-                );
                 Route::post(
                     '/store',
                     [
-                        'uses' => 'KonversiKampusMedekaController@store',
+                        'uses' => 'KonversiKampusMedekaController@storeNilaiKampusMerdeka',
                         'as' => 'konversikampusmerdeka.store'
                     ]
                 );
@@ -3137,17 +3197,10 @@ Route::prefix('tingkatprestasi')->group(
                         'as' => 'konversikampusmerdeka.edit'
                     ]
                 );
-                Route::post(
-                    '/update/{id}',
-                    [
-                        'uses' => 'KonversiKampusMedekaController@update',
-                        'as' => 'konversikampusmerdeka.update'
-                    ]
-                );
                 Route::get(
                     '/{id}/delete',
                     [
-                        'uses' => 'KonversiKampusMedekaController@destroy',
+                        'uses' => 'KonversiKampusMedekaController@destroyNilai',
                         'as' => 'konversikampusmerdeka.destroy'
                     ]
                 );
@@ -3159,73 +3212,20 @@ Route::prefix('tingkatprestasi')->group(
                         'as' => 'konversikampusmerdeka.datapesertaaktif'
                     ]
                 );
-
-                Route::post(
-                    '/storeperanpeserta',
-                    [
-                        'uses' => 'KonversiKampusMedekaController@addPesertaAktif',
-                        'as' => 'konversikampusmerdeka.storeperanpeserta'
-                    ]
-                );
-
                 Route::get(
-                    '/{id}/deletepeserta',
+                    '/datapesertaaktif/detail/{id}/{mahasiswa_id}',
                     [
-                        'uses' => 'KonversiKampusMedekaController@destroyPeserta',
-                        'as' => 'konversikampusmerdeka.destroypeserta'
+                        'uses' => 'KonversiKampusMedekaController@detailPesertaAktif',
+                        'as' => 'konversikampusmerdeka.detailpesertaaktif'
                     ]
                 );
-
-                // dosen pembimbing aktivitas mahasiswa
                 Route::get(
-                    '/datapembimbing/{id}',
+                    '/datapesertaaktif/detail/data/{id}/{mahasiswa_id}',
                     [
-                        'uses' => 'KonversiKampusMedekaController@dataPembimbingKonversiKampusMedeka',
-                        'as' => 'konversikampusmerdeka.datapembimbingkonversikampusmerdeka'
+                        'uses' => 'KonversiKampusMedekaController@detailNilaiKampusMerdeka',
+                        'as' => 'konversikampusmerdeka.detailnilaikampusMedeka'
                     ]
                 );
-
-                Route::post(
-                    '/storepembimbing',
-                    [
-                        'uses' => 'KonversiKampusMedekaController@addPembimbingKonversiKampusMedeka',
-                        'as' => 'konversikampusmerdeka.storepembimbingkonversikampusmerdeka'
-                    ]
-                );
-
-                Route::get(
-                    '/{id}/deletepembimbing',
-                    [
-                        'uses' => 'KonversiKampusMedekaController@destroyPembimbingKonversiKampusMedeka',
-                        'as' => 'konversikampusmerdeka.destroypembimbingkonversikampusmerdeka'
-                    ]
-                );
-
-                // penguji
-                Route::get(
-                    '/datapenguji/{id}',
-                    [
-                        'uses' => 'KonversiKampusMedekaController@dataPengujiKonversiKampusMedeka',
-                        'as' => 'konversikampusmerdeka.datapengujikonversikampusmerdeka'
-                    ]
-                );
-
-                Route::post(
-                    '/storepenguji',
-                    [
-                        'uses' => 'KonversiKampusMedekaController@addPengujiKonversiKampusMedeka',
-                        'as' => 'konversikampusmerdeka.storepengujikonversikampusmerdeka'
-                    ]
-                );
-
-                Route::get(
-                    '/{id}/deletepenguji',
-                    [
-                        'uses' => 'KonversiKampusMedekaController@destroyPengujiKonversiKampusMedeka',
-                        'as' => 'konversikampusmerdeka.destroypengujikonversikampusmerdeka'
-                    ]
-                );
-
                 Route::post(
                     '/cek',
                     [
@@ -3235,5 +3235,5 @@ Route::prefix('tingkatprestasi')->group(
                 );
             }
         );
-
+    });
 });

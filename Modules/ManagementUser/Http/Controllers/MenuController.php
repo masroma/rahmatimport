@@ -166,7 +166,11 @@ class MenuController extends Controller
     {
        
         $keypermission = Permission::groupBy('key')->get();
+<<<<<<< HEAD
         $parentmenu = Menu::whereIn('position',['parent','single','none'])->get();
+=======
+        $parentmenu = Menu::where('position','parent')->get();
+>>>>>>> 79ee5b9d44eddd42d2146ecd6eb392695fd9a411
         $menu = Menu::find($id);
         $name_page = "menu";
         $data = array(

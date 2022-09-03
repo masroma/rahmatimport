@@ -211,7 +211,7 @@ class NilaiPerkuliahanController extends Controller
                     $save->mahasiswa_id = $request->mahasiswa_id[$i] ?? 0;
                     $save->kelas_id = $id;
                     $save->nilai_angka = $request->angka[$i] ?? 0;
-                    $save->nilai_huruf = $request->huruf[$i] ?? 0;
+                    $save->nilai_huruf = strtoupper($request->huruf[$i] ?? 0);
                     $save->save();
                 }
             }else{
@@ -222,7 +222,7 @@ class NilaiPerkuliahanController extends Controller
                     $save->mahasiswa_id = $request->mahasiswa_id[$i] ?? 0;
                     $save->kelas_id = $id;
                     $save->nilai_angka = $request->angka[$i] ?? 0;
-                    $save->nilai_huruf = $request->huruf[$i] ?? 0;
+                    $save->nilai_huruf = strtoupper($request->huruf[$i] ?? 0);
                     $save->save();
                 }
             }
