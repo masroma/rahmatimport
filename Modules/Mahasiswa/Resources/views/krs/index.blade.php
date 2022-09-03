@@ -100,6 +100,7 @@
                                 <div class="section">
                                     <div class="card" >
                                             <div class="card-content">
+                                               
                                                 <table >
                                                     <thead>
                                                         <tr>
@@ -112,6 +113,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        @php $totalsks = 0 @endphp
                                                         @php $no = 1; @endphp
                                                         @foreach($krs as $row)
                                                         <tr>
@@ -128,9 +130,14 @@
                                                             </td>
                                                             <td>{{ $row->status }}</td>
                                                         </tr>
+
+                                                        @php 
+                                                            $totalsks +=  $row->matakuliah->bobot_mata_kuliah;
+                                                        @endphp
                                                         @endforeach
                                                     </tbody>
                                                 </table>
+                                                <p class="mt-5">Total SKS yang sudah anda ambil {{ $totalsks }}</p>
                                             </div>
                                         
                                     </div>
@@ -318,7 +325,9 @@
     
     
      function addKrs(id){
-        window.location.href = "{{ url('mahasiswa/karturencanastudy') }}/" + id + "/add";
+        var sks = {{ $sks }};
+        var totalsks = {{ $totalsks }};
+        window.location.href = "{{ url('mahasiswa/karturencanastudy') }}/" + id + "/add?sks=" + sks + "&totalsks=" + totalsks;
      }
 
     </script> 

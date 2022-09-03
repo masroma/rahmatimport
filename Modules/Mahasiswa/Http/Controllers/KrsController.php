@@ -45,10 +45,10 @@ class KrsController extends Controller
     public function data(){
         try{
                 $user = User::where('id',Auth::user()->id)->first();
-                $krsnilai = NilaiPerkuliahan::with('kelas')->where('mahasiswa_id', $user->relation_id)->get()->pluck('kelas.matakuliah_id');
-                $krs = Krs::where('mahasiswa_id',$user->relation_id)->get()->pluck('matakuliah_id');
+                $krsnilai = NilaiPerkuliahan::with('kelas')->where('mahasiswa_id', $user->relation_id)->get()->pluck('kelas.id');
+                $krs = Krs::where('mahasiswa_id',$user->relation_id)->get()->pluck('kelas_id');
                 
-                $data = KelasPerkuliahan::with('matakuliah','jadwal')->whereNotIn('matakuliah_id', $krsnilai)->whereNotIn('matakuliah_id', $krs)->get();
+                $data = KelasPerkuliahan::with('matakuliah','jadwal')->whereNotIn('id', $krsnilai)->whereNotIn('id', $krs)->get();
                 return DataTables::of($data)
                 ->addColumn('kodekelas',function($data){
                     return $data->nama_kelas.''.$data->kode;
@@ -136,15 +136,18 @@ class KrsController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store($id)
+    public function store(Request $request, $id)
     {
-        
+       
         DB::beginTransaction();
         try {
+            if($request->totalsks >= $request->sks){
+                return redirect()->route('karturencanastudy.index')->with(['error' => 'total melebihi kuota sks']);
+            }
             $user = User::where('id',Auth::user()->id)->first();
             $semester = JenisSemester::with('TahunAjaran')->where('active',1)->latest()->first();
             $data = KelasPerkuliahan::with('matakuliah','jadwal')->where('id', $id)->first();
-            $save = new Krs();
+            $save = new Krs;
             $save->jenissemester_id = $semester->id;
             $save->mahasiswa_id = $user->relation_id;
             $save->matakuliah_id = $data->matakuliah->id;
