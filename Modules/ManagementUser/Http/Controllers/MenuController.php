@@ -164,8 +164,9 @@ class MenuController extends Controller
      */
     public function edit($id)
     {
+       
         $keypermission = Permission::groupBy('key')->get();
-        $parentmenu = Menu::whereIn('position','parent')->get();
+        $parentmenu = Menu::whereIn('position',['parent','single','none'])->get();
         $menu = Menu::find($id);
         $name_page = "menu";
         $data = array(

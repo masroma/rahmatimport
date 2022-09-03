@@ -36,6 +36,7 @@
                 <div class="content-overlay"></div>
             </div>
 
+          
             <div class="container">
                 <div class="row">
                     <div class="col s12">
@@ -55,46 +56,106 @@
                         <div class="section">
                             <div class="card" >
                                 <div class="card-content">
-                        <table>
-                            <tr>
-                                <td>Nama</td>
-                                <td>:</td>
-                                <td>{{ $mahasiswa->nama }}</td>
-                            </tr>
-                            <tr>
-                                <td>NIM</td>
-                                <td>:</td>
-                                <td>{{ $mahasiswa->nim }}</td>
-                            </tr>
-                            <tr>
-                                <td>Program Study</td>
-                                <td>:</td>
-                                <td>{{ $mahasiswa->Riwayatpendidikan->programstudy->jurusan->nama_jurusan }}</td>
-                            </tr>
-                            <tr>
-                                <td>Semester</td>
-                                <td>:</td>
-                                <td>{{ $semester->jenis_semester }} {{ $semester->tahunajaran->tahun_ajaran }}</td>
-                            </tr>
-                            <tr>
-                                <td>Maksimum SKS</td>
-                                <td>:</td>
-                                <td> IPS anda {{ $ips }} , jatah SKS semester ini adalah {{ $sks }}</td>
-                            </tr>
-                        </table>
+                                    <table>
+                                        <tr>
+                                            <td>Nama</td>
+                                            <td>:</td>
+                                            <td>{{ $mahasiswa->nama }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>NIM</td>
+                                            <td>:</td>
+                                            <td>{{ $mahasiswa->nim }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Program Study</td>
+                                            <td>:</td>
+                                            <td>{{ $mahasiswa->Riwayatpendidikan->programstudy->jurusan->nama_jurusan }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Semester</td>
+                                            <td>:</td>
+                                            <td>{{ $semester->jenis_semester }} {{ $semester->tahunajaran->tahun_ajaran }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Maksimum SKS</td>
+                                            <td>:</td>
+                                            <td> IPS anda {{ $ips }} , jatah SKS semester ini adalah {{ $sks }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-           @if(($date >= $cutoff->start_tanggal) && ($date <= $cutoff->end_tanggal))
+
+            @if(($date >= $cutoff->start_tanggal) && ($date <= $cutoff->end_tanggal))
                 @if(($date >= $cutoff->start_time) && ($date <= $cutoff->end_time))
+               
                     <div class="container">
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col s6">
+                                <div class="section">
+                                    <div class="card" >
+                                            <div class="card-content">
+                                                <table >
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Kelas</th>
+                                                            <th>Matakuliah</th>
+                                                            <th>SKS</th>
+                                                            <th>Jadwal</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @php $no = 1; @endphp
+                                                        @foreach($krs as $row)
+                                                        <tr>
+                                                            <td>{{ $no++ }}</td>
+                                                            <td>{{ $row->kelas->nama_kelas }}{{ $row->kelas->kode }}</td>
+                                                            <td>{{ $row->matakuliah->nama_matakuliah }}</td>
+                                                            <td>{{ $row->matakuliah->bobot_mata_kuliah}}</td>
+                                                            <td>
+                                                                @if($row->kelas->jadwal)
+                                                                {{ ucwords($row->kelas->jadwal->hari) }}, {{\Carbon\Carbon::parse($row->kelas->jadwal->jam_awal)->format('H:i') }} - {{\Carbon\Carbon::parse($row->kelas->jadwal->jam_akhir)->format('H:i') }}
+                                                                @else
+                                                                -
+                                                                @endif
+                                                            </td>
+                                                            <td>{{ $row->status }}</td>
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s6">
                                 <div class="section">
                                     <div class="card">
                                         <div class="card-content">
-                                            <p>halo bener tanggal di antara 2 tanggal</p>
+                                            <table id="page-length-option" class="display">
+                                                <thead>
+                                                    <tr>
+                                                    <th>#</th>
+                                                    <th>No</th>
+                                                    <th>Kelas</th>
+                                                    <th>Matakuliah</th>
+                                                    <th>SKS</th>
+                                                    <th>Jadwal</th>
+                                                    
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -102,100 +163,167 @@
                         </div>
                     </div>
                 @else
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="section">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <p>Mohon maaf waktu pengisian KRS telah ditutup, silahkan hubungi akademik untuk info lebih lanjut</p>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="section">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <p>Mohon maaf waktu pengisian KRS telah ditutup, silahkan hubungi akademik untuk info lebih lanjut</p>
+                                            <table id="page-length-option" class="display" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Kelas</th>
+                                                        <th>Matakuliah</th>
+                                                        <th>SKS</th>
+                                                        <th>Jadwal</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @php $no = 1; @endphp
+                                                    @foreach($krs as $row)
+                                                    <tr>
+                                                        <td>{{ $no++ }}</td>
+                                                        <td>{{ $row->kelas->nama_kelas }}{{ $row->kelas->kode }}</td>
+                                                        <td>{{ $row->matakuliah->nama_matakuliah }}</td>
+                                                        <td>{{ $row->matakuliah->bobot_mata_kuliah}}</td>
+                                                        <td>
+                                                            @if($row->kelas->jadwal)
+                                                            {{ ucwords($row->kelas->jadwal->hari) }}, {{\Carbon\Carbon::parse($row->kelas->jadwal->jam_awal)->format('H:i') }} - {{\Carbon\Carbon::parse($row->kelas->jadwal->jam_akhir)->format('H:i') }}
+                                                            @else
+                                                            -
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ $row->status }}</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 @endif
-                
-           @else
+            @else
                 <div class="container">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col s12">
                             <div class="section">
                                 <div class="card">
                                     <div class="card-content">
-                                        <p>halo tanggal tidak ada</p>
+                                        <table id="page-length-option" class="display" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Kelas</th>
+                                                    <th>Matakuliah</th>
+                                                    <th>SKS</th>
+                                                    <th>Jadwal</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @php $no = 1; @endphp
+                                                @foreach($krs as $row)
+                                                <tr>
+                                                    <td>{{ $no++ }}</td>
+                                                    <td>{{ $row->kelas->nama_kelas }}{{ $row->kelas->kode }}</td>
+                                                    <td>{{ $row->matakuliah->nama_matakuliah }}</td>
+                                                    <td>{{ $row->matakuliah->bobot_mata_kuliah}}</td>
+                                                    <td>
+                                                        @if($row->kelas->jadwal)
+                                                        {{ ucwords($row->kelas->jadwal->hari) }}, {{\Carbon\Carbon::parse($row->kelas->jadwal->jam_awal)->format('H:i') }} - {{\Carbon\Carbon::parse($row->kelas->jadwal->jam_akhir)->format('H:i') }}
+                                                        @else
+                                                        -
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $row->status }}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-           @endif
-{{-- 
-                        <table>
-                           <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Matakuliah</th>
-                                <th>SKS</th>
-                                <th>Nilai Bobot</th>
-                                <th>Huruf bobot</th>
-                                <th>total</th>
-                            </tr>
-                           </thead>
-                           <tbody>
-                            @php 
-                            $no = 1; 
-                            $totalsks = 0;
-                            $totalip = 0;
-                            $totalnilaiindex = 0;
-                             @endphp
+            @endif
 
-                            @foreach($krssemesterkemarin as $row)
-                                <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $row->matakuliah->nama_matakuliah }}</td>
-                                    <td>{{ $row->matakuliah->bobot_mata_kuliah }}</td>
-                                    
-                                    <td>@foreach ($row->Mahasiswa->Riwayatpendidikan->ProgramStudy->jurusan->SkalaNilai as $sn)
-                                        @if($sn->nilai_huruf == $row->NilaiKrs->nilai_huruf)
-                                            {{ $sn->nilai_index }}
-                                        @endif
-                                    @endforeach</td>
-                                    <td>{{ $row->NilaiKrs->nilai_huruf }}</td>
-                                    <td>@foreach ($row->Mahasiswa->Riwayatpendidikan->ProgramStudy->jurusan->SkalaNilai as $sn)
-                                        @if($sn->nilai_huruf == $row->NilaiKrs->nilai_huruf)
-                                            {{ $sn->nilai_index * $row->matakuliah->bobot_mata_kuliah }}
-                                        @endif
-                                    @endforeach</td>
-                                </tr>
-                                @php $totalsks += $row->matakuliah->bobot_mata_kuliah @endphp
-                                @foreach ($row->Mahasiswa->Riwayatpendidikan->ProgramStudy->jurusan->SkalaNilai as $sn)
-                                        @if($sn->nilai_huruf == $row->NilaiKrs->nilai_huruf)
-                                           @php $totalnilaiindex += $sn->nilai_index * $row->matakuliah->bobot_mata_kuliah @endphp
-                                        @endif
-                                    @endforeach
-                              
-                            @endforeach
+</div>
 
-                            <tr>
-                                <td colspan="2">Total SKS</td>
-                                <td >{{ $totalsks }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">Total Nilai index</td>
-                                <td >{{  $totalnilaiindex }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">IPS</td>
-                                <td>{{ number_format($totalnilaiindex / $totalsks, 2) }}</td>
-                            </tr>
-                           
-                           </tbody>
-                        </table> --}}
-                    </div>
-                </div>
-            </div>
-        </div>
+ 
+
+  @stop
+  @section('script')
+  <script>
+
+      // ini vendor data
+      (function() {
+              loadDataTable();
+          })();
+
+          function loadDataTable() {
+              $(document).ready(function () {
+                  $('#page-length-option').DataTable({
+                      "scrollX": true,
+                      "autoWidth": true,
+                      "lengthChange": false,
+                      processing: true,
+                      serverSide: true,
+                      ajax: {
+                          url: "{{ route('karturencanastudy.data') }}",
+                          type: "GET",
+                      },
+                      columns: [
+                        {
+                            data: 'action',
+                            name: 'action'
+                        },
+                      {
+                          data:"DT_RowIndex",
+                          name:"DT_RowIndex"
+                      },
+                      {
+                            data: 'kodekelas',
+                            name: 'kodekelas'
+                        },
+                        {
+                            data: 'matakuliah.nama_matakuliah',
+                            name: 'matakuliah.nama_matakuliah'
+                        },
+                        {
+                            data: 'matakuliah.bobot_mata_kuliah',
+                            name: 'matakuliah.bobot_mata_kuliah'
+                        },
+                        {
+                            data: 'jadwals',
+                            name: 'jadwals'
+                        },
+                      
+
+                      ],
+                      order: [
+                          [0, 'asc']
+                      ]
+                  });
+
+
+              });
+          }
+    
+    
+     function addKrs(id){
+        window.location.href = "{{ url('mahasiswa/karturencanastudy') }}/" + id + "/add";
+     }
+
+    </script> 
+
+
+
+
 @endsection

@@ -38,7 +38,7 @@ Route::prefix('mahasiswa')->group(function() {
             }
         );
        
-        Route::prefix('informasi-matakuliah')->group(
+        Route::prefix('informasimatakuliah')->group(
             function () {
                 Route::get(
                     '/',
@@ -64,13 +64,27 @@ Route::prefix('mahasiswa')->group(function() {
             }
         );
 
-        Route::prefix('krs')->group(
+        Route::prefix('karturencanastudy')->group(
             function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'KrsController@data',
+                        'as' => 'karturencanastudy.data'
+                    ]
+                );
                 Route::get(
                     '/',
                     [
                         'uses' => 'KrsController@index',
-                        'as' => 'krs.index'
+                        'as' => 'karturencanastudy.index'
+                    ]
+                );
+                Route::get(
+                    '/{id}/add',
+                    [
+                        'uses' => 'KrsController@store',
+                        'as' => 'karturencanastudy.add'
                     ]
                 );
             }

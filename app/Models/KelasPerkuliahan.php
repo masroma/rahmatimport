@@ -30,4 +30,14 @@ class KelasPerkuliahan extends Model
         return $this->hasMany(Krs::class, 'kelas_id');
     }
 
+    /**
+     * Get the user associated with the KelasPerkuliahan
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function Jadwal()
+    {
+        return $this->hasOne(RuangPerkuliahan::class, 'kelasperkuliahan_id', 'id')->where('penggunaanruang_id',1);
+    }
+
 }

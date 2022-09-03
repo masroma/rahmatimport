@@ -14,6 +14,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use PDF;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class InformasiMatakuliahController extends Controller
 {
@@ -21,6 +22,19 @@ class InformasiMatakuliahController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
+    use ValidatesRequests;
+
+    function __construct()
+    {
+         $this->middleware('permission:informasimatakuliah-view|informasimatakuliah-create|informasimatakuliah-edit|informasimatakuliah-show|informasimatakuliah-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:informasimatakuliah-view', ['only' => ['index']]);
+         $this->middleware('permission:informasimatakuliah-create', ['only' => ['create','store']]);
+         $this->middleware('permission:informasimatakuliah-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:informasimatakuliah-show', ['only' => ['show']]);
+         $this->middleware('permission:informasimatakuliah-delete', ['only' => ['destroy']]);
+
+    }
+
 
     public function index()
     {
