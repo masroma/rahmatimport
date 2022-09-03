@@ -79,6 +79,7 @@ use App\Models\Menu;
                                     $menu_admin_id = $menuAdmin->id;
                                     $link = $menuAdmin->link;
                                     // print_r(json_decode($menuAdmin->action) );
+                                   
                                     if($link != '#')
                                     {
                                         ?>
@@ -87,10 +88,10 @@ use App\Models\Menu;
                                             @foreach (json_decode($menuAdmin->action) as $act)
                                             <td class="text-center">
                                                 <label>
-                                                <input type="checkbox" name="permission[]"  value="{{$menuAdmin->id}}-{{str_replace(" ","",$menuAdmin->name)}}-{{$act}}"  value="{{$act}}" data-valuetwo="1"/>
+                                                <input type="checkbox" name="permission[]"  value="{{$menuAdmin->id}}-{{str_replace(" ","",$menuAdmin->name)}}-{{$act}}"  value="{{$act}}" data-valuetwo="1" <?php $namemenu = str_replace(" ","",$menuAdmin->name).'-'.$act; ?>  @if(in_array($namemenu, json_decode($data_permission))) checked @endif/>
                                                 <span>{{ $act }}</span>
                                               </label></td>
-                                        @endforeach
+                                          @endforeach
                                         </tr>
                                         <?php
                                     }

@@ -212,22 +212,22 @@ class RoleController extends Controller
 
     public function edit($id)
     {
-
+            
             $role = Role::find($id);
-
             $name_page = "role";
-            $menus = Menu::whereIn('position', ['single','parent'])->orderBy('order', 'asc')->get();
+            $menus = Menu::whereIn('position', ['single','parent','none'])->orderBy('order', 'asc')->get();
+      
             $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->leftJoin('permissions','permissions.id','role_has_permissions.permission_id')
             // ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->get();
+            // dd($rolePermissions);
+            // dd($rolePermissions);
             $dataname = array();
             foreach($rolePermissions as $datapermission){
                 $dataname[] = $datapermission->name;
             }
-
-
-
+           
             $data = array(
                 'page'          => $name_page,
                 'menus'          => $menus,
@@ -259,7 +259,7 @@ class RoleController extends Controller
 
     public function update(Request $request, $id)
     {
-        
+       
         $this->validate($request, [
             'name' => 'required',
             'permission' => 'required',
