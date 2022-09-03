@@ -32,7 +32,7 @@
             <div class="col s12">
                 <div class="card">
                     <div class="card-content">
-                        <a href="{{$data['template']}}" download>Template Excel</a>
+                        <a href="{{$data['template']}}" download>Download Template Excel</a>
                         <form action="{{$data['action']}}" enctype="multipart/form-data" method="POST">
                             @csrf
                             <input type="file" name="excel_file">

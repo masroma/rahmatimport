@@ -609,6 +609,21 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'import.dosen'
                     ]
                 );
+
+                Route::get(
+                    '/semester',
+                    [
+                        'uses' => 'ImportController@semester',
+                        'as' => 'index.semester'
+                    ]
+                );
+                Route::post(
+                    '/semester',
+                    [
+                        'uses' => 'ImportController@importSemester',
+                        'as' => 'import.semester'
+                    ]
+                );
         });
 
         // dosen

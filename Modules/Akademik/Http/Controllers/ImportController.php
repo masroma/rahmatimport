@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ImportMahasiswa;
 use App\Imports\ImportDosen;
+use App\Imports\ImportSemester;
 
 class ImportController extends Controller
 {
@@ -40,6 +41,17 @@ class ImportController extends Controller
         return $this->index($data,$page);
     }
 
+    public function semester()
+    {
+        $page = "Import Semester";
+        $data = [
+            'module'=>'semester',
+            'action'=>route('import.semester'),
+            'template'=>'/template/excel/template_semester.xlsx'
+        ];
+        return $this->index($data,$page);
+    }
+
     public function importMahasiswa(Request $request)
     {
         try{
@@ -64,6 +76,19 @@ class ImportController extends Controller
         }
 
         return redirect()->route('dosen.index')->with(['error' => 'Import Gagal']);
+    }
+
+    public function importSemester(Request $request)
+    {
+        try{
+            $import = Excel::import(new ImportSemester, $request->excel_file);
+            return redirect()->route('index.semester')->with(['success' => 'Import Berhasi']);
+
+        }catch(\Exception $e){
+            return redirect()->route('index.semester')->with(['error' => 'Import Gagal, '.$e->getMessage()??'']);
+        }
+
+        return redirect()->route('index.semester')->with(['error' => 'Import Gagal']);
     }
 
     /**
