@@ -11,6 +11,11 @@ class Mahasiswa extends Model
 {
     use HasFactory, softDeletes;
 
+    public $fillable = [
+        'nim','nama','tempat_lahir','jenis_kelamin',
+        'ibu_kandung','tanggal_lahir','agama'
+    ];
+
     /**
      * Get the user associated with the Mahasiswa
      *

@@ -578,6 +578,39 @@ Route::prefix('akademik')->group(function() {
             }
         );
 
+        Route::prefix('import')->group(
+            function () {
+                Route::get(
+                    '/mahasiswa',
+                    [
+                        'uses' => 'ImportController@mahasiswa',
+                        'as' => 'index.mahasiswa'
+                    ]
+                );
+                Route::post(
+                    '/mahasiswa',
+                    [
+                        'uses' => 'ImportController@importMahasiswa',
+                        'as' => 'import.mahasiswa'
+                    ]
+                );
+
+                Route::get(
+                    '/dosen',
+                    [
+                        'uses' => 'ImportController@dosen',
+                        'as' => 'index.dosen'
+                    ]
+                );
+                Route::post(
+                    '/dosen',
+                    [
+                        'uses' => 'ImportController@importDosen',
+                        'as' => 'import.dosen'
+                    ]
+                );
+        });
+
         // dosen
         Route::prefix('dosen')->group(
             function () {
