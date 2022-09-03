@@ -19,6 +19,9 @@ use App\Models\Krs;
 use App\Models\JenisSemester;
 use App\Models\Kewarganegaraan;
 use App\Models\KelasPerkuliahan;
+use App\Models\PerguruanTinggi;
+use App\Models\MataKuliah;
+use App\Models\NilaiTransfer;
 use DataTables;
 use Exception;
 use Auth;
@@ -349,12 +352,17 @@ class MahasiswaController extends Controller
             }]);
         }])->findOrFail($id);
 
+        $perguruan_tinggi = PerguruanTinggi::all();
+        $mata_kuliah = MataKuliah::all();
+
         $name_page = "mahasiswa";
         $title = "Mahasiswa";
         $data = array(
             'page' => $name_page,
             'mahasiswa' => $mahasiswa,
-            'title' => $title
+            'perguruan_tinggi'=>$perguruan_tinggi,
+            'title' => $title,
+            'mata_kuliah'=>$mata_kuliah
         );
         return view('akademik::mahasiswa.show')->with($data);
     }
@@ -680,8 +688,92 @@ class MahasiswaController extends Controller
                 ->make(true);
 
     }
+    public function getTransfer($id)
+    {
+        $data = NilaiTransfer::with(['mata_kuliah'])->where('mahasiswa_id',$id)->get();
+        $canShow = Gate::allows('mahasiswa-show');
+        $canUpdate = Gate::allows('mahasiswa-edit');
+        $canDelete = Gate::allows('mahasiswa-delete');
+        return DataTables::of($data)
+        ->addColumn('kode_mk_diakui', function($data){
+            return $data->mata_kuliah->kode_matakuliah;
+        })
+        ->addColumn('matakuliah_diakui', function($data){
+            return $data->mata_kuliah->nama_matakuliah;
+        })
+        ->addColumn('sks_diakui', function($data){
+            return $data->mata_kuliah->bobot_mata_kuliah;
+        })
+        ->addColumn('action', function ($data) use ($canUpdate, $canDelete, $canShow) {
 
+            $btn = '';
 
+            if ($canDelete) {
+                $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
+            }
 
+            if ($canShow) {
+                $btn .= '<a class="btn-floating green darken-1 btn-small" href="mahasiswa/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+            }
+
+            return $btn;
+        })
+        ->rawColumns(['colors','action','checkbox'])
+        ->addIndexColumn()
+        ->make(true);
+    }
+    public function nilaiTransferStore()
+    {
+        DB::beginTransaction();
+        try {
+            $nilaiTransfer = new NilaiTransfer();
+            $params = array_filter(request()->all(),function($key) use ($nilaiTransfer){
+                return in_array($key,$nilaiTransfer->fillable)!==false;
+            },ARRAY_FILTER_USE_KEY);   
+            $save = NilaiTransfer::create($params);
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with('success', $exception->getMessage());
+        }
+        
+        if ($save) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with(['success' => 'Data Berhasil Disimpan!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(['error' => 'Data Gagal Disimpan!']);
+        }
+    }
+    public function deleteNilaiTranfer($id)
+    {
+        DB::beginTransaction();
+        try {
+            $delete = NilaiTransfer::find($id)->delete();
+                DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
+        if ($delete) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with(['success' => 'Data Berhasil Dihapus!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(['error' => 'Data Gagal Dihapus!']);
+        }
+    }
+
+    public function printNilaiTransfer($id)
+    {
+        $data = NilaiTransfer::with(['mata_kuliah'])->where('mahasiswa_id',$id)->get();
+        $mahasiswa = Mahasiswa::with(['Detail','Detail.Provinsi','Detail.Kota','Detail.Kecamatan','Detail.Kelurahan','OrangTua', 'Wali','KebutuhanKhusus','Riwayatpendidikan'=>function($e){
+            $e->with(['Programstudy'=>function($d){
+                $d->with('jurusan');
+            }]);
+        }])->findOrFail($id);
+        return view('akademik::mahasiswa.print-nilai-transfer',compact('data','mahasiswa'));
+    }
 
 }
