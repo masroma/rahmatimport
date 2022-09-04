@@ -10,6 +10,10 @@ class JenisSemester extends Model
 {
     use HasFactory, softDeletes;
 
+    public $fillable = [
+        'tahunajaran_id','jenis_semester'
+    ];
+
     /**
      * Get the user that owns the JenisSemester
      *

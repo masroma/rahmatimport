@@ -547,8 +547,79 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'mahasiswa.gettranskrip'
                     ]
                 );
+                Route::get(
+                    '/{id}/gettransfer',
+                    [
+                        'uses' => 'MahasiswaController@getTransfer',
+                        'as' => 'mahasiswa.gettransfer'
+                    ]
+                );
+                Route::post(
+                    '/storetransfer',
+                    [
+                        'uses' => 'MahasiswaController@nilaiTransferStore',
+                        'as' => 'nilaitransfer.store'
+                    ]
+                );
+                Route::get(
+                    '/nilaitransfer/delete/{id}',
+                    [
+                        'uses' => 'MahasiswaController@deleteNilaiTranfer',
+                        'as' => 'nilaitransfer.delete'
+                    ]
+                );
+                Route::get(
+                    '/nilaitransfer/print/{id}',
+                    [
+                        'uses' => 'MahasiswaController@printNilaiTransfer',
+                        'as' => 'nilaitransfer.print'
+                    ]
+                );
             }
         );
+
+        Route::prefix('import')->group(
+            function () {
+                
+                Route::post(
+                    '/import',
+                    [
+                        'uses' => 'ImportController@importProcess',
+                        'as' => 'import.process'
+                    ]
+                );
+                Route::get(
+                    '/mahasiswa',
+                    [
+                        'uses' => 'ImportController@mahasiswa',
+                        'as' => 'index.mahasiswa'
+                    ]
+                );
+
+                Route::get(
+                    '/dosen',
+                    [
+                        'uses' => 'ImportController@dosen',
+                        'as' => 'index.dosen'
+                    ]
+                );
+
+                Route::get(
+                    '/matakuliah',
+                    [
+                        'uses' => 'ImportController@matakuliah',
+                        'as' => 'index.matakuliah'
+                    ]
+                );
+
+                Route::get(
+                    '/semester',
+                    [
+                        'uses' => 'ImportController@semester',
+                        'as' => 'index.semester'
+                    ]
+                );
+        });
 
         // dosen
         Route::prefix('dosen')->group(

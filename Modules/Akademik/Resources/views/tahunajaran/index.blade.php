@@ -20,6 +20,7 @@
           </div>
           <div class="col s2 m6 l6">
               @if($canCreate)
+              <a class="btn waves-effect waves-light blue breadcrumbs-btn right me-3" href="{{route('index.semester')}}"  id="tombol-tambah" style="margin-top:-3px; margin-left:10px" ><i class="material-icons left">add_circle_outline</i>Import</a>
               <a class="btn  waves-effect waves-light breadcrumbs-btn right" href="{{route($page.'.create')}}"  id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
               @endif
           </div>

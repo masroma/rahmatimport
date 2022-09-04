@@ -10,6 +10,9 @@ class Dosen extends Model
 {
     use HasFactory, softDeletes;
 
+    public $fillable = [
+        'nidn','nama_dosen','tempat_lahir','jenis_kelamin','tanggal_lahir','agama'
+    ];
 
     public function Address()
     {

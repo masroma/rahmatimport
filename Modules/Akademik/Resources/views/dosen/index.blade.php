@@ -21,6 +21,7 @@
           <div class="col s2 m6 l6">
             {{-- <a class="btn waves-effect waves-light green  breadcrumbs-btn right me-3" style="margin-top:-3px; margin-left:10px" href="{{route($page.'.trash')}}"  id="tombol-tambah" ><i class="material-icons left">delete</i>Trash</a> --}}
               @if($canCreate)
+              <a class="btn waves-effect waves-light blue breadcrumbs-btn right me-3" href="{{route('index.dosen')}}"  id="tombol-tambah" style="margin-top:-3px; margin-left:10px" ><i class="material-icons left">add_circle_outline</i>Import</a>
               <a class="btn waves-effect waves-light breadcrumbs-btn right" href="{{route($page.'.create')}}"  id="tombol-tambah" ><i class="material-icons left">add_circle_outline</i>Tambah</a>
 
               @endif
