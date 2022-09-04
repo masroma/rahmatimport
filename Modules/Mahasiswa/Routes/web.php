@@ -103,5 +103,29 @@ Route::prefix('mahasiswa')->group(function() {
                 );
             }
         );
+
+        Route::prefix('kartuhasilstudy')->group(
+            function () {
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'KhsController@index',
+                        'as' => 'kartuhasilstudy'
+                    ]
+                );
+            }
+        );
+
+        Route::prefix('transkipnilai')->group(
+            function () {
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'TranskipNilaiController@index',
+                        'as' => 'transkipnilai'
+                    ]
+                );
+            }
+        );
     });
 });
