@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\Mahasiswa;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use App\Imports\Helper;
 
 class ImportMahasiswa implements ToModel, WithHeadingRow
 {
@@ -23,7 +24,7 @@ class ImportMahasiswa implements ToModel, WithHeadingRow
                     'tempat_lahir'=>$row['tempat_lahir'],
                     'jenis_kelamin'=>$row['jenis_kelamin'],
                     'ibu_kandung'=>$row['ibu_kandung'],
-                    'tanggal_lahir'=>$row['tanggal_lahir'],
+                    'tanggal_lahir'=>Helper::transformDate($row['tanggal_lahir']),
                     'agama'=>$row['agama'],
                 ]);
             }

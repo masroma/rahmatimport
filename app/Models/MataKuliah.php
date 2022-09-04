@@ -10,6 +10,11 @@ class MataKuliah extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public $fillable = [
+        'kode_matakuliah','nama_matakuliah','programstudy_id','jenis_mata_kuliah','bobot_mata_kuliah','bobot_tatap_muka','bobot_pratikum','bobot_praktek_lapanagn','bobot_simulasi','min_nilai_kelulusan','metode_pembelajaran','tanggal_mulai_efektif','tanggal_akhir_efektif'
+
+    ];
+
     public function Programstudy()
     {
         return $this->belongsTo(ProgramStudy::class, 'programstudy_id');

@@ -6,9 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\ImportMahasiswa;
-use App\Imports\ImportDosen;
-use App\Imports\ImportSemester;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class ImportController extends Controller
 {
@@ -16,6 +14,15 @@ class ImportController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
+
+    use ValidatesRequests;
+
+    protected $importClass = [
+        'mahasiswa'=>'App\Imports\ImportMahasiswa',
+        'dosen'=>'App\Imports\ImportDosen',
+        'semester'=>'App\Imports\ImportSemester',
+        'matakuliah'=>'App\Imports\ImportMataKuliah',
+    ];
     public function index($data,$page)
     {
         return view('akademik::import.index',compact('data','page'));
@@ -25,8 +32,8 @@ class ImportController extends Controller
         $page = "Import Mahasiswa";
         $data = [
             'module'=>'mahasiswa',
-            'action'=>route('import.mahasiswa'),
-            'template'=>'/template/excel/template_mahasiswa.xlsx'
+            'template'=>'/template/excel/template_mahasiswa.xlsx',
+            'redirect'=>'mahasiswa.index'
         ];
         return $this->index($data,$page);
     }
@@ -35,8 +42,18 @@ class ImportController extends Controller
         $page = "Import Dosen";
         $data = [
             'module'=>'dosen',
-            'action'=>route('import.dosen'),
-            'template'=>'/template/excel/template_dosen.xlsx'
+            'template'=>'/template/excel/template_dosen.xlsx',
+            'redirect'=>'dosen.index'
+        ];
+        return $this->index($data,$page);
+    }
+    public function matakuliah()
+    {
+        $page = "Import Mata Kuliah";
+        $data = [
+            'module'=>'matakuliah',
+            'template'=>'/template/excel/template_mata_kuliah.xlsx',
+            'redirect'=>'matakuliah.index'
         ];
         return $this->index($data,$page);
     }
@@ -46,49 +63,26 @@ class ImportController extends Controller
         $page = "Import Semester";
         $data = [
             'module'=>'semester',
-            'action'=>route('import.semester'),
-            'template'=>'/template/excel/template_semester.xlsx'
+            'template'=>'/template/excel/template_semester.xlsx',
+            'redirect'=>'tahunajaran.index'
         ];
         return $this->index($data,$page);
     }
 
-    public function importMahasiswa(Request $request)
+    public function importProcess(Request $request)
     {
+        $this->validate($request, [
+            'excel_file' => 'required',
+        ]);
         try{
-            $import = Excel::import(new ImportMahasiswa, $request->excel_file);
-            return redirect()->route('mahasiswa.index')->with(['success' => 'Import Berhasi']);
+            $import = Excel::import(new $this->importClass[$request->module], $request->excel_file);
+            return redirect()->route($request->redirect)->with(['success' => 'Import Berhasi']);
 
         }catch(\Exception $e){
-            return redirect()->route('mahasiswa.index')->with(['error' => 'Import Gagal']);
+            return redirect()->route($request->redirect)->with(['error' => 'Import Gagal, '.$e->getMessage()??'']);
         }
 
-        return redirect()->route('mahasiswa.index')->with(['error' => 'Import Gagal']);
-    }
-
-    public function importDosen(Request $request)
-    {
-        try{
-            $import = Excel::import(new ImportDosen, $request->excel_file);
-            return redirect()->route('dosen.index')->with(['success' => 'Import Berhasi']);
-
-        }catch(\Exception $e){
-            return redirect()->route('dosen.index')->with(['error' => 'Import Gagal, '.$e->getMessage()??'']);
-        }
-
-        return redirect()->route('dosen.index')->with(['error' => 'Import Gagal']);
-    }
-
-    public function importSemester(Request $request)
-    {
-        try{
-            $import = Excel::import(new ImportSemester, $request->excel_file);
-            return redirect()->route('index.semester')->with(['success' => 'Import Berhasi']);
-
-        }catch(\Exception $e){
-            return redirect()->route('index.semester')->with(['error' => 'Import Gagal, '.$e->getMessage()??'']);
-        }
-
-        return redirect()->route('index.semester')->with(['error' => 'Import Gagal']);
+        return redirect()->route($request->redirect)->with(['error' => 'Import Gagal']);
     }
 
     /**

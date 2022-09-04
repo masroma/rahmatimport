@@ -580,18 +580,19 @@ Route::prefix('akademik')->group(function() {
 
         Route::prefix('import')->group(
             function () {
+                
+                Route::post(
+                    '/import',
+                    [
+                        'uses' => 'ImportController@importProcess',
+                        'as' => 'import.process'
+                    ]
+                );
                 Route::get(
                     '/mahasiswa',
                     [
                         'uses' => 'ImportController@mahasiswa',
                         'as' => 'index.mahasiswa'
-                    ]
-                );
-                Route::post(
-                    '/mahasiswa',
-                    [
-                        'uses' => 'ImportController@importMahasiswa',
-                        'as' => 'import.mahasiswa'
                     ]
                 );
 
@@ -602,11 +603,12 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'index.dosen'
                     ]
                 );
-                Route::post(
-                    '/dosen',
+
+                Route::get(
+                    '/matakuliah',
                     [
-                        'uses' => 'ImportController@importDosen',
-                        'as' => 'import.dosen'
+                        'uses' => 'ImportController@matakuliah',
+                        'as' => 'index.matakuliah'
                     ]
                 );
 
@@ -615,13 +617,6 @@ Route::prefix('akademik')->group(function() {
                     [
                         'uses' => 'ImportController@semester',
                         'as' => 'index.semester'
-                    ]
-                );
-                Route::post(
-                    '/semester',
-                    [
-                        'uses' => 'ImportController@importSemester',
-                        'as' => 'import.semester'
                     ]
                 );
         });
