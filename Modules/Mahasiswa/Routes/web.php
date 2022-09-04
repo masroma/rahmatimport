@@ -87,6 +87,20 @@ Route::prefix('mahasiswa')->group(function() {
                         'as' => 'karturencanastudy.add'
                     ]
                 );
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'KrsController@destroy',
+                        'as' => 'karturencanastudy.destroy'
+                    ]
+                );
+                Route::get(
+                    '/cetak',
+                    [
+                        'uses' => 'KrsController@cetak',
+                        'as' => 'karturencanastudy.cetak'
+                    ]
+                );
             }
         );
     });

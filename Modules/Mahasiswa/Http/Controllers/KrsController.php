@@ -21,6 +21,7 @@ use DataTables;
 use Exception;
 use Gate;
 use DB;
+use PDF;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class KrsController extends Controller
@@ -207,6 +208,44 @@ class KrsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        try {
+           $delete =  Krs::find($id)->delete();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+        if ($delete) {
+            //redirect dengan pesan sukses
+            return redirect()->route("karturencanastudy.index")->with("success", "Data berhasil dihapus");
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route("karturencanastudy.index")->with(["error" => "Data Gagal Dihapus!"]);
+        }
+    }
+
+    public function cetak(){
+
+        $user = User::where('id',Auth::user()->id)->first();
+        $semester = JenisSemester::with('TahunAjaran')->where('active',1)->latest()->first();
+        $mahasiswa = Mahasiswa::with('Riwayatpendidikan.JenisSemester','Riwayatpendidikan.ProgramStudy.jurusan','Riwayatpendidikan.ProgramStudy.jenjang')->findOrFail($user->relation_id);
+       
+        $krs = Krs::with('Mahasiswa','matakuliah','kelas','Kelas.Jadwal')->where('jenissemester_id',$semester->id)->where('mahasiswa_id',$user->relation_id)->get();
+
+        $data = [
+            'mahasiswa' => $mahasiswa,
+            'semester' => $semester,
+            'krs' => $krs
+        ];
+    
+        $pdf = PDF::loadView('mahasiswa::krs.cetak', $data);
+
+     
+
+        return $pdf->download('krs.pdf');
+       
+       
+        // return view('mahasiswa::krs.cetak',compact('user','semester','mahasiswa','krs'));
     }
 }
