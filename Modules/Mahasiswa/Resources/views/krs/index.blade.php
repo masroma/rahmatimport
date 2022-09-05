@@ -36,20 +36,6 @@
                 <div class="content-overlay"></div>
             </div>
 
-          
-            <div class="container">
-                <div class="row">
-                    <div class="col s12">
-                        <a class="btn waves-effect waves-light breadcrumbs-btn left mb-1"  href="{{ route('informasimatakuliah.cetak') }}"   id="tombol-tambah" ><i class="material-icons left">local_printshop</i>Cetak</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12">
-                     
-                    </div>
-                 </div>
-            </div>
-
             <div class="container">
                 <div class="row">
                     <div class="col s12">
@@ -100,7 +86,7 @@
                                 <div class="section">
                                     <div class="card" >
                                             <div class="card-content">
-                                               
+                                               <h5>KRS Yang anda ambil</h5>
                                                 <table >
                                                     <thead>
                                                         <tr>
@@ -128,7 +114,7 @@
                                                                 -
                                                                 @endif
                                                             </td>
-                                                            <td>{{ $row->status }}</td>
+                                                            <td><button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('{{ $row->id }}')"><i class="material-icons">delete</i></button></td>
                                                         </tr>
 
                                                         @php 
@@ -147,6 +133,7 @@
                                 <div class="section">
                                     <div class="card">
                                         <div class="card-content">
+                                            <h5>Matakuliah Yang bisa anda ambil</h5>
                                             <table id="page-length-option" class="display">
                                                 <thead>
                                                     <tr>
@@ -189,6 +176,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @php $totalsks = 0 @endphp
                                                     @php $no = 1; @endphp
                                                     @foreach($krs as $row)
                                                     <tr>
@@ -205,6 +193,9 @@
                                                         </td>
                                                         <td>{{ $row->status }}</td>
                                                     </tr>
+                                                    @php 
+                                                    $totalsks +=  $row->matakuliah->bobot_mata_kuliah;
+                                                @endphp
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -221,8 +212,11 @@
                         <div class="col s12">
                             <div class="section">
                                 <div class="card">
+                                    <div class="col s12">
+                                        <a class="btn waves-effect waves-light breadcrumbs-btn left mb-1"  href="{{ route('karturencanastudy.cetak') }}"   id="tombol-tambah" ><i class="material-icons left">local_printshop</i>Cetak</a>
+                                    </div>
                                     <div class="card-content">
-                                        <table id="page-length-option" class="display" width="100%">
+                                        <table id="page-length-options" class="display" width="100%">
                                             <thead>
                                                 <tr>
                                                     <th>No</th>
@@ -234,6 +228,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @php $totalsks = 0 @endphp
                                                 @php $no = 1; @endphp
                                                 @foreach($krs as $row)
                                                 <tr>
@@ -250,6 +245,9 @@
                                                     </td>
                                                     <td>{{ $row->status }}</td>
                                                 </tr>
+                                                @php 
+                                                $totalsks +=  $row->matakuliah->bobot_mata_kuliah;
+                                            @endphp
                                                 @endforeach
                                             </tbody>
                                         </table>
@@ -312,7 +310,7 @@
                             name: 'jadwals'
                         },
                       
-
+ 
                       ],
                       order: [
                           [0, 'asc']
@@ -329,6 +327,21 @@
         var totalsks = {{ $totalsks }};
         window.location.href = "{{ url('mahasiswa/karturencanastudy') }}/" + id + "/add?sks=" + sks + "&totalsks=" + totalsks;
      }
+
+     function deleteConfirm(id) {
+              swal({
+                      title: "Kamu Yakin ?",
+                      text: "akan menghapus data ini !",
+                      icon: "warning",
+                      buttons: true,
+                      dangerMode: true,
+                  })
+                  .then((dt) => {
+                      if (dt) {
+                          window.location.href = "{{ url('mahasiswa/karturencanastudy') }}/" + id + "/delete";
+                      }
+                  });
+          }
 
     </script> 
 

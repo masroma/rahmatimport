@@ -87,6 +87,44 @@ Route::prefix('mahasiswa')->group(function() {
                         'as' => 'karturencanastudy.add'
                     ]
                 );
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'KrsController@destroy',
+                        'as' => 'karturencanastudy.destroy'
+                    ]
+                );
+                Route::get(
+                    '/cetak',
+                    [
+                        'uses' => 'KrsController@cetak',
+                        'as' => 'karturencanastudy.cetak'
+                    ]
+                );
+            }
+        );
+
+        Route::prefix('kartuhasilstudy')->group(
+            function () {
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'KhsController@index',
+                        'as' => 'kartuhasilstudy'
+                    ]
+                );
+            }
+        );
+
+        Route::prefix('transkipnilai')->group(
+            function () {
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'TranskipNilaiController@index',
+                        'as' => 'transkipnilai'
+                    ]
+                );
             }
         );
     });

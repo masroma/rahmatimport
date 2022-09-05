@@ -60,5 +60,15 @@ class Krs extends Model
         return $this->belongsTo(NilaiPerkuliahan::class,'kelas_id','kelas_id');
     }
 
+    /**
+     * Get the user that owns the Krs
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function NilaiIps()
+    {
+        return $this->belongsTo(CalculateIpsIpk::class, 'jenissemester_id', 'semester_id');
+    }
+
 
 }

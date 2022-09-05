@@ -127,11 +127,12 @@ class InformasiMatakuliahController extends Controller
         }])->where('programstudy_id',$programstudyid)->first();
 
         $semester = JenisSemester::with('TahunAjaran')->orderByDesc('id')->first();
+        
         $data = [
             'matakuliahkurikulum' => $matakuliahkurikulum,
             'mahasiswa' => $mahasiswa,
             'semester' => $semester
-        ]; 
+        ];
 
         $pdf = PDF::loadView('mahasiswa::informasimatakuliah.cetak', $data);
 
