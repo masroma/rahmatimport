@@ -3306,5 +3306,30 @@ Route::prefix('akademik')->group(function() {
                 );
             }
         );
+
+        Route::prefix('transkripnilai')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'TranskripNilaiController@data',
+                        'as' => 'transkripnilai.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'TranskripNilaiController@index',
+                        'as' => 'transkripnilai.index'
+                    ]
+                );
+                Route::get(
+                    '/calculate/{id}',
+                    [
+                        'uses' => 'TranskripNilaiController@hitungTranskrip',
+                        'as' => 'transkripnilai.hitungTranskrip'
+                    ]
+                );
+            });
     });
 });

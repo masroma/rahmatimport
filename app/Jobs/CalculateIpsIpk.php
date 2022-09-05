@@ -15,14 +15,16 @@ class CalculateIpsIpk implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $programstudy_id;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($programstudy_id=null)
     {
-        //
+        $this->programstudy_id = $programstudy_id;
     }
 
     /**
@@ -34,8 +36,12 @@ class CalculateIpsIpk implements ShouldQueue
     {
         $ipk =[];
         $total_sks = [];
-        Calculate::truncate();
-        $data = DB::select("SELECT a.id mahasiswa_id, a.nama,round(sum(f.nilai_index)/COUNT(a.nama),2) ips,
+        if($this->programstudy_id == null){
+            Calculate::truncate();
+        } else {
+            Calculate::where('programstudy_id',$this->programstudy_id)->delete();
+        }
+        $data = DB::select("SELECT a.id mahasiswa_id,f.programstudy_id, a.nama,round(sum(f.nilai_index)/COUNT(a.nama),2) ips,
         d.jenissemester_id,d.sks sks_semester, d.jenissemester_id semester_id
         FROM mahasiswas a
         JOIN nilai_perkuliahans b ON a.id = b.mahasiswa_id
@@ -47,6 +53,7 @@ class CalculateIpsIpk implements ShouldQueue
 	        GROUP BY a.jenissemester_id, a.mahasiswa_id
 		  ) d ON d.mahasiswa_id = a.id 
         JOIN skala_nilais f ON f.nilai_huruf = b.nilai_huruf AND f.programstudy_id = g.programstudy_id
+        ".($this->programstudy_id != null? "where f.programstudy_id = ".$this->programstudy_id:"")."
         GROUP BY  a.id, a.nama,d.jenissemester_id
         ORDER BY a.id, d.jenissemester_id;
         ");

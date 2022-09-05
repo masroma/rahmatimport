@@ -10,6 +10,6 @@ class CalculateIpsIpk extends Model
     use HasFactory;
     protected $table ='calculate_ips_ipk';
     public $fillable = [
-        'mahasiswa_id','semester_id','ips','ipk','sks_semester','total_sks'
+        'mahasiswa_id','semester_id','ips','ipk','sks_semester','total_sks','programstudy_id'
     ];
 }
