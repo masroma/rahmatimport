@@ -232,12 +232,16 @@
                             <div class="collapsible-body">
                                 <ul class="collapsible collapsible-sub" data-collapsible="accordion">
                                     @foreach($menudata as $children => $childs)
-                                        @foreach($childs as $child)
-                                            @if($child->menu->parent_id == $a->menu->id)
-                                            <li><a href="{{route($child->menu->link ?? '')}}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Second level">{{$child->menu->name}}</span></a>
-                                            </li>
-                                        @endif
-                                        @endforeach
+                                        
+                                         @foreach($childs as $child)
+                                            {{-- {{ $child->menu ? $child->menu->parent_id : 0 }} --}}
+                                            @if($child->menu)
+                                            @if( $child->menu->parent_id == $a->menu->id)
+                                                <li><a href="{{route($child->menu->link ?? '')}}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Second level">{{$child->menu->name}}</span></a>
+                                                </li>
+                                            @endif 
+                                            @endif
+                                        @endforeach 
                                     @endforeach
                                 </ul>
                             </div>
