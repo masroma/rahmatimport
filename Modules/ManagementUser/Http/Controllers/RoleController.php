@@ -259,6 +259,7 @@ class RoleController extends Controller
 
     public function update(Request $request, $id)
     {
+      
        
         $this->validate($request, [
             'name' => 'required',
@@ -274,9 +275,9 @@ class RoleController extends Controller
           //delete akses menu old
         $deletePermissionOld = RoleHasPermission::where('role_id', $id)->delete();
           // delete permision role old
+        // $total = 0;
         foreach($permission as $a){
             $keys = explode('-', $a);
-          
             $nameMenu = str_replace(" ","",$keys[1]);
             $idMenu = $keys[0];
             // save menu
@@ -300,10 +301,8 @@ class RoleController extends Controller
 
             #save permission
             $permissionAction = "$nameMenu-$keys[2]";
-
-
             $cekpermission = Permission::where('name',$permissionAction)->first();
-
+           
             if($cekpermission){
                 $saveHasPermission = new RoleHasPermission();
                 $saveHasPermission->permission_id = $cekpermission->id;
@@ -312,6 +311,8 @@ class RoleController extends Controller
             }
 
         }
+
+        // dd($total);
 
 
         if ($role) {
