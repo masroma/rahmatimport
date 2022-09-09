@@ -729,14 +729,14 @@ class MahasiswaController extends Controller
             $nilaiTransfer = new NilaiTransfer();
             $params = array_filter(request()->all(),function($key) use ($nilaiTransfer){
                 return in_array($key,$nilaiTransfer->fillable)!==false;
-            },ARRAY_FILTER_USE_KEY);   
+            },ARRAY_FILTER_USE_KEY);
             $save = NilaiTransfer::create($params);
             DB::commit();
         } catch (ModelNotFoundException $exception) {
             DB::rollback();
             return back()->with('success', $exception->getMessage());
         }
-        
+
         if ($save) {
             //redirect dengan pesan sukses
             return redirect()->back()->with(['success' => 'Data Berhasil Disimpan!']);

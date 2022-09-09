@@ -35,12 +35,25 @@ enctype="multipart/form-data" class="col s12">
 @csrf
 <!-- Page Length Options -->
 <div class="row">
-<div class="col s4">
+<div class="col s12">
     <div class="card">
         <div class="card-content">
               <div class="input-field">
                 <input placeholder="Ruang id" name="ruang_id" id="ruang_id" type="hidden" class="validate  @error('ruang_id') is-invalid @enderror" value="{{ $id }}">
               </div>
+
+            <div class="input-field">
+                <select name="jenissemester_id" class="select2 browser-default">
+                    {{-- <option value="" >Tahun Ajaran</option> --}}
+                    @foreach($semester as $r)
+                        <option @if(old('jenissemester_id', $semesteraktif->id) == $r->id) selected @endif value="{{$r->id}}">{{$r->jenis_semester}}-{{ $r->tahunajaran->tahun_ajaran }} </option>
+                    @endforeach
+                </select>
+                    <label for="first_name">Tahun Ajaran</label>
+                @error('jenissemester_id')
+                <span class="red-text text-darken-2">{{ $message }}</small>
+                @enderror
+            </div>
               <div class="input-field">
                 <select name="kelasperkuliahan_id" class="select2 browser-default">
                     <option value="">Kelas Perkuliahan</option>
@@ -54,16 +67,17 @@ enctype="multipart/form-data" class="col s12">
                 @enderror
             </div>
             <div class="input-field ">
-                <select name="penggunaanruang_id" class="select2 browser-default">
-                    <option value="">type penggunaan</option>
-                    @foreach($penggunaanruang as $row)
+                <input type="hidden"  name="penggunaanruang_id" value="1">
+                {{-- <select name="penggunaanruang_id" class="select2 browser-default">
+                    <option value="1">type penggunaan</option> --}}
+                    {{-- @foreach($penggunaanruang as $row)
                         <option value="{{ $row->id }}" @if(old('penggunaanruang_id') == $row->id) selected @endif value="{{$row->id}}">{{$row->penggunaan_ruangan}}</option>
-                    @endforeach
-                </select>
+                    @endforeach --}}
+                {{-- </select>
                     <label for="first_name">Penggunaan Ruangan<span style="color:red">*</span></label>
                 @error('penggunaanruang_id')
                 <span class="red-text text-darken-2">{{ $message }}</small>
-                @enderror
+                @enderror --}}
             </div>
 
             <div class="input-field">
@@ -98,6 +112,15 @@ enctype="multipart/form-data" class="col s12">
             @enderror
       </div>
 
+      <div class="input-field">
+        <input placeholder="tanggal awal masuk" name="tanggal_awal_masuk" id="tanggal_awal_masuk" type="date" class="validate  @error('tanggal_awal_masuk') is-invalid @enderror" value="{{ old('tanggal_awal_masuk') }}">
+        <label for="first_name">tanggal awal masuk</label>
+        @error('tanggal_awal_masuk')
+        <span class="red-text text-darken-2">{{ $message }}</small>
+        @enderror
+        <small>tanggal ini untuk menentukan tanggal awal perkuliahan saat di generate 1 semester</small>
+    </div>
+
             <div class="input-field">
                 <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>save</button>
                 <a href={{route('ruangperkuliahan.show',$id)}} class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>
@@ -105,7 +128,7 @@ enctype="multipart/form-data" class="col s12">
         </div>
     </div>
 </div>
-<div class="col s8" >
+{{-- <div class="col s8" >
   <div class="card">
     <div class="card-content" >
         <h4>Jadwal</h4>
@@ -130,7 +153,7 @@ enctype="multipart/form-data" class="col s12">
 
                     <tr>
                         <td>{{ date("H:i", $i) }}</td>
-                        <td class="text-center">
+                        <td class="text-center" >
                             <label>
                             <input type="checkbox" name="waktu[]"  value="{{date("h:i", $i)}}-senin" {{in_array(date("H:i", $i), $senin) ? "disabled" : ""}}/>
                             <span></span>
@@ -170,7 +193,7 @@ enctype="multipart/form-data" class="col s12">
 
     </div>
   </div>
-</div>
+</div> --}}
 </div>
 </form>
 

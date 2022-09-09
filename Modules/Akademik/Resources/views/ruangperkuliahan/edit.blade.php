@@ -35,12 +35,24 @@ enctype="multipart/form-data" class="col s12">
 @csrf
 <!-- Page Length Options -->
 <div class="row">
-<div class="col s4">
+<div class="col s12">
     <div class="card">
         <div class="card-content">
               <div class="input-field">
                 <input placeholder="Ruang id" name="ruang_id" id="ruang_id" type="hidden" class="validate  @error('ruang_id') is-invalid @enderror" value="{{ $old->ruang_id }}">
               </div>
+              <div class="input-field">
+                <select name="jenissemester_id" class="select2 browser-default" disabled>
+                    {{-- <option value="" >Tahun Ajaran</option> --}}
+                    @foreach($semester as $r)
+                        <option @if(old('jenissemester_id', $old->jenissemester_id) == $r->id) selected @endif value="{{$r->id}}">{{$r->jenis_semester}}-{{ $r->tahunajaran->tahun_ajaran }} </option>
+                    @endforeach
+                </select>
+                    <label for="first_name">Tahun Ajaran</label>
+                @error('jenissemester_id')
+                <span class="red-text text-darken-2">{{ $message }}</small>
+                @enderror
+            </div>
               <div class="input-field">
                 <select name="kelasperkuliahan_id" class="select2 browser-default" readonly>
                     <option value="">Kelas Perkuliahan</option>
@@ -54,7 +66,8 @@ enctype="multipart/form-data" class="col s12">
                 @enderror
             </div>
             <div class="input-field ">
-                <select name="penggunaanruang_id" class="select2 browser-default">
+                <input type="hidden"  name="penggunaanruang_id" value="1">
+                {{-- <select name="penggunaanruang_id" class="select2 browser-default">
                     <option value="">type penggunaan</option>
                     @foreach($penggunaanruang as $row)
                         <option value="{{ $row->id }}" @if(old('penggunaanruang_id',$old->penggunaanruang_id) == $row->id) selected @endif value="{{$row->id}}">{{$row->penggunaan_ruangan}}</option>
@@ -63,7 +76,7 @@ enctype="multipart/form-data" class="col s12">
                     <label for="first_name">Penggunaan Ruangan<span style="color:red">*</span></label>
                 @error('penggunaanruang_id')
                 <span class="red-text text-darken-2">{{ $message }}</small>
-                @enderror
+                @enderror --}}
             </div>
 
             <div class="input-field">
@@ -98,6 +111,15 @@ enctype="multipart/form-data" class="col s12">
             @enderror
       </div>
 
+        <div class="input-field">
+            <input placeholder="tanggal awal masuk" name="tanggal_awal_masuk" id="tanggal_awal_masuk" type="date" class="validate  @error('tanggal_awal_masuk') is-invalid @enderror" value="{{ old('tanggal_awal_masuk',$old->tanggal_awal_masuk) }}">
+            <label for="first_name">tanggal awal masuk</label>
+            <small>tanggal ini untuk menentukan tanggal awal perkuliahan saat di generate 1 semester</small>
+            @error('tanggal_awal_masuk')
+            <span class="red-text text-darken-2">{{ $message }}</small>
+            @enderror
+        </div>
+
             <div class="input-field">
                 <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>save</button>
                 <a href={{route('ruangperkuliahan.show',$old->ruang_id)}} class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>
@@ -105,72 +127,7 @@ enctype="multipart/form-data" class="col s12">
         </div>
     </div>
 </div>
-<div class="col s8" >
-  <div class="card">
-    <div class="card-content" >
-        <h4>Jadwal</h4>
-        <table id="page-length-option" class="display">
-            <thead>
-                <tr>
-                 <th>Time</th>
-                 <th>Senin</th>
-                 <th>Selasa</th>
-                 <th>Rabu</th>
-                 <th>Kamis</th>
-                 <th>Jum'at</th>
-                 <th>Sabtu</th>
-                </tr>
-                 </thead>
-        </table>
-        <div style="overflow-y: scroll; position:relative; height:400px">
-            <table id="page-length-option" class="display">
-                <tbody>
 
-                    @for($i=$open_time; $i<=$close_time; $i+= 300)
-
-                    <tr>
-                        <td>{{ date("H:i", $i) }}</td>
-                        <td class="text-center">
-                            <label>
-                            <input type="checkbox" name="waktu[]"  value="{{date("h:i", $i)}}-senin" {{in_array(date("H:i", $i), $senin) ? "disabled" : ""}}/>
-                            <span></span>
-                          </label></td>
-                          <td class="text-center">
-                            <label>
-                            <input type="checkbox" name="waktu[]"  value="{{date("h:i", $i)}}-selasa"  {{in_array(date("H:i", $i), $selasa) ? "disabled" : ""}}/>
-                            <span></span>
-                          </label></td>
-                          <td class="text-center">
-                            <label>
-                            <input type="checkbox" name="waktu[]"  value="{{date("h:i", $i)}}-rabu"  {{in_array(date("H:i", $i), $rabu) ? "disabled" : ""}}/>
-                            <span></span>
-                          </label></td>
-                          <td class="text-center">
-                            <label>
-                            <input type="checkbox" name="waktu[]"  value="{{date("h:i", $i)}}-kamis"  {{in_array(date("H:i", $i), $kamis) ? "disabled" : ""}}/>
-                            <span></span>
-                          </label></td>
-                          <td class="text-center">
-                            <label>
-                            <input type="checkbox" name="waktu[]"  value="{{date("h:i", $i)}}-jumat"  {{in_array(date("H:i", $i), $jumat) ? "disabled" : ""}}/>
-                            <span></span>
-                          </label></td>
-                          <td class="text-center">
-                            <label>
-                            <input type="checkbox" name="waktu[]"  value="{{date("h:i", $i)}}-sabtu"  {{in_array(date("H:i", $i), $sabtu) ? "disabled" : ""}}/>
-                            <span></span>
-                          </label></td>
-                    </tr>
-
-                @endfor
-                </tbody>
-
-            </table>
-        </div>
-
-    </div>
-  </div>
-</div>
 </div>
 </form>
 

@@ -2,6 +2,8 @@
 
 namespace Modules\Akademik\Http\Controllers;
 
+use App\Models\JadwalKelas;
+use App\Models\JenisSemester;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -179,6 +181,7 @@ class RuangPerkuliahanController extends Controller
      */
     public function store(Request $request)
     {
+
         DB::beginTransaction();
         try {
             $this->validate($request, [
@@ -198,14 +201,14 @@ class RuangPerkuliahanController extends Controller
             $waktu = json_encode($ar);
 
             $cekdobleKelas = RuangPerkuliahan::where('kelasperkuliahan_id',$request->kelasperkuliahan_id)->first();
-            
+
 
             if($cekdobleKelas != NULL && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
                 return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Kelas sudah ada diruangan lain']);
             }
 
             $datasenin = RuangPerkuliahan::with('kelasPerkuliahan')->where('ruang_id',$request->ruang_id)->pluck('hari','waktu');
-           
+
             $senin = "";
             $selasa = "";
             $rabu = "";
@@ -233,36 +236,37 @@ class RuangPerkuliahanController extends Controller
             $kamis = $this->multiexplode(array('[', ']', '"', '"', ','), $kamis);
             $jumat = $this->multiexplode(array('[', ']', '"', '"', ','), $jumat);
             $sabtu = $this->multiexplode(array('[', ']', '"', '"', ','), $sabtu);
-           
+
             $hari = $request->hari;
-           
+
             if($hari == 'senin'){
-                if(in_array($request->jam_mulai,$senin)  && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
+                if(in_array($request->jam_mulai,$senin)){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'selasa'){
-                if(in_array($request->jam_mulai,$selasa)  && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
+                if(in_array($request->jam_mulai,$selasa)){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'rabu'){
-                if(in_array($request->jam_mulai,$selasa)  && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
+                if(in_array($request->jam_mulai,$rabu)){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'kamis'){
-                if(in_array($request->jam_mulai,$selasa)  && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
+                if(in_array($request->jam_mulai,$kamis)){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'jumat'){
-                if(in_array($request->jam_mulai,$selasa)  && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
+                if(in_array($request->jam_mulai,$jumat)){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }elseif($hari == 'sabtu'){
-                if(in_array($request->jam_mulai,$selasa)  && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
+                if(in_array($request->jam_mulai,$sabtu)){
                     return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Jam sudah dgunakan']);
                 }
             }
 
             $save = new RuangPerkuliahan();
+            $save->jenissemester_id = $request->jenissemester_id;
             $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
             $save->penggunaanruang_id = $request->penggunaanruang_id;
             $save->ruang_id = $request->ruang_id ?? 0;
@@ -272,7 +276,12 @@ class RuangPerkuliahanController extends Controller
             $save->waktu = $waktu;
             $save->jam_awal =$request->jam_mulai;
             $save->jam_akhir = $request->jam_akhir;
+            $save->tanggal_awal_masuk = $request->tanggal_awal_masuk;
             $save->save();
+
+            $id = $save->id;
+
+            $this->generateTanggal($request, $id);
 
             DB::commit();
         } catch (ModelNotFoundException $exception) {
@@ -296,6 +305,7 @@ class RuangPerkuliahanController extends Controller
      */
     public function show($id)
     {
+
         $canCreate = Gate::allows('ruangperkuliahan-create');
         $name_page = "ruangperkuliahan";
         $title = "kelas perkuliahan";
@@ -347,6 +357,7 @@ class RuangPerkuliahanController extends Controller
 
 
             $save = RuangPerkuliahan::findOrFail($id);
+            $save->jenissemester_id = $request->jenissemester_id;
             $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
             $save->penggunaanruang_id = $request->penggunaanruang_id;
             $save->ruang_id = $request->ruang_id ?? 0;
@@ -356,7 +367,12 @@ class RuangPerkuliahanController extends Controller
             $save->waktu = $waktu;
             $save->jam_awal =$request->jam_mulai;
             $save->jam_akhir = $request->jam_akhir;
+            $save->tanggal_awal_masuk = $request->tanggal_awal_masuk;
             $save->save();
+
+            JadwalKelas::where('ruangperkuliahan_id', $id)->delete();
+
+            $this->generateTanggal($request, $id);
 
             DB::commit();
         } catch (ModelNotFoundException $exception) {
@@ -469,7 +485,10 @@ class RuangPerkuliahanController extends Controller
     }
 
     public function createKelasByRuangan($id){
-        $data = RuangPerkuliahan::with('kelasPerkuliahan')->where('ruang_id',$id)->pluck('hari','waktu');
+
+        $semesteraktif = JenisSemester::with('TahunAjaran')->where('active',1)->first();
+        $semester = JenisSemester::with('TahunAjaran')->get();
+        $data = RuangPerkuliahan::with('kelasPerkuliahan')->where('jenissemester_id', $semesteraktif->id)->where('ruang_id',$id)->pluck('hari','waktu');
 
         $senin = "";
         $selasa = "";
@@ -523,14 +542,19 @@ class RuangPerkuliahanController extends Controller
             "jumat" => $jumat,
             "sabtu" => $sabtu,
             "id" => $id,
+            "semesteraktif"=> $semesteraktif,
+            "semester" => $semester
 
         );
+
+
         return view('akademik::ruangperkuliahan.create')->with($data);
     }
 
     public function editkelasByRuangan($id)
     {
-
+        $semesteraktif = JenisSemester::with('TahunAjaran')->where('active',1)->first();
+        $semester = JenisSemester::with('TahunAjaran')->get();
         $old = RuangPerkuliahan::with('kelasPerkuliahan')->findOrFail($id);
         $data = RuangPerkuliahan::with('kelasPerkuliahan')->where('ruang_id',$old->ruang_id)->pluck('hari','waktu');
 
@@ -585,9 +609,42 @@ class RuangPerkuliahanController extends Controller
             "kamis" => $kamis,
             "jumat" => $jumat,
             "sabtu" => $sabtu,
-            'old' => $old
+            'old' => $old,
+            "semesteraktif"=> $semesteraktif,
+            "semester" => $semester
 
         );
         return view('akademik::ruangperkuliahan.edit')->with($data);
+    }
+
+    public function generateTanggal(Request $request, $id){
+
+        DB::beginTransaction();
+        try {
+
+            $tanggal = $request->tanggal_awal_masuk;
+            $i = 1;
+            for($i = 0; $i <= 15; $i++){
+                    if($i+1 == 8){
+                        $type = "uts";
+                    }elseif($i+1 == 16){
+                        $type = "uas";
+                    }else{
+                        $type = "perkuliahan";
+                    }
+
+                        $save = new JadwalKelas;
+                        $save->ruangperkuliahan_id = $id;
+                        $save->pertemuan_ke = $i+1;
+                        $save->tanggal_perkuliahan = Carbon::parse($tanggal)->addWeek($i);
+                        $save->type = $type;
+                        $save->save();
+            }
+
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->with('error', $exception->getMessage());
+        }
     }
 }

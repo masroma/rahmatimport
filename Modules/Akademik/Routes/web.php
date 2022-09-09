@@ -580,7 +580,7 @@ Route::prefix('akademik')->group(function() {
 
         Route::prefix('import')->group(
             function () {
-                
+
                 Route::post(
                     '/import',
                     [
@@ -1077,8 +1077,8 @@ Route::prefix('akademik')->group(function() {
                             'as' => 'cutlocktime.update'
                         ]
                     );
-            
-            
+
+
                     Route::get(
                         '/{id}/delete',
                         [
@@ -1141,8 +1141,8 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'unlockkrs.update'
                     ]
                 );
-        
-        
+
+
                 Route::get(
                     '/{id}/delete',
                     [
@@ -1152,9 +1152,9 @@ Route::prefix('akademik')->group(function() {
                 );
             }
         );
-        
-        
- 
+
+
+
 
         // penugasan dosen
         Route::prefix('penugasandosen')->group(
@@ -1704,8 +1704,8 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'kategoriinformasi.update'
                     ]
                 );
-        
-        
+
+
                 Route::get(
                     '/{id}/delete',
                     [
@@ -1760,8 +1760,8 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'informasi.update'
                     ]
                 );
-        
-        
+
+
                 Route::get(
                     '/{id}/delete',
                     [
@@ -2297,6 +2297,13 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'ruangperkuliahan.datakelas'
                     ]
                 );
+                Route::get(
+                    '/generate',
+                    [
+                        'uses' => 'RuangPerkuliahanController@generateTanggal',
+                        'as' => 'ruangperkuliahan.generate'
+                    ]
+                );
             }
         );
 
@@ -2352,8 +2359,8 @@ Route::prefix('akademik')->group(function() {
                 //         'as' => 'hitungaktivitaskmahasiswa.update'
                 //     ]
                 // );
-        
-        
+
+
                 // Route::get(
                 //     '/{id}/delete',
                 //     [

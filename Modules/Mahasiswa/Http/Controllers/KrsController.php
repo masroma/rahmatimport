@@ -48,8 +48,14 @@ class KrsController extends Controller
                 $user = User::where('id',Auth::user()->id)->first();
                 $krsnilai = NilaiPerkuliahan::with('kelas')->where('mahasiswa_id', $user->relation_id)->get()->pluck('kelas.id');
                 $krs = Krs::where('mahasiswa_id',$user->relation_id)->get()->pluck('kelas_id');
-                
-                $data = KelasPerkuliahan::with('matakuliah','jadwal')->whereNotIn('id', $krsnilai)->whereNotIn('id', $krs)->get();
+                $mahasiswa = Mahasiswa::with('Riwayatpendidikan.Type_mahasiswa','Riwayatpendidikan.JenisSemester','Riwayatpendidikan.ProgramStudy.jurusan','Riwayatpendidikan.ProgramStudy.jenjang')->findOrFail($user->relation_id);
+                $type = $mahasiswa->riwayatpendidikan->type_mahasiswa->type_mahasiswa;
+                if($type == "reguler"){
+                    $data = KelasPerkuliahan::with('matakuliah','jadwal')->whereNotIn('id', $krsnilai)->whereNotIn('id', $krs)->get();
+                }else{
+                    $data = KelasPerkuliahan::with('matakuliah','jadwal')->whereNotIn('id', $krsnilai)->whereNotIn('id', $krs)->where('typemahasiswa_id', 'like', "%{$type}%")->get();
+                }
+
                 return DataTables::of($data)
                 ->addColumn('kodekelas',function($data){
                     return $data->nama_kelas.''.$data->kode;
@@ -60,7 +66,7 @@ class KrsController extends Controller
                     }else{
                         return $data->jadwal->hari .','. Carbon::parse($data->jadwal->jam_awal)->format('H:i') .'-'. Carbon::parse($data->jadwal->jam_akhir)->format('H:i');
                     }
-                    
+
                 })
                 ->addColumn('action', function ($data)  {
 
@@ -83,7 +89,7 @@ class KrsController extends Controller
             }
 
     }
-    
+
     public function index()
     {
         $user = User::where('id',Auth::user()->id)->first();
@@ -94,7 +100,7 @@ class KrsController extends Controller
         $krssemesterkemarin = Krs::with(['NilaiKrs' => function($q) use($user){
             return $q->where('mahasiswa_id',$user->relation_id);
         },'Mahasiswa.Riwayatpendidikan.ProgramStudy.jurusan.SkalaNilai','matakuliah','kelas'])->where('jenissemester_id',$semesterkemarin)->where('mahasiswa_id',$user->relation_id)->get();
-        $no = 1; 
+        $no = 1;
         $totalsks = 0;
         $totalip = 0;
         $totalnilaiindex = 0;
@@ -110,7 +116,7 @@ class KrsController extends Controller
         // dd($krssemesterkemarin);
         $ips= number_format($totalnilaiindex / $totalsks, 2);
         $jatahsks = JatahKrs::all();
-       
+
         $sks = 0;
         foreach($jatahsks as $js){
             if($ips >= $js->ip_min && $ips <= $js->ip_max){
@@ -139,7 +145,7 @@ class KrsController extends Controller
      */
     public function store(Request $request, $id)
     {
-       
+
         DB::beginTransaction();
         try {
             if($request->totalsks >= $request->sks){
@@ -230,7 +236,7 @@ class KrsController extends Controller
         $user = User::where('id',Auth::user()->id)->first();
         $semester = JenisSemester::with('TahunAjaran')->where('active',1)->latest()->first();
         $mahasiswa = Mahasiswa::with('Riwayatpendidikan.JenisSemester','Riwayatpendidikan.ProgramStudy.jurusan','Riwayatpendidikan.ProgramStudy.jenjang')->findOrFail($user->relation_id);
-       
+
         $krs = Krs::with('Mahasiswa','matakuliah','kelas','Kelas.Jadwal')->where('jenissemester_id',$semester->id)->where('mahasiswa_id',$user->relation_id)->get();
 
         $data = [
@@ -238,14 +244,14 @@ class KrsController extends Controller
             'semester' => $semester,
             'krs' => $krs
         ];
-    
+
         $pdf = PDF::loadView('mahasiswa::krs.cetak', $data);
 
-     
+
 
         return $pdf->download('krs.pdf');
-       
-       
+
+
         // return view('mahasiswa::krs.cetak',compact('user','semester','mahasiswa','krs'));
     }
 }

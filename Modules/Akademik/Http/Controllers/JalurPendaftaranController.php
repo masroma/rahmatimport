@@ -3,13 +3,16 @@
 namespace Modules\Akademik\Http\Controllers;
 
 use App\Models\JalurPendaftaran;
-use Exception;
-use Illuminate\Auth\Access\Gate;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Yajra\DataTables\Facades\DataTables;
-
+use DataTables;
+use Exception;
+use Auth;
+use Gate;
+use DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 class JalurPendaftaranController extends Controller
 {
       /**
