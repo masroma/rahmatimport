@@ -3338,5 +3338,36 @@ Route::prefix('akademik')->group(function() {
                     ]
                 );
             });
+            Route::prefix('cektranskripmahasiswa')->group(
+                function () {
+                    Route::get(
+                        '/data/{id}',
+                        [
+                            'uses' => 'TranskripNilaiController@checkTranskripMahasiswaData',
+                            'as' => 'cektranskripmahasiswa.data'
+                        ]
+                    );
+                    Route::get(
+                        '/mahasiswa/{id}',
+                        [
+                            'uses' => 'TranskripNilaiController@getMahasiswa',
+                            'as' => 'cektranskripmahasiswa.getmahasiswa'
+                        ]
+                    );
+                    Route::get(
+                        '/',
+                        [
+                            'uses' => 'TranskripNilaiController@checkTranskripMahasiswa',
+                            'as' => 'cektranskripmahasiswa.index'
+                        ]
+                    );
+                    Route::post(
+                        '/simpan',
+                        [
+                            'uses' => 'TranskripNilaiController@storeTranskripNilai',
+                            'as' => 'cektranskripmahasiswa.store'
+                        ]
+                    );
+                });
     });
 });

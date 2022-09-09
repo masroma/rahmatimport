@@ -490,13 +490,7 @@
                             <div class="row">
                                 <div class="input-field col s6">
 
-                                    <select name="perguruantinggi_asal" id="perguruantinggi_asal" required>
-                                        <option value="">Pilih</option>
-                                        @foreach ($perguruan_tinggi as $item)
-                                            <option value="{{ $item->id }}">
-                                                {{ $item->kode }} {{ $item->nama }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" name="perguruantinggi_asal" value="" required>
 
                                     <label for="first_name">Perguruan Tinggi</label>
                                     <?php $error = 'perguruantinggi_asal'; ?>

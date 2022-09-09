@@ -27,13 +27,24 @@ class HitungAktivitasMahasiswaController extends Controller
      */
     use ValidatesRequests;
 
+    function __construct()
+    {
+         $this->middleware('permission:hitungaktivitaskuliahmahasiswa-view|hitungaktivitaskuliahmahasiswa-create|hitungaktivitaskuliahmahasiswa-edit|hitungaktivitaskuliahmahasiswa-show|hitungaktivitaskuliahmahasiswa-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:hitungaktivitaskuliahmahasiswa-view', ['only' => ['index']]);
+         $this->middleware('permission:hitungaktivitaskuliahmahasiswa-create', ['only' => ['create','store']]);
+         $this->middleware('permission:hitungaktivitaskuliahmahasiswa-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:hitungaktivitaskuliahmahasiswa-show', ['only' => ['show']]);
+         $this->middleware('permission:hitungaktivitaskuliahmahasiswa-delete', ['only' => ['destroy']]);
+
+    }
+
     public function data()
     {
         Queue::push(new \App\Jobs\CalculateIpsIpk());
         try {
             // $canShow = Gate::allows('typemahasiswa-show');
-            $canUpdate = Gate::allows('statusmahasiswa-edit');
-            $canDelete = Gate::allows('statusmahasiswa-delete');
+            $canUpdate = Gate::allows('hitungaktivitaskuliahmahasiswa-edit');
+            $canDelete = Gate::allows('hitungaktivitaskuliahmahasiswa-delete');
             $semester = JenisSemester::orderBy('id','DESC')->pluck('id')->first();
             // $semester = 6;
             
@@ -187,8 +198,8 @@ class HitungAktivitasMahasiswaController extends Controller
     public function dataKrs($id){
         try {
             // $canShow = Gate::allows('typemahasiswa-show');
-            $canUpdate = Gate::allows('statusmahasiswa-edit');
-            $canDelete = Gate::allows('statusmahasiswa-delete');
+            $canUpdate = Gate::allows('hitungaktivitaskuliahmahasiswa-edit');
+            $canDelete = Gate::allows('hitungaktivitaskuliahmahasiswa-delete');
             $semester = JenisSemester::orderBy('id','DESC')->pluck('id')->first();
             
             $data = Krs::with('Matakuliah')->where('jenissemester_id', $semester)->where('mahasiswa_id', $id)->get();
