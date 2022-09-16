@@ -70,5 +70,15 @@ class Krs extends Model
         return $this->belongsTo(CalculateIpsIpk::class, 'jenissemester_id', 'semester_id');
     }
 
+    /**
+     * Get all of the comments for the Krs
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function TotalAbsen()
+    {
+        return $this->hasMany(AbsensiPertemuanKelas::class, 'kelas_id','kelas_id');
+    }
+
 
 }

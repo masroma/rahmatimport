@@ -2,5 +2,6 @@
     "Akademik": true,
     "Keuangan": true,
     "ManagementUser": true,
-    "Mahasiswa": true
+    "Mahasiswa": true,
+    "Absensi": true
 }

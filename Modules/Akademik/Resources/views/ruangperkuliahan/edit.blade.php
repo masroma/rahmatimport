@@ -52,6 +52,7 @@ enctype="multipart/form-data" class="col s12">
                 @error('jenissemester_id')
                 <span class="red-text text-darken-2">{{ $message }}</small>
                 @enderror
+                <small>kosongkan jika ingin di pakai setiap semester</small>
             </div>
               <div class="input-field">
                 <select name="kelasperkuliahan_id" class="select2 browser-default" readonly>

@@ -20,7 +20,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col s12">
                 <div class="container">
                     <div class="section">
@@ -58,7 +58,7 @@
                                             <td>:</td>
                                             <td>{{ $mahasiswa->Riwayatpendidikan->programstudy->jurusan->nama_jurusan }}</td>
                                         </tr>
-                                      
+
                                     </table>
                                 </div>
                             </div>
@@ -84,11 +84,13 @@
                                                 <th>SKS</th>
                                                 <th>Nilai</th>
                                                 <th>Status</th>
+                                                <th>Hadir</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @php 
-                                                $totalsks = 0; 
+                                            @php
+                                                $totalsks = 0;
                                                 $totalips = 0;
                                                 $totalindex=0;
 
@@ -103,8 +105,10 @@
                                                         <td>{{ $row->matakuliah->bobot_mata_kuliah}}</td>
                                                         <td>{{ $row->nilaikrs ? $row->nilaikrs->nilai_huruf : '-'}}</td>
                                                         <td>{{ $row->status }}</td>
+                                                        <td>{{ $row->total_absen_count }}</td>
+
                                                     </tr>
-                                                    
+
                                                 @endif
                                             @endforeach
                                         </tbody>
@@ -113,7 +117,7 @@
                                     <p>Nilai IPS :{{ $s->NilaiIps->ips}} </p>
                                     <div class="mt-5"></div>
                                     @endforeach
-                                   
+
                                 </div>
                             </div>
                         </div>
@@ -121,6 +125,6 @@
                 </div>
             </div>
 
-           
+
         </div>
 @endsection

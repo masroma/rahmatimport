@@ -260,7 +260,7 @@ class KelasKuliahController extends Controller
      */
     public function edit($id)
     {
-       
+
         $kelasperkuliahan = KelasPerkuliahan::findOrFail($id);
         // dd(json_decode($kelasperkuliahan->typemahasiswa_id));
         $name_page = "kelasperkuliahan";
@@ -439,6 +439,8 @@ class KelasKuliahController extends Controller
 
             ]);
 
+            $semesteraktif = JenisSemester::where('aktif',1)->latest()->first();
+
             $save = new DosenPerkuliahan();
             $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
             $save->dosen_id = $request->dosen_id;
@@ -446,6 +448,7 @@ class KelasKuliahController extends Controller
             $save->jumlah_rencana_pertemuan = $request->jumlah_rencana_pertemuan;
             $save->jumlah_realisasi_pertemuan = $request->jumlah_realisasi_pertemuan;
             $save->jenis_evaluasi = $request->jenis_evaluasi;
+            $save->Jenissemester_id = $semesteraktif->id ?? 0;
             $save->save();
 
             DB::commit();
@@ -502,6 +505,7 @@ class KelasKuliahController extends Controller
 
             ]);
 
+            $semesteraktif = JenisSemester::where('aktif',1)->latest()->first();
             $save = DosenPerkuliahan::findORFail($id);
             $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
             $save->dosen_id = $request->dosen_id;
@@ -509,6 +513,7 @@ class KelasKuliahController extends Controller
             $save->jumlah_rencana_pertemuan = $request->jumlah_rencana_pertemuan;
             $save->jumlah_realisasi_pertemuan = $request->jumlah_realisasi_pertemuan;
             $save->jenis_evaluasi = $request->jenis_evaluasi;
+            $save->Jenissemester_id = $semesteraktif->id ?? 0;
             $save->save();
 
             DB::commit();

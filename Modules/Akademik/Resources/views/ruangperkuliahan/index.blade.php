@@ -47,8 +47,7 @@
                     <th>Kode</th>
                     <th>Nama</th>
                     <th>Perkuliahan</th>
-                    <th>UTS</th>
-                    <th>UAS</th>
+
                     <th>#</th>
                 </tr>
             </thead>
@@ -59,8 +58,7 @@
                     <th>Kode</th>
                     <th>Nama</th>
                     <th>Perkuliahan</th>
-                    <th>UTS</th>
-                    <th>UAS</th>
+
 
                     <th>#</th>
                 </tr>
@@ -128,16 +126,6 @@
                         {
                             data: 'perkuliahan_count',
                             name: 'perkuliahan_count'
-                        },
-
-                        {
-                            data: 'uts_count',
-                            name: 'uts_count'
-                        },
-
-                        {
-                            data: 'uas_count',
-                            name: 'uas_count'
                         },
 
 

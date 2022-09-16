@@ -143,7 +143,7 @@ class InformasiController extends Controller
                 "data" => "",
                 "placeholder" =>"berkas",
             ],
-          
+
         ];
 
         $name_page = "informasi";
@@ -175,8 +175,8 @@ class InformasiController extends Controller
                 'berkas' => 'required|mimes:pdf|max:2048'
             ]);
 
-           
-     
+
+
             $save = new Informasi();
             $save->judul = $request->judul;
             $save->content = $request->content;
@@ -287,7 +287,7 @@ class InformasiController extends Controller
                 "value" => "berkas"
             ],
 
-          
+
         ];
 
         $name_page = "informasi";
@@ -323,7 +323,7 @@ class InformasiController extends Controller
             $save->slug = Str::slug($request->judul);
             $save->save();
 
-          
+
 
             DB::commit();
         } catch (ModelNotFoundException $exception) {

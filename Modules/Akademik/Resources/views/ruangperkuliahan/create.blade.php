@@ -44,12 +44,13 @@ enctype="multipart/form-data" class="col s12">
 
             <div class="input-field">
                 <select name="jenissemester_id" class="select2 browser-default">
-                    {{-- <option value="" >Tahun Ajaran</option> --}}
+                    <option value="" >Tahun Ajaran</option>
                     @foreach($semester as $r)
-                        <option @if(old('jenissemester_id', $semesteraktif->id) == $r->id) selected @endif value="{{$r->id}}">{{$r->jenis_semester}}-{{ $r->tahunajaran->tahun_ajaran }} </option>
+                        <option @if(old('jenissemester_id') == $r->id) selected @endif value="{{$r->id}}">{{$r->jenis_semester}}-{{ $r->tahunajaran->tahun_ajaran }} </option>
                     @endforeach
                 </select>
                     <label for="first_name">Tahun Ajaran</label>
+                    <small>kosongkan jika ingin di pakai setiap semester</small>
                 @error('jenissemester_id')
                 <span class="red-text text-darken-2">{{ $message }}</small>
                 @enderror

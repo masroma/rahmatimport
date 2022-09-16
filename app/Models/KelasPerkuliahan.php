@@ -31,6 +31,16 @@ class KelasPerkuliahan extends Model
     }
 
     /**
+     * Get all of the comments for the KelasPerkuliahan
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function Dosen()
+    {
+        return $this->hasMany(DosenPerkuliahan::class, 'id', 'dosen_id');
+    }
+
+    /**
      * Get the user associated with the KelasPerkuliahan
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

@@ -44,9 +44,8 @@ class KhsController extends Controller
         $user = User::where('id',Auth::user()->id)->first();
         $mahasiswa = Mahasiswa::with('Riwayatpendidikan.JenisSemester','Riwayatpendidikan.ProgramStudy.jurusan','Riwayatpendidikan.ProgramStudy.jenjang')->findOrFail($user->relation_id);
         $semester = Krs::with('jenissemester.tahunajaran','NilaiIps')->where('mahasiswa_id',$user->relation_id)->groupBy('jenissemester_id')->get();
-       
-        $krs = Krs::with('NilaiKrs','Matakuliah')->where('mahasiswa_id',$user->relation_id)->get();
-        // dd($krs);
+        $krs = Krs::with('NilaiKrs','Matakuliah','TotalAbsen')->withCount('TotalAbsen')->where('mahasiswa_id',$user->relation_id)->get();
+
         return view('mahasiswa::khs.index',compact('semester','krs','user','mahasiswa'));
     }
 

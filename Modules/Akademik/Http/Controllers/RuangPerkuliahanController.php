@@ -27,6 +27,8 @@ class RuangPerkuliahanController extends Controller
      * @return Renderable
      */
 
+    use ValidatesRequests;
+
     function __construct()
     {
          $this->middleware("permission:ruangperkuliahan-view|ruangperkuliahan-create|ruangperkuliahan-edit|ruangperkuliahan-show|ruangperkuliahan-delete", ["only" => ["index","store"]]);
@@ -56,7 +58,6 @@ class RuangPerkuliahanController extends Controller
             $canDelete = Gate::allows("ruangperkuliahan-delete");
             $data = RuangGedung::with('Perkuliahan','listkampus','Uts','Uas')->withCount(['Perkuliahan','Uts','Uas'])->get();
             return DataTables::of($data)
-
             ->addColumn('kampus',function($data){
                 return $data->ListKampus->cabang_kampus;
             })
@@ -266,7 +267,7 @@ class RuangPerkuliahanController extends Controller
             }
 
             $save = new RuangPerkuliahan();
-            $save->jenissemester_id = $request->jenissemester_id;
+            $save->jenissemester_id = $request->jenissemester_id ?? NULL;
             $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
             $save->penggunaanruang_id = $request->penggunaanruang_id;
             $save->ruang_id = $request->ruang_id ?? 0;
@@ -357,7 +358,7 @@ class RuangPerkuliahanController extends Controller
 
 
             $save = RuangPerkuliahan::findOrFail($id);
-            $save->jenissemester_id = $request->jenissemester_id;
+            $save->jenissemester_id = $request->jenissemester_id ?? NULL;
             $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
             $save->penggunaanruang_id = $request->penggunaanruang_id;
             $save->ruang_id = $request->ruang_id ?? 0;
@@ -420,7 +421,8 @@ class RuangPerkuliahanController extends Controller
             // $canShow = Gate::allows("kelaskuliahshow");
             $canUpdate = Gate::allows("kelasperkuliahan-edit");
             $canDelete = Gate::allows("kelasperkuliahan-delete");
-            $data = RuangPerkuliahan::with('kelasPerkuliahan','kelasPerkuliahan.programstudy','kelasPerkuliahan.matakuliah','PenggunaanRuangs')->where('ruang_id',$id)->get();
+            $semester = JenisSemester::where("active",1)->latest()->first();
+            $data = RuangPerkuliahan::with('kelasPerkuliahan','kelasPerkuliahan.programstudy','kelasPerkuliahan.matakuliah','PenggunaanRuangs')->where('ruang_id',$id)->where('jenissemester_id', $semester->id)->orWhere("jenissemester_id",NULL)->get();
             return DataTables::of($data)
                     ->addColumn('namakelas', function($data){
                         return $data->kelasperkuliahan->nama_kelas.$data->kelasperkuliahan->kode;
@@ -621,7 +623,7 @@ class RuangPerkuliahanController extends Controller
 
         DB::beginTransaction();
         try {
-
+            $semesteraktif=JenisSemester::where('active',1)->latest()->first();
             $tanggal = $request->tanggal_awal_masuk;
             $i = 1;
             for($i = 0; $i <= 15; $i++){
@@ -635,9 +637,12 @@ class RuangPerkuliahanController extends Controller
 
                         $save = new JadwalKelas;
                         $save->ruangperkuliahan_id = $id;
+                        $save->jenissemester_id = $request->jenissemester_id ?? $semesteraktif->id;
                         $save->pertemuan_ke = $i+1;
                         $save->tanggal_perkuliahan = Carbon::parse($tanggal)->addWeek($i);
                         $save->type = $type;
+                        $save->jam_masuk = $request->jam_masuk;
+                        $save->jam_keluar = $request->jam_keluar;
                         $save->save();
             }
 

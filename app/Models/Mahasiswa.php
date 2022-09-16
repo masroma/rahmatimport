@@ -111,5 +111,20 @@ class Mahasiswa extends Model
     {
         return $this->hasMany(CalculateIpsIpk::class,'mahasiswa_id','id');
     }
-   
+
+    /**
+     * Get the user associated with the Mahasiswa
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function Absen()
+    {
+        return $this->hasOne(AbsensiKelas::class, 'mahasiswa_id');
+    }
+
+    public function Absensi()
+    {
+        return $this->HasMany(AbsensiKelas::class, 'mahasiswa_id');
+    }
+
 }

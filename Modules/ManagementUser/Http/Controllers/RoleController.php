@@ -13,6 +13,7 @@ use Spatie\Permission\Models\Role;
 use DataTables;
 use Exception;
 use Gate;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
@@ -20,15 +21,15 @@ use Spatie\Permission\Models\Permission;
 class RoleController extends Controller
 {
     use ValidatesRequests;
-    function __construct()
-    {
-         $this->middleware('permission:role-view|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:role-create', ['only' => ['create','store']]);
-         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
-         $this->middleware('permission:role-view', ['only' => ['index']]);
+    // function __construct()
+    // {
+    //      $this->middleware('permission:role-view|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+    //      $this->middleware('permission:role-create', ['only' => ['create','store']]);
+    //      $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+    //      $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+    //      $this->middleware('permission:role-view', ['only' => ['index']]);
 
-    }
+    // }
 
     public function data(){
         try{
@@ -212,11 +213,11 @@ class RoleController extends Controller
 
     public function edit($id)
     {
-            
+
             $role = Role::find($id);
             $name_page = "role";
             $menus = Menu::whereIn('position', ['single','parent','none'])->orderBy('order', 'asc')->get();
-      
+
             $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->leftJoin('permissions','permissions.id','role_has_permissions.permission_id')
             // ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
@@ -227,7 +228,7 @@ class RoleController extends Controller
             foreach($rolePermissions as $datapermission){
                 $dataname[] = $datapermission->name;
             }
-           
+
             $data = array(
                 'page'          => $name_page,
                 'menus'          => $menus,
@@ -259,8 +260,9 @@ class RoleController extends Controller
 
     public function update(Request $request, $id)
     {
-      
-       
+
+        // DB::beginTransaction();
+        // try {
         $this->validate($request, [
             'name' => 'required',
             'permission' => 'required',
@@ -270,47 +272,58 @@ class RoleController extends Controller
         $role->name = $request->input('name');
         $role->save();
         $permission = $request->permission;
+        // dd($permission);
         $idMenu = array();
         $deleteMenu =  AksesMenu::where('role_id', $id)->delete();
           //delete akses menu old
         $deletePermissionOld = RoleHasPermission::where('role_id', $id)->delete();
           // delete permision role old
         // $total = 0;
-        foreach($permission as $a){
-            $keys = explode('-', $a);
-            $nameMenu = str_replace(" ","",$keys[1]);
-            $idMenu = $keys[0];
-            // save menu
-            if($keys[2] == 'view'){
-                $saveMenu = AksesMenu::create(
-                    [
-                        'menu_id' => $idMenu,
-                        'role_id' => $role->id
-                    ]
-                );
+        // dd("stop");
 
-                $getParent = Menu::where('id',$idMenu)->first();
-                $cekParent = AksesMenu::where('menu_id',$getParent->parent_id)->where('role_id', $role->id)->first();
-                if(!$cekParent){
-                    $saveParent = AksesMenu::create([
-                        'menu_id' => $getParent->parent_id,
-                        'role_id' => $role->id
-                    ]);
+            foreach($permission as $a){
+                $keys = explode('-', $a);
+                $nameMenu = str_replace(" ","",$keys[1]);
+                $idMenu = $keys[0];
+                // save menu
+                if($keys[2] == 'view'){
+                    $saveMenu = AksesMenu::create(
+                        [
+                            'menu_id' => $idMenu,
+                            'role_id' => $role->id
+                        ]
+                    );
+
+                    $getParent = Menu::where('id',$idMenu)->first();
+                    $cekParent = AksesMenu::where('menu_id',$getParent->parent_id)->where('role_id', $role->id)->first();
+                    if(!$cekParent){
+                        $saveParent = AksesMenu::create([
+                            'menu_id' => $getParent->parent_id,
+                            'role_id' => $role->id
+                        ]);
+                    }
                 }
+
+                #save permission
+                $permissionAction = "$nameMenu-$keys[2]";
+
+                $cekpermission = Permission::where('name',$permissionAction)->first();
+
+                if($cekpermission){
+                    $saveHasPermission = new RoleHasPermission();
+                    $saveHasPermission->permission_id = $cekpermission->id;
+                    $saveHasPermission->role_id = $role->id;
+                    $saveHasPermission->save();
+                }
+
             }
 
-            #save permission
-            $permissionAction = "$nameMenu-$keys[2]";
-            $cekpermission = Permission::where('name',$permissionAction)->first();
-           
-            if($cekpermission){
-                $saveHasPermission = new RoleHasPermission();
-                $saveHasPermission->permission_id = $cekpermission->id;
-                $saveHasPermission->role_id = $role->id;
-                $saveHasPermission->save();
-            }
 
-        }
+    //     DB::commit();
+    // } catch (ModelNotFoundException $exception) {
+    //     DB::rollback();
+    //     return back()->with('error', $exception->getMessage());
+    // }
 
         // dd($total);
 

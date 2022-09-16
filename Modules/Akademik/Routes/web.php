@@ -1089,6 +1089,134 @@ Route::prefix('akademik')->group(function() {
                 }
             );
 
+        // pept grade
+        Route::prefix('peptgrade')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'PeptGradeController@data',
+                        'as' => 'peptgrade.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'PeptGradeController@index',
+                        'as' => 'peptgrade.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'PeptGradeController@create',
+                        'as' => 'peptgrade.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'PeptGradeController@store',
+                        'as' => 'peptgrade.store'
+                    ]
+                );
+                Route::post(
+                    '/updatestatus',
+                    [
+                        'uses' => 'PeptGradeController@updateStatus',
+                        'as' => 'peptgrade.updatestatus'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'PeptGradeController@edit',
+                        'as' => 'peptgrade.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'PeptGradeController@update',
+                        'as' => 'peptgrade.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'PeptGradeController@destroy',
+                        'as' => 'peptgrade.destroy'
+                    ]
+                );
+            }
+        );
+
+        // pept batch
+        Route::prefix('peptbatch')->group(
+            function () {
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'PeptBatchController@data',
+                        'as' => 'peptbatch.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'PeptBatchController@index',
+                        'as' => 'peptbatch.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'PeptBatchController@create',
+                        'as' => 'peptbatch.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'PeptBatchController@store',
+                        'as' => 'peptbatch.store'
+                    ]
+                );
+                Route::post(
+                    '/updatestatus',
+                    [
+                        'uses' => 'PeptBatchController@updateStatus',
+                        'as' => 'peptbatch.updatestatus'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'PeptBatchController@edit',
+                        'as' => 'peptbatch.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'PeptBatchController@update',
+                        'as' => 'peptbatch.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'PeptBatchController@destroy',
+                        'as' => 'peptbatch.destroy'
+                    ]
+                );
+            }
+        );
+
         // unclokkrs
         Route::prefix('unlockkrs')->group(
             function () {

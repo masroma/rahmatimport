@@ -113,7 +113,7 @@
                             name: 'namakelas'
                         },
 
-                        
+
                         {
                             data: 'penggunaankelas',
                             name: 'penggunaankelas'
