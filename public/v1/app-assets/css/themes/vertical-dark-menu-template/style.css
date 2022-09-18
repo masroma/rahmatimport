@@ -4343,7 +4343,7 @@ li.home:before
 }
 
 /*----------------------------------------
-  Grid 
+  Grid
 ------------------------------------------*/
 .section
 {
@@ -11290,6 +11290,18 @@ a.button-collapse.top-nav
 }
 
 #external-events .fc-event
+{
+    margin-bottom: 10px;
+    padding: 5px;
+
+    cursor: all-scroll;
+    text-decoration: none;
+
+    color: #fff;
+    border: none;
+}
+
+#external-events-pept .fc-event-pept
 {
     margin-bottom: 10px;
     padding: 5px;

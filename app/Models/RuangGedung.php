@@ -40,6 +40,12 @@ class RuangGedung extends Model
         return $this->hasMany(RuangPerkuliahan::class, 'ruang_id')->where('penggunaanruang_id',2);
     }
 
+    public function Pept()
+    {
+        return $this->hasMany(PeptKelas::class, 'ruang_id')->where('penggunaanruang_id',1);
+    }
+
+
 
 
 

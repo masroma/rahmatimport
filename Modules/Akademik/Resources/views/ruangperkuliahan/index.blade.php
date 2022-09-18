@@ -58,8 +58,6 @@
                     <th>Kode</th>
                     <th>Nama</th>
                     <th>Perkuliahan</th>
-
-
                     <th>#</th>
                 </tr>
               </tfoot>

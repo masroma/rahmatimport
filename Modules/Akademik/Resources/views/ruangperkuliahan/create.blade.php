@@ -55,7 +55,20 @@ enctype="multipart/form-data" class="col s12">
                 <span class="red-text text-darken-2">{{ $message }}</small>
                 @enderror
             </div>
-              <div class="input-field">
+            <div class="input-field ">
+                {{-- <input type="hidden"  name="penggunaanruang_id" value="1"> --}}
+               <select name="penggunaanruang_id" class="select2 browser-default"  onchange="display(this)">
+                    <option value="">type penggunaan</option>
+                  @foreach($penggunaanruang as $row)
+                        <option value="{{ $row->id }}" @if(old('penggunaanruang_id') == $row->id) selected @endif value="{{$row->id}}">{{$row->penggunaan_ruangan}}</option>
+                    @endforeach
+               </select>
+                    <label for="first_name">Penggunaan Ruangan<span style="color:red">*</span></label>
+                @error('penggunaanruang_id')
+                <span class="red-text text-darken-2">{{ $message }}</small>
+                @enderror
+            </div>
+              <div class="input-field" style="display: none;" id="kelas">
                 <select name="kelasperkuliahan_id" class="select2 browser-default">
                     <option value="">Kelas Perkuliahan</option>
                     @foreach($kelasperkuliahan as $row)
@@ -67,22 +80,23 @@ enctype="multipart/form-data" class="col s12">
                 <span class="red-text text-darken-2">{{ $message }}</small>
                 @enderror
             </div>
-            <div class="input-field ">
-                <input type="hidden"  name="penggunaanruang_id" value="1">
-                {{-- <select name="penggunaanruang_id" class="select2 browser-default">
-                    <option value="1">type penggunaan</option> --}}
-                    {{-- @foreach($penggunaanruang as $row)
-                        <option value="{{ $row->id }}" @if(old('penggunaanruang_id') == $row->id) selected @endif value="{{$row->id}}">{{$row->penggunaan_ruangan}}</option>
-                    @endforeach --}}
-                {{-- </select>
-                    <label for="first_name">Penggunaan Ruangan<span style="color:red">*</span></label>
-                @error('penggunaanruang_id')
+
+            <div class="input-field" style="display: none;" id="pept">
+                <select name="pept_id" class="select2 browser-default" >
+                    <option value="">PEPT Batch</option>
+                    @foreach($peptbatch as $row)
+                        <option @if(old('peptbatch_id') == $row->id) selected @endif value="{{$row->id}}">{{$row->nama_batch}}</option>
+                    @endforeach
+                </select>
+                    <label for="first_name">PEPT Batch</label>
+                @error('peptbatch_id')
                 <span class="red-text text-darken-2">{{ $message }}</small>
-                @enderror --}}
+                @enderror
             </div>
 
-            <div class="input-field">
-              <select name="hari" id="hari" class="validate">
+
+            <div class="input-field" id="hari" style="display: none;">
+              <select name="hari"  class="validate" >
                 <option value="">pilih hari</option>
                 <option value="senin" @if(old('hari') == "senin") selected @endif>Senin</option>
                 <option value="selasa" @if(old('hari') == "selasa") selected @endif>Selasa</option>
@@ -97,29 +111,38 @@ enctype="multipart/form-data" class="col s12">
                 @enderror
           </div>
 
-            <div class="input-field">
-                <input placeholder="jam mulai" name="jam_mulai" id="kode" type="time" class="validate  @error('jam_mulai') is-invalid @enderror" value="{{ old('jam_mulai') }}">
+            <div class="input-field" id="jam_mulai" style="display: none;">
+                <input placeholder="jam mulai" name="jam_mulai"  type="time" class="validate  @error('jam_mulai') is-invalid @enderror" value="{{ old('jam_mulai') }}">
                 <label for="first_name">Jam Mulai</label>
                 @error('kode')
                 <span class="red-text text-darken-2">{{ $message }}</small>
                 @enderror
           </div>
 
-          <div class="input-field">
-            <input placeholder="jam mulai" name="jam_akhir" id="kode" type="time" class="validate  @error('jam_mulai') is-invalid @enderror" value="{{ old('jam_akhir') }}">
+          <div class="input-field"  id="jam_akhir" style="display: none;">
+            <input placeholder="jam mulai" name="jam_akhir"  type="time" class="validate  @error('jam_mulai') is-invalid @enderror" value="{{ old('jam_akhir') }}">
             <label for="first_name">Jam Akhir</label>
             @error('kode')
             <span class="red-text text-darken-2">{{ $message }}</small>
             @enderror
       </div>
 
-      <div class="input-field">
+      <div class="input-field" id="tanggalmasuk" style="display: none;">
         <input placeholder="tanggal awal masuk" name="tanggal_awal_masuk" id="tanggal_awal_masuk" type="date" class="validate  @error('tanggal_awal_masuk') is-invalid @enderror" value="{{ old('tanggal_awal_masuk') }}">
         <label for="first_name">tanggal awal masuk</label>
         @error('tanggal_awal_masuk')
         <span class="red-text text-darken-2">{{ $message }}</small>
         @enderror
-        <small>tanggal ini untuk menentukan tanggal awal perkuliahan saat di generate 1 semester</small>
+        <small id="keterangan" style="display: none;">tanggal ini untuk menentukan tanggal awal perkuliahan saat di generate 1 semester</small>
+    </div>
+
+    <div class="input-field" id="tanggalakhir" style="display: none;">
+        <input placeholder="tanggal akhir masuk" name="tanggal_akhir_masuk" id="tanggal_akhir_masuk" type="date" class="validate  @error('tanggal_akhir_masuk') is-invalid @enderror" value="{{ old('tanggal_akhir_masuk') }}">
+        <label for="first_name">tanggal akhir masuk</label>
+        @error('tanggal_akhir_masuk')
+        <span class="red-text text-darken-2">{{ $message }}</small>
+        @enderror
+        <small style="display: none;">tanggal ini untuk menentukan tanggal awal perkuliahan saat di generate 1 semester</small>
     </div>
 
             <div class="input-field">
@@ -213,6 +236,39 @@ enctype="multipart/form-data" class="col s12">
   @stop
   @section('script')
   <script>
+ function display(id) {
+        // alert(id.value);
+        if(id.value == 1){
+            document.getElementById("kelas").style.display = 'block';
+            document.getElementById("pept").style.display = 'none';
+            document.getElementById("hari").style.display = 'block';
+            document.getElementById("jam_mulai").style.display = 'block';
+            document.getElementById("jam_akhir").style.display = 'block';
+            document.getElementById("tanggalmasuk").style.display = 'block';
+            document.getElementById("keterangan").style.display = 'block';
+        }else if(id.value == 6){
+            document.getElementById("pept").style.display = 'block';
+            document.getElementById("kelas").style.display = 'none';
+            document.getElementById("hari").style.display = 'none';
+            document.getElementById("jam_mulai").style.display = 'block';
+            document.getElementById("jam_akhir").style.display = 'block';
+            document.getElementById("tanggalmasuk").style.display = 'block';
+            document.getElementById("tanggalakhir").style.display = 'block';
+            document.getElementById("keterangan").style.display = 'none';
+        }else{
+            document.getElementById("pept").style.display = 'none';
+            document.getElementById("kelas").style.display = 'none';
+            document.getElementById("hari").style.display = 'none';
+            document.getElementById("jam_mulai").style.display = 'none';
+            document.getElementById("jam_akhir").style.display = 'none';
+            document.getElementById("tanggalmasuk").style.display = 'none';
+            document.getElementById("tanggalakhir").style.display = 'none';
+            document.getElementById("keterangan").style.display = 'none';
+        }
+
+    }
+
+
     @if($message = session('succes_message'))
 Swal.fire(
   'Good job!',
@@ -221,6 +277,7 @@ Swal.fire(
 )
 @endif
     </script>
+
 
 
 @endsection

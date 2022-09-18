@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\KelasPerkuliahan;
 use App\Models\PenggunaanRuangan;
+use App\Models\PeptBatch;
 use App\Models\RuangPerkuliahan;
 use App\Models\RuangGedung;
 use DataTables;
@@ -99,7 +100,7 @@ class RuangPerkuliahanController extends Controller
     {
         $canCreate = Gate::allows('ruangperkuliahan-create');
         $name_page = "ruangperkuliahan";
-        $title = "ruang perkuliahan";
+        $title = "Management Ruangan";
         $data = array(
             'page' => $name_page,
             'canCreate' => $canCreate,
@@ -182,11 +183,10 @@ class RuangPerkuliahanController extends Controller
      */
     public function store(Request $request)
     {
-
         DB::beginTransaction();
         try {
             $this->validate($request, [
-                'kelasperkuliahan_id' => 'required',
+                // 'kelasperkuliahan_id' => 'required',
                 'penggunaanruang_id' => 'required',
             ]);
 
@@ -201,12 +201,23 @@ class RuangPerkuliahanController extends Controller
             $ar = explode(" ",$output);
             $waktu = json_encode($ar);
 
-            $cekdobleKelas = RuangPerkuliahan::where('kelasperkuliahan_id',$request->kelasperkuliahan_id)->first();
+            $cektype = PenggunaanRuangan::findOrFail($request->penggunaanruang_id);
+            if($cektype->penggunaan_ruangan == "perkuliahan"){
+                $cekdobleKelas = RuangPerkuliahan::where('kelasperkuliahan_id',$request->kelasperkuliahan_id)->first();
 
 
-            if($cekdobleKelas != NULL && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
-                return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Kelas sudah ada diruangan lain']);
+                if($cekdobleKelas != NULL && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
+                    return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'Kelas sudah ada diruangan lain']);
+                }
+            }elseif($cektype->penggunaan_ruangan == "PEPT"){
+                $cekdobleKelas = RuangPerkuliahan::where('pept_id',$request->pept_id)->first();
+
+                if($cekdobleKelas != NULL && $cekdobleKelas->penggunaanruang_id == $request->penggunaanruang_id){
+                    return redirect()->route('ruangperkuliahan.create',$request->ruang_id)->with(['error' => 'PEPT sudah ada diruangan lain']);
+                }
             }
+
+
 
             $datasenin = RuangPerkuliahan::with('kelasPerkuliahan')->where('ruang_id',$request->ruang_id)->pluck('hari','waktu');
 
@@ -266,23 +277,29 @@ class RuangPerkuliahanController extends Controller
                 }
             }
 
+            $semesteraktif = JenisSemester::where('active',1)->first();
+
             $save = new RuangPerkuliahan();
-            $save->jenissemester_id = $request->jenissemester_id ?? NULL;
-            $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
+            $save->jenissemester_id = $request->jenissemester_id ?? $semesteraktif->id;
+            $save->kelasperkuliahan_id = $request->kelasperkuliahan_id ?? NULL;
             $save->penggunaanruang_id = $request->penggunaanruang_id;
             $save->ruang_id = $request->ruang_id ?? 0;
-            $save->kode = $request->kode;
+            $save->pept_id = $request->pept_id ?? null;
+            $save->kode = $request->kode ?? NULL;
             $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
-            $save->hari = $request->hari;
+            $save->hari = $request->hari ?? NULL;
             $save->waktu = $waktu;
             $save->jam_awal =$request->jam_mulai;
             $save->jam_akhir = $request->jam_akhir;
             $save->tanggal_awal_masuk = $request->tanggal_awal_masuk;
+            $save->tanggal_akhir_masuk = $request->tanggal_akhir_masuk ?? NULL;
             $save->save();
 
             $id = $save->id;
 
-            $this->generateTanggal($request, $id);
+            if($cektype->penggunaan_ruangan == "perkuliahan"){
+                $this->generateTanggal($request, $id);
+            }
 
             DB::commit();
         } catch (ModelNotFoundException $exception) {
@@ -309,7 +326,7 @@ class RuangPerkuliahanController extends Controller
 
         $canCreate = Gate::allows('ruangperkuliahan-create');
         $name_page = "ruangperkuliahan";
-        $title = "kelas perkuliahan";
+        $title = "Management Ruangan";
         $data = array(
             'page' => $name_page,
             'canCreate' => $canCreate,
@@ -425,7 +442,12 @@ class RuangPerkuliahanController extends Controller
             $data = RuangPerkuliahan::with('kelasPerkuliahan','kelasPerkuliahan.programstudy','kelasPerkuliahan.matakuliah','PenggunaanRuangs')->where('ruang_id',$id)->where('jenissemester_id', $semester->id)->orWhere("jenissemester_id",NULL)->get();
             return DataTables::of($data)
                     ->addColumn('namakelas', function($data){
-                        return $data->kelasperkuliahan->nama_kelas.$data->kelasperkuliahan->kode;
+                        if($data->kelasperkuliahan_id != null){
+                            return $data->kelasperkuliahan->nama_kelas.$data->kelasperkuliahan->kode;
+                        }else{
+                            return $data->pept->nama_batch;
+                        }
+
                     })
 
                     ->addColumn('penggunaankelas', function($data){
@@ -435,19 +457,28 @@ class RuangPerkuliahanController extends Controller
 
 
                     ->addColumn('kodematakuliah', function($data){
-                        return $data->kelasperkuliahan->matakuliah->kode_matakuliah;
+                        return $data->kelasperkuliahan ? $data->kelasperkuliahan->matakuliah->kode_matakuliah : '-';
                     })
 
                     ->addColumn('namamatakuliah', function($data){
-                        return $data->kelasperkuliahan->matakuliah->nama_matakuliah;
+                        return $data->kelasperkuliahan ? $data->kelasperkuliahan->matakuliah->nama_matakuliah : '-';
                     })
 
                     ->addColumn('jamawal',function($data){
-                        return Carbon::createFromFormat('H:i:s',$data->jam_awal)->format('h:i');
+                        return Carbon::createFromFormat('H:i:s',$data->jam_awal)->format('H:i');
                     })
 
                     ->addColumn('jamakhir',function($data){
-                        return Carbon::createFromFormat('H:i:s',$data->jam_akhir)->format('h:i');
+                        return Carbon::createFromFormat('H:i:s',$data->jam_akhir)->format('H:i');
+                    })
+
+                    ->addColumn('tanggal',function($data){
+                        if($data->tanggal_akhir_masuk){
+                            return Carbon::parse($data->tanggal_awal_masuk)->isoFormat('D MMMM Y') .'-'. Carbon::parse($data->tanggal_akhir_masuk)->isoFormat('D MMMM Y');
+                        }else{
+                            return Carbon::parse($data->tanggal_awal_masuk)->isoFormat('D MMMM Y');
+                        }
+
                     })
 
 
@@ -524,6 +555,7 @@ class RuangPerkuliahanController extends Controller
 
         // $dataall = RuangPerkuliahan::with('kelasPerkuliahan')->where('ruang_id',$id)->get();
 
+        $peptbatch = PeptBatch::where('jenissemester_id', $semesteraktif->id)->get();
         $kelasperkuliahan = KelasPerkuliahan::with('Matakuliah')->get();
         $penggunaanruang = PenggunaanRuangan::all();
         $open_time = strtotime("07:00");
@@ -545,7 +577,8 @@ class RuangPerkuliahanController extends Controller
             "sabtu" => $sabtu,
             "id" => $id,
             "semesteraktif"=> $semesteraktif,
-            "semester" => $semester
+            "semester" => $semester,
+            "peptbatch" => $peptbatch
 
         );
 
@@ -651,5 +684,25 @@ class RuangPerkuliahanController extends Controller
             DB::rollback();
             return back()->with('error', $exception->getMessage());
         }
+    }
+
+    public function calendar()
+    {
+        $semesteraktif = JenisSemester::where('active',1)->first();
+        $getIdKelas = RuangPerkuliahan::where('jenissemester_id',$semesteraktif->id)->where('penggunaanruang_id',1)->get()->pluck('kelasperkuliahan_id');
+        $getIdPept = RuangPerkuliahan::where('jenissemester_id',$semesteraktif->id)->where('penggunaanruang_id',6)->get()->pluck('pept_id');
+
+        $getkelas = KelasPerkuliahan::WhereNotIn('id', $getIdKelas)->get();
+        $getpept = PeptBatch::whereNotIn('id',$getIdPept)->get();
+
+        $name_page = "ruangperkuliahan";
+        $title = "Management Ruangan";
+        $data = array(
+            'page' => $name_page,
+            "title" => $title,
+            'getkelas'=>$getkelas,
+            'getpept' => $getpept
+        );
+        return view('akademik::ruangperkuliahan.calendar')->with($data);
     }
 }

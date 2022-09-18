@@ -10,6 +10,15 @@
     background: #3f51b5;
 }
 
+.fc .fc-event-pept
+{
+    padding: 4px 7px;
+
+    color: #fff;
+    border: none;
+    background: #3f51b5;
+}
+
 .fc .fc-button
 {
     height: auto;

@@ -7,62 +7,63 @@ $(document).ready(function () {
   var Calendar = FullCalendar.Calendar;
   var Draggable = FullCalendarInteraction.Draggable;
   var containerEl = document.getElementById('external-events');
+  var containerElp = document.getElementById('external-events-pept');
   var calendarEl = document.getElementById('fc-external-drag');
   var checkbox = document.getElementById('drop-remove');
 
   //  Basic Calendar Initialize
-  var basicCal = document.getElementById('basic-calendar');
-  var fcCalendar = new FullCalendar.Calendar(basicCal, {
-    defaultDate: '2019-01-01',
-    editable: true,
-    plugins: ["dayGrid", "interaction"],
-    eventLimit: true, // allow "more" link when too many events
-    events: [
-      {
-        title: 'All Day Event',
-        start: '2019-01-01'
-      },
-      {
-        title: 'Long Event',
-        start: '2019-01-07',
-        end: '2019-01-10'
-      },
-      {
-        id: 999,
-        title: 'Repeating Event',
-        start: '2019-01-09T16:00:00'
-      },
-      {
-        id: 999,
-        title: 'Repeating Event',
-        start: '2019-01-16T16:00:00'
-      },
-      {
-        title: 'Conference',
-        start: '2019-01-11',
-        end: '2019-01-13'
-      },
-      {
-        title: 'Meeting',
-        start: '2019-01-12T10:30:00',
-        end: '2019-01-12T12:30:00'
-      },
-      {
-        title: 'Dinner',
-        start: '2019-01-12T20:00:00'
-      },
-      {
-        title: 'Birthday Party',
-        start: '2019-01-13T07:00:00'
-      },
-      {
-        title: 'Click for Google',
-        url: 'http://google.com/',
-        start: '2019-01-28'
-      }
-    ],
-  });
-  fcCalendar.render();
+//   var basicCal = document.getElementById('basic-calendar');
+//   var fcCalendar = new FullCalendar.Calendar(basicCal, {
+//     defaultDate: '2019-01-01',
+//     editable: true,
+//     plugins: ["dayGrid", "interaction"],
+//     eventLimit: true, // allow "more" link when too many events
+//     events: [
+//       {
+//         title: 'All Day Event',
+//         start: '2019-01-01'
+//       },
+//       {
+//         title: 'Long Event',
+//         start: '2019-01-07',
+//         end: '2019-01-10'
+//       },
+//       {
+//         id: 999,
+//         title: 'Repeating Event',
+//         start: '2019-01-09T16:00:00'
+//       },
+//       {
+//         id: 999,
+//         title: 'Repeating Event',
+//         start: '2019-01-16T16:00:00'
+//       },
+//       {
+//         title: 'Conference',
+//         start: '2019-01-11',
+//         end: '2019-01-13'
+//       },
+//       {
+//         title: 'Meeting',
+//         start: '2019-01-12T10:30:00',
+//         end: '2019-01-12T12:30:00'
+//       },
+//       {
+//         title: 'Dinner',
+//         start: '2019-01-12T20:00:00'
+//       },
+//       {
+//         title: 'Birthday Party',
+//         start: '2019-01-13T07:00:00'
+//       },
+//       {
+//         title: 'Click for Google',
+//         url: 'http://google.com/',
+//         start: '2019-01-28'
+//       }
+//     ],
+//   });
+//   fcCalendar.render();
 
   // initialize the calendar
   // -----------------------------------------------------------------
@@ -75,11 +76,11 @@ $(document).ready(function () {
     editable: true,
     plugins: ["dayGrid", "timeGrid", "interaction"],
     droppable: true, // this allows things to be dropped onto the calendar
-    defaultDate: '2019-01-01',
+    defaultDate: Date.now(),
     events: [
       {
         title: 'All Day Event',
-        start: '2019-01-01',
+        start: '2022-09-09T16:00:00',
         color: '#009688'
       },
       {
@@ -153,6 +154,27 @@ $(document).ready(function () {
   // Draggable event init
   new Draggable(containerEl, {
     itemSelector: '.fc-event',
+    eventData: function (eventEl) {
+      return {
+        title: eventEl.innerText,
+        color: colorData
+      };
+    }
+  });
+
+//   pept
+  //   var colorData;
+  $('#external-events-pept .fc-event-pept').each(function () {
+    // Different colors for events
+    $(this).css({ 'backgroundColor': $(this).data('color'), 'borderColor': $(this).data('color') });
+  });
+  var colorData;
+  $('#external-events-pept .fc-event-pept').mousemove(function () {
+    colorData = $(this).data('color');
+  })
+  // Draggable event init
+  new Draggable(containerElp, {
+    itemSelector: '.fc-event-pept',
     eventData: function (eventEl) {
       return {
         title: eventEl.innerText,

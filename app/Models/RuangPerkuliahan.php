@@ -16,6 +16,11 @@ class RuangPerkuliahan extends Model
         return $this->belongsTo(KelasPerkuliahan::class, 'kelasperkuliahan_id', 'id');
     }
 
+    public function Pept()
+    {
+        return $this->belongsTo(PeptBatch::class, 'pept_id', 'id');
+    }
+
     /**
      * Get the user that owns the RuangPerkuliahan
      *
@@ -40,6 +45,8 @@ class RuangPerkuliahan extends Model
     {
         return $this->belongsTo(RuangGedung::class, 'ruang_id', 'id');
     }
+
+
 
 
 }

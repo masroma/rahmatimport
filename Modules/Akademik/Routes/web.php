@@ -1217,6 +1217,76 @@ Route::prefix('akademik')->group(function() {
             }
         );
 
+        Route::prefix('peptkelas')->group(
+            function () {
+                Route::get(
+                    '/dataruangan',
+                    [
+                        'uses' => 'PeptKelasController@dataRuang',
+                        'as' => 'peptkelas.dataruang'
+                    ]
+                );
+                Route::get(
+                    '/data',
+                    [
+                        'uses' => 'PeptKelasController@data',
+                        'as' => 'peptkelas.data'
+                    ]
+                );
+                Route::get(
+                    '/',
+                    [
+                        'uses' => 'PeptKelasController@index',
+                        'as' => 'peptkelas.index'
+                    ]
+                );
+                Route::get(
+                    '/create',
+                    [
+                        'uses' => 'PeptKelasController@create',
+                        'as' => 'peptkelas.create'
+                    ]
+                );
+                Route::post(
+                    '/store',
+                    [
+                        'uses' => 'PeptKelasController@store',
+                        'as' => 'peptkelas.store'
+                    ]
+                );
+                Route::post(
+                    '/updatestatus',
+                    [
+                        'uses' => 'PeptKelasController@updateStatus',
+                        'as' => 'peptkelas.updatestatus'
+                    ]
+                );
+                Route::get(
+                    '/{id}/edit',
+                    [
+                        'uses' => 'PeptKelasController@edit',
+                        'as' => 'peptkelas.edit'
+                    ]
+                );
+                Route::post(
+                    '/update/{id}',
+                    [
+                        'uses' => 'PeptKelasController@update',
+                        'as' => 'peptkelas.update'
+                    ]
+                );
+
+
+                Route::get(
+                    '/{id}/delete',
+                    [
+                        'uses' => 'PeptKelasController@destroy',
+                        'as' => 'peptkelas.destroy'
+                    ]
+                );
+            }
+        );
+
         // unclokkrs
         Route::prefix('unlockkrs')->group(
             function () {
@@ -2371,6 +2441,13 @@ Route::prefix('akademik')->group(function() {
                     [
                         'uses' => 'RuangPerkuliahanController@index',
                         'as' => 'ruangperkuliahan.index'
+                    ]
+                );
+                Route::get(
+                    '/calendar',
+                    [
+                        'uses' => 'RuangPerkuliahanController@calendar',
+                        'as' => 'ruangperkuliahan.calendar'
                     ]
                 );
                 Route::get(

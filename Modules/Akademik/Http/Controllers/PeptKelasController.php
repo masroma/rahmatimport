@@ -5,6 +5,7 @@ namespace Modules\Akademik\Http\Controllers;
 use App\Models\JenisSemester;
 use App\Models\PeptBatch;
 use App\Models\PeptKelas;
+use App\Models\RuangGedung;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -94,6 +95,51 @@ class PeptKelasController extends Controller
         }
     }
 
+    public function dataRuang()
+    {
+        try {
+            // $canShow = Gate::allows("kelaskuliahshow");
+            $canUpdate = Gate::allows("ruangperkuliahan-edit");
+            $canDelete = Gate::allows("ruangperkuliahan-delete");
+            $data = RuangGedung::with('Perkuliahan','listkampus','Uts','Uas')->withCount(['Perkuliahan','Uts','Uas'])->get();
+            return DataTables::of($data)
+            ->addColumn('kampus',function($data){
+                return $data->ListKampus->cabang_kampus;
+            })
+            ->addColumn("action", function ($data) use ($canUpdate, $canDelete) {
+
+                        $btn = "";
+
+                        if ($canUpdate) {
+                            $btn .= '<a class="btn-floating btn-small" href="ruangperkuliahan/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+                        }
+
+                        if ($canDelete) {
+                            $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
+                        }
+
+                        // if ($canShow) {
+                        //     $btn .= '<a class="btn-floating green darken-1 btn-small" href="matakuliah/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
+                        // }
+
+                        return $btn;
+                    })
+                    ->rawColumns(['colors','action'])
+                    ->addIndexColumn()
+                    ->make(true);
+
+        } catch (Exception $e) {
+            DB::commit();
+            return response()->json(
+                [
+                    "status" => false,
+                    "message" => $e->getMessage()
+                ]
+            );
+        }
+
+    }
+
     public function index()
     {
         $canCreate = Gate::allows('peptkelas-create');
@@ -113,6 +159,7 @@ class PeptKelasController extends Controller
      */
     public function create()
     {
+
         $batch = PeptBatch::all();
         $jenissemester  = JenisSemester::all();
         $name_page = "peptkelas";
@@ -141,14 +188,13 @@ class PeptKelasController extends Controller
                 'jenissemester_id' => 'required',
                 'peptbatch_id' => 'required',
                 'tanggal_pelaksanaan' => 'required',
-                'tanggal_selesai_pelaksanaan' => 'required'
+                'tanggal_selesai_pelaksanaan' => 'required',
+                'ruang_id' => 'required'
             ]);
 
             $save = new peptkelas();
             $save->jenissemester_id = $request->jenissemester_id;
             $save->nama_Kelas = $request->nama_Kelas;
-            $save->grade_pept = $grade[0]->id;
-            $save->grade_sidang = $grade[1]->id;
             $save->tanggal_pendaftaran = $request->tanggal_pendaftaran;
             $save->tanggal_tutup_pendaftaran = $request->tanggal_tutup_pendaftaran;
             $save->save();

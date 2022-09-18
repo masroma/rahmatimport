@@ -58,6 +58,7 @@
                     <th>Hari</th>
                     <th>Jam Mulai</th>
                     <th>Jam Akhir</th>
+                    <th>Tanggal</th>
                     <th>#</th>
                 </tr>
             </thead>
@@ -142,6 +143,12 @@
                         {
                             data: 'jamakhir',
                             name: 'jamakhir'
+                        },
+
+
+                        {
+                            data: 'tanggal',
+                            name: 'tanggal'
                         },
 
 

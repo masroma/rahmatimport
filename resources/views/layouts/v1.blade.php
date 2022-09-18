@@ -16,12 +16,18 @@
    <!-- BEGIN: VENDOR CSS-->
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/vendors.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/flag-icon/css/flag-icon.min.css')}}">
+     {{-- calendar --}}
+
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/materialize-stepper/materialize-stepper.min.css')}}">
+   <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/fullcalendar/css/fullcalendar.min.css')}}">
+   <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/fullcalendar/daygrid/daygrid.min.css')}}">
+   <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/fullcalendar/timegrid/timegrid.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/data-tables/css/jquery.dataTables.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/data-tables/css/select.dataTables.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/vendors/dropify/css/dropify.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/css/pages/page-blog.css')}}">
+
    <!-- END: VENDOR CSS-->
    <!-- BEGIN: Page Level CSS-->
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/css/themes/vertical-modern-menu-template/materialize.css')}}">
@@ -30,7 +36,9 @@
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/css/pages/form-wizard.css')}}">
    <!-- END: Page Level CSS-->
    <!-- BEGIN: Custom CSS-->
+   <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/css/pages/app-calendar.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('v1/app-assets/css/custom/custom.css')}}">
+
 
     {{-- datatables --}}
 
@@ -91,7 +99,7 @@
                     </ul> --}}
                     <!-- profile-dropdown-->
                     @php
-                       
+
                     $role = Auth::user()->getRoleNames()[0];
                     @endphp
                     <ul class="dropdown-content" id="profile-dropdown">
@@ -232,16 +240,16 @@
                             <div class="collapsible-body">
                                 <ul class="collapsible collapsible-sub" data-collapsible="accordion">
                                     @foreach($menudata as $children => $childs)
-                                        
+
                                          @foreach($childs as $child)
                                             {{-- {{ $child->menu ? $child->menu->parent_id : 0 }} --}}
                                             @if($child->menu)
                                             @if( $child->menu->parent_id == $a->menu->id)
                                                 <li><a href="{{route($child->menu->link ?? '')}}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Second level">{{$child->menu->name}}</span></a>
                                                 </li>
-                                            @endif 
                                             @endif
-                                        @endforeach 
+                                            @endif
+                                        @endforeach
                                     @endforeach
                                 </ul>
                             </div>
@@ -251,7 +259,7 @@
                 @endforeach
            @endforeach
            @endif
-           
+
 
 
 
@@ -287,6 +295,11 @@
     <link rel="stylesheet" href="{{asset('v1/app-assets/vendors/select2/select2-materialize.css')}}" type="text/css">
     <script src="{{asset('v1/app-assets/vendors/materialize-stepper/materialize-stepper.min.js')}}"></script>
     <!-- BEGIN VENDOR JS-->
+    <script src="{{asset('v1/app-assets/vendors/fullcalendar/lib/moment.min.js')}}"></script>
+    <script src="{{asset('v1/app-assets/vendors/fullcalendar/js/fullcalendar.min.js')}}"></script>
+    <script src="{{asset('v1/app-assets/vendors/fullcalendar/daygrid/daygrid.min.js')}}"></script>
+    <script src="{{asset('v1/app-assets/vendors/fullcalendar/timegrid/timegrid.min.js')}}"></script>
+    <script src="{{asset('v1/app-assets/vendors/fullcalendar/interaction/interaction.min.js')}}"></script>
     <!-- BEGIN PAGE VENDOR JS-->
     <script src="{{asset('v1/app-assets/vendors/data-tables/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('v1/app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js')}}"></script>
@@ -298,6 +311,7 @@
     <script src="{{asset('v1/app-assets/js/search.js')}}"></script>
     <script src="{{asset('v1/app-assets/js/custom/custom-script.js')}}"></script>
     <script src="{{asset('v1/app-assets/js/scripts/customizer.js')}}"></script>
+    <script src="{{asset('v1/app-assets/js/scripts/app-calendar.js')}}"></script>
 
     <!-- END THEME  JS-->
     <!-- BEGIN PAGE LEVEL JS-->
