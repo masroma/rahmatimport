@@ -169,7 +169,7 @@
                 </div>
 
                 <div class="row">
-                   
+
 
                     <div class="input-field col s6">
                         <select name="jenis_kelas" class="select2 browser-default">
@@ -197,7 +197,7 @@
 
                 <div class="row">
                   <div class="input-field col s6">
-                    <input placeholder="min peserta kelas" name="min_peserta" id=""min_peserta" type="number" class="validate  @error('min_peserta') is-invalid @enderror" value="{{ old('min_peserta') }}">
+                    <input placeholder="min peserta kelas" name="min_peserta" id="min_peserta" type="number" class="validate  @error('min_peserta') is-invalid @enderror" value="{{ old('min_peserta') }}">
                     <label for="first_name">Minimal Peserta Kelas</label>
 
                     @error('min_peserta')
@@ -212,6 +212,14 @@
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                   </div>
+                </div>
+                <div class="col s12 mt-5">
+                    <input type="color" id="favcolor" name="color"  class="validate  @error('max_peserta') is-invalid @enderror" value="{{ old('color') }}">
+                    <label for="first_name">Warna</label>
+
+                    @error('warna')
+                    <span class="red-text text-darken-2">{{ $message }}</small>
+                    @enderror
                 </div>
 
 

@@ -705,4 +705,8 @@ class RuangPerkuliahanController extends Controller
         );
         return view('akademik::ruangperkuliahan.calendar')->with($data);
     }
+
+    public function insertCalendar(Request $request){
+        return response()->json($request->all());
+    }
 }

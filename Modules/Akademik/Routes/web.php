@@ -2451,6 +2451,13 @@ Route::prefix('akademik')->group(function() {
                     ]
                 );
                 Route::get(
+                    '/savecalendar',
+                    [
+                        'uses' => 'RuangPerkuliahanController@insertCalendar',
+                        'as' => 'ruangperkuliahan.savecalendar'
+                    ]
+                );
+                Route::get(
                     '/create/{id}',
                     [
                         'uses' => 'RuangPerkuliahanController@createKelasByRuangan',

@@ -73,10 +73,14 @@ $(document).ready(function () {
       center: 'title',
       right: "dayGridMonth,timeGridWeek,timeGridDay"
     },
+
     editable: true,
     plugins: ["dayGrid", "timeGrid", "interaction"],
     droppable: true, // this allows things to be dropped onto the calendar
     defaultDate: Date.now(),
+    slotDuration: '00:05:00',
+    slotLabelInterval: 5,
+    // slotLabelFormat: 'h(:mm)a',
     events: [
       {
         title: 'All Day Event',
@@ -129,13 +133,57 @@ $(document).ready(function () {
         start: '2019-01-28',
       }
     ],
+
+
+    selectable:true,
+    selectHelper:true,
+    displayEventEnd:true,
     drop: function (info) {
+
+        console.log(info.dateStr);
+       var id = info.draggedEl.attributes.idkelas.nodeValue;
+
+        // $.ajax({
+
+        //     url: SITEURL + "/fullcalenderAjax",
+
+        //     data: {
+
+        //         id: id,
+
+        //         start: start,
+
+        //         end: end,
+
+        //         type: 'add'
+
+        //     },
+
+        //     type: "POST",
+
+        //     success: function (data) {
+
+        //         displayMessage("Event Created Successfully");
+
+
+        //     }
+
+        // });
       // is the "remove after drop" checkbox checked?
       if (checkbox.checked) {
         // if so, remove the element from the "Draggable Events" list
         info.draggedEl.parentNode.removeChild(info.draggedEl);
       }
+
+    },
+    eventDrop:function(event){
+
+    },
+    eventResize: function(info) {
+        alert(info.event.end);
+
     }
+
   });
   calendar.render();
 
@@ -155,6 +203,7 @@ $(document).ready(function () {
   new Draggable(containerEl, {
     itemSelector: '.fc-event',
     eventData: function (eventEl) {
+
       return {
         title: eventEl.innerText,
         color: colorData

@@ -166,7 +166,7 @@
                     </div>
 
                     <div class="row">
-                       
+
 
 
                         <div class="input-field col s4">
@@ -185,7 +185,7 @@
                         <div class="input-field col s4">
                           <input placeholder="min_peserta" name="min_peserta" id="min_peserta" type="number" class="validate  @error('min_peserta') is-invalid @enderror" value="{{ old('min_peserta',$kelasperkuliahan->min_peserta) }}">
                           <label for="first_name">Minimal Peserta</label>
-  
+
                           @error('min_peserta')
                           <span class="red-text text-darken-2">{{ $message }}</small>
                           @enderror
@@ -194,7 +194,7 @@
                         <div class="input-field col s4">
                           <input placeholder="max_peserta" name="max_peserta" id="max_peserta" type="number" class="validate  @error('max_peserta') is-invalid @enderror" value="{{ old('max_peserta',$kelasperkuliahan->max_peserta) }}">
                           <label for="first_name">Maximal Peserta</label>
-  
+
                           @error('max_peserta')
                           <span class="red-text text-darken-2">{{ $message }}</small>
                           @enderror
@@ -203,7 +203,14 @@
 
 
                     </div>
+                    <div class="col s12 mt-5">
+                        <input type="color" id="favcolor" name="color"  class="validate  @error('max_peserta') is-invalid @enderror" value="{{ old('color',$kelasperkuliahan->color) }}">
+                        <label for="first_name">Warna</label>
 
+                        @error('warna')
+                        <span class="red-text text-darken-2">{{ $message }}</small>
+                        @enderror
+                    </div>
 
 
                       <div class="input-field col s12">

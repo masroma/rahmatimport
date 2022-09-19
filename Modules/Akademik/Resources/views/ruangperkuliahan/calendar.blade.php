@@ -51,10 +51,8 @@
                           height: 450px;
                           overflow: scroll;">
                              @foreach($getkelas as $dk)
-                                <div class='fc-event' data-color='{{ $dk->color }}'>{{ $dk->nama_kelas }}{{ $dk->kode }}</div>
+                                <div class='fc-event' id="event" idkelas="{{ $dk->id }}" data-color='{{ $dk->color }}'>{{ $dk->nama_kelas }}{{ $dk->kode }}</div>
                             @endforeach
-
-
                           </div>
                         </div>
 
@@ -67,6 +65,7 @@
                       </div>
                       <div class="col m9 s12">
                         <div id='fc-external-drag'></div>
+                        {{-- <div id='calendar'></div> --}}
                       </div>
                     </div>
                   </div>
@@ -90,7 +89,15 @@
   @stop
   @section('script')
   <script>
+        $(document).ready(function(){
+            $.ajaxSetup({
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content');
+                }
+            });
 
+            var calendar = $('#fc-external-drag').fullCalendar();
+        })
     </script>
 
 @endsection
