@@ -101,7 +101,7 @@
                       "scrollX": true,
                       "autoWidth": true,
                       processing: true,
-                      serverSide: true,
+                    //   serverSide: true,
                       ajax: {
                           url: "{{ route('user.data') }}",
                           type: "GET",

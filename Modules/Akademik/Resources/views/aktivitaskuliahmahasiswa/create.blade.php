@@ -116,7 +116,7 @@
 
                   <div class="input-field col s12">
                   <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>save</button>
-                  <a href="#" class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>
+                  <a href={{route($page.'.index')}} class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>
                   </div>
                 </div>
             </form>
