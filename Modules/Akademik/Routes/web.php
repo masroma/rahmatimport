@@ -2450,7 +2450,7 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'ruangperkuliahan.calendar'
                     ]
                 );
-                Route::get(
+                Route::post(
                     '/savecalendar',
                     [
                         'uses' => 'RuangPerkuliahanController@insertCalendar',

@@ -138,37 +138,36 @@ $(document).ready(function () {
     selectable:true,
     selectHelper:true,
     displayEventEnd:true,
-    drop: function (info) {
+    drop: function (info, date) {
 
-        console.log(info.dateStr);
-       var id = info.draggedEl.attributes.idkelas.nodeValue;
+      var d = info.date;
+      var days = ["minggu", "senin", "selasa", "rabu", "kamis", "jum'at", "sabtu"],
+      dayName = days[d.getDay()];
 
-        // $.ajax({
+       var idkelas = info.draggedEl.attributes.idkelas.nodeValue;
+       var penggunaan = 1;
+       var ruang = 1;
+       var starttime = info.date.toTimeString()
+       var tanggal = info.date
+       var hari = dayName
 
-        //     url: SITEURL + "/fullcalenderAjax",
+        $.ajax({
+            url:"/",
+            data: {
+                idkelas: idkelas,
+                penggunaanruang: penggunaan,
+                jamawal: starttime,
+                ruangid:ruang,
+                tanggalawalmasuk : tanggal,
+                hari:hari
+            },
+            type: "POST",
+            success: function (response) {
+                console.log(response)
+                // displayMessage("Event Created Successfully");
+            }
 
-        //     data: {
-
-        //         id: id,
-
-        //         start: start,
-
-        //         end: end,
-
-        //         type: 'add'
-
-        //     },
-
-        //     type: "POST",
-
-        //     success: function (data) {
-
-        //         displayMessage("Event Created Successfully");
-
-
-        //     }
-
-        // });
+        });
       // is the "remove after drop" checkbox checked?
       if (checkbox.checked) {
         // if so, remove the element from the "Draggable Events" list
@@ -176,12 +175,11 @@ $(document).ready(function () {
       }
 
     },
-    eventDrop:function(event){
-
+    eventDrop:function(info,event){
+      // console.log(info)
     },
     eventResize: function(info) {
         alert(info.event.end);
-
     }
 
   });

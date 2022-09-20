@@ -312,7 +312,7 @@
     <script src="{{asset('v1/app-assets/js/search.js')}}"></script>
     <script src="{{asset('v1/app-assets/js/custom/custom-script.js')}}"></script>
     <script src="{{asset('v1/app-assets/js/scripts/customizer.js')}}"></script>
-    <script src="{{asset('v1/app-assets/js/scripts/app-calendar.js')}}"></script>
+    {{-- <script src="{{asset('v1/app-assets/js/scripts/app-calendar.js')}}"></script> --}}
 
     <!-- END THEME  JS-->
     <!-- BEGIN PAGE LEVEL JS-->
