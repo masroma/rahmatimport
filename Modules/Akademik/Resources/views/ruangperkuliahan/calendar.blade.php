@@ -201,7 +201,7 @@ $(document).ready(function () {
                 penggunaanruang: penggunaan,
                 jamawal: starttime,
                 ruang:ruang,
-                tanggalawalmasuk : tanggal,
+                tanggalawalmasuk : tanggal.toISOString(),
                 hari:hari
             },
             type: "POST",

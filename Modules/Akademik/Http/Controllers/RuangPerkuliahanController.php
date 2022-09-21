@@ -707,12 +707,19 @@ class RuangPerkuliahanController extends Controller
     }
 
     public function insertCalendar(Request $request){
+        $tanggalmulai = Carbon::parse($request->tanggalawalmasuk)->format("Y-m-d H:i:s");
 
-        $tanggalmulai = Carbon::parse($request->tanggalmasuk)->isoFormat("YYYY-MM-DD");
+
 
         DB::beginTransaction();
         try {
 
+            $ceksks = KelasPerkuliahan::with('matakuliah')->findOrFail($request->idkelas);
+            $minute = number_format($ceksks->Matakuliah->bobot_mata_kuliah) * 50;
+
+
+            $get = substr($request->jamawal, 0,8);
+            $timeAkhir = date('H:i:s', strtotime($get. ' +'.$minute.' minutes'));
             $open_time = strtotime($request->jamawal);
 
 
@@ -809,8 +816,8 @@ class RuangPerkuliahanController extends Controller
             $save->hari = $request->hari ?? NULL;
             $save->waktu =  null;
             $save->jam_awal =$request->jamawal;
-            $save->jam_akhir = null;
-            $save->tanggal_awal_masuk = $tanggalmulai;
+            $save->jam_akhir = $timeAkhir;
+            $save->tanggal_awal_masuk =  $tanggalmulai;
             $save->tanggal_akhir_masuk =  NULL;
             $save->save();
 
