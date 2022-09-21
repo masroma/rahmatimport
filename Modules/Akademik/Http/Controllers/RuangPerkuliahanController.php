@@ -679,6 +679,8 @@ class RuangPerkuliahanController extends Controller
                         $save->save();
             }
 
+
+
             DB::commit();
         } catch (ModelNotFoundException $exception) {
             DB::rollback();
@@ -686,7 +688,7 @@ class RuangPerkuliahanController extends Controller
         }
     }
 
-    public function calendar()
+    public function calendar($id)
     {
         $semesteraktif = JenisSemester::where('active',1)->first();
         $getIdKelas = RuangPerkuliahan::where('jenissemester_id',$semesteraktif->id)->where('penggunaanruang_id',1)->get()->pluck('kelasperkuliahan_id');
@@ -701,7 +703,8 @@ class RuangPerkuliahanController extends Controller
             'page' => $name_page,
             "title" => $title,
             'getkelas'=>$getkelas,
-            'getpept' => $getpept
+            'getpept' => $getpept,
+            'idruangan' => $id
         );
         return view('akademik::ruangperkuliahan.calendar')->with($data);
     }
@@ -818,7 +821,7 @@ class RuangPerkuliahanController extends Controller
             $save->jam_awal =$request->jamawal;
             $save->jam_akhir = $timeAkhir;
             $save->tanggal_awal_masuk =  $tanggalmulai;
-            $save->tanggal_akhir_masuk =  NULL;
+            $save->tanggal_akhir_masuk = Carbon::parse($tanggalmulai)->addWeek(15);
             $save->save();
 
             $id = $save->id;

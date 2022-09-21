@@ -108,6 +108,7 @@ $(document).ready(function () {
   var containerElp = document.getElementById('external-events-pept');
   var calendarEl = document.getElementById('fc-external-drag');
   var checkbox = document.getElementById('drop-remove');
+  let idruangan = {{ $idruangan }}
 
 
   var calendar = new Calendar(calendarEl, {
@@ -189,7 +190,7 @@ $(document).ready(function () {
 
        var idkelas = info.draggedEl.attributes.idkelas.nodeValue;
        var penggunaan = 1;
-       var ruang = 1;
+       var ruang = idruangan;
        var starttime = info.date.toTimeString()
        var tanggal = info.date
        var hari = dayName

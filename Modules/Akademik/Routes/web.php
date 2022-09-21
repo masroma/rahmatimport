@@ -2444,7 +2444,7 @@ Route::prefix('akademik')->group(function() {
                     ]
                 );
                 Route::get(
-                    '/calendar',
+                    '/calendar/{id}',
                     [
                         'uses' => 'RuangPerkuliahanController@calendar',
                         'as' => 'ruangperkuliahan.calendar'
@@ -2481,7 +2481,8 @@ Route::prefix('akademik')->group(function() {
                 Route::get(
                     '/{id}/show',
                     [
-                        'uses' => 'RuangPerkuliahanController@show',
+                        // 'uses' => 'RuangPerkuliahanController@show',
+                        'uses' => 'RuangPerkuliahanController@calendar',
                         'as' => 'ruangperkuliahan.show'
                     ]
                 );
