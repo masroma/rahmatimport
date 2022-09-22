@@ -2504,10 +2504,32 @@ Route::prefix('akademik')->group(function() {
                 );
 
                 Route::get(
+                    '/{id}/deletekelas',
+                    [
+                        'uses' => 'RuangPerkuliahanController@deleteKelas',
+                        'as' => 'ruangperkuliahan.deletekelas'
+                    ]
+                );
+
+                Route::get(
                     '/datakelas/{id}',
                     [
                         'uses' => 'RuangPerkuliahanController@dataKelas',
                         'as' => 'ruangperkuliahan.datakelas'
+                    ]
+                );
+                Route::get(
+                    '/getkelas/{id}',
+                    [
+                        'uses' => 'RuangPerkuliahanController@getJadwalById',
+                        'as' => 'ruangperkuliahan.getjadwalbyid'
+                    ]
+                );
+                Route::get(
+                    '/jadwalkelas/{id}',
+                    [
+                        'uses' => 'RuangPerkuliahanController@jadwalKelas',
+                        'as' => 'ruangperkuliahan.jadwalkelas'
                     ]
                 );
                 Route::get(

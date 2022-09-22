@@ -652,12 +652,12 @@ class RuangPerkuliahanController extends Controller
         return view('akademik::ruangperkuliahan.edit')->with($data);
     }
 
-    public function generateTanggal(Request $request, $id){
+    public function generateTanggal(Request $request, $timeAkhir,$id){
 
         DB::beginTransaction();
         try {
             $semesteraktif=JenisSemester::where('active',1)->latest()->first();
-            $tanggal = Carbon::parse($request->tanggalmasuk)->isoFormat("YYYY-MM-DD");
+            $tanggal = Carbon::parse($request->tanggalawalmasuk)->isoFormat("YYYY-MM-DD");
             $i = 1;
             for($i = 0; $i <= 15; $i++){
                     if($i+1 == 8){
@@ -670,12 +670,13 @@ class RuangPerkuliahanController extends Controller
 
                         $save = new JadwalKelas;
                         $save->ruangperkuliahan_id = $id;
+                        $save->ruang_id = $request->ruang;
                         $save->jenissemester_id = $request->jenissemester_id ?? $semesteraktif->id;
                         $save->pertemuan_ke = $i+1;
                         $save->tanggal_perkuliahan = Carbon::parse($tanggal)->addWeek($i);
                         $save->type = $type;
                         $save->jam_masuk = $request->jamawal;
-                        $save->jam_keluar = $request->jam_keluar ?? null;
+                        $save->jam_keluar = $timeAkhir;
                         $save->save();
             }
 
@@ -818,6 +819,7 @@ class RuangPerkuliahanController extends Controller
             $save->kode = $request->kode ?? NULL;
             $save->hari = $request->hari ?? NULL;
             $save->waktu =  null;
+            $save->waktu =  null;
             $save->jam_awal =$request->jamawal;
             $save->jam_akhir = $timeAkhir;
             $save->tanggal_awal_masuk =  $tanggalmulai;
@@ -827,7 +829,7 @@ class RuangPerkuliahanController extends Controller
             $id = $save->id;
 
             if($cektype->penggunaan_ruangan == "perkuliahan"){
-                $this->generateTanggal($request, $id);
+                $this->generateTanggal($request,$timeAkhir, $id);
             }
 
             DB::commit();
@@ -856,5 +858,48 @@ class RuangPerkuliahanController extends Controller
 
 
         // return response()->json($request->all());
+    }
+
+    public function jadwalKelas($id){
+        // $data = JadwalKelas::where('ruangperkuliahan_id', $id)->with('ruangperkuliahan.kelasperkuliahan')
+        // ->get('id');
+        $data = DB::table('jadwal_kelas')
+        ->where('jadwal_kelas.ruang_id', $id)
+        ->leftJoin('ruang_perkuliahans', 'ruang_perkuliahans.id', '=', 'jadwal_kelas.ruangperkuliahan_id')
+        ->leftJoin('kelas_perkuliahans', 'kelas_perkuliahans.id', '=', 'ruang_perkuliahans.kelasperkuliahan_id')
+        ->select('jadwal_kelas.id as ids','tanggal_perkuliahan','jam_masuk','jam_keluar','kelas_perkuliahans.nama_kelas as namakelas','kelas_perkuliahans.kode as code','kelas_perkuliahans.color as colors')
+        ->get();
+
+        $datas = [];
+        foreach ($data as $r) {
+                $datas[] = array('id' => $r->ids,'title' => $r->namakelas.$r->code,'start'=>$r->tanggal_perkuliahan.'T'.$r->jam_masuk,'end'=>$r->tanggal_perkuliahan.'T'.$r->jam_keluar,'color'=>$r->colors);
+        }
+
+        return response()->json($datas);
+    }
+
+    public function getJadwalById($id){
+        $data = JadwalKelas::with('ruangperkuliahan')->findOrFail($id);
+        return response()->json($data);
+    }
+
+    public function deleteKelas(Request $request){
+        DB::beginTransaction();
+        try {
+            $deleteRuangPerkuliahan = RuangPerkuliahan::where('id',$request->ruangperkuliahanid)->delete();
+            $deletejadwal = JadwalKelas::where('ruang_id',$request->ruangid)->where('ruangperkuliahan_id',$request->ruangperkuliahanid)->delete();
+            DB::commit();
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return back()->withError($exception->getMessage())->withInput();
+        }
+        if ($deleteRuangPerkuliahan) {
+            //redirect dengan pesan sukses
+            return redirect()->back()->with("success", "Data berhasil dihapus");
+        } else {
+            //redirect dengan pesan error
+            return redirect()->back()->with(["error" => "Data Gagal Dihapus!"]);
+        }
+
     }
 }

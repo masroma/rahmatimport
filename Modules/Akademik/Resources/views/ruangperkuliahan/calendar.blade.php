@@ -84,7 +84,11 @@
     </div>
   </div>
 
-
+  <style>
+    .fc-event{
+    cursor: pointer;
+}
+  </style>
 
   @stop
   @section('script')
@@ -109,6 +113,8 @@ $(document).ready(function () {
   var calendarEl = document.getElementById('fc-external-drag');
   var checkbox = document.getElementById('drop-remove');
   let idruangan = {{ $idruangan }}
+  var SITEURL = "{{ route('ruangperkuliahan.jadwalkelas',$idruangan) }}";
+
 
 
   var calendar = new Calendar(calendarEl, {
@@ -125,63 +131,78 @@ $(document).ready(function () {
     slotDuration: '00:05:00',
     slotLabelInterval: 5,
     // slotLabelFormat: 'h(:mm)a',
-    events: [
-      {
-        title: 'All Day Event',
-        start: '2022-09-22T08:00:00',
-        color: '#009688'
-      },
-      {
-        title: 'Long Event',
-        start: '2022-01-07',
-        end: '2022-01-10',
-        color: '#4CAF50'
-      },
-      {
-        id: 999,
-        title: 'Meeting',
-        start: '2022-01-09T16:00:00',
-        color: '#00bcd4'
-      },
-      {
-        id: 999,
-        title: 'Happy Hour',
-        start: '2022-09-22T16:00:00',
-        color: '#3f51b5'
-      },
-      {
-        title: 'Conference Meeting',
-        start: '2022-01-11',
-        end: '2022-01-13',
-        color: '#e51c23'
-      },
-      {
-        title: 'Meeting',
-        start: '2022-01-12T10:30:00',
-        end: '2022-01-12T12:30:00',
-        color: '#00bcd4'
-      },
-      {
-        title: 'Dinner',
-        start: '2022-01-12T20:00:00',
-        color: '#4a148c'
-      },
-      {
-        title: 'Birthday Party',
-        start: '2022-01-13T07:00:00',
-        color: '#ff5722'
-      },
-      {
-        title: 'Click for Google',
-        url: 'http://google.com/',
-        start: '2022-01-28',
-      }
-    ],
+    events: SITEURL,
 
 
     selectable:true,
     selectHelper:true,
     displayEventEnd:true,
+    eventClick: function(info) {
+        var idjadwal = info.event._def.publicId;
+        $.ajax({
+            url:"{{ url('akademik/ruangperkuliahan/getkelas') }}/"+idjadwal,
+
+            type: "GET",
+            success: function (response) {
+
+                var date = new Date(response.tanggal_perkuliahan);
+                var tahun = date.getFullYear();
+                var bulan = date.getMonth();
+                var tanggal = date.getDate();
+                var hari = date.getDay();var jam = date.getHours();
+                var menit = date.getMinutes();
+                var detik = date.getSeconds();
+                switch(hari) {
+                    case 0: hari = "Minggu"; break;
+                    case 1: hari = "Senin"; break;
+                    case 2: hari = "Selasa"; break;
+                    case 3: hari = "Rabu"; break;
+                    case 4: hari = "Kamis"; break;
+                    case 5: hari = "Jum'at"; break;
+                    case 6: hari = "Sabtu"; break;
+                }switch(bulan) {
+                    case 0: bulan = "Januari"; break;
+                    case 1: bulan = "Februari"; break;
+                    case 2: bulan = "Maret"; break;
+                    case 3: bulan = "April"; break;
+                    case 4: bulan = "Mei"; break;
+                    case 5: bulan = "Juni"; break;
+                    case 6: bulan = "Juli"; break;
+                    case 7: bulan = "Agustus"; break;
+                    case 8: bulan = "September"; break;
+                    case 9: bulan = "Oktober"; break;
+                    case 10: bulan = "November"; break;
+                    case 11: bulan = "Desember"; break;
+                }
+                var tampilTanggal =  hari + ", " + tanggal + " " + bulan + " " + tahun;
+                var tampilWaktu = "Jam: " + jam + ":" + menit + ":" + detik;
+                // displayMessage("Event Created Successfully");
+                swal({
+
+                      html: "<h5>"+info.event.title.toUpperCase()+"</h5> <br/>"+tampilTanggal+"<br/> waktu "+response.jam_masuk+" - "+response.jam_keluar+"<br/><br/><h6>Anda ingin menghapus data ini ? </h6><p>ini mungkin akan menghapus semua generate tanggal kelas ini</p>",
+
+                      showCancelButton: true,
+                      icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Hapus'
+
+                  })
+                  .then((dt) => {
+                      if (dt) {
+                          window.location.href = "{{ url('akademik/ruangperkuliahan') }}/" + response.id + "/deletekelas?ruangid="+response.ruang_id+"&ruangperkuliahanid="+response.ruangperkuliahan_id;
+                      }
+                  });
+            }
+
+        });
+
+    },
+    // dateClick: function(info) {
+    //     // alert('Clicked on: ' + info.dateStr);
+
+    // },
     drop: function (info, date) {
 
       var d = info.date;
