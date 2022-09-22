@@ -264,7 +264,7 @@ $(document).ready(function () {
             type: "POST",
             success: function (response) {
                 // console.log(response)
-                // location.reload();
+                location.reload();
                 // displayMessage("Event Created Successfully");
             }
         });
