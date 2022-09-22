@@ -132,8 +132,7 @@ $(document).ready(function () {
     slotLabelInterval: 5,
     // slotLabelFormat: 'h(:mm)a',
     events: SITEURL,
-
-
+    disableResizing: true,
     selectable:true,
     selectHelper:true,
     displayEventEnd:true,
@@ -228,10 +227,10 @@ $(document).ready(function () {
             },
             type: "POST",
             success: function (response) {
-                console.log(response)
+                // console.log(response)
+                location.reload();
                 // displayMessage("Event Created Successfully");
             }
-
         });
       // is the "remove after drop" checkbox checked?
 
@@ -242,23 +241,39 @@ $(document).ready(function () {
 
     },
     eventDrop:function(info){
-
-        console.log(info)
         var d = info.event.start;
         var days = ["minggu", "senin", "selasa", "rabu", "kamis", "jum'at", "sabtu"],
         dayName = days[d.getDay()];
-    //     var idkelas = info.draggedEl.attributes.idkelas.nodeValue;
-    //    var penggunaan = 1;
-    //    var ruang = 1;
-    //    var starttime = info.date.toTimeString()
-    //    var tanggal = info.date
-    //    var hari = dayName
+        var idkelas = info.event._def.publicId;
+        var penggunaan = 1;
+        var ruang = idruangan;
+        var starttime = info.event.start.toTimeString()
+        var tanggal = info.event.end
+        var hari = dayName
 
+        $.ajax({
+            url:"{{ route('ruangperkuliahan.updatecalendar') }}",
+            data: {
+                idkelas: idkelas,
+                penggunaanruang: penggunaan,
+                jamawal: starttime,
+                ruang:ruang,
+                tanggalawalmasuk : tanggal.toISOString(),
+                hari:hari
+            },
+            type: "POST",
+            success: function (response) {
+                // console.log(response)
+                // location.reload();
+                // displayMessage("Event Created Successfully");
+            }
+        });
 
     },
-    eventResize: function(info) {
-        alert(info.event);
-    }
+    eventDurationEditable:false
+    // eventResize: function(info) {
+    //     alert(info.event);
+    // }
 
   });
   calendar.render();

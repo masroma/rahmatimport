@@ -712,7 +712,7 @@ class RuangPerkuliahanController extends Controller
 
     public function insertCalendar(Request $request){
         $tanggalmulai = Carbon::parse($request->tanggalawalmasuk)->format("Y-m-d H:i:s");
-
+        $semesteraktif= JenisSemester::where('active',1)->first();
 
 
         DB::beginTransaction();
@@ -727,7 +727,7 @@ class RuangPerkuliahanController extends Controller
             $open_time = strtotime($request->jamawal);
 
 
-            $close_time = strtotime($request->jam_akhir);
+            $close_time = $timeAkhir;
             $output = "";
             for ($i = $open_time; $i < $close_time; $i+= 300) {
                 $output .= date('H:i',$i)." ";
@@ -818,8 +818,7 @@ class RuangPerkuliahanController extends Controller
             $save->pept_id = $request->pept_id ?? null;
             $save->kode = $request->kode ?? NULL;
             $save->hari = $request->hari ?? NULL;
-            $save->waktu =  null;
-            $save->waktu =  null;
+            $save->waktu =  $waktu;
             $save->jam_awal =$request->jamawal;
             $save->jam_akhir = $timeAkhir;
             $save->tanggal_awal_masuk =  $tanggalmulai;
@@ -899,6 +898,68 @@ class RuangPerkuliahanController extends Controller
         } else {
             //redirect dengan pesan error
             return redirect()->back()->with(["error" => "Data Gagal Dihapus!"]);
+        }
+
+    }
+
+    public function updateCalendar(Request $request)
+    {
+        $tanggalmulai = Carbon::parse($request->tanggalawalmasuk)->format("Y-m-d H:i:s");
+        $semesteraktif= JenisSemester::where('active',1)->first();
+        DB::beginTransaction();
+        try {
+            $jadwalkelas = JadwalKelas::findOrFail($request->idkelas);
+            $ruangPerkuliahan = RuangPerkuliahan::findOrFail($jadwalkelas->ruangperkuliahan_id);
+            $ceksks = KelasPerkuliahan::with('matakuliah')->findOrFail($ruangPerkuliahan->kelasperkuliahan_id);
+            $minute = number_format($ceksks->Matakuliah->bobot_mata_kuliah) * 50;
+
+            $get = substr($request->jamawal, 0,8);
+            $timeAkhir = date('H:i:s', strtotime($get. ' +'.$minute.' minutes'));
+            $open_time = strtotime($request->jamawal);
+
+            $close_time = $timeAkhir;
+            $output = "";
+            for ($i = $open_time; $i < $close_time; $i+= 300) {
+                $output .= date('H:i',$i)." ";
+            }
+
+            $ar = explode(" ",$output);
+            $waktu = json_encode($ar);
+
+
+            $jadwalkelas->ruangperkuliahan_id = $jadwalkelas->ruangperkuliahan_id;
+            $jadwalkelas->ruang_id = $request->ruang;
+            $jadwalkelas->pertemuan_ke = $jadwalkelas->pertemuan_ke;
+            $jadwalkelas->tanggal_perkuliahan = $tanggalmulai;
+            $jadwalkelas->type = $jadwalkelas->type;
+            $jadwalkelas->jenissemester_id = $jadwalkelas->jenissemester_id ?? $semesteraktif->id;
+            $jadwalkelas->jam_masuk = $request->jamawal;
+            $jadwalkelas->jam_keluar = $timeAkhir;
+            $jadwalkelas->save();
+
+
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollback();
+
+        }
+
+        if($jadwalkelas){
+            return response()->json(
+                [
+                    'status' => true,
+                    'message' => 'Success',
+                    'data' => $jadwalkelas
+                ]
+            );
+        }else{
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'failed',
+                    'data' => $exception->getMessage()
+                ]
+            );
         }
 
     }
