@@ -112,6 +112,7 @@ class JurusanController extends Controller
      * @param Request $request
      * @return Renderable
      */
+    // tester
     public function store(Request $request)
     {
         DB::beginTransaction();
