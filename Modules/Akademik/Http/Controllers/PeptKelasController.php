@@ -358,7 +358,7 @@ class PeptKelasController extends Controller
 
             $jadwalkelas->ruangperkuliahan_id = $jadwalkelas->ruangperkuliahan_id;
             $jadwalkelas->ruang_id = $request->ruang;
-            $jadwalkelas->pertemuan_ke = $jadwalkelas->pertemuan_ke;
+            $jadwalkelas->pertemuan_ke = 1;
             $jadwalkelas->tanggal_perkuliahan = $tanggalmulai;
             $jadwalkelas->type = $jadwalkelas->type;
             $jadwalkelas->jenissemester_id = $jadwalkelas->jenissemester_id ?? $semesteraktif->id;

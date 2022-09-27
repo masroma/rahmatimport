@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class Updatetype extends Migration
@@ -13,9 +14,7 @@ class Updatetype extends Migration
      */
     public function up()
     {
-        Schema::table('jadwal_kelas', function($table) {
-            $table->enum('type',['perkuliahan','uts','uas','pept'])->default('perkuliahan')->change();
-        });
+        DB::statement("ALTER TABLE jadwal_kelas MODIFY type ENUM('perkuliahan','uts','uas','pept') DEFAULT 'perkuliahan'");
     }
 
     /**
