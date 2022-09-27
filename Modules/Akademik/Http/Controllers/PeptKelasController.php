@@ -360,7 +360,7 @@ class PeptKelasController extends Controller
             $jadwalkelas->ruang_id = $request->ruang;
             $jadwalkelas->pertemuan_ke = 1;
             $jadwalkelas->tanggal_perkuliahan = $tanggalmulai;
-            $jadwalkelas->type = $jadwalkelas->type;
+            $jadwalkelas->type = 'pept';
             $jadwalkelas->jenissemester_id = $jadwalkelas->jenissemester_id ?? $semesteraktif->id;
             $jadwalkelas->jam_masuk = $request->jamawal;
             $jadwalkelas->jam_keluar = $timeAkhir;
