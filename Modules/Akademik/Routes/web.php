@@ -1219,13 +1219,7 @@ Route::prefix('akademik')->group(function() {
 
         Route::prefix('peptkelas')->group(
             function () {
-                Route::get(
-                    '/dataruangan',
-                    [
-                        'uses' => 'PeptKelasController@dataRuang',
-                        'as' => 'peptkelas.dataruang'
-                    ]
-                );
+
                 Route::get(
                     '/data',
                     [
@@ -1282,6 +1276,29 @@ Route::prefix('akademik')->group(function() {
                     [
                         'uses' => 'PeptKelasController@destroy',
                         'as' => 'peptkelas.destroy'
+                    ]
+                );
+
+                Route::get(
+                    '/calendar/{id}',
+                    [
+                        'uses' => 'PeptKelasController@calendar',
+                        'as' => 'peptkelas.calendar'
+                    ]
+                );
+
+                Route::post(
+                    '/savecalendar',
+                    [
+                        'uses' => 'PeptKelasController@insertCalendar',
+                        'as' => 'peptkelas.savecalendar'
+                    ]
+                );
+                Route::post(
+                    '/updatecalendar',
+                    [
+                        'uses' => 'PeptKelasController@updateCalendar',
+                        'as' => 'peptkelas.updatecalendar'
                     ]
                 );
             }

@@ -705,7 +705,8 @@ class RuangPerkuliahanController extends Controller
             "title" => $title,
             'getkelas'=>$getkelas,
             'getpept' => $getpept,
-            'idruangan' => $id
+            'idruangan' => $id,
+            'pept' => false
         );
         return view('akademik::ruangperkuliahan.calendar')->with($data);
     }
@@ -866,12 +867,18 @@ class RuangPerkuliahanController extends Controller
         ->where('jadwal_kelas.ruang_id', $id)
         ->leftJoin('ruang_perkuliahans', 'ruang_perkuliahans.id', '=', 'jadwal_kelas.ruangperkuliahan_id')
         ->leftJoin('kelas_perkuliahans', 'kelas_perkuliahans.id', '=', 'ruang_perkuliahans.kelasperkuliahan_id')
-        ->select('jadwal_kelas.id as ids','tanggal_perkuliahan','jam_masuk','jam_keluar','kelas_perkuliahans.nama_kelas as namakelas','kelas_perkuliahans.kode as code','kelas_perkuliahans.color as colors')
+        ->leftJoin('pept_batches', 'pept_batches.id', '=', 'ruang_perkuliahans.pept_id')
+        ->select('jadwal_kelas.id as ids','tanggal_perkuliahan','jam_masuk','jam_keluar','kelas_perkuliahans.nama_kelas as namakelas','kelas_perkuliahans.kode as code','pept_batches.nama_batch as namabatch','kelas_perkuliahans.color as colors')
         ->get();
 
         $datas = [];
         foreach ($data as $r) {
-                $datas[] = array('id' => $r->ids,'title' => $r->namakelas.$r->code,'start'=>$r->tanggal_perkuliahan.'T'.$r->jam_masuk,'end'=>$r->tanggal_perkuliahan.'T'.$r->jam_keluar,'color'=>$r->colors);
+                $datas[] = array(
+                    'id' => $r->ids,
+                    'title' => $r->namakelas ? $r->namakelas.$r->code : $r->namabatch,
+                    'start'=>$r->tanggal_perkuliahan.'T'.$r->jam_masuk,
+                    'end'=>$r->tanggal_perkuliahan.'T'.$r->jam_keluar,
+                    'color'=>$r->colors);
         }
 
         return response()->json($datas);
