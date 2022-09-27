@@ -801,6 +801,7 @@ class ComposerStaticInit3da5cb96e764b81e4b282324393f2f84
         'App\\Models\\PeptKelas' => __DIR__ . '/../..' . '/app/Models/PeptKelas.php',
         'App\\Models\\PerguruanTinggi' => __DIR__ . '/../..' . '/app/Models/PerguruanTinggi.php',
         'App\\Models\\PesertaAktivitas' => __DIR__ . '/../..' . '/app/Models/PesertaAktivitas.php',
+        'App\\Models\\PesertaPept' => __DIR__ . '/../..' . '/app/Models/PesertaPept.php',
         'App\\Models\\PrestasiMahasiswa' => __DIR__ . '/../..' . '/app/Models/PrestasiMahasiswa.php',
         'App\\Models\\ProgramStudy' => __DIR__ . '/../..' . '/app/Models/ProgramStudy.php',
         'App\\Models\\Province' => __DIR__ . '/../..' . '/app/Models/Province.php',

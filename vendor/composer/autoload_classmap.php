@@ -107,6 +107,7 @@ return array(
     'App\\Models\\PeptKelas' => $baseDir . '/app/Models/PeptKelas.php',
     'App\\Models\\PerguruanTinggi' => $baseDir . '/app/Models/PerguruanTinggi.php',
     'App\\Models\\PesertaAktivitas' => $baseDir . '/app/Models/PesertaAktivitas.php',
+    'App\\Models\\PesertaPept' => $baseDir . '/app/Models/PesertaPept.php',
     'App\\Models\\PrestasiMahasiswa' => $baseDir . '/app/Models/PrestasiMahasiswa.php',
     'App\\Models\\ProgramStudy' => $baseDir . '/app/Models/ProgramStudy.php',
     'App\\Models\\Province' => $baseDir . '/app/Models/Province.php',
