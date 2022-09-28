@@ -37,7 +37,7 @@ class AbsensiController extends Controller
 
             return DataTables::of($data)
                     ->addColumn('namakelas', function($data){
-                        return $data->kelasperkuliahan->nama_kelas.$data->kelasperkuliahan->kode;
+                        return $data->kelasperkuliahan ? $data->kelasperkuliahan->nama_kelas.$data->kelasperkuliahan->kode : '-';
                     })
 
                     ->addColumn('penggunaankelas', function($data){
@@ -46,11 +46,11 @@ class AbsensiController extends Controller
 
 
                     ->addColumn('kodematakuliah', function($data){
-                        return $data->kelasperkuliahan->matakuliah->kode_matakuliah;
+                        return $data->kelasperkuliahan ? $data->kelasperkuliahan->matakuliah->kode_matakuliah : '-';
                     })
 
                     ->addColumn('namamatakuliah', function($data){
-                        return $data->kelasperkuliahan->matakuliah->nama_matakuliah;
+                        return $data->kelasperkuliahan ? $data->kelasperkuliahan->matakuliah->nama_matakuliah : '-';
                     })
 
                     ->addColumn('jamawal',function($data){
@@ -137,11 +137,11 @@ class AbsensiController extends Controller
      */
     public function show($id)
     {
-
         $name_page = "pertemuan kelas";
         $title = "pilih pertemuan";
         $semesteraktif=JenisSemester::where('active',1)->latest()->first();
-        $ruang = RuangPerkuliahan::with('kelasPerkuliahan','kelasPerkuliahan.programstudy','kelasPerkuliahan.matakuliah','PenggunaanRuangs')->where('ruang_id',$id)->where('jenissemester_id', $semesteraktif->id)->orWhere("jenissemester_id",NULL)->findOrFail($id);
+        $ruang = RuangPerkuliahan::with('kelasPerkuliahan','kelasPerkuliahan.programstudy','kelasPerkuliahan.matakuliah','PenggunaanRuangs')->where('jenissemester_id', $semesteraktif->id)->orWhere("jenissemester_id",NULL)->findOrFail($id);
+
 
         $dosen = DosenPerkuliahan::with("Dosen","Substansi")->where('kelasperkuliahan_id',$ruang->kelasperkuliahan_id)->where('jenissemester_id', $semesteraktif->id)->get();
         $semester = JadwalKelas::where('ruangperkuliahan_id', $id)->where('jenissemester_id', $semesteraktif->id)->get();
@@ -154,6 +154,7 @@ class AbsensiController extends Controller
             "dosen" => $dosen,
             "ruang" => $ruang
         );
+
 
 
         return view('absensi::absensi.show')->with($data);
