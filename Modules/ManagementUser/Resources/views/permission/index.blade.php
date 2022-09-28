@@ -103,7 +103,10 @@
                           type: "GET",
                       },
                       columns: [
+
+
                       {
+
                           data:"DT_RowIndex",
                           name:"DT_RowIndex"
                       },
@@ -114,8 +117,12 @@
 
                         {
                             data: 'action',
-                            name: 'action'
+                            name: 'action',
+                            // CUMA DI TAMBAH INI
+                            orderable: false,
+                            searchable: false
                         },
+
 
 
 
