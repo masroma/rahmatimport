@@ -18,8 +18,9 @@ class DashboardController extends Controller
     public function index()
     {
         $user = User::where('id',Auth::user()->id)->first();
+        // dd($user);
         $role = $user->getRoleNames()[0];
-       
+
         if($role == 'superdewa'){
             return view('dashboard.index');
         }else{
@@ -27,8 +28,8 @@ class DashboardController extends Controller
             $info = Informasi::with('Kategori')->paginate(6);
             return view('mahasiswa::dashboard.index', compact('info'));
         }
-       
+
     }
 
-  
+
 }
