@@ -24,7 +24,7 @@ Route::group(['middleware' => 'auth'], function () {
             'as' => 'dashboard.index'
         ]
     );
-   
+
     Route::get(
         '/dashboard',
         [

@@ -1234,6 +1234,7 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'peptkelas.pesertapept'
                     ]
                 );
+
                 Route::get(
                     '/',
                     [
@@ -1274,6 +1275,13 @@ Route::prefix('akademik')->group(function() {
                     [
                         'uses' => 'PeptKelasController@update',
                         'as' => 'peptkelas.update'
+                    ]
+                );
+                Route::post(
+                    '/updatenilaipeserta/{id}',
+                    [
+                        'uses' => 'PeptKelasController@updateNilai',
+                        'as' => 'peptkelas.updatenilai'
                     ]
                 );
 

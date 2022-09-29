@@ -423,4 +423,20 @@ class PeptKelasController extends Controller
         }
     }
 
+    public function updateNilai(Request $request, $id){
+
+        $jumlah = count($request->nilai);
+        for ($i = 0; $i < $jumlah; $i++) {
+            $peserta = PesertaPept::where('jadwalkelas_id', $id)->where('mahasiswa_id',$request->mahasiswa_id[$i])
+            ->update([
+                'nilai' => $request->nilai[$i]
+            ]);
+
+        }
+
+        return redirect()->back()->with(["success" => "Data Berhasil Diubah!"]);
+
+
+    }
+
 }

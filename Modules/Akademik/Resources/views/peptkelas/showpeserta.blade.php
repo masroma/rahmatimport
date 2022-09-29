@@ -58,7 +58,7 @@
         </div>
 </div>
 
-<form action="{{ route($page.'.update',[$ruang->id]) }}" method="POST"
+<form action="{{ route($page.'.updatenilai',[$ruang->id]) }}" method="POST"
     enctype="multipart/form-data" class="col s12">
     @csrf
 <div class="row">
