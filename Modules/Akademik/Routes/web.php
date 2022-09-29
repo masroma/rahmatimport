@@ -1228,6 +1228,13 @@ Route::prefix('akademik')->group(function() {
                     ]
                 );
                 Route::get(
+                    '/datapeserta/{id}',
+                    [
+                        'uses' => 'PeptKelasController@dataPesertaPept',
+                        'as' => 'peptkelas.pesertapept'
+                    ]
+                );
+                Route::get(
                     '/',
                     [
                         'uses' => 'PeptKelasController@index',

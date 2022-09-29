@@ -8,6 +8,7 @@ use App\Models\KelasPerkuliahan;
 use App\Models\PenggunaanRuangan;
 use App\Models\PeptBatch;
 use App\Models\PeptKelas;
+use App\Models\PesertaPept;
 use App\Models\RuangGedung;
 use App\Models\RuangPerkuliahan;
 use Illuminate\Contracts\Support\Renderable;
@@ -391,6 +392,35 @@ class PeptKelasController extends Controller
             );
         }
 
+    }
+
+    public function dataPesertaPept($id){
+        try {
+            // $canShow = Gate::allows("kelaskuliahshow");
+            $canUpdate = Gate::allows("ruangperkuliahan-edit");
+            $canDelete = Gate::allows("ruangperkuliahan-delete");
+            $cekruang = JadwalKelas::with('ruangperkuliahan.pept')->where('ruangperkuliahan_id',$id)->where('type','pept')->latest()->first();
+
+            $data = PesertaPept::with('Mahasiswa','Mahasiswa.Riwayatpendidikan','Mahasiswa.Riwayatpendidikan.programstudy','Mahasiswa.Riwayatpendidikan.programstudy.jurusan','JadwalKelas')->where('jadwalkelas_id',$cekruang->id)->get();
+            $name_page = "peptkelas";
+            $title = "Peserta Kelas";
+            $data = array(
+                "page" => $name_page,
+                "data" => $data,
+                "title" => $title,
+                "ruang" => $cekruang
+            );
+            return view('akademik::peptkelas.showpeserta')->with($data);
+
+        } catch (Exception $e) {
+            DB::commit();
+            return response()->json(
+                [
+                    "status" => false,
+                    "message" => $e->getMessage()
+                ]
+            );
+        }
     }
 
 }

@@ -33,11 +33,11 @@ class AbsensiController extends Controller
             $canUpdate = Gate::allows("kelasperkuliahan-edit");
             $canDelete = Gate::allows("kelasperkuliahan-delete");
             $semester = JenisSemester::where("active",1)->latest()->first();
-            $data = RuangPerkuliahan::with('kelasPerkuliahan','kelasPerkuliahan.dosen','kelasPerkuliahan.programstudy','kelasPerkuliahan.matakuliah','PenggunaanRuangs')->where('jenissemester_id', $semester->id)->orWhere("jenissemester_id",NULL)->get();
+            $data = RuangPerkuliahan::with('kelasPerkuliahan','kelasPerkuliahan.dosen','kelasPerkuliahan.programstudy','kelasPerkuliahan.matakuliah','PenggunaanRuangs','Pept')->where('jenissemester_id', $semester->id)->orWhere("jenissemester_id",NULL)->get();
 
             return DataTables::of($data)
                     ->addColumn('namakelas', function($data){
-                        return $data->kelasperkuliahan ? $data->kelasperkuliahan->nama_kelas.$data->kelasperkuliahan->kode : '-';
+                        return $data->kelasperkuliahan ? $data->kelasperkuliahan->nama_kelas.$data->kelasperkuliahan->kode : $data->pept->nama_batch;
                     })
 
                     ->addColumn('penggunaankelas', function($data){
@@ -46,11 +46,11 @@ class AbsensiController extends Controller
 
 
                     ->addColumn('kodematakuliah', function($data){
-                        return $data->kelasperkuliahan ? $data->kelasperkuliahan->matakuliah->kode_matakuliah : '-';
+                        return $data->kelasperkuliahan ? $data->kelasperkuliahan->matakuliah->kode_matakuliah : '';
                     })
 
                     ->addColumn('namamatakuliah', function($data){
-                        return $data->kelasperkuliahan ? $data->kelasperkuliahan->matakuliah->nama_matakuliah : '-';
+                        return $data->kelasperkuliahan ? $data->kelasperkuliahan->matakuliah->nama_matakuliah : $data->pept->nama_batch;
                     })
 
                     ->addColumn('jamawal',function($data){
@@ -79,10 +79,16 @@ class AbsensiController extends Controller
                         // if ($canShow) {
                         //     $btn .= '<a class="btn-floating green darken-1 btn-small" href="matakuliah/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
                         // }
+                        if($data->kelasperkuliahan != null){
+                            $btn .= '<a href="'.$url.'" class="btn waves-effect waves-light purple darken-1 btn-small" type="button">Detail Kelas</a>';
+                            return $btn;
+                        }
+                        elseif($data->pept_id != null){
+                            $btn .= '<a href="'.$url.'" class="btn waves-effect waves-light primary darken-1 btn-small" type="button">Detail PEPT</a>';
+                            return $btn;
+                        }
 
-                        $btn .= '<a href="'.$url.'" class="btn waves-effect waves-light purple darken-1 btn-small" type="button">Absensi</a>';
 
-                        return $btn;
                     })
                     ->rawColumns(['action'])
                     ->addIndexColumn()

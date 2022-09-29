@@ -18,4 +18,14 @@ class JadwalKelas extends Model
     {
         return $this->belongsTo(RuangPerkuliahan::class, 'ruangperkuliahan_id', 'id');
     }
+
+    /**
+     * Get the user that owns the JadwalKelas
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function pept()
+    {
+        return $this->belongsTo(PeptBatch::class, 'pept_id', 'id');
+    }
 }
