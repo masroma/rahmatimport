@@ -230,7 +230,7 @@
             <li class="navigation-header"><a class="navigation-header-text">Misc </a><i class="navigation-header-icon material-icons">more_horiz</i>
             </li>
             @if(Auth::user())
-           @foreach($menudata as $b => $value)
+            @foreach($menudata as $b => $value)
                 @foreach ($value as $a)
                 @if($a->menu)
                 @if(($a->menu->parent_id  == 0) && ($a->menu->position == 'none') || ($a->menu->position == 'single'))

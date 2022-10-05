@@ -5,28 +5,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
-   
+
     <link rel="stylesheet" href="{{ asset('templatelogin/fonts/icomoon/style.css') }}">
 
     <link rel="stylesheet" href="{{ asset('templatelogin/css/owl.carousel.min.css') }}">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('templatelogin/css/bootstrap.min.css') }}">
-    
+
     <!-- Style -->
     <link rel="stylesheet" href="{{ asset('templatelogin/css/style.css') }}">
 
     <title>Login ASIK Paramadina</title>
   </head>
   <body>
-  
+
 
   <div class="d-lg-flex half">
     <div class="bg order-1 order-md-2" style="background-image: url('{{ asset('kampuscikarang.jpg') }}');"></div>
     <div class="contents order-2 order-md-1">
 
       <div class="container">
-        
+
         <div class="row align-items-center justify-content-center">
           <div class="col-md-7">
             @if ($message = Session::get('error'))
@@ -42,10 +42,10 @@
 
             <!-- Validation Errors -->
             <x-auth-validation-errors class="mb-4" :errors="$errors" />
-    
+
             <form method="POST" action="{{ route('login') }}">
                 @csrf
-    
+
             {{-- <form action="#" method="post"> --}}
               <div class="form-group first">
                 <label for="username">Email</label>
@@ -59,9 +59,9 @@
                 type="password"
                 name="password"
                 required autocomplete="current-password" />
-                
+
               </div>
-              
+
               <div class="d-flex mb-5 align-items-center">
                 {{-- <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
                   <input type="checkbox" checked="checked"/>
@@ -81,9 +81,8 @@
               <input type="submit" value="Log In" class="btn btn-block btn-primary">
 
               <span class="d-block text-center my-4 text-muted">&mdash; or &mdash;</span>
-              
+
               <div class="social-login">
-              
                 <a href="{{ '/auth/redirect'}}" class="google btn d-flex justify-content-center align-items-center">
                   <span class="icon-google mr-3"></span> Login with  Google
                 </a>
@@ -94,10 +93,10 @@
       </div>
     </div>
 
-    
+
   </div>
-    
-    
+
+
 
     <script src="{{ asset('templatelogin/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('templatelogin/js/popper.min.js') }}"></script>

@@ -21,15 +21,15 @@ use Spatie\Permission\Models\Permission;
 class RoleController extends Controller
 {
     use ValidatesRequests;
-    // function __construct()
-    // {
-    //      $this->middleware('permission:role-view|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-    //      $this->middleware('permission:role-create', ['only' => ['create','store']]);
-    //      $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-    //      $this->middleware('permission:role-delete', ['only' => ['destroy']]);
-    //      $this->middleware('permission:role-view', ['only' => ['index']]);
+    function __construct()
+    {
+         $this->middleware('permission:role-view|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:role-create', ['only' => ['create','store']]);
+         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:role-view', ['only' => ['index']]);
 
-    // }
+    }
 
     public function data(){
         try{

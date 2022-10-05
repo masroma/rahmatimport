@@ -54,24 +54,24 @@ class AuthenticatedSessionController extends Controller
         return redirect('/');
     }
 
-     //tambahkan script di bawah ini
+     //tambahkan script google di bawah ini
      public function redirectToProvider()
      {
          return Socialite::driver('google')->redirect();
      }
-   
-   
-     //tambahkan script di bawah ini 
+
+
+     //tambahkan script di bawah ini
      public function handleProviderCallback(\Request $request)
      {
          try {
              $user_google    = Socialite::driver('google')->user();
              $user           = User::where('email', $user_google->getEmail())->first();
-          
+
              //jika user ada maka langsung di redirect ke halaman home
              //jika user tidak ada maka simpan ke database
              //$user_google menyimpan data google account seperti email, foto, dsb
- 
+
              if($user != null){
                 User::findOrFail($user->id)->update([
                     'google_id' => $user_google->id,
@@ -82,11 +82,11 @@ class AuthenticatedSessionController extends Controller
              }else{
                 return redirect()->route('login')->with(['error' => 'Gagal Masuk, karena akun belum terdaftar, hubungi itsupport@paramadina.ac.id']);
              }
- 
+
          } catch (\Exception $e) {
              return redirect()->route('login');
          }
- 
- 
+
+
      }
 }

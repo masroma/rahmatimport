@@ -83,11 +83,11 @@
                         <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
                             <option value="">Pilih</option>
                             @foreach ($forms['relasi'] as $p)
-                            <option value="{{ $p->id }}" 
+                            <option value="{{ $p->id }}"
                             <?php
                             if($p->id == $forms['data'])
                             {echo "selected";}else{echo "";}
-                            
+
                             ?> >{{ $p->$v }}</option>
                             @endforeach
                         </select>
@@ -100,14 +100,14 @@
                   </div>
                   @elseif($forms['type'] === "selectsemester")
                       <div class="input-field col {{ $forms['col'] }}">
-                        
+
                         <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
                         <option value="">Pilih</option>
                             @foreach($jenis as $row)
                                 <option <?php
                             if($row->id == $forms['data'])
                             {echo "selected";}else{echo "";}
-                            
+
                             ?> value="{{$row->id}}">{{ $row->Tahunajaran->tahun_ajaran }}-{{$row->jenis_semester}}</option>
                             @endforeach
                         </select>
@@ -118,8 +118,24 @@
                         <span class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
                   </div>
-                      @endif	
+                      @endif
                     @endforeach
+
+                    <div class="input-field col s6">
+
+                        <select name="kategori" id="kategori">
+                        <option value="">Pilih</option>
+                           <option value="perkuliahan" @if($jenis->kategori == 'perkuliahan')selected @endif>Perkuliahan Umum</option>
+                           <option value="kampus_merdeka"  @if($jenis->kategori == 'kampus_merdeka')selected @endif>Kampus Merdeka</option>
+                        </select>
+
+                        <label for="first_name">Kategori</label>
+                        <?php $error = 'kategori';?>
+                        @error($error)
+                        <span class="red-text text-darken-2">{{ $message }}</small>
+                        @enderror
+                  </div>
+
 
 
 

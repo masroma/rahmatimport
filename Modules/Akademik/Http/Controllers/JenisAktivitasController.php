@@ -100,7 +100,7 @@ class JenisAktivitasController extends Controller
                 "data" => "",
                 "placeholder" =>"Jenis Aktivitas"
             ],
-            
+
         ];
 
         $name_page = "jenisaktivitas";
@@ -124,11 +124,13 @@ class JenisAktivitasController extends Controller
         DB::beginTransaction();
         try {
             $this->validate($request, [
-                'jenis_aktivitas' => 'required'
+                'jenis_aktivitas' => 'required',
+                'kategori' => 'required'
             ]);
 
             $save = new JenisAktivitas();
             $save->jenis_aktivitas = $request->jenis_aktivitas;
+            $save->kategori = $request->kategori;
             $save->save();
 
             DB::commit();
@@ -172,7 +174,7 @@ class JenisAktivitasController extends Controller
                 "data" => $jenis->jenis_aktivitas,
                 "placeholder" =>"Jenis Aktivitas"
             ],
-            
+
         ];
 
         $name_page = "jenisaktivitas";
@@ -198,11 +200,13 @@ class JenisAktivitasController extends Controller
         DB::beginTransaction();
         try {
             $this->validate($request, [
-                'jenis_aktivitas' => 'required'
+                'jenis_aktivitas' => 'required',
+                'kategori' => 'required'
             ]);
 
             $save = JenisAktivitas::findOrFail($id);
             $save->jenis_aktivitas = $request->jenis_aktivitas;
+            $save->kategori = $request->kategori;
             $save->save();
 
             DB::commit();
