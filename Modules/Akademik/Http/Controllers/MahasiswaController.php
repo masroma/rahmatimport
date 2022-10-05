@@ -441,7 +441,7 @@ class MahasiswaController extends Controller
             $update->agama = $request->agama ?? null;
             $update->save();
 
-            $idMahasiswa = $save->id;
+            $idMahasiswa = $update->id;
             $this->updateMahasiswaDetail($request, $idMahasiswa);
             $this->updateMahasiswaDetailOrangTua($request, $idMahasiswa);
             $this->updateMahasiswaDetailWali($request, $idMahasiswa);
