@@ -445,7 +445,7 @@ class KonversiKampusMedekaController extends Controller
         $programstudy = MahasiswaHistoryPendidikan::where('mahasiswa_id',$mahasiswa_id)->pluck('programstudy_id')->first();
 
         $matakuliah = Matakuliah::where(['programstudy_id'=>$programstudy])->get();
-        $skalaNilai = SkalaNilai::where(['programstudy_id'=>$programstudy])->get(); 
+        $skalaNilai = SkalaNilai::where(['programstudy_id'=>$programstudy])->get();
         $name_page = "konversikampusmerdeka";
         $title = "aktivitas mahasiswa";
         $data = array(
@@ -525,7 +525,7 @@ class KonversiKampusMedekaController extends Controller
             DB::rollback();
             return back()->with('success', $exception->getMessage());
         }
-        
+
         if ($save) {
             //redirect dengan pesan sukses
             return redirect()->back()->with(['success' => 'Data Berhasil Disimpan!']);
@@ -541,5 +541,5 @@ class KonversiKampusMedekaController extends Controller
         return redirect()->back()
             ->with('success', 'Data berhasil dihapus');
     }
-    
+
 }

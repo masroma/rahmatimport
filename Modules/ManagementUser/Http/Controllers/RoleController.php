@@ -107,52 +107,56 @@ class RoleController extends Controller
 
             $this->validate($request, [
                 'name' => 'required|unique:roles,name',
-                'permission' => 'required',
+                // 'permission' => 'required',
             ]);
 
             $permission = $request->permission;
-
             $role = Role::create(['name' => $request->input('name')]);
+            if($permission){
 
-            $idMenu = array();
-            foreach($permission as $a){
-                $keys = explode('-', $a);
-                $idMenu = $keys[0];
 
-                // save menu
-                if($keys[2] == 'view'){
+                $idMenu = array();
+                foreach($permission as $a){
+                    $keys = explode('-', $a);
+                    $idMenu = $keys[0];
 
-                    $saveMenu = AksesMenu::create(
-                        [
-                            'menu_id' => $idMenu,
-                            'role_id' => $role->id
-                        ]
-                    );
+                    // save menu
+                    if($keys[2] == 'view'){
 
-                    $getParent = Menu::where('id',$idMenu)->first();
-                    $cekParent = AksesMenu::where('menu_id',$getParent->parent_id)->where('role_id', $role->id)->first();
-                    if(!$cekParent){
-                        $saveParent = AksesMenu::create([
-                            'menu_id' => $getParent->parent_id,
-                            'role_id' => $role->id
-                        ]);
+                        $saveMenu = AksesMenu::create(
+                            [
+                                'menu_id' => $idMenu,
+                                'role_id' => $role->id
+                            ]
+                        );
+
+                        $getParent = Menu::where('id',$idMenu)->first();
+                        $cekParent = AksesMenu::where('menu_id',$getParent->parent_id)->where('role_id', $role->id)->first();
+                        if(!$cekParent){
+                            $saveParent = AksesMenu::create([
+                                'menu_id' => $getParent->parent_id,
+                                'role_id' => $role->id
+                            ]);
+                        }
                     }
+
+
+                    #save permission
+                    $permissionAction = "$keys[1]-$keys[2]";
+                    // dd($permissionAction);
+                    $cekpermission = Permission::where('name',$permissionAction)->first();
+                    if($cekpermission){
+                        $saveHasPermission = new RoleHasPermission();
+                        $saveHasPermission->permission_id = $cekpermission->id;
+                        $saveHasPermission->role_id = $role->id;
+                        $saveHasPermission->save();
+                    }
+
                 }
 
+            }
 
-                #save permission
-                $permissionAction = "$keys[1]-$keys[2]";
-                // dd($permissionAction);
-                $cekpermission = Permission::where('name',$permissionAction)->first();
-                if($cekpermission){
-                    $saveHasPermission = new RoleHasPermission();
-                    $saveHasPermission->permission_id = $cekpermission->id;
-                    $saveHasPermission->role_id = $role->id;
-                    $saveHasPermission->save();
-                }
-
-        }
-        if ($cekpermission) {
+        if ($role) {
             //redirect dengan pesan sukses
             return redirect()->route('role.index')->with(['success' => 'Data Berhasil Disimpan!']);
         } else {
