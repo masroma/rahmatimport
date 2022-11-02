@@ -108,8 +108,8 @@
                           name:"DT_RowIndex"
                       },
                       {
-                            data: 'peminatan',
-                            name: 'peminatan'
+                            data: 'nama_peminatan',
+                            name: 'nama_peminatan'
                         },
 
 

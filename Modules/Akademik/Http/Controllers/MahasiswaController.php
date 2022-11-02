@@ -376,7 +376,8 @@ class MahasiswaController extends Controller
     public function edit($id)
     {
         $mahasiswa = Mahasiswa::with('Detail','OrangTua', 'Wali','KebutuhanKhusus')->findOrFail($id);
-        $datakrs = Krs::with('Kelas','MataKuliah','JenisSemester','JenisSemester.TahunAjaran')->where('mahasiswa_id',$id)->get();
+        // $datakrs = Krs::with('Kelas','MataKuliah','JenisSemester','JenisSemester.TahunAjaran')->where('mahasiswa_id',$id)->get();
+        $datakrs = Krs::with('Kelas','MataKuliah','JenisSemester','JenisSemester.tahun_ajarantest')->where('mahasiswa_id',$id)->get();
         $jenissemester = JenisSemester::all();
         $totalsks = 0;
         foreach($datakrs as $dk){

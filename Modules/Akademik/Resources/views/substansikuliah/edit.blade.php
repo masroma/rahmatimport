@@ -50,7 +50,7 @@
                 <div class="row">
 
                     <div class="input-field col s4  mt-2 mb-2">
-                        <input placeholder="Nama Substansi" name="nama_sunstansi" id="nama_sunstansi" type="text" class="validate  @error('kode_matakuliah') is-invalid @enderror" value="{{ old('nama_sunstansi',$substansikuliah->kode_matakuliah) }}">
+                        <input placeholder="Nama Substansi" name="nama_substansi" id="nama_sunstansi" type="text" class="validate  @error('nama_sunstansi') is-invalid @enderror" value="{{ old('nama_sunstansi',$substansikuliah->nama_sunstansi) }}">
                         <label for="first_name">Nama Substansi<span style="color:red">*</span></label>
 
                         @error('nama_sunstansi')
@@ -64,7 +64,13 @@
                     <select name="programstudy_id" class="select2 browser-default">
                         <option value="">Program Study</option>
                         @foreach($programstudy as $row)
-                            <option @if(old('programstudy_id',$substansikuliah->programstudy) == $row->id) selected @endif value="{{$row->id}}">{{ $row->jenjang->nama_jenjang }}-{{$row->jurusan->nama_jurusan}}</option>
+                            @foreach($row->jurusans as $r)
+                                <option @if(old('programstudy_id',$substansikuliah->programstudy_id) == $row->id) selected @endif value="{{$row->id}}">
+                                @foreach ($row->jenjangs as $j)
+                                {{ $j->nama_jenjang }}-{{$r->nama_jurusan}}</option>
+                                @endforeach
+
+                            @endforeach
                         @endforeach
                       </select>
                         <label for="first_name">Program Study<span style="color:red">*</span></label>
@@ -103,7 +109,7 @@
                   </div>
 
                   <div class="input-field col s4  mt-2 mb-2">
-                    <input placeholder="bobot praktek lapangan" name="bobot_praktek_lapanagn" id="bobot_praktek_lapanagn" type="text" class="validate  @error('bobot_praktek_lapanagn') is-invalid @enderror" value="{{ old('bobot_praktek_lapanagn',$substansikuliah->bobot_praktek_lapanagn) }}">
+                    <input placeholder="bobot praktek lapangan" name="bobot_praktek_lapangan" id="bobot_praktek_lapangan" type="text" class="validate  @error('bobot_praktek_lapangan') is-invalid @enderror" value="{{ old('bobot_praktek_lapangan',$substansikuliah->bobot_praktek_lapangan) }}">
                     <label for="first_name">Bobot Praktek Lapangan<span style="color:red">*</span></label>
 
                     @error('bobot_praktek_lapanagn')

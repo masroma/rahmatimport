@@ -54,7 +54,12 @@
               <select class="form-control" name="id" onchange="this.form.submit()">
                 <option value="">belum ada yang aktif</option>
                 @foreach ($semester as $s)
-                  <option value="{{ $s->id }}" @if($s->active == 1) selected @endif>{{ $s->jenis_semester }}-{{ $s->TahunAjaran->tahun_ajaran }}</option>
+                  <option value="{{ $s->id }}" @if($s->active == 1) selected @endif>{{ $s->jenis_semester }} -
+                    @foreach ($s->tahun_ajarantest as $stest)
+                        {{ $stest->tahun_ajaran }}
+
+                    @endforeach
+                </option>
                 @endforeach
               </select>
               <label for="first_name">Status Tahun Ajaran Yang Aktif</label>
@@ -83,7 +88,7 @@
           </table>
         </div>
 
-        
+
       </div>
     </div>
   </div>

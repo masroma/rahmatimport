@@ -117,7 +117,13 @@
                             if($row->id == $forms['data'])
                             {echo "selected";}else{echo "";}
 
-                            ?> value="{{$row->id}}">{{ $row->Tahunajaran->tahun_ajaran }}-{{$row->jenis_semester}}</option>
+                            ?> value="{{$row->id}}">
+                             @foreach ($row->tahun_ajarans as $tas)
+                                     {{ $tas->tahun_ajaran }}
+                                @endforeach
+                                  
+                                
+                                -{{$row->jenis_semester}}</option>  
                             @endforeach
                         </select>
 

@@ -64,7 +64,12 @@
                     <select name="programstudy_id" class="select2 browser-default">
                         <option value="">Program Study</option>
                         @foreach($programstudy as $row)
-                            <option @if(old('programstudy_id') == $row->id) selected @endif value="{{$row->id}}">{{ $row->jenjang->nama_jenjang }}-{{$row->jurusan->nama_jurusan}}</option>
+                            @foreach($row->jurusans as $r)
+                                <option @if(old('programstudy_id') == $row->id) selected @endif value="{{$row->id}}">
+                                @foreach ($row->jenjangs as $j)
+                                    {{ $j->nama_jenjang }}-{{$r->nama_jurusan}}</option>
+                                @endforeach
+                            @endforeach
                         @endforeach
                       </select>
                         <label for="first_name">Program Study<span style="color:red">*</span></label>

@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class DosenPenugasan extends Model
 {
     use HasFactory, softDeletes;
+    protected $table = "dosen_penugasans";
+    protected $fillable = [
+        'id','dosen_id','kampus_id','jurusan_id','tahunajaran_id','no_surat_tugas','tanggal_surat_tugas','TMT_surat_tugas'
+    ];
 
     /**
      * Get the user that owns the DosenPenugasan
@@ -29,6 +33,13 @@ class DosenPenugasan extends Model
     {
         return $this->belongsTo(Jurusan::class, 'jurusan_id', 'id');
     }
+
+    // public function Jurusan()
+    // {
+    //     return $this->hasMany(Jurusan::class, 'id','jurusan_id');
+    // }
+
+
 
     /**
      * Get the user that owns the DosenPenugasan

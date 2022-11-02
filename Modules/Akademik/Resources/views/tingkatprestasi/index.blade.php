@@ -108,8 +108,8 @@
                           name:"DT_RowIndex"
                       },
                       {
-                            data: 'jenis_prestasi',
-                            name: 'jenis_prestasi'
+                            data: 'tingkat_prestasi',
+                            name: 'tingkat_prestasi'
                         },
 
 

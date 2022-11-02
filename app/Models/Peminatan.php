@@ -9,4 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Peminatan extends Model
 {
     use HasFactory, softDeletes;
+    protected $table= "peminatans";
+    protected $fillable = [
+     'id','nama_peminatan'
+   ];
 }

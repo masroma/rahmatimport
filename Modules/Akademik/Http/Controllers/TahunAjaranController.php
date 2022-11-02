@@ -78,7 +78,9 @@ class TahunAjaranController extends Controller
 
     public function index()
     {
-        $semester = JenisSemester::with('Tahunajaran')->get();
+        $semester = JenisSemester::with('tahun_ajarantest')->orderBy('jenis_semester')->get();
+
+        //  dd($semester);
         $canCreate = Gate::allows('tahunajaran-create');
         $name_page = "tahunajaran";
         $title = "Tahun Ajaran";
@@ -178,7 +180,7 @@ class TahunAjaranController extends Controller
         return view('akademik::tahunajaran.edit')->with($data);
     }
 
-    
+
     /**
      * Update the specified resource in storage.
      * @param Request $request
@@ -233,7 +235,7 @@ class TahunAjaranController extends Controller
             $update = JenisSemester::find($id);
             $update->active = 1;
             $update->save();
-          
+
             DB::commit();
         } catch (ModelNotFoundException $exception) {
             DB::rollback();

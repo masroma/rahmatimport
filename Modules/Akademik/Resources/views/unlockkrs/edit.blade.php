@@ -65,7 +65,13 @@
                <select name="jenissemester_id" class="select2 browser-default">
                    <option value="" disabled selected>Tahun Ajaran</option>
                    @foreach($jenissemester as $row)
-                       <option  {{ old('jenissemeter_id', $unlockkrs->jenissemester_id) == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{ $row->jenis_semester .' '. $row->tahunajaran->tahun_ajaran }}</option>
+                       <option  {{ old('jenissemeter_id', $unlockkrs->jenissemester_id) == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{ $row->jenis_semester .' ' }} -
+
+                        @foreach($row->tahun_ajarantest as $s)
+                            {{ $s->tahun_ajaran }}
+                        @endforeach
+
+                    </option>
                    @endforeach
                </select>
                 <label for="first_name">Semester <span style="color:red">*</span></label>
@@ -91,7 +97,7 @@
                @enderror
            </div>
 
-         
+
                 <div class="input-field col s12">
                     <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>save</button>
                     <a href={{route($page.'.index')}} class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>

@@ -24,4 +24,6 @@ class DosenPerkuliahan extends Model
     {
         return $this->belongsTo(Dosen::class, 'dosen_id');
     }
+
+     
 }

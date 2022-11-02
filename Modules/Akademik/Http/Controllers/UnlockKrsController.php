@@ -41,7 +41,7 @@ class UnlockKrsController extends Controller
             $canUpdate = Gate::allows('unlockkrs-edit');
             $canDelete = Gate::allows('unlockkrs-delete');
             $data = UnlockKrs::with('jenissemester.TahunAjaran','mahasiswa','Admin')->get();
-            
+
             return DataTables::of($data)
 
                     ->addColumn('semester', function($data){
@@ -59,7 +59,7 @@ class UnlockKrsController extends Controller
                     ->addColumn('nimmahasiswa', function($data){
                         return $data->mahasiswa->nim;
                     })
-                
+
                     ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
 
                         $btn = '';
@@ -114,7 +114,9 @@ class UnlockKrsController extends Controller
      */
     public function create()
     {
-        $jenissemester = JenisSemester::with('tahunajaran')->get();
+        // $jenissemester = JenisSemester::with('tahunajaran')->get();
+        $jenissemester = JenisSemester::with('tahun_ajarantest')->get();
+
         $mahasiswa = Mahasiswa::all();
         $name_page = "unlockkrs";
         $title = "unlock KRS";
@@ -200,7 +202,7 @@ class UnlockKrsController extends Controller
         return view('akademik::unlockkrs.edit')->with($data);
     }
 
-    
+
     /**
      * Update the specified resource in storage.
      * @param Request $request
@@ -209,7 +211,7 @@ class UnlockKrsController extends Controller
      */
     public function update(Request $request, $id)
     {
-      
+
         DB::beginTransaction();
         try {
             $this->validate($request, [
@@ -226,7 +228,7 @@ class UnlockKrsController extends Controller
             $save->admin = Auth::user()->id;
             $save->save();
 
-           
+
 
             DB::commit();
         } catch (ModelNotFoundException $exception) {

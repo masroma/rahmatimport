@@ -142,6 +142,8 @@ class SkalaNilaiController extends Controller
 
     public function index()
     {
+        // $dataz = SkalaNilai::with('jurusan')->get();
+        // dd($dataz);
         $canCreate = Gate::allows('skalanilai-create');
         $name_page = "skalanilai";
         $title = "Skala Nilai";

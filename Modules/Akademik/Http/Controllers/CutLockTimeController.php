@@ -59,7 +59,7 @@ class CutLockTimeController extends Controller
                     ->addColumn('tahunajaran', function($data){
                         return $data->semester->jenis_semester .' '. $data->semester->tahunajaran->tahun_ajaran;
                     })
-                   
+
                     ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
 
                         $btn = '';
@@ -96,6 +96,7 @@ class CutLockTimeController extends Controller
     {
         $canCreate = Gate::allows('cutlocktime-create');
         $name_page = "cutlocktime";
+
         $title = "cut lock time";
         $data = array(
             'page' => $name_page,
@@ -111,7 +112,9 @@ class CutLockTimeController extends Controller
      */
     public function create()
     {
-        $tahunajaran = JenisSemester::with('Tahunajaran')->get();
+        // $tahunajaran = JenisSemester::with('Tahunajaran')->get();
+        $tahunajaran = JenisSemester::with('tahun_ajarantest')->get();
+        // dd($tahunajaran);
         $name_page = "cutlocktime";
         $title = "cut lock time";
         $data = array(

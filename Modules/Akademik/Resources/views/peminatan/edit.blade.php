@@ -52,7 +52,7 @@
 
                         @if($forms['type'] == "text")
                         <div class="input-field col {{ $forms['col'] }}">
-                            <input placeholder="{{ $forms['placeholder'] }}" name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" type="text" class="validate  @error('nama_fakultas') is-invalid @enderror" value="{{ old($forms['name'],$forms['data']) }}">
+                            <input placeholder="{{ $forms['placeholder'] }}" name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" type="text" class="validate  @error('nama_fakultas') is-invalid @enderror" value="{{ old($forms['name'],$forms['data']) }}" required>
                             <label for="first_name">{{ $forms['placeholder'] }}</label>
                             <?php $error = $forms['name'];?>
                             @error($error)
@@ -61,7 +61,7 @@
                       </div>
                       @elseif($forms['type'] === "textarea")
                       <div class="input-field col {{ $forms['col'] }}">
-                        <textarea placeholder="{{ $forms['placeholder'] }}" name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" type="text" value={{ old($forms['name']) }}>{{ old($forms['name']) }}</textarea>
+                        <textarea placeholder="{{ $forms['placeholder'] }}" name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" type="text" value={{ old($forms['name']) }} required>{{ old($forms['name']) }}</textarea>
                         <label for="first_name">{{ $forms['placeholder'] }}</label>
                         <?php $error = $forms['name'];?>
                         @error($error)

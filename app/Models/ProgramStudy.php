@@ -20,8 +20,26 @@ class ProgramStudy extends Model
         return $this->belongsTo(JenjangPendidikan::class, 'jenjang_id', 'id');
     }
 
+    // public function jenjang()
+    // {
+    //     return $this->belongsTo(JenjangPendidikan::class, 'jenjang_id','id');
+    // }
+
+    public function jenjangs()
+    {
+        return $this->hasMany(JenjangPendidikan::class,'id','jenjang_id');
+
+        }
+
     public function jurusan()
     {
         return $this->belongsTo(Jurusan::class, 'nama_program_study', 'id');
     }
+
+    public function jurusans()
+    {
+        return $this->hasMany(Jurusan::class,'id','nama_program_study');
+
+        }
+
 }

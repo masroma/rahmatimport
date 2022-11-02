@@ -16,7 +16,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class JatahKrsController extends Controller
 {
-   
+
       /**
      * Display a listing of the resource.
      * @return Renderable
@@ -195,10 +195,10 @@ class JatahKrsController extends Controller
 
         $jatahkrs = JatahKrs::findOrFail($id);
         $form = [
-        
+
             0 => [
                 "name" => "ip_min",
-                "type" => "number",
+                "type" => "text",
                 "relasi" => "",
                 "col" => "s12",
                 "data" => $jatahkrs->ip_min,
@@ -206,7 +206,7 @@ class JatahKrsController extends Controller
             ],
             1 => [
                 "name" => "ip_max",
-                "type" => "number",
+                "type" => "text",
                 "relasi" => "",
                 "col" => "s12",
                 "data" =>  $jatahkrs->ip_max,
@@ -214,7 +214,7 @@ class JatahKrsController extends Controller
             ],
             2 => [
                 "name" => "jumlah_sks",
-                "type" => "number",
+                "type" => "text",
                 "relasi" => "",
                 "col" => "s12",
                 "data" =>  $jatahkrs->jumlah_sks,
@@ -222,6 +222,7 @@ class JatahKrsController extends Controller
             ],
         ];
 
+        // dd($form);
         $name_page = "jatahkrs";
         $title = "jatah krs";
         $data = array(
@@ -241,25 +242,25 @@ class JatahKrsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::beginTransaction();
-        try {
-            $this->validate($request, [
-                'ip_min' => 'required',
-                'ip_max' => 'required',
-                'jumlah_krs' => 'required'
-            ]);
+        // DB::beginTransaction();
+        // try {
+            // $this->validate($request, [
+            //     'ip_min' => 'required',
+            //     'ip_max' => 'required',
+            //     'jumlah_krs' => 'required'
+            // ]);
 
             $save = JatahKrs::findOrFail($id);
             $save->ip_min = $request->ip_min;
             $save->ip_max = $request->ip_max;
             $save->jumlah_sks = $request->jumlah_sks;
-            $save->save();
+            $save->update();
 
             DB::commit();
-        } catch (Exception $exception) {
-            DB::rollback();
-            return back()->with('error', $exception->getMessage());
-        }
+        // } catch (Exception $exception) {
+        //     DB::rollback();
+        //     return back()->with('error', $exception->getMessage());
+        // }
 
         if ($save) {
             //redirect dengan pesan sukses

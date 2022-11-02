@@ -43,12 +43,16 @@ class AktivitasKuliahMahasiswaController extends Controller
             $canUpdate = Gate::allows('statusmahasiswa-edit');
             $canDelete = Gate::allows('statusmahasiswa-delete');
             $data = AktivitasKuliahMahasiswa::all();
+            
             return DataTables::of($data)
                     ->addColumn('mahasiswa', function($data){
                         return $data->Mahasiswa->nama ;
                     })
                     ->addColumn('semester', function($data){
-                        return $data->Semester->Tahunajaran->tahun_ajaran .'-'. $data->Semester->jenis_semester;
+                        foreach($data->Semester->tahun_ajarans as $ta) {
+                            $var_ta = $ta->tahun_ajaran;
+                            return $var_ta ."-" . $data->Semester->jenis_semester;
+                        }
                     })
                     ->addColumn('status', function($data){
                         return $data->Status->status_mahasiswa;
@@ -91,6 +95,7 @@ class AktivitasKuliahMahasiswaController extends Controller
 
     public function index()
     {
+        // $datas = AktivitasKuliahMahasiswa::with();
         $canCreate = Gate::allows('aktivitaskuliahmahasiswa-create');
         $name_page = "aktivitaskuliahmahasiswa";
         $title = "aktivitas kuliah mahasiswa";

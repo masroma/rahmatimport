@@ -10,10 +10,18 @@ class KelasPerkuliahan extends Model
 {
     use HasFactory, softDeletes;
 
+    public $fillable = [
+       'id','programstudy_id','typemahasiswa_id','semester_id','matakuliah_id','nama_kelas',
+       'lingkup','mode_kuliah','jenis_kelas','color','kode','min_peserta','max_peserta','tanggal_mulai_kuliah'
+
+    ];
+
     public function Programstudy()
     {
-        return $this->belongsTo(ProgramStudy::class, 'programstudy_id');
+        return $this->belongsTo(ProgramStudy::class, 'programstudy_id','id');
     }
+
+
 
     public function Matakuliah()
     {

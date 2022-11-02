@@ -13,8 +13,12 @@ class Kurikulum extends Model
 
     public function Programstudy()
     {
-        return $this->belongsTo(ProgramStudy::class, 'programstudy_id', 'id');
+        return $this->belongsTo(ProgramStudy::class, 'programstudy_id');
     }
+    // public function Programstudy()
+    // {
+    //     return $this->belongsTo(ProgramStudy::class, 'programstudy_id', 'id');
+    // }
 
 
     public function Jenissemester()

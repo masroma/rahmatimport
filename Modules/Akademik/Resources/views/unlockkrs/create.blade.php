@@ -47,7 +47,7 @@
             <form action="{{ route($page.'.store') }}" method="POST"
             enctype="multipart/form-data" class="col s12">
             @csrf
-             
+
                   <div class="input-field col s6">
                    <select name="mahasiswa_id"  class="select2 browser-default">
                     <option value="" disabled selected>Mahasiswa</option>
@@ -66,11 +66,16 @@
                     <select name="jenissemester_id" class="select2 browser-default">
                         <option value="" disabled selected>Tahun Ajaran</option>
                         @foreach($jenissemester as $row)
-                            <option  {{ old('jenissemester_id') == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{ $row->jenis_semester .' '. $row->tahunajaran->tahun_ajaran }}</option>
+                            <option  {{ old('jenissemester_id') == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{ $row->jenis_semester .' '}} -
+                                @foreach($row->tahun_ajarantest as $s)
+                                    {{ $s->tahun_ajaran }}
+                                @endforeach
+
+                            </option>
                         @endforeach
                     </select>
                      <label for="first_name">Semester <span style="color:red">*</span></label>
- 
+
                      @error('jenissemester_id')
                      <span class="red-text text-darken-2">{{ $message }}</small>
                      @enderror

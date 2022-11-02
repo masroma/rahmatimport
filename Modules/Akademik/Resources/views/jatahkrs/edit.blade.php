@@ -44,7 +44,7 @@
     <div class="card-content">
       {{-- <h4 class="card-title">Page Length Options</h4> --}}
       <div class="row">
-            <form action="{{ route($page.'.update',$jatahkrs->id) }}" method="POST"
+            <form action="{{ route('jatahkrs.update',$jatahkrs->id) }}" method="POST"
             enctype="multipart/form-data" class="col s12">
             @csrf
                 <div class="row">
@@ -52,16 +52,27 @@
 
                         @if($forms['type'] == "text")
                         <div class="input-field col {{ $forms['col'] }}">
-                            <input placeholder="{{ $forms['placeholder'] }}" name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" type="text" class="validate  @error('nama_fakultas') is-invalid @enderror" value="{{ old($forms['name'],$forms['data']) }}">
+                            <input placeholder="{{ $forms['placeholder'] }}" name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" type="text" class="validate  @error('nama_fakultas') is-invalid @enderror" value="{{ old($forms['name'],$forms['data']) }}" required>
                             <label for="first_name">{{ $forms['placeholder'] }}</label>
                             <?php $error = $forms['name'];?>
                             @error($error)
                             <span class="red-text text-darken-2">{{ $message }}</small>
                             @enderror
                       </div>
+
+                      @elseif($forms['type'] == "number")
+
+                      <div class="input-field col {{ $forms['col'] }}">
+                          <input placeholder="{{ $forms['placeholder'] }}" name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" type="text" class="validate  @error('nama_fakultas') is-invalid @enderror" value="{{ old($forms['name'],$forms['data']) }}" required>
+                          <label for="first_name">{{ $forms['placeholder'] }}</label>
+                          <?php $error = $forms['name'];?>
+                          @error($error)
+                          <span class="red-text text-darken-2">{{ $message }}</small>
+                          @enderror
+                    </div>
                       @elseif($forms['type'] === "textarea")
                       <div class="input-field col {{ $forms['col'] }}">
-                        <textarea placeholder="{{ $forms['placeholder'] }}" name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" type="text" value={{ old($forms['name']) }}>{{ old($forms['name']) }}</textarea>
+                        <textarea placeholder="{{ $forms['placeholder'] }}" name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" type="text" value={{ old($forms['name']) }} required>{{ old($forms['name']) }}</textarea>
                         <label for="first_name">{{ $forms['placeholder'] }}</label>
                         <?php $error = $forms['name'];?>
                         @error($error)
@@ -71,7 +82,7 @@
                       @elseif($forms['type'] === "select")
                       <div class="input-field col {{ $forms['col'] }}">
 
-                        <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
+                        <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}" required>
                             @foreach ($forms['relasi'] as $p)
                             <option value="  {{ $p->id }}">{{ $p->name }}</option>
                             @endforeach
@@ -83,6 +94,8 @@
                         <span class="red-text text-darken-2">{{ $message }}</small>
                         @enderror
                   </div>
+
+
                       @endif
                     @endforeach
 
@@ -90,7 +103,7 @@
 
                   <div class="input-field col s12">
                   <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>save</button>
-                  <a href="{{ route('jalurpendaftaran.index') }}" class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>
+                  <a href="{{route($page.'.index')}}" class="waves-effect purple darken-1 btn-small"><i class="material-icons left">keyboard_arrow_left</i>back</a>
                   </div>
                 </div>
             </form>

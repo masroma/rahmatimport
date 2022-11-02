@@ -44,10 +44,15 @@ class MataKuliahController extends Controller
             $canShow = Gate::allows("matakuliah-show");
             $canUpdate = Gate::allows("matakuliah-edit");
             $canDelete = Gate::allows("matakuliah-delete");
-            $data = MataKuliah::with("Programstudy","Jenismatakuliah")->get();
+            $data = MataKuliah::with("Programstudy.jurusans","Jenismatakuliah")->get();
             return DataTables::of($data)
                     ->addColumn("programstudy", function($data){
-                        return $data->Programstudy->jurusan->nama_jurusan.'-'.$data->Programstudy->jenjang->nama_jenjang;
+                        // return $data->Programstudy->jenjang->nama_jenjang;
+                        foreach($data->Programstudy->jurusans as $t) {
+                            $var = $t->nama_jurusan;
+                            return $data->Programstudy->jenjang->nama_jenjang ."-" . $var;
+                        }
+
                     })
 
                     ->addColumn("jenismatakuliah", function($data){
@@ -114,7 +119,7 @@ class MataKuliahController extends Controller
     public function create()
     {
         $name_page = "matakuliah";
-        $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
+        $programstudy = ProgramStudy::with("jenjang","jurusans")->groupBy('jenjang_id')->groupBy('nama_program_study')->get();
         $jenismatakuliah = JenisMataKuliah::all();
         $form =
         $title = "Mata Kuliah";
@@ -186,7 +191,21 @@ class MataKuliahController extends Controller
      */
     public function show($id)
     {
-        return view("akademik::show");
+        $matakuliah = MataKuliah::findOrFail($id);
+        $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
+        $jenismatakuliah = JenisMataKuliah::all();
+        $name_page = "matakuliah";
+        $title = "Program study";
+        $data = array(
+            "page" => $name_page,
+            "matakuliah" => $matakuliah,
+            "title" => $title,
+            "programstudy" => $programstudy,
+            "jenismatakuliah" => $jenismatakuliah
+
+        );
+        //return view("akademik::matakuliah.edit")->with($data);
+        return view("akademik::matakuliah.show")->with($data);
     }
 
     /**

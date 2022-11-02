@@ -15,6 +15,8 @@ class MataKuliah extends Model
 
     ];
 
+
+
     public function Programstudy()
     {
         return $this->belongsTo(ProgramStudy::class, 'programstudy_id');

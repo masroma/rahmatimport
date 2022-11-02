@@ -61,6 +61,8 @@ class RekapitulasiController extends Controller
                 "value" => "nama"
             ],
         ];
+
+    
         $canCreate = Gate::allows('rekappelaporan-create');
         $name_page = "rekappelaporan";
         $title = "Rekap Pelaporan";
@@ -136,7 +138,8 @@ class RekapitulasiController extends Controller
         ];
         $this->exportView='akademik::rekapitulasi.rekappelaporan.preview';
         $this->filename = 'Rekap Pelaporan' . $tahunAjaran->Tahunajaran->tahun_ajaran.'-'.$tahunAjaran->jenis_semester;
-        return $this->export('html', $data);
+        // return $this->export('html', $data);
+        return $this->export(request('format'), $data);
     }
 
     public function index_jumlahdosen()
@@ -371,6 +374,7 @@ class RekapitulasiController extends Controller
 
     public function export($format,$data)
     {
+        // dd($data);
         if(isset($data['main'])){
             if(count($data['main'])<=0){
                 return redirect()->back()->with(["error" => "Data tidak ditemukan!"]);
@@ -755,7 +759,7 @@ class RekapitulasiController extends Controller
             'tahun' => request('tahun')
         ];
         $this->exportView = 'akademik::rekapitulasi.ipsmahasiswa.preview';
-        $this->filename = 'Jumlah-dosen-' . request('tahun');
+        $this->filename = 'ip-mahasiswa-' . request('tahun');
         return $this->export(request('format'), $data);
     }
 }

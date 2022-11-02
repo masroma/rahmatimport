@@ -10,7 +10,7 @@ class Dosen extends Model
 {
     use HasFactory, softDeletes;
 
-    public $fillable = [
+    protected $fillable = [
         'nidn','nama_dosen','tempat_lahir','jenis_kelamin','tanggal_lahir','agama'
     ];
 
@@ -36,4 +36,17 @@ class Dosen extends Model
     {
         return $this->hasOne(DosenKebutuhanKhusus::class, 'dosen_id', 'id');
     }
+
+
+    public function dosen_perkuliahan()
+    {
+        return $this->hasMany(DosenPerkuliahan::class, 'dosen_id');
+    }
+
+
+
+    // public function dosen_penugasan()
+    // {
+    //     return $this->hasMany(DosenPenugasan::class, 'id');
+    // }
 }

@@ -53,7 +53,15 @@
                 <select name="jenissemester_id" class="select2 browser-default">
                     <option value="" disabled selected>Tahun Ajaran</option>
                     @foreach($jenissemester as $row)
-                        <option  {{ old('jenissemester_id',$peptbatch->jenissemester_id) == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{ $row->jenis_semester .' '. $row->tahunajaran->tahun_ajaran }}</option>
+                        <option  {{ old('jenissemester_id',$peptbatch->jenissemester_id) == $row->id ? 'selected' : '' }}  value="{{$row->id}}">
+                          
+                                @foreach ($row->tahun_ajarans as $tas)
+                                     {{ $tas->tahun_ajaran }}
+                                @endforeach
+                                  
+                                
+                                -{{$row->jenis_semester}}</option>
+                          option>
                     @endforeach
                 </select>
                  <label for="first_name">Semester <span style="color:red">*</span></label>

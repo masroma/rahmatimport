@@ -52,7 +52,7 @@ class NilaiPerkuliahanController extends Controller
                     })
 
                     ->addColumn("programstudy", function($data){
-                        return $data->Programstudy->jurusan->nama_jurusan.'-'.$data->Programstudy->jenjang->nama_jenjang;
+                        return $data->Programstudy;
                     })
 
                     ->addColumn("matalkuliah", function($data){

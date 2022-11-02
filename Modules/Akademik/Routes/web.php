@@ -1481,6 +1481,14 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'matakuliah.edit'
                     ]
                 );
+
+                Route::get(
+                    '/{id}/show',
+                    [
+                        'uses' => 'MataKuliahController@show',
+                        'as' => 'matakuliah.show'
+                    ]
+                );
                 Route::post(
                     '/update/{id}',
                     [
@@ -1536,6 +1544,14 @@ Route::prefix('akademik')->group(function() {
                     [
                         'uses' => 'SubstansiKuliahController@edit',
                         'as' => 'substansikuliah.edit'
+                    ]
+                );
+
+                Route::get(
+                    '/{id}/show',
+                    [
+                        'uses' => 'SubstansiKuliahController@show',
+                        'as' => 'substansikuliah.show'
                     ]
                 );
                 Route::post(

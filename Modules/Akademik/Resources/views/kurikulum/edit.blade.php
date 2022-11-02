@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-          
+
             <div class="col s12">
                 <div class="container">
                     <div class="section section-data-tables">
@@ -46,7 +46,12 @@
                                                 <select name="programstudy_id" class="select2 browser-default">
                                                     <option value="">Program Study</option>
                                                     @foreach($programstudy as $row)
-                                                        <option @if(old('programstudy_id', $kurikulum->programstudy_id) == $row->id) selected @endif value="{{$row->id}}">{{ $row->jenjang->nama_jenjang }}-{{$row->jurusan->nama_jurusan}}</option>
+                                                        @foreach($row->jurusans as $r)
+                                                            <option @if(old('programstudy_id',$kurikulum->programstudy_id) == $row->id) selected @endif value="{{$row->id}}">
+                                                            @foreach ($row->jenjangs as $j)
+                                                                {{ $j->nama_jenjang }}-{{$r->nama_jurusan}}</option>
+                                                            @endforeach
+                                                        @endforeach
                                                     @endforeach
                                                 </select>
                                                     <label for="first_name">Program Study<span style="color:red">*</span></label>
@@ -59,7 +64,7 @@
                                             <div class="input-field col s6 mt-2 mb-2">
                                                 <input placeholder="jumlah bobot mata kuliah pilihan" name="jumlah_bobot_mata_kuliah_pilihan" id="jumlah_bobot_mata_kuliah_pilihan" type="text" class="validate  @error('jumlah_bobot_mata_kuliah_pilihan') is-invalid @enderror" value="{{ old('jumlah_bobot_mata_kuliah_pilihan',$kurikulum->jumlah_bobot_mata_kuliah_pilihan) }}">
                                                 <label for="first_name">Jumlah bobot mata kuliah pilihan<span style="color:red">*</span></label>
-            
+
                                                 @error('jumlah_bobot_mata_kuliah_pilihan')
                                                 <span class="red-text text-darken-2">{{ $message }}</small>
                                                 @enderror
@@ -68,7 +73,16 @@
                                                 <select name="masa_berlaku" class="select2 browser-default">
                                                     <option value="">Mulai Berlaku</option>
                                                     @foreach($jenissemester as $row)
-                                                        <option @if(old('masa_berlaku',$kurikulum->masa_berlaku) == $row->id) selected @endif value="{{$row->id}}">{{ $row->Tahunajaran->tahun_ajaran }}-{{$row->jenis_semester}}</option>
+                                                        <option @if(old('masa_berlaku',$kurikulum->masa_berlaku) == $row->id) selected @endif value="{{$row->id}}">
+
+                                                            @foreach($row->tahun_ajarans as $ta)
+                                                            {{ $ta->tahun_ajaran }}
+                          
+                                                          @endforeach
+
+
+                                                              -
+                                                        {{$row->jenis_semester}}</option>
                                                     @endforeach
                                                 </select>
                                                     <label for="first_name">Mulai Berlaku<span style="color:red">*</span></label>
@@ -81,16 +95,16 @@
                                         <div class="input-field col s6  mt-2 mb-2">
                                             <input placeholder="jumlah_sks" name="jumlah_sks" id="jumlah_sks" type="number" class="validate  @error('jumlah_sks') is-invalid @enderror" value="{{ old('jumlah_sks',$kurikulum->jumlah_sks) }}" disabled>
                                             <label for="first_name">jumlah sks<span style="color:red">*</span></label>
-        
+
                                             @error('jumlah_sks')
                                             <span class="red-text text-darken-2">{{ $message }}</small>
                                             @enderror
                                         </div>
-        
+
                                         <div class="input-field col s6  mt-2 mb-2">
                                             <input placeholder="jumlah bobot mata kuliah wajib" name="jumlah_bobot_mata_kuliah_wajib" id="jumlah_bobot_mata_kuliah_wajib" type="number" class="validate  @error('jumlah_bobot_mata_kuliah_wajib') is-invalid @enderror" value="{{ old('jumlah_bobot_mata_kuliah_wajib',$kurikulum->jumlah_bobot_mata_kuliah_wajib) }}">
                                             <label for="first_name">Jumlah bobot mata kuliah wajib<span style="color:red">*</span></label>
-        
+
                                             @error('jumlah_bobot_mata_kuliah_wajib')
                                             <span class="red-text text-darken-2">{{ $message }}</small>
                                             @enderror
@@ -115,10 +129,10 @@
                                             <ul class="tabs tab-demo z-depth-1">
                                                 <li class="tab col "><a class="active" href="#satu">List Matakuliah Terdaftar</a></li>
                                                 <li class="tab col "><a href="#dua">List Matakuliah Belum Terdaftar</a></li>
-                                              
+
                                             </ul>
                                         </div>
-                                      
+
                                         <div id="satu" class="col s12 mt-3">
                                             <div class="row">
                                                 <div class="col s12">
@@ -171,22 +185,22 @@
                                                 </div>
                                             </div>
                                         </div>
-                                     
-                                      
+
+
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                       
+
                     </div><!-- START RIGHT SIDEBAR NAV -->
                 </div>
                 <div class="content-overlay"></div>
             </div>
 
-           
 
-         
+
+
         </div>
         @stop
         @section('script')
@@ -194,7 +208,7 @@
        (function() {
                     loadDataTable();
                 })();
-      
+
                 function loadDataTable() {
                     let idkurikulum = {{ $kurikulum->id }}
                     $(document).ready(function () {
@@ -204,7 +218,7 @@
                             processing: true,
                             serverSide: true,
                             ajax: {
-                              
+
                                 url: "{{ url('akademik/kurikulum/datakurikulummatakuliah') }}/" + idkurikulum,
                                 type: "GET",
                             },
@@ -282,7 +296,7 @@
                       processing: true,
                       serverSide: true,
                       ajax: {
-                         
+
                           url: "{{ url('akademik/kurikulum/datakurikulummatakuliahbelumterdaftar') }}/" + idkurikulum,
                           type: "GET",
                       },
@@ -356,12 +370,12 @@
 
                     });
                 }
-      
+
               //   ini update semester
                 function myFunction(val) {
                   var semester = $('.semester').val();
                   var id = $('.id').val();
-      
+
                   console.log(id);
                   jQuery.ajax({
                       url:"{{ url('akademik/kurikulum/updatekurikulumsemester') }}?id=" + id +"&semester=" + semester,
@@ -379,15 +393,15 @@
                                   });
                       }
                   });
-      
+
                 }
-      
-      
+
+
               //   ini update wajib
                 function myChecked(val) {
                   var wajib = $('.wajib').val();
                   var id = $('.id').val();
-      
+
                   jQuery.ajax({
                       url:"{{ url('akademik/kurikulum/updatekurikulumwajib') }}?id=" + id +"&wajib=" + wajib,
                       type:"GET",
@@ -403,11 +417,11 @@
                                   });
                       }
                   });
-      
+
                 }
-      
-      
-      
+
+
+
               //   ini delete
                 function deleteConfirm(id) {
                     swal({
@@ -423,13 +437,13 @@
                             }
                         });
                 }
-      
+
                 function add() {
-                  
+
                   var semester =$('#datasemester').val();
                   var idmatakuliah = $("input[name=idmatakuliah]").val();
                   var idkurikulum = $('#idkurikulum').val();
-                  
+
                   if ($('#wajibs').is(":checked"))
                   {
                       var wajib = $('#wajibs').val();
@@ -437,14 +451,14 @@
                       var wajib = "n";
                   }
 
-                    
+
                   jQuery.ajax({
                       url:"{{ url('akademik/kurikulum/tambahsemester') }}?idmatakuliah=" + idmatakuliah +"&wajib=" + wajib + "&idkurikulum=" + idkurikulum + "&semester=" +semester,
                       type:"GET",
                       dataType:'json',
                       success:function(data){
                           // alert('data berhasil ditambah');
-      
+
                           var oTables = $('.daftarlist').DataTable()//inialisasi datatable
                                   oTables.fnDraw(false); //reset datatable
                                   iziToast.success({ //tampilkan iziToast dengan notif data berhasil disimpan pada posisi kanan bawah
@@ -454,14 +468,14 @@
                                       position: 'bottomRight'
                                   });
 
-                            
+
                          table.ajax.reload();
                       }
                   });
-      
-      
+
+
                 };
-      
+
           </script>
-      
+
       @endsection

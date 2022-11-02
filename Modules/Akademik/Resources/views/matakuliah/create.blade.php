@@ -71,7 +71,17 @@
                     <select name="programstudy_id" class="select2 browser-default">
                         <option value="">Program Study</option>
                         @foreach($programstudy as $row)
-                            <option @if(old('programstudy_id') == $row->id) selected @endif value="{{$row->id}}">{{ $row->jenjang->nama_jenjang }}-{{$row->jurusan->nama_jurusan}}</option>
+                            <option @if(old('programstudy_id') == $row->id) selected @endif value="{{$row->id}}">
+                                @foreach ($row->jenjangs as $rjenjang)
+                                    {{ $rjenjang->nama_jenjang }}
+                                @endforeach
+                                -
+                                @foreach ($row->jurusans as $rjurusan)
+                                    {{ $rjurusan->nama_jurusan }}
+                                @endforeach
+                                {{-- {{ ->id; }}-{{$row->jurusan}} --}}
+
+                            </option>
                         @endforeach
                       </select>
                         <label for="first_name">Program Study<span style="color:red">*</span></label>
@@ -168,7 +178,7 @@
                     @enderror
                   </div>
 
-                  
+
                   <div class="input-field col s4  mt-2 mb-2">
                     {{-- <input placeholder="min nilai kelulusan" name="min_nilai_kelulusan" id="min_nilai_kelulusan" type="number" class="validate  @error('min_nilai_kelulusan') is-invalid @enderror" value="{{ old('min_nilai_kelulusan') }}"> --}}
                     <select name="huruf[]" id="">

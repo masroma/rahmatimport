@@ -47,7 +47,9 @@ class KelasKuliahController extends Controller
             // $canShow = Gate::allows("kelaskuliahshow");
             $canUpdate = Gate::allows("kelasperkuliahan-edit");
             $canDelete = Gate::allows("kelasperkuliahan-delete");
-            $data = KelasPerkuliahan::with("Programstudy","Matakuliah","Krs")->withCount(['Krs'])->get();
+            $data = KelasPerkuliahan::with("Programstudy","Matakuliah","Krs","Jenissemester")->withCount(['Krs'])->get();
+            // $data = KelasPerkuliahan::with("Programstudy","Programstudy.jenjangs","Matakuliah","Krs")->get();
+
             return DataTables::of($data)
 
                     ->addColumn('checkbox', function($data){
@@ -59,7 +61,9 @@ class KelasKuliahController extends Controller
                     })
 
                     ->addColumn("programstudy", function($data){
-                        return $data->Programstudy->jurusan->nama_jurusan.'-'.$data->Programstudy->jenjang->nama_jenjang;
+
+                            return $data->Programstudy;
+
                     })
 
                     ->addColumn("matalkuliah", function($data){
@@ -71,7 +75,10 @@ class KelasKuliahController extends Controller
                     })
 
                     ->addColumn('semesters', function($data){
-                        return $data->Jenissemester->Tahunajaran->tahun_ajaran .'-'. $data->Jenissemester->jenis_semester;
+                        foreach($data->Jenissemester->tahun_ajarans as $ta) {
+                            $var_ta = $ta->tahun_ajaran;
+                            return $var_ta ."-" . $data->Jenissemester->jenis_semester;
+                        }
                     })
 
                     ->addColumn('namamatkul', function($data){
@@ -128,6 +135,8 @@ class KelasKuliahController extends Controller
     public function index()
     {
         $canCreate = Gate::allows("kelasperkuliahan-create");
+        // $datas = KelasPerkuliahan::with("Programstudy.jurusans","Programstudy.jenjangs","Jenissemester")->get();
+        // dd($datas);
         $name_page = "kelasperkuliahan";
         $title = "Kelas Perkuliahan";
         $data = array(
@@ -145,6 +154,8 @@ class KelasKuliahController extends Controller
      */
     public function create()
     {
+    //     $datas = KelasPerkuliahan::with("Programstudy.jurusans","Programstudy.jenjangs","Jenissemester")->get();
+    //     dd($datas);
         $name_page = "kelasperkuliahan";
         $title = "Kelas Perkuliahan";
         $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
@@ -260,7 +271,8 @@ class KelasKuliahController extends Controller
      */
     public function edit($id)
     {
-
+        // $datas = DosenPerkuliahan::with("Dosen","Substansi")->where('kelasperkuliahan_id',$id)->get();
+        // dd($datas);
         $kelasperkuliahan = KelasPerkuliahan::findOrFail($id);
         // dd(json_decode($kelasperkuliahan->typemahasiswa_id));
         $name_page = "kelasperkuliahan";
@@ -399,6 +411,8 @@ class KelasKuliahController extends Controller
 
     }
 
+
+
     // create dosen
     public function createDosenPerkuliahan($id)
     {
@@ -407,7 +421,10 @@ class KelasKuliahController extends Controller
         $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
         $matakuliah = MataKuliah::all();
         $jenissemester = JenisSemester::all();
-        $dosen = DosenPenugasan::with('Dosen')->get();
+        $dosen = Dosen::with('dosen_perkuliahan')->get();
+        // dd($dosen);
+        // $dosen = Dosen::with('dosen_penugasan')->get();
+        // dd($dosen);
         $substansi = SubstansiKuliah::all();
 
         $data = array(
@@ -439,11 +456,12 @@ class KelasKuliahController extends Controller
 
             ]);
 
-            $semesteraktif = JenisSemester::where('aktif',1)->latest()->first();
+            $semesteraktif = JenisSemester::where('active',1)->latest()->first();
 
             $save = new DosenPerkuliahan();
             $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
             $save->dosen_id = $request->dosen_id;
+            $save->substansi_id = $request->substansi_id;
             $save->bobot_sks = $request->bobot_sks;
             $save->jumlah_rencana_pertemuan = $request->jumlah_rencana_pertemuan;
             $save->jumlah_realisasi_pertemuan = $request->jumlah_realisasi_pertemuan;
@@ -474,7 +492,8 @@ class KelasKuliahController extends Controller
         $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
         $matakuliah = MataKuliah::all();
         $jenissemester = JenisSemester::all();
-        $dosen = DosenPenugasan::with('Dosen')->get();
+        $dosen = Dosen::with('dosen_perkuliahan')->get();
+        // dd($dosen);
         $substansi = SubstansiKuliah::all();
         $data = array(
             "page" => $name_page,
@@ -505,14 +524,16 @@ class KelasKuliahController extends Controller
 
             ]);
 
-            $semesteraktif = JenisSemester::where('aktif',1)->latest()->first();
+            $semesteraktif = JenisSemester::where('active',1)->latest()->first();
             $save = DosenPerkuliahan::findORFail($id);
+            $save->substansi_id = $request->substansi_id;
             $save->kelasperkuliahan_id = $request->kelasperkuliahan_id;
             $save->dosen_id = $request->dosen_id;
             $save->bobot_sks = $request->bobot_sks;
             $save->jumlah_rencana_pertemuan = $request->jumlah_rencana_pertemuan;
             $save->jumlah_realisasi_pertemuan = $request->jumlah_realisasi_pertemuan;
             $save->jenis_evaluasi = $request->jenis_evaluasi;
+
             $save->Jenissemester_id = $semesteraktif->id ?? 0;
             $save->save();
 

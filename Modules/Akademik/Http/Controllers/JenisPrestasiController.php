@@ -83,6 +83,8 @@ class JenisPrestasiController extends Controller
         $canCreate = Gate::allows('jenisprestasi-create');
         $name_page = "jenisprestasi";
         $title = "jenis prestasi";
+        // $data = JenisPrestasi::all();
+        // dd($data);
         $data = array(
             'page' => $name_page,
             'canCreate' => $canCreate,

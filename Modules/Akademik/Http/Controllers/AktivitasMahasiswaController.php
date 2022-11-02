@@ -3,6 +3,7 @@
 namespace Modules\Akademik\Http\Controllers;
 
 use App\Models\AktivitasMahasiswa;
+use App\Models\AktivitasKuliahMahasiswa;
 use App\Models\JenisAktivitas;
 use App\Models\JenisSemester;
 use App\Models\ProgramStudy;
@@ -54,7 +55,10 @@ class AktivitasMahasiswaController extends Controller
                         return $data->ProgramStudy->jurusan->nama_jurusan ;
                     })
                     ->addColumn('semester', function($data){
-                        return $data->Semester->Tahunajaran->tahun_ajaran .'-'. $data->Semester->jenis_semester;
+                        foreach($data->Semester->tahun_ajarans as $ta) {
+                            $var_ta = $ta->tahun_ajaran;
+                            return $var_ta ."-" . $data->Semester->jenis_semester;
+                        }
                     })
                     ->addColumn('jenisaktivitas', function($data){
                         return $data->JenisAktivitas->jenis_aktivitas;
@@ -95,6 +99,10 @@ class AktivitasMahasiswaController extends Controller
 
     public function index()
     {
+        // $datas = AktivitasMahasiswa::with('Programstudy');
+        // 
+        // $datas = AktivitasMahasiswa::all();
+        // dd($datas);
         $canCreate = Gate::allows('aktivitasmahasiswa-create');
         $name_page = "aktivitasmahasiswa";
         $title = "aktivitas mahasiswa";
@@ -112,7 +120,9 @@ class AktivitasMahasiswaController extends Controller
      */
     public function create()
     {
+
         $programstudy = ProgramStudy::all();
+        //dd($programstudy);
         $jenisaktivitas = JenisAktivitas::all();
         $jenis = JenisSemester::all();
         $form = [

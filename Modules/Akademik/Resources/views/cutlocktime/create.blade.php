@@ -47,7 +47,7 @@
             <form action="{{ route($page.'.store') }}" method="POST"
             enctype="multipart/form-data" class="col s12">
             @csrf
-             
+
                   <div class="input-field col s6">
                    <select name="key"  class="select2 browser-default">
                     <option  {{ old('key') == 'krs' ? 'selected' : '' }}  value="krs">KRS</option>
@@ -64,11 +64,21 @@
                     <select name="tahunajaran_id" class="select2 browser-default">
                         <option value="" disabled selected>Tahun Ajaran</option>
                         @foreach($tahunajaran as $row)
-                            <option  {{ old('tahunajaran_id') == $row->id ? 'selected' : '' }}  value="{{$row->id}}">{{ $row->jenis_semester .' '. $row->tahunajaran->tahun_ajaran }}</option>
+                            <option  {{ old('tahunajaran_id') == $row->id ? 'selected' : '' }}  value="{{$row->id}}">
+
+                                 {{ $row->jenis_semester }} -
+                                @foreach($row->tahun_ajarantest as $s)
+                                    {{ $s->tahun_ajaran }}
+                                @endforeach
+
+
+
+                                {{-- {{ $row->jenis_semester .' '.
+                                $row->tahunajaran->tahun_ajaran }}--}}</option>
                         @endforeach
                     </select>
                      <label for="first_name">Semester <span style="color:red">*</span></label>
- 
+
                      @error('cabang_kampus')
                      <span class="red-text text-darken-2">{{ $message }}</small>
                      @enderror
@@ -105,7 +115,7 @@
                     <span class="red-text text-darken-2">{{ $message }}</small>
                     @enderror
                 </div>
-              
+
 
                 <div class="input-field col s12">
                     <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons right">send</i>save</button>

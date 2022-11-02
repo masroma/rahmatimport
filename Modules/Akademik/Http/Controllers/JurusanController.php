@@ -183,26 +183,28 @@ class JurusanController extends Controller
     public function update(Request $request, $id)
     {
 
-        DB::beginTransaction();
-        try {
-            $this->validate($request, [
-                'kode_jurusan' => 'required',
-                'fakultas_id' => 'required',
+        // DB::beginTransaction();
+        // try {
+            // $validated = $this->validate($request, [
+            //     'kode_jurusan' => 'required',
+            //     'fakultas_id' => 'required',
+            //     // "gambar" => "required",
 
-            ]);
+            // ]);
 
-            $update = jurusan::find($id);
+
+            $update = Jurusan::find($id);
             $update->fakultas_id = $request->fakultas_id;
             $update->nama_jurusan = $request->nama_jurusan;
 
-            $update->save();
+            $update->update();
 
-            DB::commit();
-        } catch (ModelNotFoundException $exception) {
-            DB::rollback();
-            return back()->withError($exception->getMessage())->withInput();
-        }
-
+            // DB::commit();
+        // } catch (ModelNotFoundException $exception) {
+        //     DB::rollback();
+        //     return back()->withError($exception->getMessage())->withInput();
+        // }
+        // dd("BISA NIH");
 
             if ($update) {
                 //redirect dengan pesan sukses

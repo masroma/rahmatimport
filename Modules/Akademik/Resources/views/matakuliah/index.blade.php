@@ -56,6 +56,7 @@
                     <th>Nama Matakuliah</th>
                     <th>Program Study</th>
                     <th>Jenis Matakuliah</th>
+
                     <th>#</th>
                 </tr>
             </thead>
@@ -124,6 +125,7 @@
                             data: 'jenismatakuliah',
                             name: 'jenismatakuliah'
                         },
+
 
 
                         {

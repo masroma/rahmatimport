@@ -14,7 +14,7 @@
                             </li>
                             <li class="breadcrumb-item"><a href="{{ route($page . '.index') }}">{{ $page }}</a>
                             </li>
-                            <li class="breadcrumb-item active">create
+                            <li class="breadcrumb-item active">Edit
                             </li>
                         </ol>
                     </div>
@@ -61,6 +61,7 @@
                                             <div class="col s12">
                                                 <div id="test1" class="col s12 ">
                                                     <div class="mt-3 mb-3"></div>
+
                                                     <div class="input-field col s4  mt-2 mb-2">
                                                         <input placeholder="nama" name="nama" id="nama"
                                                             type="text"
@@ -986,7 +987,10 @@
                                                     @foreach ($jenissemester as $row)
                                                         <option @if (old('masa_berlaku') == $row->id) selected @endif
                                                             value="{{ $row->id }}">
-                                                            {{ $row->Tahunajaran->tahun_ajaran }}-{{ $row->jenis_semester }}
+                                                            @foreach($row->tahun_ajarantest as $s)
+                                                                {{ $s->tahun_ajaran }}
+                                                            @endforeach
+                                                            -{{ $row->jenis_semester }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -1085,7 +1089,7 @@
                                         </div>
                                     </div>
                                     <div id="tiga" class="col s12">
-                                       
+
                                     </div>
                                     <div id="empat" class="col s12">
                                         <div class="row mb-5 mt-2">

@@ -44,6 +44,7 @@ class PeminatanController extends Controller
             $canUpdate = Gate::allows('peminatan-edit');
             $canDelete = Gate::allows('peminatan-delete');
             $data = Peminatan::all();
+
             return DataTables::of($data)
 
                     ->addColumn('action', function ($data) use ($canUpdate, $canDelete) {
@@ -99,12 +100,12 @@ class PeminatanController extends Controller
     {
         $form = [
             0 => [
-                "name" => "peminatan",
+                "name" => "nama_peminatan",
                 "type" => "text",
                 "relasi" => "",
                 "col" => "s12",
                 "data" => "",
-                "placeholder" =>"peminatan"
+                "placeholder" =>"nama_peminatan"
             ],
         ];
 
@@ -128,21 +129,21 @@ class PeminatanController extends Controller
      */
     public function store(Request $request)
     {
-        DB::beginTransaction();
-        try {
-            $this->validate($request, [
-                'peminatan' => 'required'
-            ]);
+        // DB::beginTransaction();
+        // try {
+            // $this->validate($request, [
+            //     'peminatan' => 'required'
+            // ]);
 
             $save = new Peminatan();
-            $save->peminatan = $request->peminatan;
+            $save->nama_peminatan = $request->nama_peminatan;
             $save->save();
 
-            DB::commit();
-        } catch (ModelNotFoundException $exception) {
-            DB::rollback();
-            return back()->with('error', $exception->getMessage());
-        }
+            // DB::commit();
+        // } catch (ModelNotFoundException $exception) {
+        //     DB::rollback();
+        //     return back()->with('error', $exception->getMessage());
+        // }
 
         if ($save) {
             //redirect dengan pesan sukses
@@ -174,12 +175,12 @@ class PeminatanController extends Controller
         $peminatan = Peminatan::findOrFail($id);
         $form = [
             0 => [
-                "name" => "peminatan",
+                "name" => "nama_peminatan",
                 "type" => "text",
                 "relasi" => "",
                 "col" => "s12",
                 "data" => $peminatan->peminatan,
-                "placeholder" =>"peminatan"
+                "placeholder" =>"nama_peminatan"
             ],
         ];
 
@@ -202,21 +203,21 @@ class PeminatanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::beginTransaction();
-        try {
-            $this->validate($request, [
-                'peminatan' => 'required'
-            ]);
+    //     DB::beginTransaction();
+    //     try {
+    //         $this->validate($request, [
+    //             'peminatan' => 'required'
+    //         ]);
 
             $save = Peminatan::findOrFail($id);
-            $save->peminatan = $request->peminatan;
+            $save->nama_peminatan = $request->nama_peminatan;
             $save->save();
 
-            DB::commit();
-        } catch (ModelNotFoundException $exception) {
-            DB::rollback();
-            return back()->with('error', $exception->getMessage());
-        }
+        //     DB::commit();
+        // } catch (ModelNotFoundException $exception) {
+        //     DB::rollback();
+        //     return back()->with('error', $exception->getMessage());
+        // }
 
         if ($save) {
             //redirect dengan pesan sukses

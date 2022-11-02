@@ -24,7 +24,24 @@ class JenisSemester extends Model
         return $this->belongsTo(TahunAjaran::class, 'tahunajaran_id', 'id');
     }
 
-    public function tahun_ajaran()
+    public function tahun_ajarantest()
+    {
+        return $this->hasMany(TahunAjaran::class,'id','tahunajaran_id');
+
+        }
+
+    public function aktifitas_mahasiswa()
+    {
+        return $this->hasMany(AktivitasMahasiswa::class,'id','semeseter_id');
+
+        }
+
+    public function tahun_ajarans()
+    {
+        return $this->hasMany(TahunAjaran::class,'id','tahunajaran_id');
+
+        }
+     public function tahun_ajaran()
     {
         return $this->hasMany(TahunAjaran::class,'id','tahunajaran_id');
     }

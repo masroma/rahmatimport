@@ -53,8 +53,17 @@
                     <div class="input-field col s6 ">
                         <select name="dosen_id" class="select2 browser-default">
                             <option value="">Dosen</option>
+
                             @foreach($dosen as $row)
-                                <option @if(old('dosen_id',$dosenperkuliahan->dosen_id) == $row->dosen_id) selected @endif value="{{$row->dosen_id}}">{{ $row->dosen->nama_dosen }}</option>
+
+                                    <option @if(old('dosen_id',$dosenperkuliahan->dosen_id) ==$row->id ) selected @endif  value="{{$row->id}}">
+
+                                        {{ $row->nama_dosen }}
+                                    </option>
+
+
+                                {{-- <option @if(old('dosen_id',$row->id) == $row->dosen_perkuliahan->dosen_id) selected @endif value="{{$row->id}}">{{ $row->nama_dosen }}</option> --}}
+
                             @endforeach
                           </select>
                             <label for="first_name">Dosen<span style="color:red">*</span></label>

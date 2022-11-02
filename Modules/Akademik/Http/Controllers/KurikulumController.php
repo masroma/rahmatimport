@@ -39,15 +39,24 @@ class KurikulumController extends Controller
             // $canShow = Gate::allows("kurikulum-show");
             $canUpdate = Gate::allows("kurikulum-edit");
             $canDelete = Gate::allows("kurikulum-delete");
-            $data = Kurikulum::with("Programstudy","Jenissemester")->get();
+            // $data = Kurikulum::with("Programstudy","Jenissemester")->get();
+            $data = Kurikulum::with("Programstudy.jurusans","Jenissemester")->get();
+
             return DataTables::of($data)
 
                     ->addColumn('programstudy', function($data){
-                        return $data->Programstudy->jurusan->nama_jurusan .'-'. $data->Programstudy->jenjang->nama_jenjang;
+                        foreach($data->Programstudy->jurusans as $t) {
+                            $var = $t->nama_jurusan;
+                            return $data->Programstudy->jenjang->nama_jenjang ."-" . $var;
+                        }
                     })
 
                     ->addColumn('masaberlaku', function($data){
-                        return $data->Jenissemester->Tahunajaran->tahun_ajaran .'-'. $data->Jenissemester->jenis_semester;
+                        foreach($data->Jenissemester->tahun_ajarans as $ta) {
+                            $var_ta = $ta->tahun_ajaran;
+                            return $var_ta ."-" . $data->Jenissemester->jenis_semester;;
+                        }
+                        // return $data->Jenissemester->Tahunajaran->tahun_ajaran .'-'. $data->Jenissemester->jenis_semester;
                     })
 
 
@@ -89,6 +98,7 @@ class KurikulumController extends Controller
     public function index()
     {
         $canCreate = Gate::allows("kurikulum-create");
+        // dd($datas);
         $name_page = "kurikulum";
         $title = "Kurikulum";
         $data = array(
@@ -260,7 +270,7 @@ class KurikulumController extends Controller
             DB::rollback();
             return back()->withError($exception->getMessage())->withInput();
         }
-        if ($update) {
+        if ($delete) {
             //redirect dengan pesan sukses
             return redirect()->route("kurikulum.index")->with("success", "Data berhasil dihapus");
         } else {

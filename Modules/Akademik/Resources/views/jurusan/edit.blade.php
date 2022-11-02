@@ -49,7 +49,7 @@
             @csrf
                 <div class="row">
                   <div class="input-field col s12">
-                    <input placeholder="Nama jurusan" name="nama_jurusan" id="nama_jurusan" type="text" class="validate  @error('nama_jurusan') is-invalid @enderror" value="{{ old('nama_jurusan',$jurusan->nama_jurusan) }}">
+                    <input placeholder="Nama jurusan" name="nama_jurusan" id="nama_jurusan" type="text" class="validate  @error('nama_jurusan') is-invalid @enderror" value="{{ old('nama_jurusan',$jurusan->nama_jurusan) }}" required>
                     <label for="first_name">Nama jurusan</label>
                     @error('nama_jurusan')
                     <span class="red-text text-darken-2">{{ $message }}</small>
@@ -58,7 +58,7 @@
 
 
                   <div class="input-field col s12">
-                    <select name="fakultas_id" id="fakultas_id" class="validate @error('fakultas_id') is-invalid @enderror">
+                    <select name="fakultas_id" id="fakultas_id" class="validate @error('fakultas_id') is-invalid @enderror" required>
                         <option value="" disabled selected>Fakultas</option>
                         <option value="none">none</option>
                         @foreach($fakultas as $key)

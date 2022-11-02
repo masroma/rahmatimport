@@ -84,6 +84,8 @@ class TingkatPrestasiController extends Controller
         $canCreate = Gate::allows('tingkatprestasi-create');
         $name_page = "tingkatprestasi";
         $title = "tingkat prestasi";
+//         $data = TingkatPrestasi::all(); //query
+// dd($data);
         $data = array(
             'page' => $name_page,
             'canCreate' => $canCreate,

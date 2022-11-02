@@ -90,6 +90,8 @@ class PenugasanDosenController extends Controller
 
     public function index()
     {
+        $data = DosenPenugasan::with('Kampus','Jurusan','Dosen','Tahunajaran')->get();
+        // dd($data);
         $canCreate = Gate::allows('penugasandosen-create');
         $name_page = "penugasandosen";
         $title = "Penugasan Dosen";

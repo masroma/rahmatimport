@@ -98,9 +98,16 @@
 
                         <select name="{{ $forms['name'] }}" id="{{ $forms['name'] }}">
                         <option value="">Pilih</option>
-                            @foreach($jenis as $row)
-                                <option value="{{$row->id}}">{{ $row->Tahunajaran->tahun_ajaran }}-{{$row->jenis_semester}}</option>
+                        @foreach($jenis as $row)
+                            <option value="{{$row->id}}">
+                            @foreach ($row->tahun_ajarans as $ta)
+                                {{ $ta->tahun_ajaran }}
                             @endforeach
+                                -{{$row->jenis_semester}}
+
+                            </option>
+                        @endforeach
+
                         </select>
 
                         <label for="first_name">{{ $forms['placeholder'] }}</label>

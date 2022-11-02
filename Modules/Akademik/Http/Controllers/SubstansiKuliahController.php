@@ -57,7 +57,7 @@ class SubstansiKuliahController extends Controller
                         }
 
                         if ($canShow) {
-                            $btn .= '<a class="btn-floating green darken-1 btn-small" href="substansikuliah/' .$data->id. '"/show"><i class="material-icons">remove_red_eye</i></a>';
+                            $btn .= '<a class="btn-floating green darken-1 btn-small" href="substansikuliah/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
                         }
 
                         return $btn;
@@ -167,7 +167,19 @@ class SubstansiKuliahController extends Controller
      */
     public function show($id)
     {
-        return view("akademik::show");
+        $substansikuliah = SubstansiKuliah::with('ProgramStudy.jurusans','ProgramStudy.jenjangs')->where('id',$id)->first();
+        // dd($substansikuliah);
+        $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
+
+        $name_page = "substansikuliah";
+        $title = "Substansi Kuliah";
+        $data = array(
+            "page" => $name_page,
+            "substansikuliah" => $substansikuliah,
+            "title" => $title,
+            "programstudy" => $programstudy,
+        );
+        return view("akademik::substansikuliah.show")->with($data);
     }
 
     /**
@@ -177,13 +189,17 @@ class SubstansiKuliahController extends Controller
      */
     public function edit($id)
     {
-        $substansikuliah = SubstansiKuliah::findOrFail($id);
+        $substansikuliah = SubstansiKuliah::with('ProgramStudy.jurusans','ProgramStudy.jenjangs')->where('id',$id)->first();
+        // dd($substansikuliah);
+        $programstudy = ProgramStudy::with("jenjang","jurusan")->get();
+
         $name_page = "substansikuliah";
         $title = "Substansi Kuliah";
         $data = array(
             "page" => $name_page,
             "substansikuliah" => $substansikuliah,
             "title" => $title,
+            "programstudy" => $programstudy,
         );
         return view("akademik::substansikuliah.edit")->with($data);
     }
@@ -202,14 +218,14 @@ class SubstansiKuliahController extends Controller
             $this->validate($request, [
                 "nama_substansi" => "required",
                 "programstudy_id" => "required",
-                "bobot_mata_kuliah" => 'required',
-                "bobot_tatap_muka" => 'required',
-                "bobot_pratikum" => 'required',
-                "bobot_praktek_lapangan" => 'required',
-                "bobot_simulasi" => 'required'
+                // "bobot_mata_kuliah" => 'required',
+                // "bobot_tatap_muka" => 'required',
+                // "bobot_pratikum" => 'required',
+                // "bobot_praktek_lapangan" => 'required',
+                // "bobot_simulasi" => 'required'
             ]);
 
-            $save = SubstansiKuliah::findORFail($id);
+            $save = SubstansiKuliah::findOrFail($id);
             $save->nama_sunstansi = $request->nama_substansi;
             $save->programstudy_id = $request->programstudy_id;
             $save->bobot_mata_kuliah = $request->bobot_mata_kuliah ?? 0;

@@ -44,7 +44,7 @@
     <div class="card-content">
       {{-- <h4 class="card-title">Page Length Options</h4> --}}
       <div class="row">
-            <form action="{{ route($page.'.update',$typemahasiswa->id) }}" method="POST"
+            <form action="{{ route($page.'.update',$jenisprestasi->id) }}" method="POST"
             enctype="multipart/form-data" class="col s12">
             @csrf
                 <div class="row">
