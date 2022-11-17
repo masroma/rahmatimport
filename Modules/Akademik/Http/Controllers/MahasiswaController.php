@@ -28,6 +28,7 @@ use Auth;
 use Gate;
 use DB;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Providers\NeoFeederProvider;
 
 class MahasiswaController extends Controller
 {
@@ -775,6 +776,57 @@ class MahasiswaController extends Controller
             }]);
         }])->findOrFail($id);
         return view('akademik::mahasiswa.print-nilai-transfer',compact('data','mahasiswa'));
+    }
+
+    public function syncMasiswaData(Request $request) {
+        $neoFeeder = new NeoFeederProvider();
+        $neoFeeder->sendRequestToNewFeeder('InsertBiodataMahasiswa', [
+            'record' => [
+                "nama_mahasiswa" => "A'gung Hapsari",
+                "jenis_kelamin" => "L",
+                "tempat_lahir" => "Bojong Sari II",
+                "tanggal_lahir" => "1999/07/29",
+                "id_agama" => 97,
+                "nik" => "1233333333333333",
+                "nisn" => "123",
+                "kewarganegaraan" => "IT",
+                "jalan" => "Jagakarsa",
+                "dusun" => "Jagakarsa",
+                "rt" => "2",
+                "rw" => "5",
+                "kelurahan" => "Jagakarsa",
+                "kode_pos" => "66666",
+                "id_wilayah" => "016300  ",
+                "id_jenis_tinggal" => "3",
+                "id_alat_transportasi" => "5",
+                "telepon" => "81219982331",
+                "handphone" => "81219982331",
+                "email" => "jorginho@gmail.com",
+                "penerima_kps" => "Ya",
+                "nomor_kps" => "12",
+                "nik_ayah" => "2222222222222222",
+                "nama_ayah" => "A'gung Father",
+                "tanggal_lahir_ayah" => "1970/08/01",
+                "id_pendidikan_ayah" => "6",
+                "id_pekerjaan_ayah" => 3,
+                "id_penghasilan_ayah" => 14,
+                "nik_ibu" => "1111111111111111",
+                "nama_ibu_kandung" => "A'gung Mother",
+                "tanggal_lahir_ibu" => "1976/04/13",
+                "id_pendidikan_ibu" => "5",
+                "id_pekerjaan_ibu" => 8,
+                "id_penghasilan_ibu" => 13,
+                "npwp" => "43223",
+                "nama_wali" => "Jorginho Wali",
+                "tanggal_lahir_wali" => "2021/08/19",
+                "id_pendidikan_wali" => "6",
+                "id_pekerjaan_wali" => 6,
+                "id_penghasilan_wali" => 15,
+                "id_kebutuhan_khusus_mahasiswa" => 0,
+                "id_kebutuhan_khusus_ayah" => 0,
+                "id_kebutuhan_khusus_ibu" => 0
+            ]
+        ]);
     }
 
 }
