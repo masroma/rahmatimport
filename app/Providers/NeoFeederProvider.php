@@ -14,6 +14,43 @@ class NeoFeederProvider {
     protected $password = 'Paramadina1998';
     protected $base_url = 'http://akademik.paramadina.ac.id:8100/ws/live2.php';
 
+    public function getAgamaId($nama_agama) {
+        $agama_list = [
+            [
+                "id_agama" => 2,
+                "nama_agama" => "kristen"
+            ],
+            [
+                "id_agama" =>  5,
+                "nama_agama" =>"budha"
+            ],
+            [
+                "id_agama" => 4,
+                "nama_agama" => "hindu"
+            ],
+            [
+                "id_agama" => 1,
+                "nama_agama" => "islam"
+            ],
+            [
+                "id_agama" => 99,
+                "nama_agama" => "lainnya"
+            ],
+            [
+                "id_agama" => 3,
+                "nama_agama" =>  "katolik"
+            ],
+            [
+                "id_agama" => 6,
+                "nama_agama" => "konghucu"
+            ]
+        ];
+
+        $data = collect($agama_list)->where('nama_agama', $nama_agama)->first();
+        return $data->id_agama;
+
+    }
+
     private function getToken() {
         try{
 
@@ -47,9 +84,13 @@ class NeoFeederProvider {
             if(!$request->successful()) {
                 throw new Exception("Somethink Error");
             }
-            $res = $request->object();
+            $res = $request->collect()->all();
 
-            return $res;
+            if($res['error_code'] !== 0){
+                throw new Exception($res['error_desc']);
+            }
+
+            return $res["data"];
 
         }catch(Throwable $th){
             throw $th;

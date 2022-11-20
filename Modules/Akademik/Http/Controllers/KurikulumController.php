@@ -10,11 +10,13 @@ use App\Models\ProgramStudy;
 use App\Models\MataKuliah;
 use App\Models\JenisSemester;
 use App\Models\KurikulumMatakuliah;
+use App\Providers\NeoFeederProvider;
 use DataTables;
 use Exception;
 use Auth;
 use Gate;
 use DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class KurikulumController extends Controller
@@ -40,10 +42,13 @@ class KurikulumController extends Controller
             $canUpdate = Gate::allows("kurikulum-edit");
             $canDelete = Gate::allows("kurikulum-delete");
             // $data = Kurikulum::with("Programstudy","Jenissemester")->get();
-            $data = Kurikulum::with("Programstudy.jurusans","Jenissemester")->get();
-
+            $data = Kurikulum::has("Programstudy.jurusans")
+                ->has("Jenissemester")
+                ->with(["Programstudy.jurusans","Jenissemester"])->get();
             return DataTables::of($data)
-
+                    ->addColumn('checkbox_action', function($data) {
+                        return '<label><input type="checkbox" class="filled-in" name="ids[]" value="'. $data->id .'" /><span></span></label>';
+                    })
                     ->addColumn('programstudy', function($data){
                         foreach($data->Programstudy->jurusans as $t) {
                             $var = $t->nama_jurusan;
@@ -73,12 +78,21 @@ class KurikulumController extends Controller
                             $btn .= '<button class="btn-floating purple darken-1 btn-small" type="button" onClick="deleteConfirm('.$data->id.')"><i class="material-icons">delete</i></button>';
                         }
 
+                        if($data->is_neo_feeder_already_sync) {
+                            $btn .= '<div class="btn-floating green darken-1 btn-small"><i class="material-icons">check</i></div>';
+                        }else{
+                            $btn .= '<div class="btn-floating orange darken-1 btn-small"><i class="material-icons">warning</i></div>';
+                        }
+
+
+
                         // if ($canShow) {
                         //     $btn .= '<a class="btn-floating green darken-1 btn-small" href="kurikulum/' .$data->id. '/show"><i class="material-icons">remove_red_eye</i></a>';
                         // }
 
                         return $btn;
                     })
+                    ->rawColumns(['action', 'checkbox_action'])
                     ->addIndexColumn()
                     ->make(true);
 
@@ -88,7 +102,7 @@ class KurikulumController extends Controller
                 [
                     "status" => false,
                     "message" => $e->getMessage()
-                ]
+                ], 400
             );
         }
 
@@ -236,6 +250,7 @@ class KurikulumController extends Controller
             $save->masa_berlaku = $request->masa_berlaku;
             $save->jumlah_sks = $request->jumlah_bobot_mata_kuliah_pilihan + $request->jumlah_bobot_mata_kuliah_wajib;
             $save->jumlah_bobot_mata_kuliah_wajib = $request->jumlah_bobot_mata_kuliah_wajib;
+            $save->is_neo_feeder_already_sync = false;
             $save->save();
 
 
@@ -264,11 +279,35 @@ class KurikulumController extends Controller
     {
         DB::beginTransaction();
         try {
-           $delete =  Kurikulum::find($id)->delete();
-            DB::commit();
+           $data =  Kurikulum::find($id);
+
+           if(!$data) {
+            throw new ModelNotFoundException("Already deleted");
+           }
+
+
+           $data->neo_feeder_id = null;
+           $data->is_neo_feeder_already_sync = false;
+           $data->save();
+           $delete =  Kurikulum::find($id);
+           $delete->delete();
+           DB::commit();
+           if($data->neo_feeder_id) {
+            $neoFeeder = new NeoFeederProvider();
+            $neoFeeder->sendRequestToNewFeeder('DeleteKurikulum', [
+                'key' => [
+                    'id_kurikulum' => $data->neo_feeder_id
+                ]
+            ]);
+           }
+
+
+
         } catch (ModelNotFoundException $exception) {
             DB::rollback();
             return back()->withError($exception->getMessage())->withInput();
+        } catch (Exception $ex) {
+            return redirect()->route("kurikulum.index")->with(["error" => "Data Gagal Dihapus!"]);
         }
         if ($delete) {
             //redirect dengan pesan sukses
@@ -439,5 +478,65 @@ class KurikulumController extends Controller
             return redirect()->back()->with(["error" => "Data Gagal Dihapus!"]);
         }
 
+    }
+
+    public function insertOrUpdateKurikulumInNeoFeeder(Request $request) {
+        try{
+
+
+            $kurikulums = Kurikulum::has('Programstudy')
+                                    ->whereIn('id', $request->ids)
+                                    ->with('Programstudy')
+                                    ->get();
+            $jenisSemester = JenisSemester::query()
+                                ->has('Tahunajaran')
+                                ->with('Tahunajaran')
+                                ->where('active', 1)
+                                ->first();
+            $actionNeoFeederName = 'InsertKurikulum';
+            if(!$jenisSemester) {
+                $actionNeoFeederName = 'UpdateKurikulum';
+                throw new Exception("Tidak ada semester yang aktif");
+            }
+
+            $idSemesterCode = explode('/', $jenisSemester->Tahunajaran->tahun_ajaran)[0]. ($jenisSemester->jenis_semester == 'ganjil' ? 1 : 2);
+            $recordDataNewFeeder = [];
+            foreach($kurikulums as $kurikulum) {
+
+                if($kurikulum->neo_feeder_id) {
+                    $actionNeoFeederName = 'UpdateKurikulum';
+                    $recordDataNewFeeder['key'] = [
+                        'id_kurikulum' => $kurikulum->neo_feeder_id
+                    ];
+                }
+                $recordDataNewFeeder['record'] = [
+                    'nama_kurikulum' => $kurikulum->nama_kurikulum,
+                    'id_prodi' => $kurikulum->ProgramStudy->neo_feeder_id,
+                    'id_semester' => (string) $idSemesterCode,
+                    'jumlah_sks_lulus' => (string) $kurikulum->jumlah_sks,
+                    'jumlah_sks_wajib' => (string) $kurikulum->jumlah_bobot_mata_kuliah_wajib,
+                    'jumlah_sks_pilihan' => (string) $kurikulum->jumlah_bobot_mata_kuliah_pilihan
+                ];
+                $neoFeeder = new NeoFeederProvider();
+                $neoFeeder = $neoFeeder->sendRequestToNewFeeder($actionNeoFeederName, $recordDataNewFeeder);
+                DB::beginTransaction();
+                $kurikulum->neo_feeder_id = $neoFeeder['id_kurikulum'];
+                $kurikulum->is_neo_feeder_already_sync = true;
+                $kurikulum->save();
+                DB::commit();
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'success'
+            ]);
+
+        }catch(Exception $e){
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 400);
+        }
     }
 }

@@ -29,6 +29,8 @@ use Gate;
 use DB;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Providers\NeoFeederProvider;
+use Carbon\Carbon;
+use Throwable;
 
 class MahasiswaController extends Controller
 {
@@ -779,54 +781,85 @@ class MahasiswaController extends Controller
     }
 
     public function syncMasiswaData(Request $request) {
-        $neoFeeder = new NeoFeederProvider();
-        $neoFeeder->sendRequestToNewFeeder('InsertBiodataMahasiswa', [
-            'record' => [
-                "nama_mahasiswa" => "A'gung Hapsari",
-                "jenis_kelamin" => "L",
-                "tempat_lahir" => "Bojong Sari II",
-                "tanggal_lahir" => "1999/07/29",
-                "id_agama" => 97,
-                "nik" => "1233333333333333",
-                "nisn" => "123",
-                "kewarganegaraan" => "IT",
-                "jalan" => "Jagakarsa",
-                "dusun" => "Jagakarsa",
-                "rt" => "2",
-                "rw" => "5",
-                "kelurahan" => "Jagakarsa",
-                "kode_pos" => "66666",
-                "id_wilayah" => "016300  ",
-                "id_jenis_tinggal" => "3",
-                "id_alat_transportasi" => "5",
-                "telepon" => "81219982331",
-                "handphone" => "81219982331",
-                "email" => "jorginho@gmail.com",
-                "penerima_kps" => "Ya",
-                "nomor_kps" => "12",
-                "nik_ayah" => "2222222222222222",
-                "nama_ayah" => "A'gung Father",
-                "tanggal_lahir_ayah" => "1970/08/01",
-                "id_pendidikan_ayah" => "6",
-                "id_pekerjaan_ayah" => 3,
-                "id_penghasilan_ayah" => 14,
-                "nik_ibu" => "1111111111111111",
-                "nama_ibu_kandung" => "A'gung Mother",
-                "tanggal_lahir_ibu" => "1976/04/13",
-                "id_pendidikan_ibu" => "5",
-                "id_pekerjaan_ibu" => 8,
-                "id_penghasilan_ibu" => 13,
-                "npwp" => "43223",
-                "nama_wali" => "Jorginho Wali",
-                "tanggal_lahir_wali" => "2021/08/19",
-                "id_pendidikan_wali" => "6",
-                "id_pekerjaan_wali" => 6,
-                "id_penghasilan_wali" => 15,
-                "id_kebutuhan_khusus_mahasiswa" => 0,
-                "id_kebutuhan_khusus_ayah" => 0,
-                "id_kebutuhan_khusus_ibu" => 0
-            ]
-        ]);
+        try{
+            $mahasiswa = Mahasiswa::find($request->id);
+            $neoFeeder = new NeoFeederProvider();
+            if(!$mahasiswa) {
+                throw new Exception("Invalid mahasiswa id");
+            }
+
+            $record_body = [];
+
+            if(!$mahasiswa->neo_feeder_mahasiswa_id) {
+                $record_body['nama_mahasiswa'] = $mahasiswa->nama;
+                $record_body['jenis_kelamin'] = $mahasiswa->jenis_kelamin == 'laki-laki' ? 'L' : 'P';
+                $record_body['nama_ibu_kandung'] = $mahasiswa->ibu_kandung;
+                $record_body['tanggal_lahir'] = date($mahasiswa->tanggal_lahir. 'Y/m/d');
+                $record_body['id_agama'] = $neoFeeder->getAgamaId($mahasiswa->agama);
+                $record_body['nik'] = $mahasiswa->mahasiswa_detail->ktp;
+                $record_body['nisn'] = $mahasiswa->mahasiswa_detail->nisn;
+                $record_body['kewarganegaraan'] = 'Indonesia';
+                $record_body['jalan'] = $mahasiswa->mahasiswa_detail->jalan;
+                $record_body['dusun'] = $mahasiswa->mahasiswa_detail->dusun;
+                $record_body['rt'] = $mahasiswa->mahasiswa_detail->rt;
+                $record_body['rw'] = $mahasiswa->mahasiswa_detail->rw;
+                $record_body['kelurahan'] = $mahasiswa->mahasiswa_detail->village->name;
+                $record_body['kode_pos'] = $mahasiswa->mahasiswa_detail->kode_pos;
+            }
+
+
+
+            $neoFeeder->sendRequestToNewFeeder('InsertBiodataMahasiswa', [
+                'record' => [
+                    "nama_mahasiswa" => "A'gung Hapsari",
+                    "jenis_kelamin" => "L",
+                    "tempat_lahir" => "Bojong Sari II",
+                    "tanggal_lahir" => "1999/07/29",
+                    "id_agama" => 97,
+                    "nik" => "1233333333333333",
+                    "nisn" => "123",
+                    "kewarganegaraan" => "IT",
+                    "jalan" => "Jagakarsa",
+                    "dusun" => "Jagakarsa",
+                    "rt" => "2",
+                    "rw" => "5",
+                    "kelurahan" => "Jagakarsa",
+                    "kode_pos" => "66666",
+                    "id_wilayah" => "016300  ",
+                    "id_jenis_tinggal" => "3",
+                    "id_alat_transportasi" => "5",
+                    "telepon" => "81219982331",
+                    "handphone" => "81219982331",
+                    "email" => "jorginho@gmail.com",
+                    "penerima_kps" => "Ya",
+                    "nomor_kps" => "12",
+                    "nik_ayah" => "2222222222222222",
+                    "nama_ayah" => "A'gung Father",
+                    "tanggal_lahir_ayah" => "1970/08/01",
+                    "id_pendidikan_ayah" => "6",
+                    "id_pekerjaan_ayah" => 3,
+                    "id_penghasilan_ayah" => 14,
+                    "nik_ibu" => "1111111111111111",
+                    "nama_ibu_kandung" => "A'gung Mother",
+                    "tanggal_lahir_ibu" => "1976/04/13",
+                    "id_pendidikan_ibu" => "5",
+                    "id_pekerjaan_ibu" => 8,
+                    "id_penghasilan_ibu" => 13,
+                    "npwp" => "43223",
+                    "nama_wali" => "Jorginho Wali",
+                    "tanggal_lahir_wali" => "2021/08/19",
+                    "id_pendidikan_wali" => "6",
+                    "id_pekerjaan_wali" => 6,
+                    "id_penghasilan_wali" => 15,
+                    "id_kebutuhan_khusus_mahasiswa" => 0,
+                    "id_kebutuhan_khusus_ayah" => 0,
+                    "id_kebutuhan_khusus_ibu" => 0
+                ]
+            ]);
+        }catch(Exception $exception){
+            return back()->with(['error' => $exception->getMessage()])->withError($exception->getMessage())->withInput();
+        }
+
     }
 
 }

@@ -55,9 +55,12 @@
                 <tr>
                     <th colspan="4" class="center">Data kurikulum</th>
                     <th colspan="3" class="center">Atur Jumlah SKS</th>
-                    <th></th>
+                    <th>
+                        <button class="btn waves-effect waves-light breadcrumbs-btn right" type="button" onclick="syncToNeoFeeder()"><i class="material-icons left">add_circle_outline</i>Sync</button>
+                    </th>
                 </tr>
               <tr>
+                <th>#</th>
                 <th>No</th>
                 <th>Nama Kurikulum</th>
 
@@ -93,6 +96,7 @@
 
   @stop
   @section('script')
+
   <script>
 
       // ini vendor data
@@ -112,78 +116,101 @@
                           type: "GET",
                       },
                       columns: [
-                      {
-                          data:"DT_RowIndex",
-                          name:"DT_RowIndex"
-                      },
-                          {
-                              data: 'nama_kurikulum',
-                              name: 'nama_kurikulum'
-                          },
-
-
-
-                          {
-                              data: 'programstudy',
-                              name: 'programstudy'
-                          },
-
-                          {
-                              data: 'masaberlaku',
-                              name: 'masaberlaku'
-                          },
-
-                          {
-                              data: 'jumlah_sks',
-                              name: 'jumlah_sks'
-                          },
-
-
-                          {
-                              data: 'jumlah_bobot_mata_kuliah_pilihan',
-                              name: 'jumlah_bobot_mata_kuliah_pilihan'
-                          },
-
-
-
-
-                          {
-                              data: 'jumlah_bobot_mata_kuliah_wajib',
-                              name: 'jumlah_bobot_mata_kuliah_wajib'
-                          },
-
-
-
-                          {
-                              data: 'action',
-                              name: 'action'
-                          },
-
-
-
-
+                        {
+                            data: "checkbox_action",
+                            name: "checkbox_action"
+                        },
+                        {
+                            data:"DT_RowIndex",
+                            name:"DT_RowIndex"
+                        },
+                        {
+                            data: 'nama_kurikulum',
+                            name: 'nama_kurikulum'
+                        },
+                        {
+                            data: 'programstudy',
+                            name: 'programstudy'
+                        },
+                        {
+                            data: 'masaberlaku',
+                            name: 'masaberlaku'
+                        },
+                        {
+                            data: 'jumlah_sks',
+                            name: 'jumlah_sks'
+                        },
+                        {
+                            data: 'jumlah_bobot_mata_kuliah_pilihan',
+                            name: 'jumlah_bobot_mata_kuliah_pilihan'
+                        },
+                        {
+                            data: 'jumlah_bobot_mata_kuliah_wajib',
+                            name: 'jumlah_bobot_mata_kuliah_wajib'
+                        },
+                        {
+                            data: 'action',
+                            name: 'action'
+                        },
                       ],
                       order: [
-                          [0, 'asc']
+                          [1, 'asc']
                       ]
                   });
               });
           }
 
      function deleteConfirm(id) {
-              swal({
-                      title: "Kamu Yakin ?",
-                      text: "akan menghapus data ini !",
-                      icon: "warning",
-                      buttons: true,
-                      dangerMode: true,
-                  })
-                  .then((dt) => {
-                      if (dt) {
-                          window.location.href = "{{ url('akademik/kurikulum') }}/" + id + "/delete";
-                      }
-                  });
-          }
+        swal({
+            title: "Kamu Yakin ?",
+            text: "akan menghapus data ini !",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((dt) => {
+            if (dt) {
+                window.location.href = "{{ url('akademik/kurikulum') }}/" + id + "/delete";
+            }
+        });
+    }
+
+    function syncToNeoFeeder() {
+        const getCheckBoxIds = $("input[name='ids[]']:checked").map(function(_, el) {
+            return $(el).val()
+        }).get();
+
+        swal({
+            title: "Kamu Yakin Ingin Mengupdate " + getCheckBoxIds.length + " Data Ke Neo Feeder ?",
+            text: "akan mengupdate seluruh data ke neofeeder sesuai yang di centang",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            showCancelButton: true,
+        })
+        .then((dt) => {
+            if(dt) {
+                $.ajax({
+                    url: "{{url('akademik/kurikulum/insert-or-update-kurikulum-to-neo-feeder')}}",
+                    type: "POST",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "ids": getCheckBoxIds
+                    },
+                    success: function(response) {
+                        const table = $('#page-length-option').DataTable();
+                        table.ajax.reload();
+
+                    },
+                    error: function (error) {
+                        alert(error.message)
+                    }
+                })
+
+
+            }
+        })
+    }
     </script>
 
 @endsection

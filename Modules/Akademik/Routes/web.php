@@ -1676,6 +1676,13 @@ Route::prefix('akademik')->group(function() {
                         'as' => 'kurikulum.destroymatakuliah'
                     ]
                 );
+                Route::post(
+                    '/insert-or-update-kurikulum-to-neo-feeder',
+                    [
+                        'uses' => 'KurikulumController@insertOrUpdateKurikulumInNeoFeeder',
+                        'as' => 'kurikulum.insertOrUpdateKurikulumInNeoFeeder'
+                    ]
+                    );
             }
         );
 
